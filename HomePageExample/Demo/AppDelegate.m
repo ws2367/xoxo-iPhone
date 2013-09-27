@@ -10,11 +10,11 @@
 	ListViewController *listViewController2 = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
 	ListViewController *listViewController3 = [[ListViewController alloc] initWithStyle:UITableViewStylePlain];
 	
-	listViewController1.title = @"1";
-	listViewController2.title = @"2";
-	listViewController3.title = @"3";
+	listViewController1.title = @"";
+	listViewController2.title = @"";
+	listViewController3.title = @"";
 
-    listViewController1.tabBarItem.image = [UIImage imageNamed:@"hoton"];
+    listViewController1.tabBarItem.image = [UIImage imageNamed:@"hotoff"];
 	listViewController2.tabBarItem.image = [UIImage imageNamed:@"nearoff"];
     listViewController3.tabBarItem.image = [UIImage imageNamed:@"loveoff"];
         
@@ -28,9 +28,9 @@
 	tabBarController.viewControllers = viewControllers;
 
 	// Uncomment this to select "Tab 2".
-	tabBarController.selectedIndex = 1;
-    tabBarController.selectedViewController = listViewController2;
-    tabBarController.selectedViewController.tabBarItem.image = [UIImage imageNamed:@"nearon"];
+	//tabBarController.selectedIndex = 1;
+    //tabBarController.selectedViewController = listViewController2;
+    //tabBarController.selectedViewController.tabBarItem.image = [UIImage imageNamed:@"nearon"];
 
 	// Uncomment this to select "Tab 3".
 	//tabBarController.selectedViewController = listViewController3;
@@ -54,27 +54,7 @@
 - (void)mh_tabBarController:(MHTabBarController *)tabBarController didSelectViewController:(UIViewController *)viewController atIndex:(NSUInteger)index
 {
 	NSLog(@"mh_tabBarController %@ didSelectViewController %@ at index %u", tabBarController, viewController, index);
-    NSLog(@"here!!!");
-    
-    if(index == 0){
-        NSLog(@"here1!!!");
-        //viewController.tabBarItem.image = [UIImage imageNamed:@"hoton"];
-        ListViewController *selectedListViewController = [tabBarController.viewControllers objectAtIndex:0];
-        NSLog(@"title? %@", selectedListViewController.title);
-        selectedListViewController.tabBarItem.image = [UIImage imageNamed:@"hoton"];
-    }
-    else if(index == 1){
-        NSLog(@"here2!!!");
-        ListViewController *selectedListViewController = [tabBarController.viewControllers objectAtIndex:1];
-        NSLog(@"title? %@", selectedListViewController.title);
-        selectedListViewController.tabBarItem.image = [UIImage imageNamed:@"nearon"];
-    }
-    else{
-        NSLog(@"here3!!!");
-        ListViewController *selectedListViewController = [tabBarController.viewControllers objectAtIndex:2];
-        NSLog(@"title? %@", selectedListViewController.title);
-        selectedListViewController.tabBarItem.image = [UIImage imageNamed:@"loveon"];
-    }
+
     
 }
 

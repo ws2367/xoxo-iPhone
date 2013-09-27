@@ -110,7 +110,7 @@ static const NSInteger TagOffset = 1000;
 		button.imageEdgeInsets = viewController.tabBarItem.imageInsets;
 		[button setTitle:viewController.tabBarItem.title forState:UIControlStateNormal];
 		[button setImage:viewController.tabBarItem.image forState:UIControlStateNormal];
-
+        
 		[button addTarget:self action:@selector(tabButtonPressed:) forControlEvents:UIControlEventTouchDown];
 
 		[self deselectTabButton:button];
@@ -247,40 +247,8 @@ static const NSInteger TagOffset = 1000;
 			toButton = (UIButton *)[tabButtonsContainerView viewWithTag:TagOffset + _selectedIndex];
 			[self selectTabButton:toButton];
 			toViewController = self.selectedViewController;
-            
-            NSLog(@"herehere?????", oldSelectedIndex);
-            NSLog(@"title now?? %@", toViewController.title);
-            
-            toViewController.tabBarItem.image = [UIImage imageNamed:@"hoton"];
-            //UIImageView *thisImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"loveon"]];
-            
-            //[self.selectedViewController setView:thisImageView];
-            
-            
-            if(newSelectedIndex == 0){
-                toViewController.tabBarItem.image = [UIImage imageNamed:@"hoton"];
-            }
-            else if(newSelectedIndex == 1){
-                toViewController.tabBarItem.image = [UIImage imageNamed:@"nearon"];
-            }
-            else{
-                toViewController.tabBarItem.image = [UIImage imageNamed:@"loveon"];
-            }
-		
         
         }
-        
-        NSLog(@"Old selected index %d", oldSelectedIndex);
-        if(oldSelectedIndex == 0){
-            fromViewController.tabBarItem.image = [UIImage imageNamed:@"hotoff"];
-        }
-        else if(oldSelectedIndex == 1){
-            fromViewController.tabBarItem.image = [UIImage imageNamed:@"nearoff"];
-        }
-        else{
-            fromViewController.tabBarItem.image = [UIImage imageNamed:@"loveoff"];
-        }
-        
 
         
 		if (toViewController == nil)  // don't animate
@@ -379,7 +347,19 @@ static const NSInteger TagOffset = 1000;
 	UIImage *image = [[UIImage imageNamed:@"tabbackground"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
 	[button setBackgroundImage:image forState:UIControlStateNormal];
 	[button setBackgroundImage:image forState:UIControlStateHighlighted];
-	
+	UIImage *buttonimage;
+    if(_selectedIndex == 0){
+        buttonimage = [UIImage imageNamed:@"hoton"];
+    }
+    else if(_selectedIndex == 1){
+        buttonimage = [UIImage imageNamed:@"nearon"];
+    }
+    else {
+        buttonimage = [UIImage imageNamed:@"loveon"];
+    }
+    
+    [button setImage:buttonimage forState:UIControlStateNormal];
+    
 	[button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 	[button setTitleShadowColor:[UIColor colorWithWhite:0.0f alpha:0.5f] forState:UIControlStateNormal];
 }
@@ -392,6 +372,21 @@ static const NSInteger TagOffset = 1000;
 	[button setBackgroundImage:image forState:UIControlStateNormal];
 	[button setBackgroundImage:image forState:UIControlStateHighlighted];
 
+    UIImage *buttonimage;
+    if(button.tag - TagOffset == 0){
+        buttonimage = [UIImage imageNamed:@"hotoff"];
+    }
+    else if(button.tag - TagOffset == 1){
+        buttonimage = [UIImage imageNamed:@"nearoff"];
+    }
+    else {
+        buttonimage = [UIImage imageNamed:@"loveoff"];
+    }
+    
+    [button setImage:buttonimage forState:UIControlStateNormal];
+    
+    
+    
 	[button setTitleColor:[UIColor colorWithRed:175/255.0f green:85/255.0f blue:58/255.0f alpha:1.0f] forState:UIControlStateNormal];
 	[button setTitleShadowColor:[UIColor whiteColor] forState:UIControlStateNormal];
 }
