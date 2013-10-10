@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		752B1EE217FD2B6D00F61382 /* BIDNameAndColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BIDNameAndColorCell.xib */; };
+		756B71B4180613FA000E3486 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 756B71B3180613FA000E3486 /* Entity.m */; };
 		75C086AF17FE30B800023200 /* pic1.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AA17FE30B800023200 /* pic1.png */; };
 		75C086B017FE30B800023200 /* pic2.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AB17FE30B800023200 /* pic2.png */; };
 		75C086B117FE30B800023200 /* pic3.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AC17FE30B800023200 /* pic3.png */; };
@@ -38,6 +39,8 @@
 
 /* Begin PBXFileReference section */
 		752B1EE117FD2B6D00F61382 /* BIDNameAndColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BIDNameAndColorCell.xib; sourceTree = "<group>"; };
+		756B71B2180613FA000E3486 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		756B71B3180613FA000E3486 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
 		75C086AA17FE30B800023200 /* pic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic1.png; path = Cells/pic1.png; sourceTree = "<group>"; };
 		75C086AB17FE30B800023200 /* pic2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic2.png; path = Cells/pic2.png; sourceTree = "<group>"; };
 		75C086AC17FE30B800023200 /* pic3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic3.png; path = Cells/pic3.png; sourceTree = "<group>"; };
@@ -57,8 +60,8 @@
 		75CCCF4817FC03DF000BF0F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		75CCCF4A17FC03DF000BF0F4 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		75CCCF4C17FC03DF000BF0F4 /* Cells-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Cells-Prefix.pch"; sourceTree = "<group>"; };
-		75CCCF4D17FC03DF000BF0F4 /* BIDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BIDAppDelegate.h; path = Cells/BIDAppDelegate.h; sourceTree = "<group>"; };
-		75CCCF4E17FC03DF000BF0F4 /* BIDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BIDAppDelegate.m; path = Cells/BIDAppDelegate.m; sourceTree = "<group>"; };
+		75CCCF4D17FC03DF000BF0F4 /* BIDAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BIDAppDelegate.h; sourceTree = "<group>"; };
+		75CCCF4E17FC03DF000BF0F4 /* BIDAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BIDAppDelegate.m; sourceTree = "<group>"; };
 		75CCCF5017FC03DF000BF0F4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		75CCCF5217FC03DF000BF0F4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		75CCCF5417FC03DF000BF0F4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
@@ -92,14 +95,14 @@
 		75CCCF3217FC03DF000BF0F4 = {
 			isa = PBXGroup;
 			children = (
+				756B71B2180613FA000E3486 /* Entity.h */,
+				756B71B3180613FA000E3486 /* Entity.m */,
 				75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */,
 				75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */,
 				75D1DAA01804CDF600B431FF /* CreatePostViewController.xib */,
 				75D1DA251804837400B431FF /* NewPostViewController.h */,
 				75D1DA261804837400B431FF /* NewPostViewController.m */,
 				75D1DA271804837400B431FF /* NewPostViewController.xib */,
-				75CCCF4D17FC03DF000BF0F4 /* BIDAppDelegate.h */,
-				75CCCF4E17FC03DF000BF0F4 /* BIDAppDelegate.m */,
 				75CCCF5617FC03DF000BF0F4 /* BIDViewController.h */,
 				75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */,
 				75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */,
@@ -152,6 +155,8 @@
 		75CCCF4517FC03DF000BF0F4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				75CCCF4D17FC03DF000BF0F4 /* BIDAppDelegate.h */,
+				75CCCF4E17FC03DF000BF0F4 /* BIDAppDelegate.m */,
 				75CCCF4617FC03DF000BF0F4 /* Cells-Info.plist */,
 				75CCCF4717FC03DF000BF0F4 /* InfoPlist.strings */,
 				75CCCF4A17FC03DF000BF0F4 /* main.m */,
@@ -249,6 +254,7 @@
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
 				75D1DA281804837400B431FF /* NewPostViewController.m in Sources */,
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
+				756B71B4180613FA000E3486 /* Entity.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

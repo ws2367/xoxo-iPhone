@@ -10,6 +10,7 @@
 #import "BIDNameAndColorCell.h"
 #import "NewPostViewController.h"
 #import "CreatePostViewController.h"
+#import "Entity.h"
 
 @interface BIDViewController ()
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
@@ -40,22 +41,38 @@
                      completion:^(BOOL finished){
                      }];
     
+    [_postController.view endEditing:YES];
+    
     //[self.postController.view removeFromSuperview];
     //[self.postToolbar removeFromSuperview];
     //[self.view insertSubview:self.myTableView atIndex:2];
     
 
     
-}
-- (void)createEntityButton{
-
     
+}
+
+
+- (void)notHereButtonPressed{
+    Entity *person = [[Entity alloc] init];
+    person.name = _postController.name.text;
+    person.institution = _postController.institution.text;
+    person.location = _postController.location.text;
+
+    if(_entities == nil){
+        _entities = [[NSMutableArray alloc] init];
+    }
+    
+    [_entities addObject:person];
+    
+    Entity *this = [_entities objectAtIndex:0];
+    
+    NSLog(@"First entity name %@", [this location]);
 }
 
 static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (IBAction)leftButtonPressed:(id)sender {
-    int num = [[self.view subviews] count];
     
     //NSLog(@"%d", [[self.view subviews] count]);
     self.postController =[[NewPostViewController alloc] init];

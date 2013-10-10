@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface NewPostViewController : UIViewController
+@interface NewPostViewController : UIViewController <UITextFieldDelegate> 
 @property (weak, nonatomic) IBOutlet UITextField *name;
 @property (weak, nonatomic) IBOutlet UITextField *institution;
 @property (weak, nonatomic) IBOutlet UITextField *location;

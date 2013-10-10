@@ -16,6 +16,7 @@
 - (IBAction)createNewEntity:(id)sender {
 }
 
+
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
@@ -35,6 +36,14 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+#pragma mark TextField Delegate
+
+-(BOOL) textFieldShouldReturn:(UITextField*) textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

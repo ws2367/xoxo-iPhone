@@ -17,5 +17,6 @@
 @property (copy, nonatomic) NSArray *posts;
 @property (strong, nonatomic) NewPostViewController *postController;
 @property (strong, nonatomic) CreatePostViewController *createPostController;
+@property (strong, nonatomic) NSMutableArray *entities;
 
 @end
