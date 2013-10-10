@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @class BIDViewController;
+@class CreatePostViewController;
 
 @interface BIDAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) BIDViewController *viewController;
+@property (strong, nonatomic) CreatePostViewController *viewController;
 
 @end

@@ -9,11 +9,15 @@
 #import "NewPostViewController.h"
 
 @interface NewPostViewController ()
+@property (weak, nonatomic) IBOutlet UITextField *nameTextField;
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @end
 
 @implementation NewPostViewController
 - (IBAction)createNewEntity:(id)sender {
+}
+- (IBAction)nameTextFieldPressed:(id)sender {
 }
 
 

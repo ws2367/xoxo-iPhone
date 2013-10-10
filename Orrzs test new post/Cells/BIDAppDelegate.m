@@ -9,6 +9,7 @@
 #import "BIDAppDelegate.h"
 
 #import "BIDViewController.h"
+#import "CreatePostViewController.h"
 
 @implementation BIDAppDelegate
 
@@ -16,7 +17,9 @@
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[BIDViewController alloc] initWithNibName:@"BIDViewController" bundle:nil];
+    //self.viewController = [[BIDViewController alloc] initWithNibName:@"BIDViewController" bundle:nil];
+    //self.window.rootViewController = self.viewController;
+    self.viewController = [[CreatePostViewController alloc] init];
     self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
     return YES;

@@ -10,6 +10,8 @@
                 <outlet property="institution" destination="62" id="137"/>
                 <outlet property="location" destination="70" id="147"/>
                 <outlet property="name" destination="56" id="136"/>
+                <outlet property="nameLabel" destination="26" id="axe-ct-j4Y"/>
+                <outlet property="nameTextField" destination="56" id="eMM-Nz-9Ch"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
         </placeholder>
@@ -52,6 +54,8 @@
                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                     <connections>
+                        <action selector="createNewEntity:" destination="-1" eventType="editingDidEnd" id="4OH-yC-hu0"/>
+                        <action selector="nameTextFieldPressed:" destination="-1" eventType="editingDidEnd" id="rHL-7p-MNS"/>
                         <outlet property="delegate" destination="-1" id="148"/>
                     </connections>
                 </textField>
