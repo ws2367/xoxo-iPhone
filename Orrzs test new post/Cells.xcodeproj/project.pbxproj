@@ -31,8 +31,8 @@
 		75CCCF5817FC03DF000BF0F4 /* BIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */; };
 		75CCCF5B17FC03DF000BF0F4 /* BIDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */; };
 		75CCCF6317FC04DF000BF0F4 /* BIDNameAndColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF6217FC04DF000BF0F4 /* BIDNameAndColorCell.m */; };
-		75D1DA281804837400B431FF /* NewPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA261804837400B431FF /* NewPostViewController.m */; };
-		75D1DA291804837400B431FF /* NewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D1DA271804837400B431FF /* NewPostViewController.xib */; };
+		75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA261804837400B431FF /* CreateEntityViewController.m */; };
+		75D1DA291804837400B431FF /* CreateEntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D1DA271804837400B431FF /* CreateEntityViewController.xib */; };
 		75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */; };
 		75D1DAA21804CDF600B431FF /* CreatePostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D1DAA01804CDF600B431FF /* CreatePostViewController.xib */; };
 /* End PBXBuildFile section */
@@ -70,9 +70,9 @@
 		75CCCF5A17FC03DF000BF0F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BIDViewController.xib; sourceTree = "<group>"; };
 		75CCCF6117FC04DF000BF0F4 /* BIDNameAndColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIDNameAndColorCell.h; sourceTree = "<group>"; };
 		75CCCF6217FC04DF000BF0F4 /* BIDNameAndColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIDNameAndColorCell.m; sourceTree = "<group>"; };
-		75D1DA251804837400B431FF /* NewPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NewPostViewController.h; sourceTree = "<group>"; };
-		75D1DA261804837400B431FF /* NewPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NewPostViewController.m; sourceTree = "<group>"; };
-		75D1DA271804837400B431FF /* NewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NewPostViewController.xib; sourceTree = "<group>"; };
+		75D1DA251804837400B431FF /* CreateEntityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateEntityViewController.h; sourceTree = "<group>"; };
+		75D1DA261804837400B431FF /* CreateEntityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateEntityViewController.m; sourceTree = "<group>"; };
+		75D1DA271804837400B431FF /* CreateEntityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateEntityViewController.xib; sourceTree = "<group>"; };
 		75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatePostViewController.h; sourceTree = "<group>"; };
 		75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreatePostViewController.m; sourceTree = "<group>"; };
 		75D1DAA01804CDF600B431FF /* CreatePostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreatePostViewController.xib; sourceTree = "<group>"; };
@@ -100,9 +100,9 @@
 				75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */,
 				75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */,
 				75D1DAA01804CDF600B431FF /* CreatePostViewController.xib */,
-				75D1DA251804837400B431FF /* NewPostViewController.h */,
-				75D1DA261804837400B431FF /* NewPostViewController.m */,
-				75D1DA271804837400B431FF /* NewPostViewController.xib */,
+				75D1DA251804837400B431FF /* CreateEntityViewController.h */,
+				75D1DA261804837400B431FF /* CreateEntityViewController.m */,
+				75D1DA271804837400B431FF /* CreateEntityViewController.xib */,
 				75CCCF5617FC03DF000BF0F4 /* BIDViewController.h */,
 				75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */,
 				75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */,
@@ -235,7 +235,7 @@
 				75C086EE17FE9B2C00023200 /* hateon.png in Resources */,
 				75C086EF17FE9B2C00023200 /* likeon.png in Resources */,
 				75C086F017FE9B2C00023200 /* likeoff.png in Resources */,
-				75D1DA291804837400B431FF /* NewPostViewController.xib in Resources */,
+				75D1DA291804837400B431FF /* CreateEntityViewController.xib in Resources */,
 				75D1DAA21804CDF600B431FF /* CreatePostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,7 +252,7 @@
 				75CCCF5817FC03DF000BF0F4 /* BIDViewController.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BIDNameAndColorCell.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
-				75D1DA281804837400B431FF /* NewPostViewController.m in Sources */,
+				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
 				756B71B4180613FA000E3486 /* Entity.m in Sources */,
 			);

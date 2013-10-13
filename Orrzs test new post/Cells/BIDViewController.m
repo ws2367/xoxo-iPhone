@@ -8,7 +8,7 @@
 
 #import "BIDViewController.h"
 #import "BIDNameAndColorCell.h"
-#import "NewPostViewController.h"
+#import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
 #import "Entity.h"
 
@@ -18,24 +18,29 @@
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UIToolbar *myToolBar;
 
-@property (strong, nonatomic) UIToolbar *postToolbar;
+@property (strong, nonatomic) UIToolbar *toCreateEntityToolbar;
 @property (strong, nonatomic) UIButton *notHereButton;
 
-@property (strong, nonatomic) UIToolbar *createPostToolbar;
+@property (strong, nonatomic) UIToolbar *toCreatePostToolbar;
 
 @end
 
+const NSUInteger HEIGHT = 568;
+const NSUInteger WIDTH = 320;
+
 @implementation BIDViewController
-- (void)backButton{
+
+
+- (void)cancelButton{
 
     
     [UIView animateWithDuration:0.5
                           delay:0.1
                         options: UIViewAnimationCurveEaseIn
                      animations:^{
-                         self.postController.view.frame = CGRectMake(0, 490, 320, 460);
-                         _postToolbar.frame = CGRectMake(0, 490, 320, 44);
-                         _notHereButton.frame = CGRectMake(100, 890, 100, 44);
+                         self.postController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+                         _toCreateEntityToolbar.frame = CGRectMake(0, HEIGHT, WIDTH, 44);
+                         _notHereButton.frame = CGRectMake(100, HEIGHT + 422, 100, 44);
                         //[self.myTableView setAlpha:100];
                      }
                      completion:^(BOOL finished){
@@ -48,6 +53,60 @@
     //[self.view insertSubview:self.myTableView atIndex:2];
     
 
+    
+    
+}
+
+- (void)backButton{
+    
+    
+    [UIView animateWithDuration:0.5
+                          delay:0.1
+                        options: UIViewAnimationCurveEaseIn
+                     animations:^{
+                         self.createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+                         _toCreatePostToolbar.frame = CGRectMake(0, HEIGHT, WIDTH, 44);
+                         //[self.myTableView setAlpha:100];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    [_createPostController.view endEditing:YES];
+    
+    //[self.postController.view removeFromSuperview];
+    //[self.postToolbar removeFromSuperview];
+    //[self.view insertSubview:self.myTableView atIndex:2];
+    
+    
+    
+    
+}
+
+- (void)postButton{
+    
+    
+    [UIView animateWithDuration:0.5
+                          delay:0.1
+                        options: UIViewAnimationCurveEaseIn
+                     animations:^{
+                         self.createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+                         
+                         _toCreatePostToolbar.frame = CGRectMake(0, HEIGHT, WIDTH, 44);
+                         self.postController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+                         _toCreateEntityToolbar.frame = CGRectMake(0, HEIGHT, WIDTH, 44);
+                         _notHereButton.frame = CGRectMake(100, HEIGHT + 422, 100, 44);
+                         //[self.myTableView setAlpha:100];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    [_createPostController.view endEditing:YES];
+    
+    //[self.postController.view removeFromSuperview];
+    //[self.postToolbar removeFromSuperview];
+    //[self.view insertSubview:self.myTableView atIndex:2];
+    
+    
     
     
 }
@@ -65,32 +124,30 @@
     
     [_entities addObject:person];
     
-    Entity *this = [_entities objectAtIndex:0];
+    _toCreatePostToolbar = [self createPostToolbarForEntity:false];
+    _createPostController = [[CreatePostViewController alloc] init];
+    self.createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
     
-    NSLog(@"First entity name %@", [this location]);
+    [UIView animateWithDuration:0.5
+                          delay:0.0
+                        options: UIViewAnimationCurveEaseIn
+                     animations:^{
+                         self.createPostController.view.frame = CGRectMake(0, 22, WIDTH, HEIGHT);
+                         _toCreatePostToolbar.frame = CGRectMake(0, 22, WIDTH, 44);
+                         //[self.myTableView setAlpha:0];
+                         //self.view.backgroundColor = [UIColor whiteColor];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    [self.view addSubview:self.createPostController.view];
+    [self.view addSubview:_toCreatePostToolbar];
+
 }
 
 static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (IBAction)leftButtonPressed:(id)sender {
-    
-    //NSLog(@"%d", [[self.view subviews] count]);
-    self.postController =[[NewPostViewController alloc] init];
-    
-    _postToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 320, 44)];
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButton)];
-    
-    UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
-    [spaceItem setWidth:197];
-    
-    //UIBarButtonItem *nextButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"next" style:UIBarButtonItemStyleBordered target:self action:@selector(nextButton)];
-    
-        _postToolbar.items = [NSArray arrayWithObjects:backButtonItem, spaceItem, nil];
-    
-        [self.view addSubview:_postToolbar];
-
-    
-    [self.view insertSubview:self.postController.view atIndex:1];
 
     
     //[UIView commitAnimations];
@@ -99,20 +156,19 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (IBAction)newPostButtonPressed:(UIBarButtonItem *)sender {
     
-    //NSLog(@"%d", [[self.view subviews] count]);
-        self.postController =[[NewPostViewController alloc] init];
     
-
     
-
-
+    if(_postController == nil){
+        self.postController =[[CreateEntityViewController alloc] init];
+        NSLog(@"it is nil");
+    }
     
     
     //UIBarButtonItem *space = [[UIBarButtonItem alloc] ini
 
-    _postToolbar = [self createPostToolbar];
+    _toCreateEntityToolbar = [self createPostToolbarForEntity:true];
     _notHereButton = [self createNotHereButton];
-     self.postController.view.frame = CGRectMake(0, 490, 320, 460);
+     self.postController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
 
     /*
     [UIView setAnimationTransition:
@@ -123,17 +179,18 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                           delay:0.0
                         options: UIViewAnimationCurveEaseIn
                      animations:^{
-                         self.postController.view.frame = CGRectMake(0, 0, 320, 460);
-                         _postToolbar.frame = CGRectMake(0, 0, 320, 44);
-                         _notHereButton.frame = CGRectMake(100, 400, 100, 44);
+                         self.postController.view.frame = CGRectMake(0, 22, WIDTH, HEIGHT);
+                         _toCreateEntityToolbar.frame = CGRectMake(0, 22, WIDTH, 44);
+                         _notHereButton.frame = CGRectMake(100, 422, 100, 44);
                          //[self.myTableView setAlpha:0];
                          //self.view.backgroundColor = [UIColor whiteColor];
                          }
                      completion:^(BOOL finished){
                      }];
 
-    [self.view insertSubview:self.postController.view atIndex:1];
-    [self.view addSubview:_postToolbar];
+    //[self.view insertSubview:self.postController.view atIndex:1];
+    [self.view addSubview:self.postController.view];
+    [self.view addSubview:_toCreateEntityToolbar];
     [self.view addSubview:_notHereButton];
 
     //[UIView commitAnimations];
@@ -180,14 +237,28 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 
-- (UIToolbar *)createPostToolbar{
-    UIToolbar *createdToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 490, 320, 44)];
-    UIBarButtonItem *backButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(backButton)];
+- (UIToolbar *)createPostToolbarForEntity:(bool)toCreateEntity{
+    UIToolbar *createdToolBar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, HEIGHT, WIDTH, 44)];
+    UIBarButtonItem *backButton;
+    
+    if(toCreateEntity){
+        backButton = [[UIBarButtonItem alloc] initWithTitle:@"Cancel" style:UIBarButtonItemStyleBordered target:self action:@selector(cancelButton)];
+    }
+    else{
+        backButton = [[UIBarButtonItem alloc] initWithTitle:@"Back" style:UIBarButtonItemStyleBordered target:self action:@selector(backButton)];
+    }
     
     UIBarButtonItem *spaceItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:self action:nil];
     [spaceItem setWidth:197];
     
-    createdToolBar.items = [NSArray arrayWithObjects:backButtonItem, spaceItem,  nil];
+    if(toCreateEntity){
+        createdToolBar.items = [NSArray arrayWithObjects:backButton, spaceItem,  nil];
+    }
+    else{
+        UIBarButtonItem *toPostButton = [[UIBarButtonItem alloc] initWithTitle:@"Post" style:UIBarButtonItemStyleBordered target:self action:@selector(postButton)];
+        createdToolBar.items = [NSArray arrayWithObjects:backButton, spaceItem, toPostButton, nil];
+    }
+    
     
     return createdToolBar;
 }
@@ -196,9 +267,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     UIButton *createdButton = [UIButton buttonWithType:UIButtonTypeRoundedRect];
     [createdButton setTitle:@"Not Here!" forState:UIControlStateNormal];
     [createdButton addTarget:self action:@selector(notHereButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    createdButton.frame = CGRectMake(100, 890, 100, 44);
+    createdButton.frame = CGRectMake(100, HEIGHT + 422, 100, 44);
     return createdButton;
 }
+
+
 
 #pragma mark -
 #pragma mark Table Data Source Methods

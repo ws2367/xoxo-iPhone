@@ -15,6 +15,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
-@property (strong, nonatomic) CreatePostViewController *viewController;
+//@property (strong, nonatomic) CreatePostViewController *viewController;
+@property (strong, nonatomic) BIDViewController *viewController;
+
 
 @end

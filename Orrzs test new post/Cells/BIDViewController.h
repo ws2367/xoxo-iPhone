@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class NewPostViewController;
+@class CreateEntityViewController;
 @class CreatePostViewController;
 
 @interface BIDViewController : UIViewController
         <UITableViewDataSource, UITableViewDelegate>
 
 @property (copy, nonatomic) NSArray *posts;
-@property (strong, nonatomic) NewPostViewController *postController;
+@property (strong, nonatomic) CreateEntityViewController *postController;
 @property (strong, nonatomic) CreatePostViewController *createPostController;
 @property (strong, nonatomic) NSMutableArray *entities;
 

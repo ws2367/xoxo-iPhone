@@ -8,9 +8,6 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BIDViewController">
             <connections>
                 <outlet property="myTableView" destination="8" id="157"/>
-                <outlet property="myToolBar" destination="18" id="30"/>
-                <outlet property="postButton" destination="27" id="38"/>
-                <outlet property="segmentedControl" destination="25" id="39"/>
                 <outlet property="view" destination="6" id="7"/>
             </connections>
         </placeholder>
@@ -19,8 +16,8 @@
             <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <tableView autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" tag="1" contentMode="scaleToFill" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8">
-                    <rect key="frame" x="0.0" y="44" width="320" height="524"/>
+                <tableView autoresizesSubviews="NO" clearsContextBeforeDrawing="NO" tag="1" contentMode="scaleToFill" ambiguous="YES" misplaced="YES" alwaysBounceVertical="YES" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" style="plain" separatorStyle="none" showsSelectionImmediatelyOnTouchBegin="NO" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="8">
+                    <rect key="frame" x="0.0" y="66" width="320" height="502"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
                     <connections>
@@ -28,18 +25,18 @@
                         <outlet property="delegate" destination="-1" id="14"/>
                     </connections>
                 </tableView>
-                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="18">
-                    <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                <toolbar opaque="NO" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HtC-0y-aTL">
+                    <rect key="frame" x="0.0" y="22" width="320" height="44"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <items>
-                        <barButtonItem title="Item" id="19">
+                        <barButtonItem title="Item" id="Qh1-ul-Btq">
                             <connections>
-                                <action selector="leftButtonPressed:" destination="-1" id="36"/>
+                                <action selector="leftButtonPressed:" destination="-1" id="EML-H5-4Cz"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem style="plain" id="26">
-                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="25">
-                                <rect key="frame" x="60" y="7" width="192" height="31"/>
+                        <barButtonItem style="plain" id="1vx-UL-eub">
+                            <segmentedControl key="customView" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="bar" selectedSegmentIndex="0" id="WLx-Vf-ZRY">
+                                <rect key="frame" x="60" y="5" width="222" height="35"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <segments>
                                     <segment title="First"/>
@@ -48,12 +45,12 @@
                                 </segments>
                             </segmentedControl>
                         </barButtonItem>
-                        <barButtonItem title="＋" width="50" id="27">
+                        <barButtonItem title="＋" width="24" id="Z48-CC-3uB">
                             <connections>
-                                <action selector="newPostButtonPressed:" destination="-1" id="29"/>
+                                <action selector="newPostButtonPressed:" destination="-1" id="1lf-iy-f9v"/>
                             </connections>
                         </barButtonItem>
-                        <barButtonItem title="Item" width="50" id="28"/>
+                        <barButtonItem title="Item" width="50" id="d82-TS-p6p"/>
                     </items>
                 </toolbar>
             </subviews>
@@ -62,10 +59,6 @@
                 <constraint firstItem="8" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="154"/>
                 <constraint firstItem="8" firstAttribute="trailing" secondItem="6" secondAttribute="trailing" id="155"/>
                 <constraint firstItem="8" firstAttribute="bottom" secondItem="6" secondAttribute="bottom" id="156"/>
-                <constraint firstItem="18" firstAttribute="trailing" secondItem="6" secondAttribute="trailing" id="168"/>
-                <constraint firstItem="18" firstAttribute="top" secondItem="6" secondAttribute="top" id="169"/>
-                <constraint firstItem="18" firstAttribute="leading" secondItem="6" secondAttribute="leading" id="170"/>
-                <constraint firstItem="8" firstAttribute="top" secondItem="18" secondAttribute="bottom" id="171"/>
             </constraints>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
