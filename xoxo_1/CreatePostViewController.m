@@ -9,6 +9,7 @@
 #import "CreatePostViewController.h"
 
 @interface CreatePostViewController ()
+//@property (weak, nonatomic) IBOutlet UIImageView *photo;
 
 @end
 
@@ -23,6 +24,23 @@
     return self;
 }
 
+- (IBAction)pickImageButtonPressed:(id)sender {
+    _picker = [[UIImagePickerController alloc] init];
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    _picker.delegate = self;
+    _picker.allowsEditing = YES;
+    [self presentViewController:_picker animated:YES completion:nil];
+}
+
+-(void)imagePickController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [[picked presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    NSLog(@"Geselecteerd: %@", [info objectForKey:UIImagePickerControllerEditedImage]);
+    //photo = [[UIImageView alloc] init];
+    [_photo setImage:[info objectForKey:UIImagePickerControllerEditedImage]];
+}
+
+-(void)imagePickController:(UIImagePickerController *)picked didFInishPickingImage
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -33,6 +51,15 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark -
+#pragma mark TextField Delegate
+
+-(BOOL) textFieldShouldReturn:(UITextField*) textField {
+    [textField resignFirstResponder];
+    return YES;
 }
 
 @end

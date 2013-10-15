@@ -8,6 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CreatePostViewController : UIViewController
+@interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+//    UIImageView *photo;
+//    UIImagePickerController *picker;
+}
+    
+@property (weak, nonatomic) IBOutlet UIImageView *photo;
+@property (nonatomic, retain) UIImagePickerController *picker;
+
 
 @end
