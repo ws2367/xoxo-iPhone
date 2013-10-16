@@ -7,28 +7,46 @@
 //
 
 #import "CreateEntityViewController.h"
+#import "BIDViewController.h"
 
 @interface CreateEntityViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
+@property (weak, nonatomic) BIDViewController *bidViewController;
+
 @end
 
 @implementation CreateEntityViewController
+
+- (id)initWithBIDViewController:(BIDViewController *)viewController{
+    self = [super init];
+    if (self) {
+        _bidViewController = viewController;// Custom initialization
+    }
+    return self;
+}
+
+- (IBAction)testBIDViewController:(id)sender {
+    //[(BIDViewController *)[self presentingViewController] cancelButton];
+    //[(BIDViewController *)self.presentingViewController cancelButton];
+    [_bidViewController cancelButton];
+}
+
 - (IBAction)createNewEntity:(id)sender {
 }
 - (IBAction)nameTextFieldPressed:(id)sender {
 }
 
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
+//- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+//{
+//    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+//    if (self) {
+//        // Custom initialization
+//    }
+//    return self;
+//}
 
 - (void)viewDidLoad
 {
