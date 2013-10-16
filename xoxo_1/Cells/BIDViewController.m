@@ -23,6 +23,8 @@
 
 @property (strong, nonatomic) UIToolbar *toCreatePostToolbar;
 
+
+
 @end
 
 const NSUInteger HEIGHT = 568;
@@ -159,10 +161,13 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     
     if(_postController == nil){
-        self.postController =[[CreateEntityViewController alloc] init];
+        self.postController =[[CreateEntityViewController alloc] initWithBIDViewController:self];
+        //self.postController =[[CreateEntityViewController alloc] init];
+        //_postController.delegate = self;
         NSLog(@"it is nil");
     }
     
+
     
     //UIBarButtonItem *space = [[UIBarButtonItem alloc] ini
 
