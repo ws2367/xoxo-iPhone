@@ -18,6 +18,10 @@
 @property (weak, nonatomic) IBOutlet UIImageView *photo;
 @property (nonatomic, retain) UIImagePickerController *picker;
 
+@property (weak, nonatomic) IBOutlet UITextField *entitiesTextField;
+@property (strong, nonatomic) NSMutableString *entityNames;
+@property (strong, nonatomic) NSMutableArray *entities;
+
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
 
 
