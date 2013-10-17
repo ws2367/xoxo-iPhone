@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+@class BIDViewController;
+
 @interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
 //    UIImageView *photo;
 //    UIImagePickerController *picker;
@@ -15,6 +17,8 @@
     
 @property (weak, nonatomic) IBOutlet UIImageView *photo;
 @property (nonatomic, retain) UIImagePickerController *picker;
+
+- (id)initWithBIDViewController:(BIDViewController *)viewController;
 
 
 @end

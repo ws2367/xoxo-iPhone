@@ -7,13 +7,24 @@
 //
 
 #import "CreatePostViewController.h"
+#import "BIDViewController.h"
 
 @interface CreatePostViewController ()
 //@property (weak, nonatomic) IBOutlet UIImageView *photo;
+@property (weak, nonatomic) BIDViewController *bidViewController;
 
 @end
 
 @implementation CreatePostViewController
+
+
+- (id)initWithBIDViewController:(BIDViewController *)viewController{
+    self = [super init];
+    if (self) {
+        _bidViewController = viewController;// Custom initialization
+    }
+    return self;
+}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -22,6 +33,12 @@
         // Custom initialization
     }
     return self;
+}
+- (IBAction)postButtonPressed:(id)sender {
+    [_bidViewController finishCreatingPostBackToHomePage];
+}
+- (IBAction)backButtonPressed:(id)sender {
+    [_bidViewController cancelCreatingPost];
 }
 
 - (IBAction)pickImageButtonPressed:(id)sender {
@@ -32,16 +49,16 @@
     [self presentViewController:_picker animated:YES completion:nil];
 }
 
--(void)imagePickController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
+-(void)imagePickerController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [[picked presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     NSLog(@"Geselecteerd: %@", [info objectForKey:UIImagePickerControllerEditedImage]);
     //photo = [[UIImageView alloc] init];
     [_photo setImage:[info objectForKey:UIImagePickerControllerEditedImage]];
 }
 
--(void)imagePickController:(UIImagePickerController *)picked didFInishPickingImage
+//-(void)imagePickController:(UIImagePickerController *)picked didFInishPickingImage
 
-- (void)viewDidLoad
+-(void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.

@@ -18,6 +18,9 @@
 @end
 
 @implementation CreateEntityViewController
+- (IBAction)notHereButtonPressed:(id)sender {
+    [_bidViewController finishCreatingEntityStartCreatingPost];
+}
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController{
     self = [super init];
@@ -27,10 +30,10 @@
     return self;
 }
 
-- (IBAction)testBIDViewController:(id)sender {
+- (IBAction)cancelButtonPressed:(id)sender {
     //[(BIDViewController *)[self presentingViewController] cancelButton];
     //[(BIDViewController *)self.presentingViewController cancelButton];
-    [_bidViewController cancelButton];
+    [_bidViewController cancelCreatingEntity];
 }
 
 - (IBAction)createNewEntity:(id)sender {

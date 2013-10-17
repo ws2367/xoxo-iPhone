@@ -19,4 +19,9 @@
 @property (strong, nonatomic) CreatePostViewController *createPostController;
 @property (strong, nonatomic) NSMutableArray *entities;
 
+- (void)finishCreatingEntityStartCreatingPost;
+- (void)finishCreatingPostBackToHomePage;
+- (void)cancelCreatingEntity;
+- (void)cancelCreatingPost;
+
 @end

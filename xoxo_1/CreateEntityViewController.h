@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+@class BIDViewController;
+
+
+
 @interface CreateEntityViewController : UIViewController <UITextFieldDelegate> 
 @property (weak, nonatomic) IBOutlet UITextField *name;
 @property (weak, nonatomic) IBOutlet UITextField *institution;
 @property (weak, nonatomic) IBOutlet UITextField *location;
+
+- (id)initWithBIDViewController:(BIDViewController *)viewController;
 
 @end
