@@ -11,6 +11,9 @@
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
 #import "Entity.h"
+#import "ViewPostViewController.h"
+#import <AddressBookUI/AddressBookUI.h>
+
 
 @interface BIDViewController ()
 @property (weak, nonatomic) IBOutlet UIView *topUIView;
@@ -18,7 +21,9 @@
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UIToolbar *myToolBar;
-
+@property (strong, nonatomic) CreateEntityViewController *createEntityController;
+@property (strong, nonatomic) CreatePostViewController *createPostController;
+@property (strong, nonatomic) ViewPostViewController *viewPostViewController;
 //@property (strong, nonatomic) UIToolbar *toCreateEntityToolbar;
 //@property (strong, nonatomic) UIButton *notHereButton;
 
@@ -109,6 +114,23 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
  
     
 }
+
+- (void)cancelViewingPost{
+    
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+        
+    
+}
+
 
 - (void)finishCreatingPostBackToHomePage{
     
@@ -204,8 +226,19 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //[self.view insertSubview:self.postController.view atIndex:1];
     [self.view addSubview:_createEntityController.view];
 
+
 }
 
+#pragma mark -
+#pragma mark Button Methods
+
+-(void)shareButtonPressed{
+    NSLog(@"shareButtonPressed");
+    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
+
+}
 
 
 
@@ -225,34 +258,43 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     cell.title = rowData[@"Title"];
     cell.entity = rowData[@"Entity"];
     cell.pic = rowData[@"Pic"];
+    [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     return cell;
 }
 #pragma mark -
-#pragma mark Delegate Methods
+#pragma mark TableView Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"here!");
+    _viewPostViewController = [[ViewPostViewController alloc] initWithBIDViewController:self];
+    NSDictionary *rowData = self.posts[indexPath.row];
+    
+    _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
     
     
+    _viewPostViewController.pic = rowData[@"Pic"];
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _viewPostViewController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
     
-//    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-//        
-//        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-//        NSInteger catIndex = [taskCategories indexOfObject:self.currentCategory];
-//        if (catIndex == indexPath.row) {
-//            return;
-//        }
-//        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:catIndex inSection:0];
-//        
-//        UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-//        if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-//            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-//            self.currentCategory = [taskCategories objectAtIndex:indexPath.row];
-//        }
-//        
-//        UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
-//        if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
-//            oldCell.accessoryType = UITableViewCellAccessoryNone;
-//        }
-//    }
+    //[self.view insertSubview:self.postController.view atIndex:1];
+    [self.view addSubview:_viewPostViewController.view];
+
 }
+
+#pragma mark -
+#pragma mark PeoplePicker Delegate Methods
+
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+}
+
 
 @end
