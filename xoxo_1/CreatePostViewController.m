@@ -8,6 +8,7 @@
 
 #import "CreatePostViewController.h"
 #import "BIDViewController.h"
+#import "Entity.h"
 
 @interface CreatePostViewController ()
 //@property (weak, nonatomic) IBOutlet UIImageView *photo;
@@ -22,7 +23,9 @@
     self = [super init];
     if (self) {
         _bidViewController = viewController;// Custom initialization
+        _entities = [[NSMutableArray alloc] init];
     }
+    
     return self;
 }
 - (IBAction)swiped:(id)sender {
@@ -66,6 +69,18 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    int cnt = [_entities count];
+    NSLog(@"In CreatPostViewController, count = %d", cnt);
+
+    _entityNames = [NSMutableString string];
+
+    for (Entity *ent in _entities) {
+        [_entityNames appendString:ent.name];
+        [_entityNames appendString:@", "];
+     }
+    NSLog((NSString *)_entityNames);
+    
+    self.entitiesTextField.text = (NSString *)_entityNames;
 }
 
 - (void)didReceiveMemoryWarning

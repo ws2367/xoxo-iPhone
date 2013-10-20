@@ -173,6 +173,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     //_toCreatePostToolbar = [self createPostToolbarForEntity:false];
     _createPostController = [[CreatePostViewController alloc] initWithBIDViewController:self];
+    self.createPostController.entities = _entities;
     _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
     
     [UIView animateWithDuration:ANIMATION_DURATION
