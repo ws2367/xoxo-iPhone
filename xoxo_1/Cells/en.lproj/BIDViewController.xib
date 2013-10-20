@@ -8,6 +8,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BIDViewController">
             <connections>
                 <outlet property="myTableView" destination="8" id="157"/>
+                <outlet property="topUIView" destination="npu-h4-bvD" id="tNf-fx-svW"/>
                 <outlet property="view" destination="6" id="7"/>
             </connections>
         </placeholder>
@@ -25,6 +26,11 @@
                         <outlet property="delegate" destination="-1" id="14"/>
                     </connections>
                 </tableView>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="npu-h4-bvD">
+                    <rect key="frame" x="0.0" y="0.0" width="320" height="67"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1Y5-iJ-m2d">
                     <rect key="frame" x="65" y="30" width="191" height="29"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>

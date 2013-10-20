@@ -15,7 +15,7 @@
         <UITableViewDataSource, UITableViewDelegate>
 
 @property (copy, nonatomic) NSArray *posts;
-@property (strong, nonatomic) CreateEntityViewController *postController;
+@property (strong, nonatomic) CreateEntityViewController *createEntityController;
 @property (strong, nonatomic) CreatePostViewController *createPostController;
 @property (strong, nonatomic) NSMutableArray *entities;
 

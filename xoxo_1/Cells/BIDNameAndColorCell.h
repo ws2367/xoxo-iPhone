@@ -8,10 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
+
+
+
 @interface BIDNameAndColorCell : UITableViewCell
 
 @property (copy, nonatomic) NSString *title;
 @property (copy, nonatomic) NSString *entity;
+@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (copy, nonatomic) NSString *pic;
 @property (nonatomic, assign, getter=isLiked) BOOL liked;
 @property (nonatomic, assign, getter=isHated) BOOL hated;
@@ -25,4 +29,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *hateButton;
 @property (strong, nonatomic) IBOutlet UILabel *likeValue;
 @property (strong, nonatomic) IBOutlet UILabel *hateValue;
+
 @end
+

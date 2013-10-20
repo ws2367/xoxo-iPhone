@@ -15,38 +15,10 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        //[_likeButton setTitle:@"like!" forState:UIControlStateNormal];
-        //_likeButton.imageView.image = [UIImage imageNamed:@"like"];
-        //_hateButton.imageView.image = [UIImage imageNamed:@"hate"];
-        //_likeButton.titleLabel.text = @"like!";
-        //CGRectMake(17, 14, 238, 70)
-                              //[path FILL];
-       // UIBezierPath *path = [UIBezierPath BE`
-        
-//        CGRect nameLabelRect = CGRectMake(0, 5, 70, 15);
-//        UILabel *nameLabel = [[UILabel alloc] initWithFrame:nameLabelRect];
-//        nameLabel.textAlignment = NSTextAlignmentRight;
-//        nameLabel.text = @"Name:";
-//        nameLabel.font = [UIFont boldSystemFontOfSize:12];
-//        [self.contentView addSubview: nameLabel];
-//        CGRect colorLabelRect = CGRectMake(0, 26, 70, 15);
-//        UILabel *colorLabel = [[UILabel alloc] initWithFrame:colorLabelRect];
-//        colorLabel.textAlignment = NSTextAlignmentRight;
-//        colorLabel.text = @"Color:";
-//        colorLabel.font = [UIFont boldSystemFontOfSize:12];
-//        [self.contentView addSubview: colorLabel];
-//        CGRect nameValueRect = CGRectMake(80, 5, 200, 15);
-//        _nameValue = [[UILabel alloc] initWithFrame:
-//                      nameValueRect];
-//        [self.contentView addSubview:_nameValue];
-//        CGRect colorValueRect = CGRectMake(80, 25, 200, 15);
-//        _colorValue = [[UILabel alloc] initWithFrame:
-//                       colorValueRect];
-//        [self.contentView addSubview:_colorValue];
-//        // Initialization code
     }
     return self;
 }
+
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -107,6 +79,12 @@
         [_likeButton setImage:[UIImage imageNamed:@"likeon"] forState:UIControlStateNormal];
     }
 }
+
+
+#pragma mark -
+#pragma mark Button Methods
+
+
 
 
 - (IBAction)hateButtonPressed: (id)sender {

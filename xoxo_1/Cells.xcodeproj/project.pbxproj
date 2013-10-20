@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		752B1EE217FD2B6D00F61382 /* BIDNameAndColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BIDNameAndColorCell.xib */; };
 		756B71B4180613FA000E3486 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 756B71B3180613FA000E3486 /* Entity.m */; };
+		75721FD01811074E00298ACF /* EntityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75721FCF1811074E00298ACF /* EntityCell.m */; };
+		75721FD2181107D600298ACF /* EntityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75721FD1181107D600298ACF /* EntityCell.xib */; };
 		75C086AF17FE30B800023200 /* pic1.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AA17FE30B800023200 /* pic1.png */; };
 		75C086B017FE30B800023200 /* pic2.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AB17FE30B800023200 /* pic2.png */; };
 		75C086B117FE30B800023200 /* pic3.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AC17FE30B800023200 /* pic3.png */; };
@@ -41,6 +43,9 @@
 		752B1EE117FD2B6D00F61382 /* BIDNameAndColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BIDNameAndColorCell.xib; sourceTree = "<group>"; };
 		756B71B2180613FA000E3486 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		756B71B3180613FA000E3486 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
+		75721FCE1811074D00298ACF /* EntityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityCell.h; sourceTree = "<group>"; };
+		75721FCF1811074E00298ACF /* EntityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityCell.m; sourceTree = "<group>"; };
+		75721FD1181107D600298ACF /* EntityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntityCell.xib; sourceTree = "<group>"; };
 		75C086AA17FE30B800023200 /* pic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic1.png; path = Cells/pic1.png; sourceTree = "<group>"; };
 		75C086AB17FE30B800023200 /* pic2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic2.png; path = Cells/pic2.png; sourceTree = "<group>"; };
 		75C086AC17FE30B800023200 /* pic3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic3.png; path = Cells/pic3.png; sourceTree = "<group>"; };
@@ -95,6 +100,9 @@
 		75CCCF3217FC03DF000BF0F4 = {
 			isa = PBXGroup;
 			children = (
+				75721FD1181107D600298ACF /* EntityCell.xib */,
+				75721FCE1811074D00298ACF /* EntityCell.h */,
+				75721FCF1811074E00298ACF /* EntityCell.m */,
 				756B71B2180613FA000E3486 /* Entity.h */,
 				756B71B3180613FA000E3486 /* Entity.m */,
 				75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */,
@@ -224,6 +232,7 @@
 				75CCCF5117FC03DF000BF0F4 /* Default.png in Resources */,
 				75CCCF5317FC03DF000BF0F4 /* Default@2x.png in Resources */,
 				75CCCF5517FC03DF000BF0F4 /* Default-568h@2x.png in Resources */,
+				75721FD2181107D600298ACF /* EntityCell.xib in Resources */,
 				75CCCF5B17FC03DF000BF0F4 /* BIDViewController.xib in Resources */,
 				752B1EE217FD2B6D00F61382 /* BIDNameAndColorCell.xib in Resources */,
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
@@ -255,6 +264,7 @@
 				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
 				756B71B4180613FA000E3486 /* Entity.m in Sources */,
+				75721FD01811074E00298ACF /* EntityCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

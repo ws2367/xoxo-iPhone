@@ -27,7 +27,7 @@
                     </connections>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUx-8A-Qpb">
-                    <rect key="frame" x="194" y="345" width="97" height="52"/>
+                    <rect key="frame" x="182" y="504" width="97" height="52"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Camera">
                         <color key="titleColor" red="0.0" green="0.27490555985444232" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -67,10 +67,25 @@
                         <action selector="postButtonPressed:" destination="-1" eventType="touchUpInside" id="wKC-NB-jis"/>
                     </connections>
                 </button>
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mIY-xF-OnM">
+                    <rect key="frame" x="0.0" y="288" width="320" height="215"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    <gestureRecognizers/>
+                    <connections>
+                        <outletCollection property="gestureRecognizers" destination="XUW-cO-iUD" appends="YES" id="FYq-HJ-hg6"/>
+                        <outletCollection property="gestureRecognizers" destination="XUW-cO-iUD" appends="YES" id="VP7-4k-aAc"/>
+                    </connections>
+                </view>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
             <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
             <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
         </view>
+        <swipeGestureRecognizer direction="right" id="XUW-cO-iUD">
+            <connections>
+                <action selector="swiped:" destination="-1" id="Xit-H1-pSL"/>
+            </connections>
+        </swipeGestureRecognizer>
     </objects>
 </document>

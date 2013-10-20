@@ -13,6 +13,7 @@
 #import "Entity.h"
 
 @interface BIDViewController ()
+@property (weak, nonatomic) IBOutlet UIView *topUIView;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
@@ -31,6 +32,7 @@
 #define WIDTH  320
 #define ANIMATION_DURATION 0.4
 #define ANIMATION_DELAY 0.0
+#define ROW_HEIGHT 220
 
 @implementation BIDViewController
 
@@ -48,7 +50,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                    @{@"Title" : @"人生第一次當個瘋狂蘋果迷", @"Entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"Pic" : @"pic5" }];
     //UITableView *tableView = (id)[self.view viewWithTag:1];
     
-    _myTableView.rowHeight = 99;
+    [_topUIView setAlpha:0.8];
+    _myTableView.rowHeight = ROW_HEIGHT;
     UINib *nib = [UINib nibWithNibName:@"BIDNameAndColorCell"
                                 bundle:nil];
     [_myTableView registerNib:nib
@@ -77,7 +80,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
                      animations:^{
-                         _postController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+                         _createEntityController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
                          //_toCreateEntityToolbar.frame = CGRectMake(0, HEIGHT, WIDTH, 44);
                          //_notHereButton.frame = CGRectMake(100, HEIGHT + 422, 100, 44);
                         //[self.myTableView setAlpha:100];
@@ -85,7 +88,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                      completion:^(BOOL finished){
                      }];
     
-    [_postController.view endEditing:YES];
+    [_createEntityController.view endEditing:YES];
     
 }
 
@@ -112,12 +115,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
-                        options: UIViewAnimationCurveEaseIn
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
                      animations:^{
                          _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
                          
                          //_toCreatePostToolbar.frame = CGRectMake(0, HEIGHT, WIDTH, 44);
-                         _postController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+                         _createEntityController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
                          //_toCreateEntityToolbar.frame = CGRectMake(0, HEIGHT, WIDTH, 44);
                          //_notHereButton.frame = CGRectMake(100, HEIGHT + 422, 100, 44);
                          //[self.myTableView setAlpha:100];
@@ -138,10 +141,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 - (void)finishCreatingEntityStartCreatingPost{
-    Entity *person = [[Entity alloc] init];
-    person.name = _postController.name.text;
-    person.institution = _postController.institution.text;
-    person.location = _postController.location.text;
+    Entity *person = _createEntityController.selectedEntity;
 
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
@@ -155,7 +155,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
-                        options: UIViewAnimationCurveEaseIn
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
                      animations:^{
                          _createPostController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
                          //_toCreatePostToolbar.frame = CGRectMake(0, 22, WIDTH, 44);
@@ -175,12 +175,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     
     
-    if(_postController == nil){
-        self.postController =[[CreateEntityViewController alloc] initWithBIDViewController:self];
-        //self.postController =[[CreateEntityViewController alloc] init];
-        //_postController.delegate = self;
-        NSLog(@"it is nil");
-    }
+
+        _createEntityController =[[CreateEntityViewController alloc] initWithBIDViewController:self];
     
 
     
@@ -188,7 +184,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
     //_toCreateEntityToolbar = [self createPostToolbarForEntity:true];
     //_notHereButton = [self createNotHereButton];
-     self.postController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+     _createEntityController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
 
     /*
     [UIView setAnimationTransition:
@@ -197,16 +193,16 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
      
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
-                        options: UIViewAnimationCurveEaseIn
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
                      animations:^{
-                         self.postController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
+                         _createEntityController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
 
                          }
                      completion:^(BOOL finished){
                      }];
 
     //[self.view insertSubview:self.postController.view atIndex:1];
-    [self.view addSubview:_postController.view];
+    [self.view addSubview:_createEntityController.view];
 
 }
 
@@ -230,6 +226,33 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     cell.entity = rowData[@"Entity"];
     cell.pic = rowData[@"Pic"];
     return cell;
+}
+#pragma mark -
+#pragma mark Delegate Methods
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    
+//    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//        
+//        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+//        NSInteger catIndex = [taskCategories indexOfObject:self.currentCategory];
+//        if (catIndex == indexPath.row) {
+//            return;
+//        }
+//        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:catIndex inSection:0];
+//        
+//        UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+//        if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+//            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+//            self.currentCategory = [taskCategories objectAtIndex:indexPath.row];
+//        }
+//        
+//        UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+//        if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+//            oldCell.accessoryType = UITableViewCellAccessoryNone;
+//        }
+//    }
 }
 
 @end
