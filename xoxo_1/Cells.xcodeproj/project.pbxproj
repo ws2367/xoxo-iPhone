@@ -7,7 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		752B1EE217FD2B6D00F61382 /* BIDNameAndColorCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BIDNameAndColorCell.xib */; };
+		75073FA818120314009177C7 /* ViewPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FA618120314009177C7 /* ViewPostViewController.m */; };
+		75073FA918120314009177C7 /* ViewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FA718120314009177C7 /* ViewPostViewController.xib */; };
+		75073FC01813B76D009177C7 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FBF1813B76D009177C7 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
+		75073FC21813BF15009177C7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FC11813BF15009177C7 /* AddressBook.framework */; };
+		75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FC41814BF1A009177C7 /* ViewEntityViewController.m */; };
+		75073FC71814BF1A009177C7 /* ViewEntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */; };
+		75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FC91814C024009177C7 /* SmallPostTableViewCell.m */; };
+		75073FCC1814C056009177C7 /* SmallPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FCB1814C056009177C7 /* SmallPostTableViewCell.xib */; };
+		752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */; };
 		756B71B4180613FA000E3486 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 756B71B3180613FA000E3486 /* Entity.m */; };
 		75721FD01811074E00298ACF /* EntityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75721FCF1811074E00298ACF /* EntityCell.m */; };
 		75721FD2181107D600298ACF /* EntityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75721FD1181107D600298ACF /* EntityCell.xib */; };
@@ -30,9 +38,9 @@
 		75CCCF5117FC03DF000BF0F4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5017FC03DF000BF0F4 /* Default.png */; };
 		75CCCF5317FC03DF000BF0F4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5217FC03DF000BF0F4 /* Default@2x.png */; };
 		75CCCF5517FC03DF000BF0F4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5417FC03DF000BF0F4 /* Default-568h@2x.png */; };
-		75CCCF5817FC03DF000BF0F4 /* BIDVewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF5717FC03DF000BF0F4 /* BIDVewController.m */; };
+		75CCCF5817FC03DF000BF0F4 /* BIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */; };
 		75CCCF5B17FC03DF000BF0F4 /* BIDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */; };
-		75CCCF6317FC04DF000BF0F4 /* BIDNameAndColorCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF6217FC04DF000BF0F4 /* BIDNameAndColorCell.m */; };
+		75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF6217FC04DF000BF0F4 /* BigPostTableViewCell.m */; };
 		75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA261804837400B431FF /* CreateEntityViewController.m */; };
 		75D1DA291804837400B431FF /* CreateEntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D1DA271804837400B431FF /* CreateEntityViewController.xib */; };
 		75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */; };
@@ -40,12 +48,23 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		752B1EE117FD2B6D00F61382 /* BIDNameAndColorCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BIDNameAndColorCell.xib; sourceTree = "<group>"; };
+		75073FA518120314009177C7 /* ViewPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostViewController.h; sourceTree = "<group>"; };
+		75073FA618120314009177C7 /* ViewPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostViewController.m; sourceTree = "<group>"; };
+		75073FA718120314009177C7 /* ViewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewPostViewController.xib; sourceTree = "<group>"; };
+		75073FBF1813B76D009177C7 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
+		75073FC11813BF15009177C7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
+		75073FC31814BF1A009177C7 /* ViewEntityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewEntityViewController.h; sourceTree = "<group>"; };
+		75073FC41814BF1A009177C7 /* ViewEntityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewEntityViewController.m; sourceTree = "<group>"; };
+		75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewEntityViewController.xib; sourceTree = "<group>"; };
+		75073FC81814C024009177C7 /* SmallPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmallPostTableViewCell.h; path = ../SmallPostTableViewCell.h; sourceTree = "<group>"; };
+		75073FC91814C024009177C7 /* SmallPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmallPostTableViewCell.m; path = ../SmallPostTableViewCell.m; sourceTree = "<group>"; };
+		75073FCB1814C056009177C7 /* SmallPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SmallPostTableViewCell.xib; path = ../SmallPostTableViewCell.xib; sourceTree = "<group>"; };
+		752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BigPostTableViewCell.xib; sourceTree = "<group>"; };
 		756B71B2180613FA000E3486 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		756B71B3180613FA000E3486 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
-		75721FCE1811074D00298ACF /* EntityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntityCell.h; sourceTree = "<group>"; };
-		75721FCF1811074E00298ACF /* EntityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntityCell.m; sourceTree = "<group>"; };
-		75721FD1181107D600298ACF /* EntityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = EntityCell.xib; sourceTree = "<group>"; };
+		75721FCE1811074D00298ACF /* EntityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityCell.h; path = ../EntityCell.h; sourceTree = "<group>"; };
+		75721FCF1811074E00298ACF /* EntityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = EntityCell.m; path = ../EntityCell.m; sourceTree = "<group>"; };
+		75721FD1181107D600298ACF /* EntityCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = EntityCell.xib; path = ../EntityCell.xib; sourceTree = "<group>"; };
 		75C086AA17FE30B800023200 /* pic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic1.png; path = Cells/pic1.png; sourceTree = "<group>"; };
 		75C086AB17FE30B800023200 /* pic2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic2.png; path = Cells/pic2.png; sourceTree = "<group>"; };
 		75C086AC17FE30B800023200 /* pic3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = pic3.png; path = Cells/pic3.png; sourceTree = "<group>"; };
@@ -71,10 +90,10 @@
 		75CCCF5217FC03DF000BF0F4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		75CCCF5417FC03DF000BF0F4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		75CCCF5617FC03DF000BF0F4 /* BIDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BIDViewController.h; path = Cells/BIDViewController.h; sourceTree = "<group>"; };
-		75CCCF5717FC03DF000BF0F4 /* BIDVewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BIDVewController.m; path = Cells/BIDVewController.m; sourceTree = "<group>"; };
+		75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BIDViewController.m; path = Cells/BIDViewController.m; sourceTree = "<group>"; };
 		75CCCF5A17FC03DF000BF0F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BIDViewController.xib; sourceTree = "<group>"; };
-		75CCCF6117FC04DF000BF0F4 /* BIDNameAndColorCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BIDNameAndColorCell.h; sourceTree = "<group>"; };
-		75CCCF6217FC04DF000BF0F4 /* BIDNameAndColorCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BIDNameAndColorCell.m; sourceTree = "<group>"; };
+		75CCCF6117FC04DF000BF0F4 /* BigPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigPostTableViewCell.h; sourceTree = "<group>"; };
+		75CCCF6217FC04DF000BF0F4 /* BigPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigPostTableViewCell.m; sourceTree = "<group>"; };
 		75D1DA251804837400B431FF /* CreateEntityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateEntityViewController.h; sourceTree = "<group>"; };
 		75D1DA261804837400B431FF /* CreateEntityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateEntityViewController.m; sourceTree = "<group>"; };
 		75D1DA271804837400B431FF /* CreateEntityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateEntityViewController.xib; sourceTree = "<group>"; };
@@ -88,6 +107,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75073FC21813BF15009177C7 /* AddressBook.framework in Frameworks */,
+				75073FC01813B76D009177C7 /* AddressBookUI.framework in Frameworks */,
 				75CCCF3F17FC03DF000BF0F4 /* UIKit.framework in Frameworks */,
 				75CCCF4117FC03DF000BF0F4 /* Foundation.framework in Frameworks */,
 				75CCCF4317FC03DF000BF0F4 /* CoreGraphics.framework in Frameworks */,
@@ -97,23 +118,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		75CCCF3217FC03DF000BF0F4 = {
+		75073FCD1814C11C009177C7 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				75721FD1181107D600298ACF /* EntityCell.xib */,
-				75721FCE1811074D00298ACF /* EntityCell.h */,
-				75721FCF1811074E00298ACF /* EntityCell.m */,
 				756B71B2180613FA000E3486 /* Entity.h */,
 				756B71B3180613FA000E3486 /* Entity.m */,
-				75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */,
-				75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */,
-				75D1DAA01804CDF600B431FF /* CreatePostViewController.xib */,
-				75D1DA251804837400B431FF /* CreateEntityViewController.h */,
-				75D1DA261804837400B431FF /* CreateEntityViewController.m */,
-				75D1DA271804837400B431FF /* CreateEntityViewController.xib */,
-				75CCCF5617FC03DF000BF0F4 /* BIDViewController.h */,
-				75CCCF5717FC03DF000BF0F4 /* BIDVewController.m */,
-				75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */,
+			);
+			name = Objects;
+			sourceTree = "<group>";
+		};
+		75073FCE1814C13A009177C7 /* Pictures */ = {
+			isa = PBXGroup;
+			children = (
 				75C086E917FE9B2C00023200 /* hateoff.png */,
 				75C086EA17FE9B2C00023200 /* hateon.png */,
 				75C086EB17FE9B2C00023200 /* likeon.png */,
@@ -123,7 +139,32 @@
 				75C086AC17FE30B800023200 /* pic3.png */,
 				75C086AD17FE30B800023200 /* pic4.png */,
 				75C086AE17FE30B800023200 /* pic5.png */,
+			);
+			name = Pictures;
+			sourceTree = "<group>";
+		};
+		75CCCF3217FC03DF000BF0F4 = {
+			isa = PBXGroup;
+			children = (
+				75073FC31814BF1A009177C7 /* ViewEntityViewController.h */,
+				75073FC41814BF1A009177C7 /* ViewEntityViewController.m */,
+				75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */,
+				75073FA518120314009177C7 /* ViewPostViewController.h */,
+				75073FA618120314009177C7 /* ViewPostViewController.m */,
+				75073FA718120314009177C7 /* ViewPostViewController.xib */,
+				75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */,
+				75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */,
+				75D1DAA01804CDF600B431FF /* CreatePostViewController.xib */,
+				75D1DA251804837400B431FF /* CreateEntityViewController.h */,
+				75D1DA261804837400B431FF /* CreateEntityViewController.m */,
+				75D1DA271804837400B431FF /* CreateEntityViewController.xib */,
+				75CCCF5617FC03DF000BF0F4 /* BIDViewController.h */,
+				75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */,
+				75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */,
+				75073FCD1814C11C009177C7 /* Objects */,
+				75073FCE1814C13A009177C7 /* Pictures */,
 				75CCCF4417FC03DF000BF0F4 /* Cells */,
+				75CCCF4517FC03DF000BF0F4 /* Supporting Files */,
 				75CCCF3D17FC03DF000BF0F4 /* Frameworks */,
 				75CCCF3C17FC03DF000BF0F4 /* Products */,
 			);
@@ -140,6 +181,8 @@
 		75CCCF3D17FC03DF000BF0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				75073FC11813BF15009177C7 /* AddressBook.framework */,
+				75073FBF1813B76D009177C7 /* AddressBookUI.framework */,
 				75CCCF3E17FC03DF000BF0F4 /* UIKit.framework */,
 				75CCCF4017FC03DF000BF0F4 /* Foundation.framework */,
 				75CCCF4217FC03DF000BF0F4 /* CoreGraphics.framework */,
@@ -150,10 +193,15 @@
 		75CCCF4417FC03DF000BF0F4 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
-				75CCCF4517FC03DF000BF0F4 /* Supporting Files */,
-				75CCCF6117FC04DF000BF0F4 /* BIDNameAndColorCell.h */,
-				75CCCF6217FC04DF000BF0F4 /* BIDNameAndColorCell.m */,
-				752B1EE117FD2B6D00F61382 /* BIDNameAndColorCell.xib */,
+				75721FD1181107D600298ACF /* EntityCell.xib */,
+				75721FCE1811074D00298ACF /* EntityCell.h */,
+				75721FCF1811074E00298ACF /* EntityCell.m */,
+				75073FCB1814C056009177C7 /* SmallPostTableViewCell.xib */,
+				75073FC81814C024009177C7 /* SmallPostTableViewCell.h */,
+				75073FC91814C024009177C7 /* SmallPostTableViewCell.m */,
+				75CCCF6117FC04DF000BF0F4 /* BigPostTableViewCell.h */,
+				75CCCF6217FC04DF000BF0F4 /* BigPostTableViewCell.m */,
+				752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */,
 				75C086E617FE695900023200 /* BIDCellView.h */,
 				75C086E717FE695900023200 /* BIDCellView.m */,
 			);
@@ -174,6 +222,7 @@
 				75CCCF5417FC03DF000BF0F4 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
+			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -234,18 +283,21 @@
 				75CCCF5517FC03DF000BF0F4 /* Default-568h@2x.png in Resources */,
 				75721FD2181107D600298ACF /* EntityCell.xib in Resources */,
 				75CCCF5B17FC03DF000BF0F4 /* BIDViewController.xib in Resources */,
-				752B1EE217FD2B6D00F61382 /* BIDNameAndColorCell.xib in Resources */,
+				752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */,
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
 				75C086B017FE30B800023200 /* pic2.png in Resources */,
 				75C086B117FE30B800023200 /* pic3.png in Resources */,
 				75C086B217FE30B800023200 /* pic4.png in Resources */,
 				75C086B317FE30B800023200 /* pic5.png in Resources */,
+				75073FC71814BF1A009177C7 /* ViewEntityViewController.xib in Resources */,
+				75073FCC1814C056009177C7 /* SmallPostTableViewCell.xib in Resources */,
 				75C086ED17FE9B2C00023200 /* hateoff.png in Resources */,
 				75C086EE17FE9B2C00023200 /* hateon.png in Resources */,
 				75C086EF17FE9B2C00023200 /* likeon.png in Resources */,
 				75C086F017FE9B2C00023200 /* likeoff.png in Resources */,
 				75D1DA291804837400B431FF /* CreateEntityViewController.xib in Resources */,
 				75D1DAA21804CDF600B431FF /* CreatePostViewController.xib in Resources */,
+				75073FA918120314009177C7 /* ViewPostViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,9 +309,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				75CCCF4B17FC03DF000BF0F4 /* main.m in Sources */,
+				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
 				75CCCF4F17FC03DF000BF0F4 /* BIDAppDelegate.m in Sources */,
-				75CCCF5817FC03DF000BF0F4 /* BIDVewController.m in Sources */,
-				75CCCF6317FC04DF000BF0F4 /* BIDNameAndColorCell.m in Sources */,
+				75CCCF5817FC03DF000BF0F4 /* BIDViewController.m in Sources */,
+				75073FA818120314009177C7 /* ViewPostViewController.m in Sources */,
+				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
+				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
 				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
@@ -316,7 +371,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
@@ -340,7 +395,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
@@ -350,9 +405,11 @@
 		75CCCF5F17FC03DF000BF0F4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -361,9 +418,11 @@
 		75CCCF6017FC03DF000BF0F4 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

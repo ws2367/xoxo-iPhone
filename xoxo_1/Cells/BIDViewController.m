@@ -7,11 +7,12 @@
 //
 
 #import "BIDViewController.h"
-#import "BIDNameAndColorCell.h"
+#import "BigPostTableViewCell.h"
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
 #import "Entity.h"
 #import "ViewPostViewController.h"
+#import "ViewEntityViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
 
 
@@ -24,6 +25,7 @@
 @property (strong, nonatomic) CreateEntityViewController *createEntityController;
 @property (strong, nonatomic) CreatePostViewController *createPostController;
 @property (strong, nonatomic) ViewPostViewController *viewPostViewController;
+@property (strong, nonatomic) ViewEntityViewController *viewEntityViewController;
 //@property (strong, nonatomic) UIToolbar *toCreateEntityToolbar;
 //@property (strong, nonatomic) UIButton *notHereButton;
 
@@ -57,7 +59,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     [_topUIView setAlpha:0.8];
     _myTableView.rowHeight = ROW_HEIGHT;
-    UINib *nib = [UINib nibWithNibName:@"BIDNameAndColorCell"
+    UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
                                 bundle:nil];
     [_myTableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
@@ -128,6 +130,22 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                      completion:^(BOOL finished){
                      }];
         
+    
+}
+
+- (void)cancelViewingEntity{
+    
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
     
 }
 
@@ -238,9 +256,37 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
     picker.peoplePickerDelegate = self;
     [self presentViewController:picker animated:YES completion:nil];
-
+    //CFErrorRef error = nil;
+    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
+    //if (!addressBook) // test the result, not the error
+    //{
+    //    NSLog(@"ERROR!!!");
+    //    return; // bail
+    //}
+    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    
+    //NSLog(@"%@", arrayOfPeople);
 }
 
+-(void)entityButtonPressed{
+    _viewEntityViewController = [[ViewEntityViewController alloc] initWithBIDViewController:self];
+    
+    _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
+    
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _viewEntityViewController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    //[self.view insertSubview:self.postController.view atIndex:1];
+    [self.view addSubview:_viewEntityViewController.view];
+}
 
 
 
@@ -254,12 +300,16 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BIDNameAndColorCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
+    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     NSDictionary *rowData = self.posts[indexPath.row];
     cell.title = rowData[@"Title"];
     cell.entity = rowData[@"Entity"];
     cell.pic = rowData[@"Pic"];
     [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    
+    [cell.entityButton addTarget:self action:@selector(entityButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+
+    
     return cell;
 }
 #pragma mark -
@@ -289,12 +339,36 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 #pragma mark -
+#pragma mark PeoplePicker Custom Methods
+
+- (void)displayPerson:(ABRecordRef)person{
+    CFStringRef a = ABRecordCopyCompositeName(person);
+    NSLog(@"%@", a);
+    ABMultiValueRef phoneNumbers = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonPhoneProperty);
+    CFRelease(phoneNumbers);
+    NSString* phoneNumber = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+    NSLog(@"%@", phoneNumber);
+}
+
+
+#pragma mark -
 #pragma mark PeoplePicker Delegate Methods
 
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
     [self dismissViewControllerAnimated:YES
                              completion:nil];
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    [self displayPerson:person];
+    [self dismissViewControllerAnimated:YES
+                             completion:nil];
+    return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property  identifier:(ABMultiValueIdentifier)identifier{
+    return NO;
 }
 
 

@@ -1,24 +1,23 @@
 //
-//  BIDNameAndColorCell.m
+//  SmallPostTableViewCell.m
 //  Cells
 //
-//  Created by WYY on 13/10/2.
+//  Created by WYY on 13/10/20.
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
-#import "BIDNameAndColorCell.h"
+#import "SmallPostTableViewCell.h"
 
-@implementation BIDNameAndColorCell{
-}
+@implementation SmallPostTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        // Initialization code
     }
     return self;
 }
-
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -26,6 +25,8 @@
 
     // Configure the view for the selected state
 }
+
+
 
 - (void)setTitle:(NSString *)n
 {
@@ -48,7 +49,7 @@
     _hated = false;
     [_likeButton setImage:[UIImage imageNamed:@"likeoff"] forState:UIControlStateNormal];
     [_hateButton setImage:[UIImage imageNamed:@"hateoff"] forState:UIControlStateNormal];
-
+    
 }
 - (void)setEntity:(NSString *)c
 {
@@ -79,12 +80,6 @@
         [_likeButton setImage:[UIImage imageNamed:@"likeon"] forState:UIControlStateNormal];
     }
 }
-
-
-#pragma mark -
-#pragma mark Button Methods
-
-
 
 
 - (IBAction)hateButtonPressed: (id)sender {

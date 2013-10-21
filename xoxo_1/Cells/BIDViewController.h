@@ -7,21 +7,24 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <AddressBookUI/AddressBookUI.h>
+
 
 @class CreateEntityViewController;
 @class CreatePostViewController;
 
 @interface BIDViewController : UIViewController
-        <UITableViewDataSource, UITableViewDelegate>
+        <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (copy, nonatomic) NSArray *posts;
-@property (strong, nonatomic) CreateEntityViewController *createEntityController;
-@property (strong, nonatomic) CreatePostViewController *createPostController;
+
 @property (strong, nonatomic) NSMutableArray *entities;
 
 - (void)finishCreatingEntityStartCreatingPost;
 - (void)finishCreatingPostBackToHomePage;
 - (void)cancelCreatingEntity;
 - (void)cancelCreatingPost;
+- (void)cancelViewingPost;
+- (void)cancelViewingEntity;
 
 @end

@@ -1,21 +1,16 @@
 //
-//  BIDNameAndColorCell.h
+//  SmallPostTableViewCell.h
 //  Cells
 //
-//  Created by WYY on 13/10/2.
+//  Created by WYY on 13/10/20.
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>
 
-
-
-
-@interface BIDNameAndColorCell : UITableViewCell
-
+@interface SmallPostTableViewCell : UITableViewCell
 @property (copy, nonatomic) NSString *title;
 @property (copy, nonatomic) NSString *entity;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (copy, nonatomic) NSString *pic;
 @property (nonatomic, assign, getter=isLiked) BOOL liked;
 @property (nonatomic, assign, getter=isHated) BOOL hated;
@@ -31,4 +26,3 @@
 @property (strong, nonatomic) IBOutlet UILabel *hateValue;
 
 @end
-
