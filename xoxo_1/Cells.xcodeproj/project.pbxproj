@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5101701F18170BC1009D9B70 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5101701D18170746009D9B70 /* QuartzCore.framework */; };
 		75073FA818120314009177C7 /* ViewPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FA618120314009177C7 /* ViewPostViewController.m */; };
 		75073FA918120314009177C7 /* ViewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FA718120314009177C7 /* ViewPostViewController.xib */; };
 		75073FC01813B76D009177C7 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FBF1813B76D009177C7 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -48,6 +49,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		5101701D18170746009D9B70 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		75073FA518120314009177C7 /* ViewPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostViewController.h; sourceTree = "<group>"; };
 		75073FA618120314009177C7 /* ViewPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostViewController.m; sourceTree = "<group>"; };
 		75073FA718120314009177C7 /* ViewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewPostViewController.xib; sourceTree = "<group>"; };
@@ -107,6 +109,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5101701F18170BC1009D9B70 /* QuartzCore.framework in Frameworks */,
 				75073FC21813BF15009177C7 /* AddressBook.framework in Frameworks */,
 				75073FC01813B76D009177C7 /* AddressBookUI.framework in Frameworks */,
 				75CCCF3F17FC03DF000BF0F4 /* UIKit.framework in Frameworks */,
@@ -181,6 +184,7 @@
 		75CCCF3D17FC03DF000BF0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5101701D18170746009D9B70 /* QuartzCore.framework */,
 				75073FC11813BF15009177C7 /* AddressBook.framework */,
 				75073FBF1813B76D009177C7 /* AddressBookUI.framework */,
 				75CCCF3E17FC03DF000BF0F4 /* UIKit.framework */,
