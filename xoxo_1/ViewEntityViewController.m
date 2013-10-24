@@ -9,12 +9,18 @@
 #import "ViewEntityViewController.h"
 #import "SmallPostTableViewCell.h"
 #import "BIDViewController.h"
+#import <MapKit/MapKit.h>
+#import "MapPinAnnotation.h"
+
 
 @interface ViewEntityViewController ()
 
+@property (weak, nonatomic) IBOutlet MKMapView *myMap;
+@property (weak, nonatomic) IBOutlet UILabel *entityNameLabel;
 @property (copy, nonatomic) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) BIDViewController *bidViewController;
+@property (copy, nonatomic) NSString *entityName;
 
 @end
 
@@ -51,17 +57,33 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //UITableView *tableView = (id)[self.view viewWithTag:1];
     
 
-    _myTableView.rowHeight = 102;
-    UINib *nib = [UINib nibWithNibName:@"SmallPostTableViewCell"
+    _myTableView.rowHeight = 220;
+    UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
                                 bundle:nil];
     [_myTableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
+    
+    CLLocationCoordinate2D  ctrpoint;
+    ctrpoint.latitude = 53.58448;
+    ctrpoint.longitude =-8.93772;
+    MapPinAnnotation *mapPinAnnotation = [[MapPinAnnotation alloc] initWithCoordinates:ctrpoint
+                                                                             placeName:nil
+                                                                           description:nil];
+    [_myMap addAnnotation:mapPinAnnotation];
+    //[mapPinAnnotation release];
 }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)setEntityName:(NSString *)entityName{
+    if (![entityName isEqualToString:_entityName]) {
+        _entityName = [entityName copy];
+        _entityNameLabel.text = _entityName;
+    }
 }
 
 

@@ -268,12 +268,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //NSLog(@"%@", arrayOfPeople);
 }
 
--(void)entityButtonPressed{
+-(void)entityButtonPressed:(UIButton *)sender{
     _viewEntityViewController = [[ViewEntityViewController alloc] initWithBIDViewController:self];
     
     _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
-    
-    
+    NSDictionary *rowData = self.posts[sender.tag];
+    [_viewEntityViewController setEntityName:rowData[@"Entity"]];
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
@@ -305,9 +305,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     cell.title = rowData[@"Title"];
     cell.entity = rowData[@"Entity"];
     cell.pic = rowData[@"Pic"];
+    cell.shareButton.tag = indexPath.row;
     [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    
-    [cell.entityButton addTarget:self action:@selector(entityButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    cell.entityButton.tag = indexPath.row;
+    [cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
     
     return cell;
@@ -320,9 +321,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     NSDictionary *rowData = self.posts[indexPath.row];
     
     _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
-    
-    
     _viewPostViewController.pic = rowData[@"Pic"];
+    
+    
+    
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn

@@ -16,6 +16,9 @@
 		75073FC71814BF1A009177C7 /* ViewEntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */; };
 		75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FC91814C024009177C7 /* SmallPostTableViewCell.m */; };
 		75073FCC1814C056009177C7 /* SmallPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FCB1814C056009177C7 /* SmallPostTableViewCell.xib */; };
+		75073FE918198E36009177C7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FE818198E36009177C7 /* MapKit.framework */; };
+		75073FEB18199310009177C7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FEA18199310009177C7 /* CoreLocation.framework */; };
+		75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FED1819966C009177C7 /* MapPinAnnotation.m */; };
 		752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */; };
 		756B71B4180613FA000E3486 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 756B71B3180613FA000E3486 /* Entity.m */; };
 		75721FD01811074E00298ACF /* EntityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75721FCF1811074E00298ACF /* EntityCell.m */; };
@@ -61,6 +64,10 @@
 		75073FC81814C024009177C7 /* SmallPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SmallPostTableViewCell.h; path = ../SmallPostTableViewCell.h; sourceTree = "<group>"; };
 		75073FC91814C024009177C7 /* SmallPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SmallPostTableViewCell.m; path = ../SmallPostTableViewCell.m; sourceTree = "<group>"; };
 		75073FCB1814C056009177C7 /* SmallPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = SmallPostTableViewCell.xib; path = ../SmallPostTableViewCell.xib; sourceTree = "<group>"; };
+		75073FE818198E36009177C7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
+		75073FEA18199310009177C7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		75073FEC1819966C009177C7 /* MapPinAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPinAnnotation.h; sourceTree = "<group>"; };
+		75073FED1819966C009177C7 /* MapPinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPinAnnotation.m; sourceTree = "<group>"; };
 		752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BigPostTableViewCell.xib; sourceTree = "<group>"; };
 		756B71B2180613FA000E3486 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		756B71B3180613FA000E3486 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
@@ -109,6 +116,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				75073FEB18199310009177C7 /* CoreLocation.framework in Frameworks */,
+				75073FE918198E36009177C7 /* MapKit.framework in Frameworks */,
 				5101701F18170BC1009D9B70 /* QuartzCore.framework in Frameworks */,
 				75073FC21813BF15009177C7 /* AddressBook.framework in Frameworks */,
 				75073FC01813B76D009177C7 /* AddressBookUI.framework in Frameworks */,
@@ -126,6 +135,8 @@
 			children = (
 				756B71B2180613FA000E3486 /* Entity.h */,
 				756B71B3180613FA000E3486 /* Entity.m */,
+				75073FEC1819966C009177C7 /* MapPinAnnotation.h */,
+				75073FED1819966C009177C7 /* MapPinAnnotation.m */,
 			);
 			name = Objects;
 			sourceTree = "<group>";
@@ -184,6 +195,8 @@
 		75CCCF3D17FC03DF000BF0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				75073FEA18199310009177C7 /* CoreLocation.framework */,
+				75073FE818198E36009177C7 /* MapKit.framework */,
 				5101701D18170746009D9B70 /* QuartzCore.framework */,
 				75073FC11813BF15009177C7 /* AddressBook.framework */,
 				75073FBF1813B76D009177C7 /* AddressBookUI.framework */,
@@ -324,6 +337,7 @@
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
 				756B71B4180613FA000E3486 /* Entity.m in Sources */,
 				75721FD01811074E00298ACF /* EntityCell.m in Sources */,
+				75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

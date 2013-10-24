@@ -13,5 +13,6 @@
 @interface ViewEntityViewController : UIViewController
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
+- (void)setEntityName:(NSString *)entityName;
 
 @end
