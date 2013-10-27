@@ -17,12 +17,8 @@
 
 @end
 
-
-#define HEIGHT 568
-#define WIDTH  320
 #define ANIMATION_DURATION 0.4
 #define ANIMATION_DELAY 0.0
-#define ROW_HEIGHT 220
 
 
 @implementation CreatePostViewController
@@ -37,6 +33,88 @@
     
     return self;
 }
+
+
+#pragma mark -
+#pragma mark TextView Delegate
+
+- (void)textViewDidBeginEditing:(UITextView *) textView
+{
+    [_textView setText:@""];
+    [_backButton removeTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventAllEvents];
+
+    [_backButton setTitle:@"Done" forState:UIControlStateNormal];
+    [_backButton addTarget:self
+                   action:@selector(doneEditing:)
+         forControlEvents:UIControlEventTouchUpInside];
+    
+    _postButton.hidden = true;}
+
+
+
+#pragma mark -
+#pragma mark Button method
+
+- (IBAction)addEntityPressed:(id)sender {
+    [_content setString:_textView.text];
+    [_bidViewController cancelCreatingPost];
+}
+
+
+- (IBAction)doneEditing:(id)sender {
+    [_textView resignFirstResponder];
+    
+    [_backButton setTitle:@"Back" forState:UIControlStateNormal];
+    [_backButton removeTarget:self action:@selector(doneEditing:)
+                 forControlEvents:UIControlEventTouchUpInside];
+    [_backButton addTarget:self action:@selector(backButtonPressed:)
+             forControlEvents:UIControlEventTouchUpInside];
+
+    _postButton.hidden = false;
+}
+
+- (IBAction)postButtonPressed:(id)sender {
+    [_bidViewController finishCreatingPostBackToHomePage];
+}
+- (IBAction)backButtonPressed:(id)sender {
+    [_entities removeAllObjects];
+    [_bidViewController cancelCreatingPost];
+}
+
+- (IBAction)pickImageButtonPressed:(id)sender {
+    _picker = [[UIImagePickerController alloc] init];
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    _picker.delegate = self;
+    _picker.allowsEditing = NO;
+    [self presentViewController:_picker animated:YES completion:nil];
+}
+
+-(void)imagePickerController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [[picked presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+    
+    [_photos addObject:[info objectForKey:UIImagePickerControllerOriginalImage]];
+    photoIndex = (int)[_photos count] - 1;
+    
+    [currImageView removeFromSuperview];
+    
+    currImageView =
+    [[UIImageView alloc]
+     initWithFrame:CGRectMake(0,
+                              _PostSuperImageView.frame.origin.y,
+                              _PostSuperImageView.frame.size.width-10,
+                              _PostSuperImageView.frame.size.height)];
+    
+    [currImageView setImage:[_photos objectAtIndex:photoIndex]];
+    
+    [self.view addSubview:currImageView];
+}
+
+
+
+
+#pragma mark -
+#pragma mark Gesture Controller Method
+
 
 - (void)swipeImage:(UISwipeGestureRecognizer *)gesture
 {
@@ -54,6 +132,7 @@
                                         _PostSuperImageView.frame.size.height)];
             
             [iv setImage:[_photos objectAtIndex:photoIndex]];
+            [self.view addSubview:iv];
             
             [UIView animateWithDuration:ANIMATION_DURATION
                                   delay:ANIMATION_DELAY
@@ -76,13 +155,14 @@
                                  currImageView = iv;
                              }];
             
-            [self.view addSubview:iv];
+            
             
         }
         
     } else if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
         
-        if (photoIndex < (int)([_photos count]- 1)) {
+        // You cannot compare NSInteger to int directly!!!
+        if (photoIndex < (int)([_photos count] - 1)) {
             photoIndex = photoIndex + 1;
 
             UIImageView *iv =
@@ -94,6 +174,7 @@
                                       _PostSuperImageView.frame.size.height)];
             
             [iv setImage:[_photos objectAtIndex:photoIndex]];
+            [self.view addSubview:iv];
             
             [UIView animateWithDuration:ANIMATION_DURATION
                                   delay:ANIMATION_DELAY
@@ -116,14 +197,12 @@
                                  currImageView = iv;
                              }];
             
-            [self.view addSubview:iv];
+            
 
         }
     }
     
-}
-
-- (IBAction)swiped:(id)sender {
+}- (IBAction)swiped:(id)sender {
     [_bidViewController finishCreatingPostBackToHomePage];
 }
 
@@ -136,43 +215,7 @@
 //    return self;
 //}
 
-- (IBAction)postButtonPressed:(id)sender {
-    [_bidViewController finishCreatingPostBackToHomePage];
-}
-- (IBAction)backButtonPressed:(id)sender {
-    [_bidViewController cancelCreatingPost];
-}
 
-- (IBAction)pickImageButtonPressed:(id)sender {
-    _picker = [[UIImagePickerController alloc] init];
-    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    _picker.delegate = self;
-    _picker.allowsEditing = NO;
-    [self presentViewController:_picker animated:YES completion:nil];
-}
-
--(void)imagePickerController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
-    [[picked presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-
-    [_photos addObject:[info objectForKey:UIImagePickerControllerOriginalImage]];
-    photoIndex = (int)[_photos count] - 1;
-    
-    [currImageView removeFromSuperview];
-    
-    currImageView =
-        [[UIImageView alloc]
-            initWithFrame:CGRectMake(0,
-                                    _PostSuperImageView.frame.origin.y,
-                                    _PostSuperImageView.frame.size.width-10,
-                                    _PostSuperImageView.frame.size.height)];
-    
-    [currImageView setImage:[_photos objectAtIndex:photoIndex]];
-    
-    [self.view addSubview:currImageView];
-    //currImageView = iv;
-    
-    //[_photo setImage:[_photos objectAtIndex:photoIndex]];
-}
 
 -(void)viewDidLoad
 {
@@ -195,9 +238,13 @@
     
     _entityNames = [NSMutableString string];
 
+    if (_content == NULL) _content = [NSMutableString string];
+    else [_textView setText:@"sadasda"];
+        
     for (Entity *ent in _entities) {
         [_entityNames appendString:ent.name];
-        [_entityNames appendString:@", "];
+        if (ent != [_entities lastObject])
+            [_entityNames appendString:@", "];
      }
     NSLog((NSString *)_entityNames);
     
@@ -218,9 +265,9 @@
 #pragma mark -
 #pragma mark TextField Delegate
 
--(BOOL) textFieldShouldReturn:(UITextField*) textField {
-    [textField resignFirstResponder];
-    return YES;
-}
+//-(BOOL) textFieldShouldReturn:(UITextField*) textField {
+//    [textField resignFirstResponder];
+//    return YES;
+//}
 
 @end

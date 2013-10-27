@@ -10,15 +10,17 @@
 
 @class BIDViewController;
 
-@interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate> {
+@interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate> {
     int photoIndex;
     UIImageView *currImageView;
     UIImageView *leftImageView;
     UIImageView *rightImageView;
-
 //    UIImagePickerController *picker;
 }
 
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *postButton;
 
 @property (weak, nonatomic) IBOutlet UIView *PostSuperImageView;
 //@property (strong, nonatomic) UIImageView *currImageView;
@@ -29,9 +31,13 @@
 @property (strong, nonatomic) NSMutableString *entityNames;
 @property (strong, nonatomic) NSMutableArray *entities;
 @property (strong, nonatomic) NSMutableArray *photos;
+@property (strong, nonatomic) NSMutableString *content;
+
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
 
 - (void)swipeImage:(UISwipeGestureRecognizer *)gesture;
+
+- (void)textViewDidBeginEditing:(UITextView *) textView;
 
 @end
