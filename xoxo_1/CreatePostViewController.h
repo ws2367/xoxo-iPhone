@@ -40,4 +40,7 @@
 
 - (void)textViewDidBeginEditing:(UITextView *) textView;
 
+//Iru Test
+- (void)receiveNSArray:(NSArray *)result;
+
 @end
