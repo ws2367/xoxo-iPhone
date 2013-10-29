@@ -31,6 +31,7 @@
         _bidViewController = viewController;// Custom initialization
         _entities = [[NSMutableArray alloc] init];
     }
+    NSLog(@"hello?");
     
     return self;
 }
@@ -76,6 +77,8 @@
 
 - (IBAction)postButtonPressed:(id)sender {
     
+    NSLog(@"im here!");
+    
     NSDictionary *data = @{@"num" : @"1", @"sortby" : @"recent"};
     
     ServerConnector *poster =
@@ -83,7 +86,8 @@
                                     verb:@"post"
                              requestType:@"application/json"
                             responseType:@"application/json"
-                         timeoutInterval:60];
+                         timeoutInterval:60
+                        CreatePostViewController:self];
     
     NSArray *jsonArr = [poster sendJSONGetJSONArray:data];
     
@@ -303,5 +307,13 @@
 //    [textField resignFirstResponder];
 //    return YES;
 //}
+
+#pragma mark -
+#pragma mark Test Function
+- (void)receiveNSArray:(NSArray *)result{
+    NSLog(@"CreatePostViewController receive %@", result);
+}
+
+
 
 @end
