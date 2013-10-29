@@ -10,6 +10,7 @@
 #import "BIDViewController.h"
 #import "Entity.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ServerConnector.h"
 
 @interface CreatePostViewController ()
 
@@ -74,6 +75,39 @@
 }
 
 - (IBAction)postButtonPressed:(id)sender {
+    
+    NSDictionary *data = @{@"num" : @"1", @"sortby" : @"recent"};
+    
+    ServerConnector *poster =
+    [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
+                                    verb:@"post"
+                             requestType:@"application/json"
+                            responseType:@"application/json"
+                         timeoutInterval:60];
+    
+    NSArray *jsonArr = [poster sendJSONGetJSONArray:data];
+    
+    if (!jsonArr) {
+        NSLog(@"Error parsing JSON!");
+    } else {
+        for(NSDictionary *item in jsonArr) {
+            NSLog(@"Item: %@", item);
+        }
+    }
+    
+    NSArray *jsonArr2 = [poster sendJSONGetJSONArray:@{@"num" : @"3", @"sortby" : @"recent"}];
+    for(NSDictionary *item in jsonArr2) {
+        NSLog(@"Item2: %@", item);
+    }
+    
+    NSURL *url2 = [NSURL URLWithString:@"http://localhost:3000/hates"];
+    [poster setUrl:url2];
+    NSArray *jsonArr3 = [poster sendJSONGetJSONArray:@{@"user_id" : @"5", @"hate":@{@"hatee_id":@"3", @"hatee_type":@"Post"}}];
+    
+    for(NSDictionary *item in jsonArr3) {
+        NSLog(@"Item3: %@", item);
+    }
+    
     [_bidViewController finishCreatingPostBackToHomePage];
 }
 - (IBAction)backButtonPressed:(id)sender {
