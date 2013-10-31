@@ -78,7 +78,7 @@
                                                             NSError *reqError = nil;
                                                             NSArray *jsonArr = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:localfile] options:NSJSONReadingMutableContainers error:&reqError];
                                                             [self performSelectorOnMainThread:@selector(gotItwithNSArray:) withObject:jsonArr waitUntilDone:NO];
-                                                            //dispatch_async(dispatch_get_main_queue(), ^{ return jsonArr; });
+                                                            //dispatch_async(dispatch_get_main_queue(), ^{ return   jsonArr; });
 
                                                             //if ([request.URL isEqual:self.imageURL]) {
                                                                 // UIImage is an exception to the "can't do UI here"
@@ -112,8 +112,7 @@
      */
     
     return _result;
-    
-}
+}   
 
 -(void) gotItwithNSArray:(NSArray *)res{
     if(_clientViewController){
