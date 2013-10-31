@@ -31,6 +31,9 @@
 
 //@property (strong, nonatomic) UIToolbar *toCreatePostToolbar;
 
+//Try adding a table view controller and UIRefreshControl
+@property (strong, nonatomic) UITableViewController *tableViewController;
+@property (strong, nonatomic) UIRefreshControl *myRefreshControl;
 
 
 @end
@@ -53,16 +56,18 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [super viewDidLoad];
     
  //   self.posts = nil;
-  /*@[
+    self.posts = @[
                    @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" },
                    @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" },
                    @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" },
                    @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" },
                    @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" }];
-   */
+   
     //UITableView *tableView = (id)[self.view viewWithTag:1];
     
     NSDictionary *data = @{@"num" : @"3", @"sortby" : @"recent"};
+    
+
     
     ServerConnector *poster =
     [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
@@ -87,6 +92,16 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //[tableView registerClass:[BIDNameAndColorCell class]
     //forCellReuseIdentifier:CellTableIdentifier];
 	// Do any additional setup after loading the view, typically from a nib.
+    
+    //Adding a tableViewController to have the refreshControl on our tableView
+    _tableViewController = [[UITableViewController alloc] init];
+    _tableViewController.tableView = _myTableView;
+    _myRefreshControl = [UIRefreshControl new];
+    _tableViewController.refreshControl = _myRefreshControl;
+    [_tableViewController.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
+    //[_tableViewController.refreshControl beginRefreshing];
+    [self startRefreshingView];
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -99,6 +114,37 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 #pragma mark -
 #pragma mark Parent Overloaded Methods
+
+-(void)startRefreshingView{
+    
+    //must be here because it can not be in viewDidLoad
+    [_myRefreshControl beginRefreshing];
+    NSLog(@"start refreshing");
+    
+    //////////////////////////////////////
+    //send out request
+    
+    //Comment this with actual request called.
+    [self endRefreshingView:nil];
+
+    
+}
+
+-(void)endRefreshingView:(NSArray *)JSONArr{
+    NSLog(@"end refreshing");
+    
+    //change posts to new value here
+    self.posts = @[
+                   @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Yeah~~~baby~~~~~", @"pic" : @"pic1" },
+                   @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" },
+                   @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" },
+                   @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" },
+                   @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" }];
+    [_myTableView reloadData];
+    [_myRefreshControl endRefreshing];
+    
+}
+
 
 - (void)RefreshViewWithJSONArr:(NSArray *)JSONArr
 {
