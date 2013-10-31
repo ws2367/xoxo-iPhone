@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "XOXOUIViewController.h"
 
 @class BIDViewController;
 
-@interface ViewEntityViewController : UIViewController
+@interface ViewEntityViewController : XOXOUIViewController
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
 - (void)setEntityName:(NSString *)entityName;
