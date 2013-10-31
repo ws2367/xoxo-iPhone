@@ -27,16 +27,16 @@
     // Configure the view for the selected state
 }
 
-- (void)setTitle:(NSString *)n
+- (void)setContent:(NSString *)n
 {
-    if (![n isEqualToString:_title]) {
-        _title = [n copy];
+    if (![n isEqualToString:_content]) {
+        _content = [n copy];
         NSRange stringRange = {0,65};
-        if(_title.length > 65){
-            _title = [_title substringWithRange:stringRange];
-            _title = [_title stringByAppendingFormat:@"..."];
+        if(_content.length > 65){
+            _content = [_content substringWithRange:stringRange];
+            _content = [_content stringByAppendingFormat:@"..."];
         }
-        _titleValue.text = _title;
+        _titleValue.text = _content;
     }
     
     _likeNum = 4;

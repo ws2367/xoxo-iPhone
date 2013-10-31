@@ -15,7 +15,7 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *entityButton;
 
-@property (copy, nonatomic) NSString *title;
+@property (copy, nonatomic) NSString *content;
 @property (copy, nonatomic) NSString *entity;
 @property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (copy, nonatomic) NSString *pic;
