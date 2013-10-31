@@ -14,7 +14,7 @@
 #import "ViewPostViewController.h"
 #import "ViewEntityViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
-
+#import "ServerConnector.h"
 
 @interface BIDViewController ()
 @property (weak, nonatomic) IBOutlet UIView *topUIView;
@@ -46,16 +46,35 @@
 
 static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.posts = @[
-                   @{@"Title" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"Entity" : @"Dan Lin, Duke University, Durham", @"Pic" : @"pic1" },
-                   @{@"Title" : @"One of the partners of Orrzs is cute!!!", @"Entity" : @"Iru Wang,Stanford University, Palo Alto", @"Pic" : @"pic2" },
-                   @{@"Title" : @"Who is that girl? Heartbreak...", @"Entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"Pic" : @"pic3" },
-                   @{@"Title" : @"Seriously, another girl?", @"Entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"Pic" : @"pic4" },
-                   @{@"Title" : @"人生第一次當個瘋狂蘋果迷", @"Entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"Pic" : @"pic5" }];
+    
+ //   self.posts = nil;
+  /*@[
+                   @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" },
+                   @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" },
+                   @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" },
+                   @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" },
+                   @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" }];
+   */
     //UITableView *tableView = (id)[self.view viewWithTag:1];
+    
+    NSDictionary *data = @{@"num" : @"3", @"sortby" : @"recent"};
+    
+    ServerConnector *poster =
+    [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
+                                    verb:@"post"
+                             requestType:@"application/json"
+                            responseType:@"application/json"
+                         timeoutInterval:60
+                CreatePostViewController:self];
+    
+    [poster sendJSONGetJSONArray:data];
+    
+    
     
     [_topUIView setAlpha:0.8];
     _myTableView.rowHeight = ROW_HEIGHT;
@@ -74,6 +93,51 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+
+#pragma mark -
+#pragma mark Parent Overloaded Methods
+
+- (void)RefreshViewWithJSONArr:(NSArray *)JSONArr
+{
+    self.posts = JSONArr;
+    
+    NSLog(@"Gonna refresh view!");
+    
+    if (!JSONArr) {
+        NSLog(@"Error parsing JSON!");
+    } else {
+        for(NSDictionary *item in JSONArr) {
+            NSLog(@"Item: %@", item);
+        }
+    }
+    
+    
+    /*
+     if (!jsonArr) {
+     NSLog(@"Error parsing JSON!");
+     } else {
+     for(NSDictionary *item in jsonArr) {
+     NSLog(@"Item: %@", item);
+     }
+     }
+     
+     
+     NSArray *jsonArr2 = [poster sendJSONGetJSONArray:@{@"num" : @"3", @"sortby" : @"recent"}];
+     for(NSDictionary *item in jsonArr2) {
+     NSLog(@"Item2: %@", item);
+     }
+     
+     NSURL *url2 = [NSURL URLWithString:@"http://localhost:3000/hates"];
+     [poster setUrl:url2];
+     NSArray *jsonArr3 = [poster sendJSONGetJSONArray:@{@"user_id" : @"5", @"hate":@{@"hatee_id":@"3", @"hatee_type":@"Post"}}];
+     
+     for(NSDictionary *item in jsonArr3) {
+     NSLog(@"Item3: %@", item);
+     }*/
+
 }
 
 
@@ -302,9 +366,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     NSDictionary *rowData = self.posts[indexPath.row];
-    cell.title = rowData[@"Title"];
-    cell.entity = rowData[@"Entity"];
-    cell.pic = rowData[@"Pic"];
+    cell.content = rowData[@"content"];
+    cell.entity = rowData[@"entity"];
+    cell.pic = rowData[@"pic"];
     cell.shareButton.tag = indexPath.row;
     [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     cell.entityButton.tag = indexPath.row;

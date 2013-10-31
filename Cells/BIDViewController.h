@@ -8,12 +8,12 @@
 
 #import <UIKit/UIKit.h>
 #import <AddressBookUI/AddressBookUI.h>
-
+#import "XOXOUIViewController.h"
 
 @class CreateEntityViewController;
 @class CreatePostViewController;
 
-@interface BIDViewController : UIViewController
+@interface BIDViewController : XOXOUIViewController
         <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (copy, nonatomic) NSArray *posts;
