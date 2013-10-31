@@ -8,11 +8,11 @@
 
 #import "ServerConnector.h"
 #import "CreatePostViewController.h"
-
+#import "XOXOUIViewController.h"
 
 @interface ServerConnector ()
 @property (nonatomic, retain) NSArray * result;
-@property (weak, nonatomic) CreatePostViewController *clientViewController;
+@property (weak, nonatomic) XOXOUIViewController *viewController;
 @end
 
 @implementation ServerConnector
@@ -25,7 +25,7 @@
       requestType:(NSString *)requestType_
       responseType:(NSString *)responseType_
       timeoutInterval:(int)timeoutInterval_
- CreatePostViewController:(CreatePostViewController *)clientViewController{
+ CreatePostViewController:(XOXOUIViewController *)clientViewController{
  
     
     //Consider not allocating spaces for NSString....
@@ -34,7 +34,7 @@
     _requestType  = [[NSString alloc] initWithString:requestType_];
     _responseType = [[NSString alloc] initWithString:responseType_];
     _timeoutInterval = timeoutInterval_;
-    _clientViewController = clientViewController;
+    _viewController  = clientViewController;
     
     return self;
 }
@@ -77,7 +77,12 @@
                                                         if (!error) {
                                                             NSError *reqError = nil;
                                                             NSArray *jsonArr = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:localfile] options:NSJSONReadingMutableContainers error:&reqError];
-                                                            [self performSelectorOnMainThread:@selector(gotItwithNSArray:) withObject:jsonArr waitUntilDone:NO];
+                                                            
+                                                            //[_viewController RefreshViewWithJSONArr:jsonArr];
+                                                            
+                                                            [_viewController performSelectorOnMainThread:@selector(RefreshViewWithJSONArr:) withObject:jsonArr waitUntilDone:NO];
+                                                            
+                                                            //[self performSelectorOnMainThread:@selector(gotItwithNSArray:) withObject:jsonArr waitUntilDone:NO];
                                                             //dispatch_async(dispatch_get_main_queue(), ^{ return   jsonArr; });
 
                                                             //if ([request.URL isEqual:self.imageURL]) {
@@ -113,7 +118,7 @@
     
     return _result;
 }   
-
+/*
 -(void) gotItwithNSArray:(NSArray *)res{
     if(_clientViewController){
         NSLog(@"getCalled?");
@@ -121,5 +126,5 @@
 
     }
 }
-
+*/
 @end
