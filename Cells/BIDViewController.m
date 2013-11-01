@@ -383,7 +383,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
     NSDictionary *rowData = self.posts[sender.tag];
-    [_viewEntityViewController setEntityName:rowData[@"Entity"]];
+    [_viewEntityViewController setEntityName:rowData[@"entity"]];
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
@@ -393,6 +393,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                      }
                      completion:^(BOOL finished){
                      }];
+    
     
     //[self.view insertSubview:self.postController.view atIndex:1];
     [self.view addSubview:_viewEntityViewController.view];

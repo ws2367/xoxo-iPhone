@@ -7,7 +7,7 @@
 //
 
 #import "ViewEntityViewController.h"
-#import "SmallPostTableViewCell.h"
+#import "BigPostTableViewCell.h"
 #import "BIDViewController.h"
 #import <MapKit/MapKit.h>
 #import "MapPinAnnotation.h"
@@ -15,6 +15,7 @@
 
 @interface ViewEntityViewController ()
 
+@property (weak, nonatomic) IBOutlet UIButton *dropPinButton;
 @property (weak, nonatomic) IBOutlet MKMapView *myMap;
 @property (weak, nonatomic) IBOutlet UILabel *entityNameLabel;
 @property (copy, nonatomic) NSArray *posts;
@@ -25,6 +26,7 @@
 @end
 
 @implementation ViewEntityViewController
+
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController{
     self = [super init];
@@ -95,6 +97,19 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [_bidViewController cancelViewingEntity];
 }
 
+- (IBAction)dropPinPressed:(id)sender {
+    CLLocationCoordinate2D myCoordinate = {2, 2};
+    //Create your annotation
+    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
+    // Set your annotation to point at your coordinate
+    point.coordinate = myCoordinate;
+    //If you want to clear other pins/annotations this is how to do it
+    for (id annotation in _myMap.annotations) {
+        [_myMap removeAnnotation:annotation];
+    }
+    //Drop pin on map
+    [_myMap addAnnotation:point];
+}
 #pragma mark -
 #pragma mark Table Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView
@@ -105,9 +120,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    SmallPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
+    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     NSDictionary *rowData = self.posts[indexPath.row];
-    cell.title = rowData[@"Title"];
+    cell.content = rowData[@"Title"];
     cell.entity = rowData[@"Entity"];
     cell.pic = rowData[@"Pic"];
     return cell;
