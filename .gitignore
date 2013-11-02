@@ -14,3 +14,6 @@ profile
 *.DS_Store
 *.swp
 *.out
+
+#Project File
+Cells.xcodeproj/project.pbxproj
