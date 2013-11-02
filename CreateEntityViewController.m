@@ -7,6 +7,7 @@
 //
 
 #import "CreateEntityViewController.h"
+#import "CreatePostViewController.h"
 #import "BIDViewController.h"
 #import "Entity.h"
 #import "EntityCell.h"
@@ -20,6 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @property (weak, nonatomic) BIDViewController *bidViewController;
+@property (weak, nonatomic) CreatePostViewController *createPostViewController;
 @property (weak, nonatomic) IBOutlet UITableView *entityTableView;
 
 @property (strong, nonatomic) NSArray *searchEntityResult;
@@ -34,6 +36,15 @@
     self = [super init];
     if (self) {
         _bidViewController = viewController;// Custom initialization
+    }
+    return self;
+}
+
+
+- (id)initWithCreatePostViewController:(CreatePostViewController *)viewController{
+    self = [super init];
+    if (self) {
+        _createPostViewController = viewController;// Custom initialization
     }
     return self;
 }
@@ -137,7 +148,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     _selectedEntity.name = rowData[@"Name"];
     _selectedEntity.institution = rowData[@"Institution"];
     _selectedEntity.location = rowData[@"Location"];
-    [_bidViewController finishCreatingEntityStartCreatingPost];
+    if (_bidViewController)
+        [_bidViewController finishCreatingEntityStartCreatingPost];
+    else if(_createPostViewController)
+        [_createPostViewController finishAddingEntity];
+    
     //    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //
     //        [tableView deselectRowAtIndexPath:indexPath animated:NO];
