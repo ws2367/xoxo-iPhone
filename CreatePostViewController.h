@@ -40,6 +40,8 @@
 
 - (void)textViewDidBeginEditing:(UITextView *) textView;
 
+- (void) finishAddingEntity;
+
 //Iru Test
 - (void)receiveNSArray:(NSArray *)result;
 

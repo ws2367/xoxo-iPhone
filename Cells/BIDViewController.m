@@ -282,6 +282,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
         _entities = [[NSMutableArray alloc] init];
     }
     
+
     [_entities addObject:person];
     
     //_toCreatePostToolbar = [self createPostToolbarForEntity:false];
