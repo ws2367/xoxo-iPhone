@@ -16,7 +16,7 @@
 @interface BIDViewController : XOXOUIViewController
         <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
-@property (copy, nonatomic) NSArray *posts;
+@property (strong, nonatomic) NSMutableArray *posts;
 
 @property (strong, nonatomic) NSMutableArray *entities;
 

@@ -17,6 +17,7 @@
 #import "ServerConnector.h"
 
 @interface BIDViewController ()
+
 @property (weak, nonatomic) IBOutlet UIView *topUIView;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -34,7 +35,7 @@
 //Try adding a table view controller and UIRefreshControl
 @property (strong, nonatomic) UITableViewController *tableViewController;
 @property (strong, nonatomic) UIRefreshControl *myRefreshControl;
-
+@property (strong, nonatomic) ServerConnector *serverConnector;
 
 @end
 
@@ -43,6 +44,7 @@
 #define ANIMATION_DURATION 0.4
 #define ANIMATION_DELAY 0.0
 #define ROW_HEIGHT 220
+#define POSTS_INCREMENT_NUM 5
 
 @implementation BIDViewController
 
@@ -55,31 +57,15 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     [super viewDidLoad];
     
- //   self.posts = nil;
-    self.posts = @[
-                   @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" },
-                   @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" },
-                   @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" },
-                   @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" },
-                   @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" }];
-   
-    //UITableView *tableView = (id)[self.view viewWithTag:1];
-    
-    NSDictionary *data = @{@"num" : @"3", @"sortby" : @"recent"};
-    
+    self.posts = [[NSMutableArray alloc] init];
 
-    
-    ServerConnector *poster =
+    _serverConnector =
     [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
                                     verb:@"post"
                              requestType:@"application/json"
                             responseType:@"application/json"
                          timeoutInterval:60
-                CreatePostViewController:self];
-    
-    [poster sendJSONGetJSONArray:data];
-    
-    
+                          viewController:self];
     
     [_topUIView setAlpha:0.8];
     _myTableView.rowHeight = ROW_HEIGHT;
@@ -116,36 +102,35 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark Parent Overloaded Methods
 
 -(void)startRefreshingView{
-    
     //must be here because it can not be in viewDidLoad
     [_myRefreshControl beginRefreshing];
-    NSLog(@"start refreshing");
+    //NSLog(@"start refreshing");
     
-    //////////////////////////////////////
     //send out request
+    NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
+    NSDictionary *data = @{@"num" : numPosts, @"sortby" : @"recent"};
+    //NSLog(@"To download %@ posts.", numPosts);
     
-    //Comment this with actual request called.
-    [self endRefreshingView:nil];
-
-    
+    [_serverConnector sendJSONGetJSONArray:data];
 }
 
--(void)endRefreshingView:(NSArray *)JSONArr{
-    NSLog(@"end refreshing");
+-(void)endRefreshingViewWithJSONArr:(NSArray *)JSONArr{
+    //NSLog(@"end refreshing");
     
-    //change posts to new value here
-    self.posts = @[
-                   @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Yeah~~~baby~~~~~", @"pic" : @"pic1" },
-                   @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" },
-                   @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" },
-                   @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" },
-                   @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" }];
+    [self.posts removeAllObjects];
+    
+    for(NSDictionary *item in JSONArr) {
+        [self.posts addObject:item];
+    }
+    
+    //NSLog(@"Count posts: %d", [self.posts count]);
+    
     [_myTableView reloadData];
     [_myRefreshControl endRefreshing];
     
 }
 
-
+/*
 - (void)RefreshViewWithJSONArr:(NSArray *)JSONArr
 {
     self.posts = JSONArr;
@@ -161,7 +146,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     }
     
     
-    /*
+ 
      if (!jsonArr) {
      NSLog(@"Error parsing JSON!");
      } else {
@@ -182,10 +167,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
      
      for(NSDictionary *item in jsonArr3) {
      NSLog(@"Item3: %@", item);
-     }*/
+     }
 
 }
-
+*/
 
 #pragma mark -
 #pragma mark Switch View Methods
