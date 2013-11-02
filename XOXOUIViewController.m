@@ -23,6 +23,10 @@
     return self;
 }
 
+- (void) endRefreshingViewWithJSONArr:(NSArray *)JSONArr{
+    
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
