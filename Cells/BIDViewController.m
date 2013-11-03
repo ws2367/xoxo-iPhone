@@ -15,9 +15,11 @@
 #import "ViewEntityViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
 #import "ServerConnector.h"
+#import "UserMenuViewController.h"
 
 @interface BIDViewController ()
 
+@property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 @property (weak, nonatomic) IBOutlet UIView *topUIView;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -27,6 +29,7 @@
 @property (strong, nonatomic) CreatePostViewController *createPostController;
 @property (strong, nonatomic) ViewPostViewController *viewPostViewController;
 @property (strong, nonatomic) ViewEntityViewController *viewEntityViewController;
+@property (strong, nonatomic) UserMenuViewController *userMenuViewController;
 //@property (strong, nonatomic) UIToolbar *toCreateEntityToolbar;
 //@property (strong, nonatomic) UIButton *notHereButton;
 
@@ -198,6 +201,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                         //[self.myTableView setAlpha:100];
                      }
                      completion:^(BOOL finished){
+                         [_createEntityController.view removeFromSuperview];
                      }];
     
     [_createEntityController.view endEditing:YES];
@@ -215,6 +219,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
                      }
                      completion:^(BOOL finished){
+                         [_createPostController.view removeFromSuperview];
                      }];
     
     [_createPostController.view endEditing:YES];
@@ -233,6 +238,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                          
                      }
                      completion:^(BOOL finished){
+                         [_viewPostViewController.view removeFromSuperview];
                      }];
         
     
@@ -249,6 +255,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                          
                      }
                      completion:^(BOOL finished){
+                         [_viewEntityViewController.view removeFromSuperview];
                      }];
     
     
@@ -271,6 +278,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                          //[self.myTableView setAlpha:100];
                      }
                      completion:^(BOOL finished){
+                         [_createPostController.view removeFromSuperview];
+                         _entities = nil;
+                         
                      }];
     
     [_createPostController.view endEditing:YES];
@@ -287,7 +297,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (void)finishCreatingEntityStartCreatingPost{
     Entity *person = _createEntityController.selectedEntity;
-
+    
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
@@ -320,10 +330,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (IBAction)startCreatingEntity:(id)sender {
     
-    
-    
-
+    if(_createEntityController == nil){
         _createEntityController =[[CreateEntityViewController alloc] initWithBIDViewController:self];
+    }
     
 
     
@@ -332,6 +341,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //_toCreateEntityToolbar = [self createPostToolbarForEntity:true];
     //_notHereButton = [self createNotHereButton];
      _createEntityController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+    
+    [self.view addSubview:_createEntityController.view];
 
     /*
     [UIView setAnimationTransition:
@@ -349,13 +360,65 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                      }];
 
     //[self.view insertSubview:self.postController.view atIndex:1];
-    [self.view addSubview:_createEntityController.view];
+
 
 
 }
 
+- (void)cancelUserMenu{
+    [_userMenuViewController.view endEditing:YES];
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _userMenuViewController.view.frame = CGRectMake(-WIDTH, 0, WIDTH, HEIGHT);
+                         [_blackMaskOnTopOfView setAlpha:0];
+                         
+                     }
+                     completion:^(BOOL finished){
+                         [_blackMaskOnTopOfView removeFromSuperview];
+
+                     }];
+    
+    
+}
+
+
 #pragma mark -
 #pragma mark Button Methods
+- (IBAction)userMenuButtonPressed:(id)sender {
+    
+    _blackMaskOnTopOfView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
+    UITapGestureRecognizer *tapBIDView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelUserMenu)];
+    
+    [_blackMaskOnTopOfView addGestureRecognizer:tapBIDView];
+    
+    [_blackMaskOnTopOfView setOpaque:NO];
+    [_blackMaskOnTopOfView setAlpha:0];
+    [_blackMaskOnTopOfView setBackgroundColor:[UIColor blackColor]];
+    [self.view addSubview:_blackMaskOnTopOfView];
+    
+    
+    _userMenuViewController = [[UserMenuViewController alloc] initWithBIDViewController:self];
+    
+    _userMenuViewController.view.frame = CGRectMake( -WIDTH, 0, WIDTH, HEIGHT);
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/3, 0, WIDTH, HEIGHT);
+                         [_blackMaskOnTopOfView setAlpha:0.6];
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    
+    //[self.view insertSubview:self.postController.view atIndex:1];
+    [self.view addSubview:_userMenuViewController.view];
+
+    
+}
 
 -(void)shareButtonPressed{
     NSLog(@"shareButtonPressed");
