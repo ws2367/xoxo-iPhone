@@ -27,6 +27,7 @@
 
 @implementation ViewEntityViewController
 
+#define METERS_PER_MILE 1609.344
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController{
     self = [super init];
@@ -65,6 +66,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [_myTableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
     
+    
+    [_myMap setDelegate:self];
+    
+    
+    
     CLLocationCoordinate2D  ctrpoint;
     ctrpoint.latitude = 53.58448;
     ctrpoint.longitude =-8.93772;
@@ -73,6 +79,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                                                                            description:nil];
     [_myMap addAnnotation:mapPinAnnotation];
     //[mapPinAnnotation release];
+    
+    _myMap.showsUserLocation = true;
+    
+    NSLog(@"%d", [CLLocationManager locationServicesEnabled]);
 }
 
 - (void)didReceiveMemoryWarning
@@ -92,23 +102,47 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark -
 #pragma mark Button Methods
 
+- (IBAction)meButtonPressed:(id)sender {
+    
+    CLLocationCoordinate2D loc = [_myMap.userLocation coordinate];
+    
+
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(loc, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
+    MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
+    
+    _myMap.autoresizingMask =
+    (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    
+    [_myMap setRegion:adjustedRegion animated:YES];
+}
 
 - (IBAction)backButtonPressed:(id)sender {
     [_bidViewController cancelViewingEntity];
 }
 
 - (IBAction)dropPinPressed:(id)sender {
-    CLLocationCoordinate2D myCoordinate = {2, 2};
+    CLLocationCoordinate2D myCoordinate = {25, 121.5};
     //Create your annotation
     MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
     // Set your annotation to point at your coordinate
     point.coordinate = myCoordinate;
     //If you want to clear other pins/annotations this is how to do it
-    for (id annotation in _myMap.annotations) {
-        [_myMap removeAnnotation:annotation];
-    }
+    //for (id annotation in _myMap.annotations) {
+    //    [_myMap removeAnnotation:annotation];
+    //}
     //Drop pin on map
     [_myMap addAnnotation:point];
+    
+    
+    //adjust View Region
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(myCoordinate, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
+    MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
+    
+    _myMap.autoresizingMask =
+    (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    
+    [_myMap setRegion:adjustedRegion animated:YES];
+
 }
 #pragma mark -
 #pragma mark Table Data Source Methods
@@ -126,6 +160,44 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     cell.entity = rowData[@"Entity"];
     cell.pic = rowData[@"Pic"];
     return cell;
+}
+
+#pragma mark -
+#pragma mark Map View Delegate Methods
+- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation  {
+    CLLocationCoordinate2D loc = [newLocation coordinate];
+    [_myMap setCenterCoordinate:loc];
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+    
+    if ([annotation isKindOfClass:[MKUserLocation class]])
+        return nil;
+    if (annotation == _myMap.userLocation) {
+        return nil;
+    }
+    MKPinAnnotationView*pinView=nil;
+    if(annotation!=_myMap.userLocation)
+    {
+        static NSString*defaultPin=@"com.invasivecode.pin";
+        pinView=(MKPinAnnotationView*)[_myMap dequeueReusableAnnotationViewWithIdentifier:defaultPin];
+        if(pinView==nil)
+            pinView=[[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:defaultPin];
+        pinView.pinColor=MKPinAnnotationColorPurple;
+        pinView.canShowCallout=YES;
+        pinView.animatesDrop=YES;
+    }
+    else
+    {
+        [_myMap.userLocation setTitle:@"You are Here!"];
+    }
+    return pinView;
+}
+
+- (void)mapView:(MKMapView *)theMapView didUpdateUserLocation:(MKUserLocation *)userLocation
+{
+    [theMapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
 }
 
 @end

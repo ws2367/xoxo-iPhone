@@ -7,11 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
+#import <MapKit/MapKit.h>
 #import "XOXOUIViewController.h"
 
 @class BIDViewController;
 
 @interface ViewEntityViewController : XOXOUIViewController
+                                        <MKMapViewDelegate>
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
 - (void)setEntityName:(NSString *)entityName;
