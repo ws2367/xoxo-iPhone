@@ -7,6 +7,7 @@
 //
 
 #import "CreatePostViewController.h"
+#import "CreateEntityViewController.h"
 #import "BIDViewController.h"
 #import "Entity.h"
 #import <QuartzCore/QuartzCore.h>
@@ -15,7 +16,7 @@
 @interface CreatePostViewController ()
 
 @property (weak, nonatomic) BIDViewController *bidViewController;
-
+@property (strong, nonatomic) CreateEntityViewController *addEntityController;
 @end
 
 #define ANIMATION_DURATION 0.4
@@ -59,9 +60,78 @@
 
 - (IBAction)addEntityPressed:(id)sender {
     [_content setString:_textView.text];
-    [_bidViewController cancelCreatingPost];
+    
+    _addEntityController =
+    [[CreateEntityViewController alloc] initWithCreatePostViewController:self];
+    
+    _addEntityController.view.frame = CGRectMake(0,
+                                                   self.view.frame.size.height,
+                                                   self.view.frame.size.width,
+                                                   self.view.frame.size.height);
+    
+    
+    [self.view addSubview:_addEntityController.view];
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _addEntityController.view.frame = CGRectMake(0,
+                                                                      0,
+                                                                      self.view.frame.size.width,
+                                                                      self.view.frame.size.height);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    
+
+    NSLog(@"Start adding Entity bah!");
 }
 
+- (void) finishAddingEntity {
+    Entity *person = _addEntityController.selectedEntity;
+    
+    if(_entities == nil){
+        _entities = [[NSMutableArray alloc] init];
+    }
+    
+    [_entities addObject:person];
+    
+    _entityNames = [NSMutableString string];
+    
+    for (Entity *ent in _entities) {
+        [_entityNames appendString:ent.name];
+        if (ent != [_entities lastObject])
+            [_entityNames appendString:@", "];
+    }
+    
+    self.entitiesTextField.text = (NSString *)_entityNames;
+    
+    self.view.frame = CGRectMake(0,
+                                 self.view.frame.size.height,
+                                 self.view.frame.size.width,
+                                 self.view.frame.size.height);
+
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         self.view.frame = CGRectMake(0,
+                                                      0,
+                                                      self.view.frame.size.width,
+                                                      self.view.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    
+    [_addEntityController.view removeFromSuperview];
+    
+//    [self.view addSubview:createPostController.view];
+}
 
 - (IBAction)doneEditing:(id)sender {
     [_textView resignFirstResponder];
@@ -243,13 +313,12 @@
 
     if (_content == NULL) _content = [NSMutableString string];
     else [_textView setText:@"sadasda"];
-        
+    
     for (Entity *ent in _entities) {
         [_entityNames appendString:ent.name];
         if (ent != [_entities lastObject])
             [_entityNames appendString:@", "];
      }
-    NSLog((NSString *)_entityNames);
     
     self.entitiesTextField.text = (NSString *)_entityNames;
     

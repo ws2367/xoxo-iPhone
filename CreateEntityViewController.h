@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class BIDViewController;
+@class CreatePostViewController;
 @class Entity;
 
 
@@ -17,5 +18,7 @@
 @property(strong, nonatomic) Entity *selectedEntity;
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
+
+- (id)initWithCreatePostViewController:(CreatePostViewController *)viewController;
 
 @end

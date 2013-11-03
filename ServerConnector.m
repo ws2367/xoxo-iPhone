@@ -23,9 +23,9 @@
 - (id)initWithURL:(NSString *)urlInString_
              verb:(NSString *)verb_
       requestType:(NSString *)requestType_
-      responseType:(NSString *)responseType_
-      timeoutInterval:(int)timeoutInterval_
- CreatePostViewController:(XOXOUIViewController *)clientViewController{
+     responseType:(NSString *)responseType_
+  timeoutInterval:(int)timeoutInterval_
+   viewController:(XOXOUIViewController *)viewController_{
  
     
     //Consider not allocating spaces for NSString....
@@ -34,7 +34,7 @@
     _requestType  = [[NSString alloc] initWithString:requestType_];
     _responseType = [[NSString alloc] initWithString:responseType_];
     _timeoutInterval = timeoutInterval_;
-    _viewController  = clientViewController;
+    _viewController  = viewController_;
     
     return self;
 }
@@ -80,7 +80,7 @@
                                                             
                                                             //[_viewController RefreshViewWithJSONArr:jsonArr];
                                                             
-                                                            [_viewController performSelectorOnMainThread:@selector(RefreshViewWithJSONArr:) withObject:jsonArr waitUntilDone:NO];
+                                                            [_viewController performSelectorOnMainThread:@selector(endRefreshingViewWithJSONArr:) withObject:jsonArr waitUntilDone:NO];
                                                             
                                                             //[self performSelectorOnMainThread:@selector(gotItwithNSArray:) withObject:jsonArr waitUntilDone:NO];
                                                             //dispatch_async(dispatch_get_main_queue(), ^{ return   jsonArr; });

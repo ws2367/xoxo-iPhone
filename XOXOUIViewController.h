@@ -10,6 +10,6 @@
 
 @interface XOXOUIViewController : UIViewController
 
-- (void) RefreshViewWithJSONArr:(NSArray *)JSONArr;
+- (void) endRefreshingViewWithJSONArr:(NSArray *)JSONArr;
 
 @end
