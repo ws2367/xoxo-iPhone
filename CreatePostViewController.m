@@ -14,9 +14,28 @@
 #import "ServerConnector.h"
 
 @interface CreatePostViewController ()
+{
+    int photoIndex;
+    UIImageView *currImageView;
+    UIImageView *leftImageView;
+    UIImageView *rightImageView;
+}
+@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic) IBOutlet UIView *PostSuperImageView;
+
+@property (nonatomic, retain) UIImagePickerController *picker;
+
+@property (weak, nonatomic) IBOutlet UITextField *entitiesTextField;
+@property (strong, nonatomic) NSMutableString *entityNames;
+
+@property (strong, nonatomic) NSMutableArray *photos;
+@property (strong, nonatomic) NSMutableString *content;
 
 @property (weak, nonatomic) BIDViewController *bidViewController;
 @property (strong, nonatomic) CreateEntityViewController *addEntityController;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *postButton;
+
 @end
 
 #define ANIMATION_DURATION 0.4
@@ -43,10 +62,14 @@
 
 - (void)textViewDidBeginEditing:(UITextView *) textView
 {
+    
     if ([_textView.text isEqualToString:@"Type the content here..."]) {
         [_textView setText:@""];
         [_textView setTextColor:[UIColor blackColor]];
     }
+    
+    
+    /*
     [_backButton removeTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventAllEvents];
 
     [_backButton setTitle:@"Done" forState:UIControlStateNormal];
@@ -54,12 +77,36 @@
                    action:@selector(doneEditing:)
          forControlEvents:UIControlEventTouchUpInside];
     
-    _postButton.hidden = true;}
+    _postButton.hidden = true;*/
+}
 
 
 
 #pragma mark -
 #pragma mark Button method
+-(UIView *)createInputAccessoryView{
+
+    // Note that the frame width (third value in the CGRectMake method)
+    // should change accordingly in landscape orientation.
+    UIView *res = [[UIView alloc] initWithFrame:CGRectMake(0.0,
+                                                            0.0,
+                                                            self.view.frame.size.width,
+                                                            35.0)];
+    
+    [res setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.3]];
+    
+    UIButton *doneButton = [UIButton buttonWithType: UIButtonTypeRoundedRect];
+
+    [doneButton setFrame: CGRectMake((self.view.frame.size.width - 60.0), 0.0, 50.0, 35.0)];
+
+    [doneButton setTitle: @"Done" forState: UIControlStateNormal];
+
+    [doneButton addTarget: self action: @selector(doneEditing:) forControlEvents: UIControlEventTouchUpInside];
+  
+    [res addSubview:doneButton];
+    
+    return res;
+}
 
 - (IBAction)addEntityPressed:(id)sender {
     [_content setString:_textView.text];
@@ -139,6 +186,7 @@
 - (IBAction)doneEditing:(id)sender {
     [_textView resignFirstResponder];
     
+    /*
     [_backButton setTitle:@"Back" forState:UIControlStateNormal];
     [_backButton removeTarget:self action:@selector(doneEditing:)
                  forControlEvents:UIControlEventTouchUpInside];
@@ -146,6 +194,7 @@
              forControlEvents:UIControlEventTouchUpInside];
 
     _postButton.hidden = false;
+    */
 }
 
 - (IBAction)postButtonPressed:(id)sender {
@@ -304,6 +353,9 @@
     //The rounded corner part, where you specify your view's corner radius:
     _textView.layer.cornerRadius = 5;
     _textView.clipsToBounds = YES;
+    
+    //attach input accessory view to textview
+    [_textView setInputAccessoryView:[self createInputAccessoryView]];
     
     photoIndex = 0;
     // Do any additional setup after loading the view from its nib.
