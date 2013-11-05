@@ -43,7 +43,10 @@
 
 - (void)textViewDidBeginEditing:(UITextView *) textView
 {
-    [_textView setText:@""];
+    if ([_textView.text isEqualToString:@"Type the content here..."]) {
+        [_textView setText:@""];
+        [_textView setTextColor:[UIColor blackColor]];
+    }
     [_backButton removeTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventAllEvents];
 
     [_backButton setTitle:@"Done" forState:UIControlStateNormal];
@@ -146,9 +149,9 @@
 }
 
 - (IBAction)postButtonPressed:(id)sender {
-        
     [_bidViewController finishCreatingPostBackToHomePage];
 }
+
 - (IBAction)backButtonPressed:(id)sender {
     [_entities removeAllObjects];
     [_bidViewController cancelCreatingPost];
@@ -293,6 +296,15 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+        
+    //To make the border look very close to a UITextField
+    [_textView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
+    [_textView.layer setBorderWidth:0.5];
+    
+    //The rounded corner part, where you specify your view's corner radius:
+    _textView.layer.cornerRadius = 5;
+    _textView.clipsToBounds = YES;
+    
     photoIndex = 0;
     // Do any additional setup after loading the view from its nib.
     int cnt = [_entities count];

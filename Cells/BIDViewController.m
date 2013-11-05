@@ -61,17 +61,17 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [super viewDidLoad];
     
     //Shawn test
-    //self.posts = [[NSMutableArray alloc] init];
+    self.posts = [[NSMutableArray alloc] init];
     
     
     //Iru test
-    self.posts = @[
+    /*self.posts = @[
                    @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" },
                    @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" },
                    @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" },
                    @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" },
                    @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" }];
-
+*/
     _serverConnector =
     [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
                                     verb:@"post"
@@ -99,7 +99,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     _tableViewController.refreshControl = _myRefreshControl;
     [_tableViewController.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
     //[_tableViewController.refreshControl beginRefreshing];
-    [self startRefreshingView];
+    //[self startRefreshingView];
     
 }
 
