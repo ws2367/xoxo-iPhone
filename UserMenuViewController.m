@@ -35,7 +35,7 @@
         _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(WIDTH/2, SEARCHBAR_Y, WIDTH/2, SEARCHBAR_HEIGHT)];
         [self.view addSubview:_searchBar.viewForBaselineLayout];
         [_searchBar setDelegate:self];
-        
+        //[_searchBar setShowsSearchResultsButton:YES];
         
         
     }

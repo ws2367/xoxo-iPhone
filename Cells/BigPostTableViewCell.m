@@ -31,11 +31,11 @@
 {
     if (![n isEqualToString:_content]) {
         _content = [n copy];
-        NSRange stringRange = {0,65};
-        if(_content.length > 65){
-            _content = [_content substringWithRange:stringRange];
-            _content = [_content stringByAppendingFormat:@"..."];
-        }
+        //NSRange stringRange = {0,65};
+        //if(_content.length > 65){
+        //    _content = [_content substringWithRange:stringRange];
+        //    _content = [_content stringByAppendingFormat:@"..."];
+        //}
         _titleValue.text = _content;
     }
     

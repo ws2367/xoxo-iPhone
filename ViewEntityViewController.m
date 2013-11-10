@@ -14,6 +14,7 @@
 
 
 @interface ViewEntityViewController ()
+@property (weak, nonatomic) IBOutlet UIImageView *headImageView;
 
 @property (weak, nonatomic) IBOutlet UIButton *dropPinButton;
 @property (weak, nonatomic) IBOutlet MKMapView *myMap;
@@ -59,8 +60,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                    @{@"Title" : @"人生第一次當個瘋狂蘋果迷", @"Entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"Pic" : @"pic5" }];
     //UITableView *tableView = (id)[self.view viewWithTag:1];
     
+    [_headImageView setImage:[UIImage imageNamed:@"pic2"]];
 
-    _myTableView.rowHeight = 220;
+    _myTableView.rowHeight = 254;
     UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
                                 bundle:nil];
     [_myTableView registerNib:nib
