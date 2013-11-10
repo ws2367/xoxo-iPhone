@@ -383,6 +383,34 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
 }
 
+#pragma mark -
+#pragma mark Rearrange View Methods
+
+- (void)beginSearchTakeOverWindow{
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _userMenuViewController.view.frame = self.view.bounds;
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+- (void)endSearchTakeOverWindow{
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/2, 0, WIDTH, HEIGHT);;
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+
 
 #pragma mark -
 #pragma mark Button Methods
@@ -406,7 +434,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
                      animations:^{
-                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/3, 0, WIDTH, HEIGHT);
+                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/2, 0, WIDTH, HEIGHT);
                          [_blackMaskOnTopOfView setAlpha:0.6];
                          
                      }
@@ -457,6 +485,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //[self.view insertSubview:self.postController.view atIndex:1];
     [self.view addSubview:_viewEntityViewController.view];
 }
+
 
 
 

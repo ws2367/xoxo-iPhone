@@ -26,5 +26,7 @@
 - (void)cancelCreatingPost;
 - (void)cancelViewingPost;
 - (void)cancelViewingEntity;
+- (void)beginSearchTakeOverWindow;
+- (void)endSearchTakeOverWindow;
 
 @end

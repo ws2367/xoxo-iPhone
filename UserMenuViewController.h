@@ -10,6 +10,7 @@
 
 @class BIDViewController;
 @interface UserMenuViewController : UIViewController
+                                    <UISearchBarDelegate, UITextFieldDelegate>
 
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
 
