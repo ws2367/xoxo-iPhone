@@ -14,7 +14,7 @@
 @class CreatePostViewController;
 
 @interface BIDViewController : XOXOUIViewController
-        <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
+        <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *posts;
 

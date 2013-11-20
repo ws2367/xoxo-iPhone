@@ -17,7 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *institutionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
-
+@property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @property (weak, nonatomic) BIDViewController *bidViewController;
@@ -27,6 +27,11 @@
 @property (strong, nonatomic) NSArray *searchEntityResult;
 
 @end
+
+#define HEIGHT 568
+#define WIDTH  320
+#define ANIMATION_DURATION 0.4
+#define ANIMATION_DELAY 0.0
 
 @implementation CreateEntityViewController
 
@@ -94,6 +99,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark Button Pressed Functions
 
 - (IBAction)notHereButtonPressed:(id)sender {
+    [self allocateBlackMask];
     _selectedEntity = [[Entity alloc] init];
     _selectedEntity.name = _nameTextField.text;
     _selectedEntity.institution = _institutionTextField.text;
@@ -142,6 +148,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark -
 #pragma mark Table Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    NSLog(@"selectrow");
+    [self allocateBlackMask];
+    
      NSDictionary *rowData = _searchEntityResult[indexPath.row];
     
     _selectedEntity = [[Entity alloc] init];
@@ -176,6 +185,30 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 
+#pragma mark -
+#pragma mark Helper Methods
 
+- (void)allocateBlackMask{
+    _blackMaskOnTopOfView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
+    [_blackMaskOnTopOfView setOpaque:NO];
+    [_blackMaskOnTopOfView setAlpha:0];
+    [_blackMaskOnTopOfView setBackgroundColor:[UIColor blackColor]];
+    [self.view addSubview:_blackMaskOnTopOfView];
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         [_blackMaskOnTopOfView setAlpha:0.2];
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+#pragma mark -
+#pragma mark Controlled by BIDController Methods
+- (void)dismissBlackMask{
+    [_blackMaskOnTopOfView removeFromSuperview];
+}
 
 @end

@@ -20,5 +20,6 @@
 - (id)initWithBIDViewController:(BIDViewController *)viewController;
 
 - (id)initWithCreatePostViewController:(CreatePostViewController *)viewController;
+- (void)dismissBlackMask;
 
 @end

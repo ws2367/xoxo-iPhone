@@ -72,19 +72,24 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [_myMap setDelegate:self];
     
     
-    
+    /*
     CLLocationCoordinate2D  ctrpoint;
     ctrpoint.latitude = 53.58448;
     ctrpoint.longitude =-8.93772;
     MapPinAnnotation *mapPinAnnotation = [[MapPinAnnotation alloc] initWithCoordinates:ctrpoint
                                                                              placeName:nil
                                                                            description:nil];
-    [_myMap addAnnotation:mapPinAnnotation];
+     */
+    //[_myMap addAnnotation:mapPinAnnotation];
     //[mapPinAnnotation release];
     
-    _myMap.showsUserLocation = true;
     
-    NSLog(@"%d", [CLLocationManager locationServicesEnabled]);
+    CALayer *imageLayer = _headImageView.layer;
+    [imageLayer setCornerRadius:5];
+    [imageLayer setBorderWidth:1];
+    [imageLayer setMasksToBounds:YES];
+    _myMap.showsUserLocation = FALSE;
+    [self updateMap];
 }
 
 - (void)didReceiveMemoryWarning
@@ -100,12 +105,45 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     }
 }
 
+#pragma mark -
+#pragma mark Update Methods
+- (void)updateMap{
+    
+    [_myMap removeAnnotations:_myMap.annotations];
+    //series of coordinates
+    CLLocationCoordinate2D myCoordinate1 = {45, 121.5};
+    CLLocationCoordinate2D myCoordinate2 = {46, 120};
+    CLLocationCoordinate2D myCoordinate3 = {30, 122};
+    
+    //Create your annotation
+    MKPointAnnotation *point1 = [[MKPointAnnotation alloc] init];
+    MKPointAnnotation *point2 = [[MKPointAnnotation alloc] init];
+    MKPointAnnotation *point3 = [[MKPointAnnotation alloc] init];
+    // Set your annotation to point at your coordinate
+    point1.coordinate = myCoordinate1;
+    point2.coordinate = myCoordinate2;
+    point3.coordinate = myCoordinate3;
+    
+    NSArray *myPoints = @[point1,point2,point3];
+    //If you want to clear other pins/annotations this is how to do it
+    //for (id annotation in _myMap.annotations) {
+    //    [_myMap removeAnnotation:annotation];
+    //}
+    //Drop pin on map
+    
+    [_myMap addAnnotations:myPoints];
+    [_myMap showAnnotations:myPoints animated:YES];
+    
+
+}
+
 
 #pragma mark -
 #pragma mark Button Methods
 
 - (IBAction)meButtonPressed:(id)sender {
     
+    _myMap.showsUserLocation = TRUE;
     CLLocationCoordinate2D loc = [_myMap.userLocation coordinate];
     
 
@@ -116,6 +154,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     
     [_myMap setRegion:adjustedRegion animated:YES];
+     
 }
 
 - (IBAction)backButtonPressed:(id)sender {
@@ -123,20 +162,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 - (IBAction)dropPinPressed:(id)sender {
-    CLLocationCoordinate2D myCoordinate = {25, 121.5};
-    //Create your annotation
-    MKPointAnnotation *point = [[MKPointAnnotation alloc] init];
-    // Set your annotation to point at your coordinate
-    point.coordinate = myCoordinate;
-    //If you want to clear other pins/annotations this is how to do it
-    //for (id annotation in _myMap.annotations) {
-    //    [_myMap removeAnnotation:annotation];
-    //}
-    //Drop pin on map
-    [_myMap addAnnotation:point];
+    
+    [self updateMap];
     
     
     //adjust View Region
+    /*
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(myCoordinate, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
     MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
     
@@ -144,6 +175,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
     
     [_myMap setRegion:adjustedRegion animated:YES];
+     */
 
 }
 #pragma mark -
@@ -174,11 +206,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
     
-    if ([annotation isKindOfClass:[MKUserLocation class]])
-        return nil;
-    if (annotation == _myMap.userLocation) {
-        return nil;
-    }
+    //if ([annotation isKindOfClass:[MKUserLocation class]])
+    //    return nil;
+    //if (annotation == _myMap.userLocation) {
+    //    return nil;
+    //}
     MKPinAnnotationView*pinView=nil;
     if(annotation!=_myMap.userLocation)
     {

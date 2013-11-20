@@ -60,17 +60,23 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     [super viewDidLoad];
     
+    NSDictionary *firstData =
+    @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" };
+    NSDictionary *secondData =
+    @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" };
+    NSDictionary *thirdData =
+    @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" };
+    NSDictionary *fourthData =
+    @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" };
+    NSDictionary *fifthData =
+                   @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" };
+    
     //Shawn test
     //self.posts = [[NSMutableArray alloc] init];
     
-    
     //Iru test
-    self.posts = @[
-                   @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" },
-                   @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" },
-                   @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" },
-                   @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" },
-                   @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" }];
+    self.posts = [[NSMutableArray alloc] initWithObjects:firstData,secondData,thirdData,fourthData,fifthData, nil];
+
 
     _serverConnector =
     [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
@@ -191,6 +197,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (void)cancelCreatingEntity{
     
+    [_blackMaskOnTopOfView removeFromSuperview];
+    
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
@@ -210,7 +218,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (void)cancelCreatingPost{
     
-    
+    [_createEntityController dismissBlackMask];
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
@@ -229,6 +237,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (void)cancelViewingPost{
     
+    [_blackMaskOnTopOfView removeFromSuperview];
+
     
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
@@ -246,7 +256,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (void)cancelViewingEntity{
     
-    
+    [_blackMaskOnTopOfView removeFromSuperview];
+
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
@@ -329,6 +340,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 - (IBAction)startCreatingEntity:(id)sender {
+    
+    [self allocateBlackMask];
     
     if(_createEntityController == nil){
         _createEntityController =[[CreateEntityViewController alloc] initWithBIDViewController:self];
@@ -416,15 +429,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark Button Methods
 - (IBAction)userMenuButtonPressed:(id)sender {
     
-    _blackMaskOnTopOfView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
+    [self allocateBlackMask];
     UITapGestureRecognizer *tapBIDView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelUserMenu)];
-    
     [_blackMaskOnTopOfView addGestureRecognizer:tapBIDView];
-    
-    [_blackMaskOnTopOfView setOpaque:NO];
-    [_blackMaskOnTopOfView setAlpha:0];
-    [_blackMaskOnTopOfView setBackgroundColor:[UIColor blackColor]];
-    [self.view addSubview:_blackMaskOnTopOfView];
+
     
     
     _userMenuViewController = [[UserMenuViewController alloc] initWithBIDViewController:self];
@@ -516,6 +524,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark TableView Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSLog(@"here!");
+    
+    [self allocateBlackMask];
+    
     _viewPostViewController = [[ViewPostViewController alloc] initWithBIDViewController:self];
     NSDictionary *rowData = self.posts[indexPath.row];
     
@@ -538,6 +549,37 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [self.view addSubview:_viewPostViewController.view];
 
 }
+
+#pragma mark -
+#pragma mark UIScrollView Delegate Methods
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    CGFloat height = scrollView.frame.size.height;
+    
+    CGFloat contentYoffset = scrollView.contentOffset.y;
+    
+    CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
+    
+    if(distanceFromBottom < height)
+    {
+        NSLog(@"end of the table");
+        
+        if(_posts.count == 5){
+            NSDictionary *sixthData =
+            @{@"content" : @"new sixth cell's content!!!!!!", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic3" };
+            NSDictionary *seventhData =
+            @{@"content" : @"omgomgomgomgomg", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" };
+            
+            [_posts addObject:sixthData];
+            [_posts addObject:seventhData];
+            
+            [_myTableView reloadData];
+        }
+        
+    }
+}
+
 
 #pragma mark -
 #pragma mark PeoplePicker Custom Methods
@@ -572,5 +614,28 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     return NO;
 }
 
+#pragma mark -
+#pragma mark Helper Methods
+
+- (void)allocateBlackMask{
+    _blackMaskOnTopOfView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
+    [_blackMaskOnTopOfView setOpaque:NO];
+    [_blackMaskOnTopOfView setAlpha:0];
+    [_blackMaskOnTopOfView setBackgroundColor:[UIColor blackColor]];
+    [self.view addSubview:_blackMaskOnTopOfView];
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         [_blackMaskOnTopOfView setAlpha:0.2];
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
 
 @end
+
+
+
