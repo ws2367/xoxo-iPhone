@@ -275,7 +275,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (void)finishCreatingPostBackToHomePage{
     
-    
+    [_blackMaskOnTopOfView removeFromSuperview];
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
@@ -474,6 +474,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 -(void)entityButtonPressed:(UIButton *)sender{
+    [self allocateBlackMask];
     _viewEntityViewController = [[ViewEntityViewController alloc] initWithBIDViewController:self];
     
     _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
