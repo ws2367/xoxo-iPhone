@@ -50,6 +50,22 @@
     [_hateButton setImage:[UIImage imageNamed:@"hateoff"] forState:UIControlStateNormal];
 
 }
+
+-(void) setEntities:(NSArray *)entities{
+    NSLog(@"%@", entities);
+    NSLog(@"%@", [entities objectAtIndex:0][@"name"]);
+    [_entityButton setTitle:[entities objectAtIndex:0][@"name"] forState:UIControlStateNormal];
+    /*for(NSDictionary *item in JSONArr) {
+        [self.posts addObject:item];
+    }*/
+    //NSDictionary
+//NSArray *keys = [entities allValues];
+  //  NSLog(@"%@",keys);
+    //NSArray *eachEntity = [entities allValues];
+    //NSLog(@"%@", [eachEntity objectAtIndex:0]);
+
+}
+
 - (void)setEntity:(NSString *)c
 {
     if (![c isEqualToString:_entity]) {

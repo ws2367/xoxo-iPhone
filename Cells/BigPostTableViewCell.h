@@ -30,6 +30,7 @@
 @property (strong, nonatomic) IBOutlet UIButton *hateButton;
 @property (strong, nonatomic) IBOutlet UILabel *likeValue;
 @property (strong, nonatomic) IBOutlet UILabel *hateValue;
+@property (strong, nonatomic) NSArray *entities;
 
 @end
 

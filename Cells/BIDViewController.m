@@ -19,10 +19,10 @@
 
 @interface BIDViewController ()
 
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 @property (weak, nonatomic) IBOutlet UIView *topUIView;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 @property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
 @property (weak, nonatomic) IBOutlet UIToolbar *myToolBar;
 @property (strong, nonatomic) CreateEntityViewController *createEntityController;
@@ -60,8 +60,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     [super viewDidLoad];
     
+    /*
     NSDictionary *firstData =
-    @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" };
+    @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entities" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" };
     NSDictionary *secondData =
     @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" };
     NSDictionary *thirdData =
@@ -70,12 +71,13 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" };
     NSDictionary *fifthData =
                    @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" };
+     */
     
     //Shawn test
-    //self.posts = [[NSMutableArray alloc] init];
+    self.posts = [[NSMutableArray alloc] init];
     
     //Iru test
-    self.posts = [[NSMutableArray alloc] initWithObjects:firstData,secondData,thirdData,fourthData,fifthData, nil];
+    //self.posts = [[NSMutableArray alloc] initWithObjects:firstData,secondData,thirdData,fourthData,fifthData, nil];
 
 
     _serverConnector =
@@ -116,6 +118,44 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 
+#pragma mark -
+#pragma mark Segmented Control Methods
+
+- (IBAction)segmentChanged:(id)sender {
+    NSInteger selectedIdx = [sender selectedSegmentIndex];
+    NSDictionary *data;
+    NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
+    if(selectedIdx == 0){
+        
+        
+        //send out request
+        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
+        //NSLog(@"To download %@ posts.", numPosts);
+        
+        NSLog(@"data I sent: %@", data);
+        
+        [_serverConnector sendJSONGetJSONArray:data];
+        
+    }
+    else if(selectedIdx == 1){
+        data = @{@"num" : numPosts, @"sortby" : @"recent"};
+        //NSLog(@"To download %@ posts.", numPosts);
+        
+        NSLog(@"data I sent: %@", data);
+
+        
+        [_serverConnector sendJSONGetJSONArray:data];
+
+    }
+    else{
+        data = @{@"num" : numPosts, @"sortby" : @"nearby"};
+        //NSLog(@"To download %@ posts.", numPosts);
+        
+        
+    }
+    [_serverConnector sendJSONGetJSONArray:data];
+}
+
 
 #pragma mark -
 #pragma mark Parent Overloaded Methods
@@ -127,7 +167,17 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     //send out request
     NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
-    NSDictionary *data = @{@"num" : numPosts, @"sortby" : @"recent"};
+    
+    NSDictionary *data;
+    if(_segmentedControl.selectedSegmentIndex == 0){
+        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
+    }
+    else if(_segmentedControl.selectedSegmentIndex == 1){
+        data = @{@"num" : numPosts, @"sortby" : @"recent"};
+    }
+    else{
+        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
+    }
     //NSLog(@"To download %@ posts.", numPosts);
     
     [_serverConnector sendJSONGetJSONArray:data];
@@ -137,6 +187,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //NSLog(@"end refreshing");
     
     [self.posts removeAllObjects];
+    
+    NSLog(@"%@", JSONArr);
     
     for(NSDictionary *item in JSONArr) {
         [self.posts addObject:item];
@@ -274,6 +326,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 - (void)finishCreatingPostBackToHomePage{
+    [_createEntityController dismissBlackMask];
     
     [_blackMaskOnTopOfView removeFromSuperview];
     [UIView animateWithDuration:ANIMATION_DURATION
@@ -511,7 +564,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     NSDictionary *rowData = self.posts[indexPath.row];
     cell.content = rowData[@"content"];
-    cell.entity = rowData[@"entity"];
+    NSArray *entitiesOfPost = rowData[@"entities"];
+    cell.entities = entitiesOfPost;
     cell.pic = rowData[@"pic"];
     cell.shareButton.tag = indexPath.row;
     [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -564,9 +618,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     if(distanceFromBottom < height)
     {
-        NSLog(@"end of the table");
-        
-        if(_posts.count == 5){
+        NSLog(@"end of the table %d", [_posts count]);
+        if(_posts.count < 20 &&  _segmentedControl.selectedSegmentIndex == 0){
             NSDictionary *sixthData =
             @{@"content" : @"new sixth cell's content!!!!!!", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic3" };
             NSDictionary *seventhData =
@@ -621,18 +674,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 - (void)allocateBlackMask{
     _blackMaskOnTopOfView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
     [_blackMaskOnTopOfView setOpaque:NO];
-    [_blackMaskOnTopOfView setAlpha:0];
+    [_blackMaskOnTopOfView setAlpha:0.02];
     [_blackMaskOnTopOfView setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:_blackMaskOnTopOfView];
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         [_blackMaskOnTopOfView setAlpha:0.2];
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
 }
 
 

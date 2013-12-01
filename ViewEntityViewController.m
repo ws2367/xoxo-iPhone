@@ -83,11 +83,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //[_myMap addAnnotation:mapPinAnnotation];
     //[mapPinAnnotation release];
     
-    
+    /*For creating a mask
     CALayer *imageLayer = _headImageView.layer;
     [imageLayer setCornerRadius:5];
     [imageLayer setBorderWidth:1];
     [imageLayer setMasksToBounds:YES];
+     */
     _myMap.showsUserLocation = FALSE;
     [self updateMap];
 }

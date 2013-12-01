@@ -191,18 +191,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 - (void)allocateBlackMask{
     _blackMaskOnTopOfView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, HEIGHT)];
     [_blackMaskOnTopOfView setOpaque:NO];
-    [_blackMaskOnTopOfView setAlpha:0];
+    [_blackMaskOnTopOfView setAlpha:0.02];
     [_blackMaskOnTopOfView setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:_blackMaskOnTopOfView];
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         [_blackMaskOnTopOfView setAlpha:0.2];
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
 }
 
 #pragma mark -

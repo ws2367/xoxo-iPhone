@@ -23,6 +23,8 @@
 		752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */; };
 		7534DFC91822D75D009E5E3A /* XOXOUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7534DFC81822D75D009E5E3A /* XOXOUIViewController.m */; };
 		75399120182F7EF300EFC00A /* UserMenuButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7539911F182F7EF300EFC00A /* UserMenuButtonView.m */; };
+		753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 753B4FD01842F86D00863B9F /* CommentTableViewCell.m */; };
+		753B4FD31842F91F00863B9F /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 753B4FD21842F91F00863B9F /* CommentTableViewCell.xib */; };
 		756B71B4180613FA000E3486 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 756B71B3180613FA000E3486 /* Entity.m */; };
 		75721FD01811074E00298ACF /* EntityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75721FCF1811074E00298ACF /* EntityCell.m */; };
 		75721FD2181107D600298ACF /* EntityCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75721FD1181107D600298ACF /* EntityCell.xib */; };
@@ -80,6 +82,9 @@
 		7534DFC81822D75D009E5E3A /* XOXOUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XOXOUIViewController.m; sourceTree = "<group>"; };
 		7539911E182F7EF300EFC00A /* UserMenuButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMenuButtonView.h; sourceTree = "<group>"; };
 		7539911F182F7EF300EFC00A /* UserMenuButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMenuButtonView.m; sourceTree = "<group>"; };
+		753B4FCF1842F86D00863B9F /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommentTableViewCell.h; sourceTree = SOURCE_ROOT; };
+		753B4FD01842F86D00863B9F /* CommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CommentTableViewCell.m; sourceTree = SOURCE_ROOT; };
+		753B4FD21842F91F00863B9F /* CommentTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CommentTableViewCell.xib; sourceTree = "<group>"; };
 		756B71B2180613FA000E3486 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		756B71B3180613FA000E3486 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
 		75721FCE1811074D00298ACF /* EntityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = EntityCell.h; path = ../EntityCell.h; sourceTree = "<group>"; };
@@ -252,6 +257,9 @@
 				752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */,
 				75C086E617FE695900023200 /* BIDCellView.h */,
 				75C086E717FE695900023200 /* BIDCellView.m */,
+				753B4FCF1842F86D00863B9F /* CommentTableViewCell.h */,
+				753B4FD01842F86D00863B9F /* CommentTableViewCell.m */,
+				753B4FD21842F91F00863B9F /* CommentTableViewCell.xib */,
 			);
 			path = Cells;
 			sourceTree = "<group>";
@@ -336,6 +344,7 @@
 				75C086B017FE30B800023200 /* pic2.png in Resources */,
 				75C086B117FE30B800023200 /* pic3.png in Resources */,
 				75C086B217FE30B800023200 /* pic4.png in Resources */,
+				753B4FD31842F91F00863B9F /* CommentTableViewCell.xib in Resources */,
 				75C086B317FE30B800023200 /* pic5.png in Resources */,
 				75C0BDCD1829785E00B34113 /* UserMenuViewController.xib in Resources */,
 				75073FC71814BF1A009177C7 /* ViewEntityViewController.xib in Resources */,
@@ -358,6 +367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				75CCCF4B17FC03DF000BF0F4 /* main.m in Sources */,
+				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,
 				75CCCF4F17FC03DF000BF0F4 /* BIDAppDelegate.m in Sources */,
