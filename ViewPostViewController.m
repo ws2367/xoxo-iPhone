@@ -106,6 +106,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     NSDictionary *rowData = _comments[indexPath.row];
     cell.commentStr = rowData[@"comment"];
+    cell.levelNum = indexPath.row;
     return cell;
 }
 

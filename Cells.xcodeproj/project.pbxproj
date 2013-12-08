@@ -21,6 +21,7 @@
 		75073FEB18199310009177C7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FEA18199310009177C7 /* CoreLocation.framework */; };
 		75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FED1819966C009177C7 /* MapPinAnnotation.m */; };
 		752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */; };
+		752B5CD61854506100C0AE76 /* moose.png in Resources */ = {isa = PBXBuildFile; fileRef = 752B5CD51854506100C0AE76 /* moose.png */; };
 		7534DFC91822D75D009E5E3A /* XOXOUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7534DFC81822D75D009E5E3A /* XOXOUIViewController.m */; };
 		75399120182F7EF300EFC00A /* UserMenuButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7539911F182F7EF300EFC00A /* UserMenuButtonView.m */; };
 		753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 753B4FD01842F86D00863B9F /* CommentTableViewCell.m */; };
@@ -78,6 +79,7 @@
 		75073FEC1819966C009177C7 /* MapPinAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapPinAnnotation.h; sourceTree = "<group>"; };
 		75073FED1819966C009177C7 /* MapPinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPinAnnotation.m; sourceTree = "<group>"; };
 		752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BigPostTableViewCell.xib; sourceTree = "<group>"; };
+		752B5CD51854506100C0AE76 /* moose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moose.png; sourceTree = "<group>"; };
 		7534DFC71822D75D009E5E3A /* XOXOUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XOXOUIViewController.h; sourceTree = "<group>"; };
 		7534DFC81822D75D009E5E3A /* XOXOUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XOXOUIViewController.m; sourceTree = "<group>"; };
 		7539911E182F7EF300EFC00A /* UserMenuButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMenuButtonView.h; sourceTree = "<group>"; };
@@ -165,6 +167,7 @@
 		75073FCE1814C13A009177C7 /* Pictures */ = {
 			isa = PBXGroup;
 			children = (
+				752B5CD51854506100C0AE76 /* moose.png */,
 				75C086E917FE9B2C00023200 /* hateoff.png */,
 				75C086EA17FE9B2C00023200 /* hateon.png */,
 				75C086EB17FE9B2C00023200 /* likeon.png */,
@@ -343,6 +346,7 @@
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
 				75C086B017FE30B800023200 /* pic2.png in Resources */,
 				75C086B117FE30B800023200 /* pic3.png in Resources */,
+				752B5CD61854506100C0AE76 /* moose.png in Resources */,
 				75C086B217FE30B800023200 /* pic4.png in Resources */,
 				753B4FD31842F91F00863B9F /* CommentTableViewCell.xib in Resources */,
 				75C086B317FE30B800023200 /* pic5.png in Resources */,

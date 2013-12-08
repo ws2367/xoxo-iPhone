@@ -8,13 +8,29 @@
 
 #import "BigPostTableViewCell.h"
 
+#define HEIGHT 568
+#define WIDTH  320
+#define ANIMATION_DURATION 0.4
+#define ANIMATION_DELAY 0.0
+
+@interface BigPostTableViewCell()
+@property (weak, nonatomic) IBOutlet UIView *lowerMask;
+@property (strong,nonatomic)  UIImageView *mooseView;
+@property (strong,nonatomic)  UIView *blackMask;
+
+@end
+
 @implementation BigPostTableViewCell{
 }
+
+
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
+        [_lowerMask setAlpha:0.8];
+        _lowerMask.opaque = FALSE;
     }
     return self;
 }
@@ -115,6 +131,57 @@
         _hateValue.text = [NSString stringWithFormat:@"%d", _hateNum];
         [_hateButton setImage:[UIImage imageNamed:@"hateon"] forState:UIControlStateNormal];
     }
+}
+
+
+#pragma mark -
+#pragma mark Swipe Methods
+- (void) symptomCellSwipeLeft{
+    
+}
+- (void) symptomCellSwipeRight{
+    _mooseView = [[UIImageView alloc] init];
+    _mooseView.frame = CGRectMake(-WIDTH + 135, 70, 50, 50);
+    [_mooseView setImage:[UIImage imageNamed:@"moose"]];
+    _mooseView.opaque = false;
+    _mooseView.alpha = 1;
+    
+    _blackMask = [[UIView alloc] init];
+    _blackMask.frame = CGRectMake(0 , 0, self.frame.size.width, self.frame.size.height);
+    _blackMask.opaque = FALSE;
+    _blackMask.backgroundColor = [UIColor blackColor];
+    _blackMask.alpha = 0;
+    [self addSubview:_blackMask];
+    [self addSubview:_mooseView];
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _mooseView.frame = CGRectMake(135, 70, 50, 50);
+                         _blackMask.alpha = 0.8;
+
+                     }
+                     completion:^(BOOL finished){
+                         [self endMooseAnimation];
+                         
+                     }];
+    
+}
+
+-(void) endMooseAnimation{
+    [UIView animateWithDuration:ANIMATION_DURATION*2.5
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _mooseView.alpha = 0;
+                         _blackMask.alpha = 0;
+                         
+                     }
+                     completion:^(BOOL finished){
+                         [_mooseView removeFromSuperview];
+                         [_blackMask removeFromSuperview];
+                         
+                     }];
 }
 
 @end

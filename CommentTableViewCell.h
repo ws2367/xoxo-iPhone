@@ -14,4 +14,5 @@
 @property (nonatomic, assign, getter=isHated) BOOL hated;
 @property (nonatomic, assign) NSInteger likeNum;
 @property (nonatomic, assign) NSInteger hateNum;
+@property (nonatomic, assign) NSInteger levelNum;
 @end

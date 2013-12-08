@@ -46,7 +46,7 @@
 #define WIDTH  320
 #define ANIMATION_DURATION 0.4
 #define ANIMATION_DELAY 0.0
-#define ROW_HEIGHT 254
+#define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
 
 @implementation BIDViewController
@@ -108,6 +108,15 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [_tableViewController.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
     //[_tableViewController.refreshControl beginRefreshing];
     //[self startRefreshingView];
+    
+    
+    //swipe cells
+    UISwipeGestureRecognizer * recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [recognizerRight setDirection:UISwipeGestureRecognizerDirectionRight];
+    UISwipeGestureRecognizer * recognizerLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
+    [recognizerLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
+    [_myTableView addGestureRecognizer:recognizerRight];
+    [_myTableView addGestureRecognizer:recognizerLeft];
     
 }
 
@@ -449,6 +458,39 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
 }
 
+-(void)sharedPost{
+    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    
+    /*picker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+    [self.view addSubview:picker.view];
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         picker.view.frame = CGRectMake( 0, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];*/
+    
+    
+    [self presentViewController:picker animated:YES completion:nil];
+    
+    
+    
+    //CFErrorRef error = nil;
+    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
+    //if (!addressBook) // test the result, not the error
+    //{
+    //    NSLog(@"ERROR!!!");
+    //    return; // bail
+    //}
+    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    
+    //NSLog(@"%@", arrayOfPeople);
+}
+
 #pragma mark -
 #pragma mark Rearrange View Methods
 
@@ -509,22 +551,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
 }
 
--(void)shareButtonPressed{
-    NSLog(@"shareButtonPressed");
-    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
-    [self presentViewController:picker animated:YES completion:nil];
-    //CFErrorRef error = nil;
-    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
-    //if (!addressBook) // test the result, not the error
-    //{
-    //    NSLog(@"ERROR!!!");
-    //    return; // bail
-    //}
-    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
-    
-    //NSLog(@"%@", arrayOfPeople);
-}
+
 
 -(void)entityButtonPressed:(UIButton *)sender{
     [self allocateBlackMask];
@@ -572,13 +599,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     cell.entityButton.tag = indexPath.row;
     [cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
-    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     return cell;
 }
 #pragma mark -
 #pragma mark TableView Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"here!");
     
     [self allocateBlackMask];
     
@@ -634,6 +660,26 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     }
 }
 
+#pragma mark -
+#pragma mark Swipe Table Cell Methods
+- (void)handleSwipe:(UISwipeGestureRecognizer *)aSwipeGestureRecognizer; {
+    CGPoint location = [aSwipeGestureRecognizer locationInView:_myTableView];
+    NSIndexPath * indexPath = [_myTableView indexPathForRowAtPoint:location];
+    
+    if(indexPath){
+        BigPostTableViewCell * cell = (BigPostTableViewCell *)[_myTableView cellForRowAtIndexPath:indexPath];
+        //NSLog(@"%@", aSwipeGestureRecognizer.direction);
+        if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight){
+            [cell symptomCellSwipeRight];
+            NSLog(@"swipeRight at %d",indexPath.row);
+        }
+        else if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft){
+            [self sharedPost];
+            NSLog(@"swipeLeft at %d",indexPath.row);
+        }
+    }
+}
+
 
 #pragma mark -
 #pragma mark PeoplePicker Custom Methods
@@ -653,14 +699,33 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    /*[UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                         [peoplePicker.view removeFromSuperview];
+                     }];*/
 }
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
     [self displayPerson:person];
-    [self dismissViewControllerAnimated:YES
-                             completion:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
+    /*[UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                         [peoplePicker.view removeFromSuperview];
+                     }];*/
     return NO;
 }
 

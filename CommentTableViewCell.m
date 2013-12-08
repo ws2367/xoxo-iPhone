@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *hateValue;
 @property (weak, nonatomic) IBOutlet UIButton *likeButton;
 @property (weak, nonatomic) IBOutlet UIButton *hateButton;
+@property (weak, nonatomic) IBOutlet UILabel *numLabel;
 
 @end
 
@@ -41,7 +42,6 @@
 
 -(void) setCommentStr:(NSString *)commentStr{
     _commentStr = [commentStr copy];
-    NSLog(@"%@", _commentStr);
     [_commentButton setTitle:_commentStr forState:UIControlStateNormal];
     
     _likeNum = 4;
@@ -53,6 +53,11 @@
     _hated = false;
     [_likeButton setImage:[UIImage imageNamed:@"likeoff"] forState:UIControlStateNormal];
     [_hateButton setImage:[UIImage imageNamed:@"hateoff"] forState:UIControlStateNormal];
+}
+
+-(void)setLevelNum:(NSInteger)levelNum{
+    _levelNum = levelNum + 1;
+    [_numLabel setText:[NSString stringWithFormat:@"%d", _levelNum]];
 }
 
 @end
