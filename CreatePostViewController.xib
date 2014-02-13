@@ -31,7 +31,7 @@
                     </connections>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUx-8A-Qpb">
-                    <rect key="frame" x="162" y="504" width="117" height="52"/>
+                    <rect key="frame" x="196" y="245" width="117" height="52"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <state key="normal" title="Photo Library">
                         <color key="titleColor" red="0.0" green="0.27490555985444232" blue="1" alpha="1" colorSpace="calibratedRGB"/>

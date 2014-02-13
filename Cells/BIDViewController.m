@@ -81,6 +81,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
     _serverConnector =
+    //[[ServerConnector alloc] initWithURL:@"http://gentle-atoll-8604.herokuapp.com/orderposts.json"
     [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
                                     verb:@"post"
                              requestType:@"application/json"
@@ -591,8 +592,20 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     NSDictionary *rowData = self.posts[indexPath.row];
     cell.content = rowData[@"content"];
+    
+    
+    //uncomment one of these (hasnt made compatible to both)
+    
+    
+    //to test dummy cells
+    //NSString *entitiesOfPost = rowData[@"entities"];
+    //cell.entity = entitiesOfPost;
+    
+    //to connect to server
     NSArray *entitiesOfPost = rowData[@"entities"];
     cell.entities = entitiesOfPost;
+    
+    
     cell.pic = rowData[@"pic"];
     cell.shareButton.tag = indexPath.row;
     [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
@@ -600,6 +613,17 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    /*
+    CAGradientLayer *gradient = [CAGradientLayer layer];
+    gradient.frame = cell.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor],
+                       (id)[[UIColor colorWithWhite:0 alpha:0.3] CGColor], nil];
+    [cell.layer addSublayer:gradient];
+    NSLog(@"adding gradient");
+    */
+    
+    
     return cell;
 }
 #pragma mark -

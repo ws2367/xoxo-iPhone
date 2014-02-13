@@ -313,6 +313,11 @@
 				CLASSPREFIX = BID;
 				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = WYY;
+				TargetAttributes = {
+					75CCCF3A17FC03DF000BF0F4 = {
+						DevelopmentTeam = 4AKZFCP9WW;
+					};
+				};
 			};
 			buildConfigurationList = 75CCCF3617FC03DF000BF0F4 /* Build configuration list for PBXProject "Cells" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -474,11 +479,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -487,11 +495,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD)";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

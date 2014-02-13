@@ -7,6 +7,7 @@
 //
 
 #import "BigPostTableViewCell.h"
+#import <QuartzCore/QuartzCore.h> //for gradient color
 
 #define HEIGHT 568
 #define WIDTH  320
@@ -17,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *lowerMask;
 @property (strong,nonatomic)  UIImageView *mooseView;
 @property (strong,nonatomic)  UIView *blackMask;
+@property (nonatomic) bool gradientFlag;
 
 @end
 
@@ -31,9 +33,12 @@
     if (self) {
         [_lowerMask setAlpha:0.8];
         _lowerMask.opaque = FALSE;
+        _gradientFlag = FALSE;
+        //[self createGradient];
     }
     return self;
 }
+
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -96,7 +101,13 @@
         _pic = [c copy];
         _myPic.image = [UIImage imageNamed:_pic];
     }
+    [self createGradient];
 }
+
+
+
+#pragma mark -
+#pragma mark Button Methods
 
 - (IBAction)likeButtonPressed: (id)sender {
     if([self isLiked]){
@@ -111,11 +122,6 @@
         [_likeButton setImage:[UIImage imageNamed:@"likeon"] forState:UIControlStateNormal];
     }
 }
-
-
-#pragma mark -
-#pragma mark Button Methods
-
 
 
 
@@ -184,4 +190,22 @@
                      }];
 }
 
+-(void) createGradient{
+    if(_gradientFlag == FALSE){
+        CAGradientLayer *gradientBelow = [CAGradientLayer layer];
+        gradientBelow.frame = CGRectMake(0 , 150, self.frame.size.width, self.frame.size.height - 150);
+        gradientBelow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor],
+                           (id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], nil];
+        CAGradientLayer *gradientRight = [CAGradientLayer layer];
+        gradientRight.frame = CGRectMake(0 , 0, self.frame.size.width, self.frame.size.height - 150);
+        gradientRight.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor],
+                                (id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], nil];
+        gradientRight.startPoint = CGPointMake(0.5, 0.5);
+        gradientRight.endPoint =CGPointMake(1, 0);
+        [_myPic.layer addSublayer:gradientRight];
+        [_myPic.layer addSublayer:gradientBelow];
+        NSLog(@"adding gradient");
+        _gradientFlag = TRUE;
+    }
+}
 @end
