@@ -46,6 +46,8 @@
 #define WIDTH  320
 #define ANIMATION_DURATION 0.4
 #define ANIMATION_DELAY 0.0
+// TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
+// TODO: rename TableViewCell to TVC
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
 
@@ -256,9 +258,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark -
 #pragma mark Switch View Methods
 
-
+//TODO: combine all view controller switching functions if possible
 - (void)cancelCreatingEntity{
-    
+    // black mask is to disable all buttons on the view so that users don't double click any button
     [_blackMaskOnTopOfView removeFromSuperview];
     
     [UIView animateWithDuration:ANIMATION_DURATION
@@ -273,13 +275,14 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                      completion:^(BOOL finished){
                          [_createEntityController.view removeFromSuperview];
                      }];
-    
+    //make the keyboard invisible
     [_createEntityController.view endEditing:YES];
     
 }
 
 - (void)cancelCreatingPost{
-    
+    // creatingPostViewController is on top of creatingEntityController so the black mask we want to dismiss belongs to creatingEntityControllerss
+    // TODO: it is possible and preferrable that black masks are all controlled by BIDVewController
     [_createEntityController dismissBlackMask];
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
@@ -586,6 +589,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     return [self.posts count];
 }
+
+// This is where cells got data and set up
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -607,7 +612,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     
     cell.pic = rowData[@"pic"];
+    // We want the cell to know which row it is, so we store that in button.tag
+    // However, here shareButton is depreciated
     cell.shareButton.tag = indexPath.row;
+    // Here is where we register any target of buttons in cells if the target is not the cell itself
     [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     cell.entityButton.tag = indexPath.row;
     [cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];

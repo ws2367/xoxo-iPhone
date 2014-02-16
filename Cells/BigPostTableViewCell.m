@@ -48,6 +48,8 @@
     // Configure the view for the selected state
 }
 
+// set content of posts as well as other attributes which are hard-coded
+// This is a setter that is wired with the variable content by objective-C automatically
 - (void)setContent:(NSString *)n
 {
     if (![n isEqualToString:_content]) {
@@ -72,6 +74,9 @@
 
 }
 
+// This is a setter that is wired with the variable entities by objective-C automatically
+// TODO: copy objects to _entities then show _entities on the view instead of outter pointers
+// Like what we do in setContent
 -(void) setEntities:(NSArray *)entities{
     NSLog(@"%@", entities);
     NSLog(@"%@", [entities objectAtIndex:0][@"name"]);
@@ -87,6 +92,7 @@
 
 }
 
+// depreciated. Now we have multiple entities
 - (void)setEntity:(NSString *)c
 {
     if (![c isEqualToString:_entity]) {
@@ -108,7 +114,7 @@
 
 #pragma mark -
 #pragma mark Button Methods
-
+// TODO: we gonna use exclamation mark instead of like or hate
 - (IBAction)likeButtonPressed: (id)sender {
     if([self isLiked]){
         _liked = false;
@@ -122,8 +128,6 @@
         [_likeButton setImage:[UIImage imageNamed:@"likeon"] forState:UIControlStateNormal];
     }
 }
-
-
 
 - (IBAction)hateButtonPressed: (id)sender {
     if([self isHated]){
@@ -142,6 +146,7 @@
 
 #pragma mark -
 #pragma mark Swipe Methods
+// we don't know why it is called symptom cell
 - (void) symptomCellSwipeLeft{
     
 }
@@ -190,7 +195,9 @@
                      }];
 }
 
+// This is where we make the gradient mask on pictures
 -(void) createGradient{
+    // Flag tells whether it is a new start or a refreshing
     if(_gradientFlag == FALSE){
         CAGradientLayer *gradientBelow = [CAGradientLayer layer];
         gradientBelow.frame = CGRectMake(0 , 150, self.frame.size.width, self.frame.size.height - 150);

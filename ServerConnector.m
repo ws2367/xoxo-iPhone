@@ -80,6 +80,9 @@
                                                             
                                                             //[_viewController RefreshViewWithJSONArr:jsonArr];
                                                             
+                                                            
+                                                            //check if it is null
+                                                            //make sure it is the latest retrieval of data
                                                             [_viewController performSelectorOnMainThread:@selector(endRefreshingViewWithJSONArr:) withObject:jsonArr waitUntilDone:NO];
                                                             
                                                             //[self performSelectorOnMainThread:@selector(gotItwithNSArray:) withObject:jsonArr waitUntilDone:NO];
