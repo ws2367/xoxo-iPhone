@@ -10,12 +10,12 @@
 #import <MapKit/MapKit.h>
 #import "XOXOUIViewController.h"
 
-@class ViewMultiPostsVC;
+@class ViewMultiPostsViewController;
 
 @interface ViewEntityViewController : XOXOUIViewController
                                         <MKMapViewDelegate>
 
-- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController;
+- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 - (void)setEntityName:(NSString *)entityName;
 
 @end

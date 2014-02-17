@@ -1,12 +1,12 @@
 //
-//  ViewMultiPostsVC.m
+//  ViewMultiPostsViewController.m
 //  Cells
 //
 //  Created by WYY on 13/10/2.
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
-#import "ViewMultiPostsVC.h"
+#import "ViewMultiPostsViewController.h"
 #import "BigPostTableViewCell.h"
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
@@ -17,7 +17,7 @@
 #import "ServerConnector.h"
 #import "UserMenuViewController.h"
 
-@interface ViewMultiPostsVC ()
+@interface ViewMultiPostsViewController ()
 
 
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
@@ -34,8 +34,8 @@
 
 // try adding a table view controller and UIRefreshControl
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) UITableViewController *TVC;
-@property (strong, nonatomic) UIRefreshControl *refreshControlOfTVC;
+@property (strong, nonatomic) UITableViewController *tableViewController;
+@property (strong, nonatomic) UIRefreshControl *refreshControlOftableViewController;
 @property (strong, nonatomic) ServerConnector *serverConnector;
 
 @end
@@ -45,11 +45,10 @@
 #define ANIMATION_DURATION 0.4
 #define ANIMATION_DELAY 0.0
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
-// TODO: rename TableViewCell to TVC
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
 
-@implementation ViewMultiPostsVC
+@implementation ViewMultiPostsViewController
 
 
 static NSString *CellTableIdentifier = @"CellTableIdentifier";
@@ -101,12 +100,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 	// Do any additional setup after loading the view, typically from a nib.
     
     //Adding a tableViewController to have the refreshControl on our tableView
-    _TVC = [[UITableViewController alloc] init];
-    _TVC.tableView = _tableView;
-    _refreshControlOfTVC = [UIRefreshControl new];
-    _TVC.refreshControl = _refreshControlOfTVC;
-    [_TVC.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
-    //[_TVC.refreshControl beginRefreshing];
+    _tableViewController = [[UITableViewController alloc] init];
+    _tableViewController.tableView = _tableView;
+    _refreshControlOftableViewController = [UIRefreshControl new];
+    _tableViewController.refreshControl = _refreshControlOftableViewController;
+    [_tableViewController.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
+    //[_tableViewController.refreshControl beginRefreshing];
     //[self startRefreshingView];
     
     
@@ -171,7 +170,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 // This method does not actually overload any method of the parent
 -(void)startRefreshingView{
     //must be here because it can not be in viewDidLoad
-    [_refreshControlOfTVC beginRefreshing];
+    [_refreshControlOftableViewController beginRefreshing];
     
     //send out request
     NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
@@ -202,7 +201,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //NSLog(@"Count posts: %d", [self.posts count]);
     
     [_tableView reloadData];
-    [_refreshControlOfTVC endRefreshing];
+    [_refreshControlOftableViewController endRefreshing];
     
 }
 
@@ -376,7 +375,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [_entities addObject:person];
     
     //_toCreatePostToolbar = [self createPostToolbarForEntity:false];
-    _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsVC:self];
+    _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsViewController:self];
     self.createPostController.entities = _entities;
     _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
     
@@ -403,7 +402,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [self allocateBlackMask];
     
     if(_createEntityController == nil){
-        _createEntityController =[[CreateEntityViewController alloc] initWithViewMultiPostsVC:self];
+        _createEntityController =[[CreateEntityViewController alloc] initWithViewMultiPostsViewController:self];
     }
     
 
@@ -527,7 +526,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
     
     
-    _userMenuViewController = [[UserMenuViewController alloc] initWithViewMultiPostsVC:self];
+    _userMenuViewController = [[UserMenuViewController alloc] initWithViewMultiPostsViewController:self];
     
     _userMenuViewController.view.frame = CGRectMake( -WIDTH, 0, WIDTH, HEIGHT);
     [UIView animateWithDuration:ANIMATION_DURATION
@@ -552,7 +551,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 -(void)entityButtonPressed:(UIButton *)sender{
     [self allocateBlackMask];
-    _viewEntityViewController = [[ViewEntityViewController alloc] initWithViewMultiPostsVC:self];
+    _viewEntityViewController = [[ViewEntityViewController alloc] initWithViewMultiPostsViewController:self];
     
     _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
     NSDictionary *rowData = self.posts[sender.tag];
@@ -633,7 +632,7 @@ numberOfRowsInSection:(NSInteger)section
     
     [self allocateBlackMask];
     
-    _viewPostViewController = [[ViewPostViewController alloc] initWithViewMultiPostsVC:self];
+    _viewPostViewController = [[ViewPostViewController alloc] initWithViewMultiPostsViewController:self];
     NSDictionary *rowData = self.posts[indexPath.row];
     
     _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);

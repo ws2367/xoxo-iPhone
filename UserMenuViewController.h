@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class ViewMultiPostsVC;
+@class ViewMultiPostsViewController;
 @interface UserMenuViewController : UIViewController
                                     <UISearchBarDelegate, UITextFieldDelegate>
 
-- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController;
+- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 
 @end

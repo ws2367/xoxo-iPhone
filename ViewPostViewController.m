@@ -7,7 +7,7 @@
 //
 
 #import "ViewPostViewController.h"
-#import "ViewMultiPostsVC.h"
+#import "ViewMultiPostsViewController.h"
 #import "CommentTableViewCell.h"
 
 @interface ViewPostViewController ()
@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) NSArray *comments;
 @property (weak, nonatomic)IBOutlet UIImageView *postImage;
-@property (weak, nonatomic) ViewMultiPostsVC *viewMultiPostsVC;
+@property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 
 @end
 
@@ -29,10 +29,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 
-- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController{
+- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
     self = [super init];
     if (self) {
-        _viewMultiPostsVC = viewController;// Custom initialization
+        _viewMultiPostsViewController = viewController;// Custom initialization
     }
     return self;
 }
@@ -76,7 +76,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
        forCellReuseIdentifier:CellTableIdentifier];
 }
 - (IBAction)backButtonPressed:(id)sender {
-    [_viewMultiPostsVC cancelViewingPost];
+    [_viewMultiPostsViewController cancelViewingPost];
 }
 
 - (void)didReceiveMemoryWarning

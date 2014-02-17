@@ -6,18 +6,18 @@
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
-#import "BIDAppDelegate.h"
+#import "AppDelegate.h"
 
-#import "ViewMultiPostsVC.h"
+#import "ViewMultiPostsViewController.h"
 #import "CreatePostViewController.h"
 
-@implementation BIDAppDelegate
+@implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
-    self.viewController = [[ViewMultiPostsVC alloc] initWithNibName:@"ViewMultiPostsVC" bundle:nil];
+    self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     //self.viewController = [[CreatePostViewController alloc] init];
     //self.window.rootViewController = self.viewController;

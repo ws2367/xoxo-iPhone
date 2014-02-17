@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class ViewMultiPostsVC;
+@class ViewMultiPostsViewController;
 
 @interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *entities;
 
-- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController;
+- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 
 - (void)swipeImage:(UISwipeGestureRecognizer *)gesture;
 

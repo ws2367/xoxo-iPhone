@@ -1,5 +1,5 @@
 //
-//  ViewMultiPostsVC.h
+//  ViewMultiPostsViewController.h
 //  Cells
 //
 //  Created by WYY on 13/10/2.
@@ -13,7 +13,7 @@
 @class CreateEntityViewController;
 @class CreatePostViewController;
 
-@interface ViewMultiPostsVC : XOXOUIViewController
+@interface ViewMultiPostsViewController : XOXOUIViewController
         <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *posts;

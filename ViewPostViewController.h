@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class ViewMultiPostsVC;
+@class ViewMultiPostsViewController;
 
 @interface ViewPostViewController : UIViewController
                                 <UITableViewDelegate, UITableViewDataSource>
@@ -16,6 +16,6 @@
 @property (copy, nonatomic) NSString *pic;
 @property (strong, nonatomic) NSString *content;
 
-- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController;
+- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 
 @end

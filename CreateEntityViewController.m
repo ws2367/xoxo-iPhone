@@ -8,7 +8,7 @@
 
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
-#import "ViewMultiPostsVC.h"
+#import "ViewMultiPostsViewController.h"
 #import "Entity.h"
 #import "EntityCell.h"
 
@@ -20,7 +20,7 @@
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
-@property (weak, nonatomic) ViewMultiPostsVC *viewMultiPostsVC;
+@property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 @property (weak, nonatomic) CreatePostViewController *createPostViewController;
 @property (weak, nonatomic) IBOutlet UITableView *entityTableView;
 
@@ -37,10 +37,10 @@
 
 
 
-- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController{
+- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
     self = [super init];
     if (self) {
-        _viewMultiPostsVC = viewController;// Custom initialization
+        _viewMultiPostsViewController = viewController;// Custom initialization
     }
     return self;
 }
@@ -104,14 +104,14 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     _selectedEntity.name = _nameTextField.text;
     _selectedEntity.institution = _institutionTextField.text;
     _selectedEntity.location = _locationTextField.text;
-    [_viewMultiPostsVC finishCreatingEntityStartCreatingPost];
+    [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
 }
 
 
 - (IBAction)cancelButtonPressed:(id)sender {
-    //[(ViewMultiPostsVC *)[self presentingViewController] cancelButton];
-    //[(ViewMultiPostsVC *)self.presentingViewController cancelButton];
-    [_viewMultiPostsVC cancelCreatingEntity];
+    //[(ViewMultiPostsViewController *)[self presentingViewController] cancelButton];
+    //[(ViewMultiPostsViewController *)self.presentingViewController cancelButton];
+    [_viewMultiPostsViewController cancelCreatingEntity];
 }
 
 
@@ -157,8 +157,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     _selectedEntity.name = rowData[@"Name"];
     _selectedEntity.institution = rowData[@"Institution"];
     _selectedEntity.location = rowData[@"Location"];
-    if (_viewMultiPostsVC)
-        [_viewMultiPostsVC finishCreatingEntityStartCreatingPost];
+    if (_viewMultiPostsViewController)
+        [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
     else if(_createPostViewController)
         [_createPostViewController finishAddingEntity];
     

@@ -8,7 +8,7 @@
 
 #import "ViewEntityViewController.h"
 #import "BigPostTableViewCell.h"
-#import "ViewMultiPostsVC.h"
+#import "ViewMultiPostsViewController.h"
 #import <MapKit/MapKit.h>
 #import "MapPinAnnotation.h"
 
@@ -21,7 +21,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *entityNameLabel;
 @property (copy, nonatomic) NSArray *posts;
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
-@property (weak, nonatomic) ViewMultiPostsVC *viewMultiPostsVC;
+@property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 @property (copy, nonatomic) NSString *entityName;
 
 @end
@@ -30,10 +30,10 @@
 
 #define METERS_PER_MILE 1609.344
 
-- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController{
+- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
     self = [super init];
     if (self) {
-        _viewMultiPostsVC = viewController;// Custom initialization
+        _viewMultiPostsViewController = viewController;// Custom initialization
     }
     return self;
 }
@@ -159,7 +159,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 - (IBAction)backButtonPressed:(id)sender {
-    [_viewMultiPostsVC cancelViewingEntity];
+    [_viewMultiPostsViewController cancelViewingEntity];
 }
 
 - (IBAction)dropPinPressed:(id)sender {

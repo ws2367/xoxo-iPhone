@@ -8,15 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class ViewMultiPostsVC;
+@class ViewMultiPostsViewController;
 @class CreatePostViewController;
 
-@interface BIDAppDelegate : UIResponder <UIApplicationDelegate>
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-//@property (strong, nonatomic) CreatePostViewController *viewController;
-@property (strong, nonatomic) ViewMultiPostsVC *viewController;
+@property (strong, nonatomic) ViewMultiPostsViewController *viewController;
 
 
 @end
