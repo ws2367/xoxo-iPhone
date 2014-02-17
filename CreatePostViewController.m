@@ -8,7 +8,7 @@
 
 #import "CreatePostViewController.h"
 #import "CreateEntityViewController.h"
-#import "BIDViewController.h"
+#import "ViewMultiPostsVC.h"
 #import "Entity.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ServerConnector.h"
@@ -31,7 +31,7 @@
 @property (strong, nonatomic) NSMutableArray *photos;
 @property (strong, nonatomic) NSMutableString *content;
 
-@property (weak, nonatomic) BIDViewController *bidViewController;
+@property (weak, nonatomic) ViewMultiPostsVC *viewMultiPostsVC;
 @property (strong, nonatomic) CreateEntityViewController *addEntityController;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
@@ -45,10 +45,10 @@
 @implementation CreatePostViewController
 
 
-- (id)initWithBIDViewController:(BIDViewController *)viewController{
+- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController{
     self = [super init];
     if (self) {
-        _bidViewController = viewController;// Custom initialization
+        _viewMultiPostsVC = viewController;// Custom initialization
         _entities = [[NSMutableArray alloc] init];
     }
     NSLog(@"hello?");
@@ -198,12 +198,12 @@
 }
 
 - (IBAction)postButtonPressed:(id)sender {
-    [_bidViewController finishCreatingPostBackToHomePage];
+    [_viewMultiPostsVC finishCreatingPostBackToHomePage];
 }
 
 - (IBAction)backButtonPressed:(id)sender {
     [_entities removeAllObjects];
-    [_bidViewController cancelCreatingPost];
+    [_viewMultiPostsVC cancelCreatingPost];
 }
 
 - (IBAction)pickImageButtonPressed:(id)sender {
@@ -328,7 +328,7 @@
     }
     
 }- (IBAction)swiped:(id)sender {
-    [_bidViewController finishCreatingPostBackToHomePage];
+    [_viewMultiPostsVC finishCreatingPostBackToHomePage];
 }
 
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil

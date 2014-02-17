@@ -7,11 +7,11 @@
 //
 
 #import "UserMenuViewController.h"
-#import "BIDViewController.h"
+#import "ViewMultiPostsVC.h"
 
 
 @interface UserMenuViewController ()
-@property (weak, nonatomic) BIDViewController *bidViewController;
+@property (weak, nonatomic) ViewMultiPostsVC *viewMultiPostsVC;
 @property (strong, nonatomic) UISearchBar *searchBar;
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 
@@ -28,10 +28,10 @@
 @implementation UserMenuViewController
 
 
-- (id)initWithBIDViewController:(BIDViewController *)viewController{
+- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController{
     self = [super init];
     if (self) {
-        _bidViewController = viewController;// Custom initialization
+        _viewMultiPostsVC = viewController;// Custom initialization
         _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(WIDTH/2, SEARCHBAR_Y, WIDTH/2, SEARCHBAR_HEIGHT)];
         [self.view addSubview:_searchBar.viewForBaselineLayout];
         [_searchBar setDelegate:self];
@@ -101,7 +101,7 @@
     [_blackMaskOnTopOfView setAlpha:0];
     [_blackMaskOnTopOfView setBackgroundColor:[UIColor blackColor]];
     [self.view addSubview:_blackMaskOnTopOfView];
-    [_bidViewController beginSearchTakeOverWindow];
+    [_viewMultiPostsVC beginSearchTakeOverWindow];
     
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
@@ -116,7 +116,7 @@
 }
 
 - (void)cancelSearch{
-    [_bidViewController endSearchTakeOverWindow];
+    [_viewMultiPostsVC endSearchTakeOverWindow];
     [_searchBar endEditing:YES];
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY

@@ -1,5 +1,5 @@
 //
-//  BIDViewController.h
+//  ViewMultiPostsVC.h
 //  Cells
 //
 //  Created by WYY on 13/10/2.
@@ -13,7 +13,7 @@
 @class CreateEntityViewController;
 @class CreatePostViewController;
 
-@interface BIDViewController : XOXOUIViewController
+@interface ViewMultiPostsVC : XOXOUIViewController
         <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *posts;

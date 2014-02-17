@@ -1,12 +1,12 @@
 //
-//  BIDViewController.m
+//  ViewMultiPostsVC.m
 //  Cells
 //
 //  Created by WYY on 13/10/2.
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
-#import "BIDViewController.h"
+#import "ViewMultiPostsVC.h"
 #import "BigPostTableViewCell.h"
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
@@ -17,27 +17,25 @@
 #import "ServerConnector.h"
 #import "UserMenuViewController.h"
 
-@interface BIDViewController ()
+@interface ViewMultiPostsVC ()
 
-@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
+
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
-@property (weak, nonatomic) IBOutlet UIView *topUIView;
-@property (weak, nonatomic) IBOutlet UITableView *myTableView;
-@property (weak, nonatomic) IBOutlet UIBarButtonItem *postButton;
-@property (weak, nonatomic) IBOutlet UIToolbar *myToolBar;
+
+// children view controllers
 @property (strong, nonatomic) CreateEntityViewController *createEntityController;
 @property (strong, nonatomic) CreatePostViewController *createPostController;
 @property (strong, nonatomic) ViewPostViewController *viewPostViewController;
 @property (strong, nonatomic) ViewEntityViewController *viewEntityViewController;
 @property (strong, nonatomic) UserMenuViewController *userMenuViewController;
-//@property (strong, nonatomic) UIToolbar *toCreateEntityToolbar;
-//@property (strong, nonatomic) UIButton *notHereButton;
 
-//@property (strong, nonatomic) UIToolbar *toCreatePostToolbar;
+// segmented controller
+@property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
-//Try adding a table view controller and UIRefreshControl
-@property (strong, nonatomic) UITableViewController *tableViewController;
-@property (strong, nonatomic) UIRefreshControl *myRefreshControl;
+// try adding a table view controller and UIRefreshControl
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UITableViewController *TVC;
+@property (strong, nonatomic) UIRefreshControl *refreshControlOfTVC;
 @property (strong, nonatomic) ServerConnector *serverConnector;
 
 @end
@@ -51,7 +49,7 @@
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
 
-@implementation BIDViewController
+@implementation ViewMultiPostsVC
 
 
 static NSString *CellTableIdentifier = @"CellTableIdentifier";
@@ -91,11 +89,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                          timeoutInterval:60
                           viewController:self];
     
-    [_topUIView setAlpha:0.8];
-    _myTableView.rowHeight = ROW_HEIGHT;
+    _tableView.rowHeight = ROW_HEIGHT;
     UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
                                 bundle:nil];
-    [_myTableView registerNib:nib
+    [_tableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
     
     
@@ -104,12 +101,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 	// Do any additional setup after loading the view, typically from a nib.
     
     //Adding a tableViewController to have the refreshControl on our tableView
-    _tableViewController = [[UITableViewController alloc] init];
-    _tableViewController.tableView = _myTableView;
-    _myRefreshControl = [UIRefreshControl new];
-    _tableViewController.refreshControl = _myRefreshControl;
-    [_tableViewController.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
-    //[_tableViewController.refreshControl beginRefreshing];
+    _TVC = [[UITableViewController alloc] init];
+    _TVC.tableView = _tableView;
+    _refreshControlOfTVC = [UIRefreshControl new];
+    _TVC.refreshControl = _refreshControlOfTVC;
+    [_TVC.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
+    //[_TVC.refreshControl beginRefreshing];
     //[self startRefreshingView];
     
     
@@ -118,8 +115,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [recognizerRight setDirection:UISwipeGestureRecognizerDirectionRight];
     UISwipeGestureRecognizer * recognizerLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     [recognizerLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [_myTableView addGestureRecognizer:recognizerRight];
-    [_myTableView addGestureRecognizer:recognizerLeft];
+    [_tableView addGestureRecognizer:recognizerRight];
+    [_tableView addGestureRecognizer:recognizerLeft];
     
 }
 
@@ -133,7 +130,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark -
 #pragma mark Segmented Control Methods
 
-- (IBAction)segmentChanged:(id)sender {
+- (IBAction)changeSegment:(id)sender {
     NSInteger selectedIdx = [sender selectedSegmentIndex];
     NSDictionary *data;
     NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
@@ -171,11 +168,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 #pragma mark -
 #pragma mark Parent Overloaded Methods
-
+// This method does not actually overload any method of the parent
 -(void)startRefreshingView{
     //must be here because it can not be in viewDidLoad
-    [_myRefreshControl beginRefreshing];
-    //NSLog(@"start refreshing");
+    [_refreshControlOfTVC beginRefreshing];
     
     //send out request
     NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
@@ -190,14 +186,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     else{
         data = @{@"num" : numPosts, @"sortby" : @"popularity"};
     }
-    //NSLog(@"To download %@ posts.", numPosts);
     
     [_serverConnector sendJSONGetJSONArray:data];
 }
 
 -(void)endRefreshingViewWithJSONArr:(NSArray *)JSONArr{
-    //NSLog(@"end refreshing");
-    
     [self.posts removeAllObjects];
     
     NSLog(@"%@", JSONArr);
@@ -208,8 +201,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     //NSLog(@"Count posts: %d", [self.posts count]);
     
-    [_myTableView reloadData];
-    [_myRefreshControl endRefreshing];
+    [_tableView reloadData];
+    [_refreshControlOfTVC endRefreshing];
     
 }
 
@@ -383,7 +376,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [_entities addObject:person];
     
     //_toCreatePostToolbar = [self createPostToolbarForEntity:false];
-    _createPostController = [[CreatePostViewController alloc] initWithBIDViewController:self];
+    _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsVC:self];
     self.createPostController.entities = _entities;
     _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
     
@@ -410,7 +403,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [self allocateBlackMask];
     
     if(_createEntityController == nil){
-        _createEntityController =[[CreateEntityViewController alloc] initWithBIDViewController:self];
+        _createEntityController =[[CreateEntityViewController alloc] initWithViewMultiPostsVC:self];
     }
     
 
@@ -462,7 +455,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
 }
 
--(void)sharedPost{
+-(void)sharePost{
     ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
     picker.peoplePickerDelegate = self;
     
@@ -534,7 +527,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
     
     
-    _userMenuViewController = [[UserMenuViewController alloc] initWithBIDViewController:self];
+    _userMenuViewController = [[UserMenuViewController alloc] initWithViewMultiPostsVC:self];
     
     _userMenuViewController.view.frame = CGRectMake( -WIDTH, 0, WIDTH, HEIGHT);
     [UIView animateWithDuration:ANIMATION_DURATION
@@ -559,7 +552,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 -(void)entityButtonPressed:(UIButton *)sender{
     [self allocateBlackMask];
-    _viewEntityViewController = [[ViewEntityViewController alloc] initWithBIDViewController:self];
+    _viewEntityViewController = [[ViewEntityViewController alloc] initWithViewMultiPostsVC:self];
     
     _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
     NSDictionary *rowData = self.posts[sender.tag];
@@ -584,8 +577,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 #pragma mark -
 #pragma mark Table Data Source Methods
-- (NSInteger)tableView:(UITableView *)tableView
- numberOfRowsInSection:(NSInteger)section
+- (NSInteger)tableView:(UITableView *)tableView 
+numberOfRowsInSection:(NSInteger)section
 {
     return [self.posts count];
 }
@@ -640,13 +633,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     [self allocateBlackMask];
     
-    _viewPostViewController = [[ViewPostViewController alloc] initWithBIDViewController:self];
+    _viewPostViewController = [[ViewPostViewController alloc] initWithViewMultiPostsVC:self];
     NSDictionary *rowData = self.posts[indexPath.row];
     
     _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
     _viewPostViewController.pic = rowData[@"pic"];
-    
-    
     
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
@@ -658,7 +649,6 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                      completion:^(BOOL finished){
                      }];
     
-    //[self.view insertSubview:self.postController.view atIndex:1];
     [self.view addSubview:_viewPostViewController.view];
 
 }
@@ -686,7 +676,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
             [_posts addObject:sixthData];
             [_posts addObject:seventhData];
             
-            [_myTableView reloadData];
+            [_tableView reloadData];
         }
         
     }
@@ -695,18 +685,17 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 #pragma mark -
 #pragma mark Swipe Table Cell Methods
 - (void)handleSwipe:(UISwipeGestureRecognizer *)aSwipeGestureRecognizer; {
-    CGPoint location = [aSwipeGestureRecognizer locationInView:_myTableView];
-    NSIndexPath * indexPath = [_myTableView indexPathForRowAtPoint:location];
+    CGPoint location = [aSwipeGestureRecognizer locationInView:_tableView];
+    NSIndexPath * indexPath = [_tableView indexPathForRowAtPoint:location];
     
     if(indexPath){
-        BigPostTableViewCell * cell = (BigPostTableViewCell *)[_myTableView cellForRowAtIndexPath:indexPath];
-        //NSLog(@"%@", aSwipeGestureRecognizer.direction);
+        BigPostTableViewCell * cell = (BigPostTableViewCell *)[_tableView cellForRowAtIndexPath:indexPath];
         if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight){
             [cell symptomCellSwipeRight];
             NSLog(@"swipeRight at %d",indexPath.row);
         }
         else if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft){
-            [self sharedPost];
+            [self sharePost];
             NSLog(@"swipeLeft at %d",indexPath.row);
         }
     }
@@ -728,7 +717,6 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 #pragma mark -
 #pragma mark PeoplePicker Delegate Methods
-
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
     [self dismissViewControllerAnimated:YES completion:nil];

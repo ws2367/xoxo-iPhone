@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		5101701F18170BC1009D9B70 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5101701D18170746009D9B70 /* QuartzCore.framework */; };
+		5124229818B29639008BEF86 /* ViewMultiPostsVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 5124229718B29639008BEF86 /* ViewMultiPostsVC.m */; };
+		5124229A18B2967B008BEF86 /* ViewMultiPostsVC.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5124229918B2967B008BEF86 /* ViewMultiPostsVC.xib */; };
 		516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 516609EE181F4A8E0059F8BB /* ServerConnector.m */; };
 		75073FA818120314009177C7 /* ViewPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FA618120314009177C7 /* ViewPostViewController.m */; };
 		75073FA918120314009177C7 /* ViewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FA718120314009177C7 /* ViewPostViewController.xib */; };
@@ -50,8 +52,6 @@
 		75CCCF5117FC03DF000BF0F4 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5017FC03DF000BF0F4 /* Default.png */; };
 		75CCCF5317FC03DF000BF0F4 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5217FC03DF000BF0F4 /* Default@2x.png */; };
 		75CCCF5517FC03DF000BF0F4 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5417FC03DF000BF0F4 /* Default-568h@2x.png */; };
-		75CCCF5817FC03DF000BF0F4 /* BIDViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */; };
-		75CCCF5B17FC03DF000BF0F4 /* BIDViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */; };
 		75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF6217FC04DF000BF0F4 /* BigPostTableViewCell.m */; };
 		75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA261804837400B431FF /* CreateEntityViewController.m */; };
 		75D1DA291804837400B431FF /* CreateEntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75D1DA271804837400B431FF /* CreateEntityViewController.xib */; };
@@ -61,6 +61,9 @@
 
 /* Begin PBXFileReference section */
 		5101701D18170746009D9B70 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		5124229618B29639008BEF86 /* ViewMultiPostsVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewMultiPostsVC.h; sourceTree = "<group>"; };
+		5124229718B29639008BEF86 /* ViewMultiPostsVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewMultiPostsVC.m; sourceTree = "<group>"; };
+		5124229918B2967B008BEF86 /* ViewMultiPostsVC.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewMultiPostsVC.xib; sourceTree = "<group>"; };
 		516609ED181F4A8E0059F8BB /* ServerConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnector.h; sourceTree = "<group>"; };
 		516609EE181F4A8E0059F8BB /* ServerConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnector.m; sourceTree = "<group>"; };
 		75073FA518120314009177C7 /* ViewPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostViewController.h; sourceTree = "<group>"; };
@@ -119,9 +122,6 @@
 		75CCCF5017FC03DF000BF0F4 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		75CCCF5217FC03DF000BF0F4 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		75CCCF5417FC03DF000BF0F4 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		75CCCF5617FC03DF000BF0F4 /* BIDViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BIDViewController.h; path = Cells/BIDViewController.h; sourceTree = "<group>"; };
-		75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = BIDViewController.m; path = Cells/BIDViewController.m; sourceTree = "<group>"; };
-		75CCCF5A17FC03DF000BF0F4 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/BIDViewController.xib; sourceTree = "<group>"; };
 		75CCCF6117FC04DF000BF0F4 /* BigPostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BigPostTableViewCell.h; sourceTree = "<group>"; };
 		75CCCF6217FC04DF000BF0F4 /* BigPostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BigPostTableViewCell.m; sourceTree = "<group>"; };
 		75D1DA251804837400B431FF /* CreateEntityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreateEntityViewController.h; sourceTree = "<group>"; };
@@ -193,6 +193,7 @@
 		75CCCF3217FC03DF000BF0F4 = {
 			isa = PBXGroup;
 			children = (
+				5124229918B2967B008BEF86 /* ViewMultiPostsVC.xib */,
 				75C0BDCA1829785E00B34113 /* UserMenuViewController.xib */,
 				75C0BDCB1829785E00B34113 /* UserMenuViewController.h */,
 				75C0BDCC1829785E00B34113 /* UserMenuViewController.m */,
@@ -210,9 +211,8 @@
 				75D1DA251804837400B431FF /* CreateEntityViewController.h */,
 				75D1DA261804837400B431FF /* CreateEntityViewController.m */,
 				75D1DA271804837400B431FF /* CreateEntityViewController.xib */,
-				75CCCF5617FC03DF000BF0F4 /* BIDViewController.h */,
-				75CCCF5717FC03DF000BF0F4 /* BIDViewController.m */,
-				75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */,
+				5124229618B29639008BEF86 /* ViewMultiPostsVC.h */,
+				5124229718B29639008BEF86 /* ViewMultiPostsVC.m */,
 				7539911D182F7EA700EFC00A /* Views */,
 				75073FCD1814C11C009177C7 /* Objects */,
 				75073FCE1814C13A009177C7 /* Pictures */,
@@ -346,7 +346,7 @@
 				75CCCF5317FC03DF000BF0F4 /* Default@2x.png in Resources */,
 				75CCCF5517FC03DF000BF0F4 /* Default-568h@2x.png in Resources */,
 				75721FD2181107D600298ACF /* EntityCell.xib in Resources */,
-				75CCCF5B17FC03DF000BF0F4 /* BIDViewController.xib in Resources */,
+				5124229A18B2967B008BEF86 /* ViewMultiPostsVC.xib in Resources */,
 				752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */,
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
 				75C086B017FE30B800023200 /* pic2.png in Resources */,
@@ -377,10 +377,10 @@
 			files = (
 				75CCCF4B17FC03DF000BF0F4 /* main.m in Sources */,
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
+				5124229818B29639008BEF86 /* ViewMultiPostsVC.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,
 				75CCCF4F17FC03DF000BF0F4 /* BIDAppDelegate.m in Sources */,
-				75CCCF5817FC03DF000BF0F4 /* BIDViewController.m in Sources */,
 				75073FA818120314009177C7 /* ViewPostViewController.m in Sources */,
 				75C0BDCE1829785E00B34113 /* UserMenuViewController.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
@@ -405,15 +405,6 @@
 				75CCCF4817FC03DF000BF0F4 /* en */,
 			);
 			name = InfoPlist.strings;
-			sourceTree = "<group>";
-		};
-		75CCCF5917FC03DF000BF0F4 /* BIDViewController.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				75CCCF5A17FC03DF000BF0F4 /* en */,
-			);
-			name = BIDViewController.xib;
-			path = Cells;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

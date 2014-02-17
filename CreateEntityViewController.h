@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class BIDViewController;
+@class ViewMultiPostsVC;
 @class CreatePostViewController;
 @class Entity;
 
@@ -17,7 +17,7 @@
 
 @property(strong, nonatomic) Entity *selectedEntity;
 
-- (id)initWithBIDViewController:(BIDViewController *)viewController;
+- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController;
 
 - (id)initWithCreatePostViewController:(CreatePostViewController *)viewController;
 - (void)dismissBlackMask;

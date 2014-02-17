@@ -8,13 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class BIDViewController;
+@class ViewMultiPostsVC;
 
 @interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *entities;
 
-- (id)initWithBIDViewController:(BIDViewController *)viewController;
+- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController;
 
 - (void)swipeImage:(UISwipeGestureRecognizer *)gesture;
 

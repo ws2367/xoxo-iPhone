@@ -8,7 +8,7 @@
 
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
-#import "BIDViewController.h"
+#import "ViewMultiPostsVC.h"
 #import "Entity.h"
 #import "EntityCell.h"
 
@@ -20,7 +20,7 @@
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
-@property (weak, nonatomic) BIDViewController *bidViewController;
+@property (weak, nonatomic) ViewMultiPostsVC *viewMultiPostsVC;
 @property (weak, nonatomic) CreatePostViewController *createPostViewController;
 @property (weak, nonatomic) IBOutlet UITableView *entityTableView;
 
@@ -37,10 +37,10 @@
 
 
 
-- (id)initWithBIDViewController:(BIDViewController *)viewController{
+- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController{
     self = [super init];
     if (self) {
-        _bidViewController = viewController;// Custom initialization
+        _viewMultiPostsVC = viewController;// Custom initialization
     }
     return self;
 }
@@ -104,14 +104,14 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     _selectedEntity.name = _nameTextField.text;
     _selectedEntity.institution = _institutionTextField.text;
     _selectedEntity.location = _locationTextField.text;
-    [_bidViewController finishCreatingEntityStartCreatingPost];
+    [_viewMultiPostsVC finishCreatingEntityStartCreatingPost];
 }
 
 
 - (IBAction)cancelButtonPressed:(id)sender {
-    //[(BIDViewController *)[self presentingViewController] cancelButton];
-    //[(BIDViewController *)self.presentingViewController cancelButton];
-    [_bidViewController cancelCreatingEntity];
+    //[(ViewMultiPostsVC *)[self presentingViewController] cancelButton];
+    //[(ViewMultiPostsVC *)self.presentingViewController cancelButton];
+    [_viewMultiPostsVC cancelCreatingEntity];
 }
 
 
@@ -157,8 +157,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     _selectedEntity.name = rowData[@"Name"];
     _selectedEntity.institution = rowData[@"Institution"];
     _selectedEntity.location = rowData[@"Location"];
-    if (_bidViewController)
-        [_bidViewController finishCreatingEntityStartCreatingPost];
+    if (_viewMultiPostsVC)
+        [_viewMultiPostsVC finishCreatingEntityStartCreatingPost];
     else if(_createPostViewController)
         [_createPostViewController finishAddingEntity];
     

@@ -7,7 +7,7 @@
 //
 
 #import "ViewPostViewController.h"
-#import "BIDViewController.h"
+#import "ViewMultiPostsVC.h"
 #import "CommentTableViewCell.h"
 
 @interface ViewPostViewController ()
@@ -15,7 +15,7 @@
 @property (weak, nonatomic) IBOutlet UITableView *myTableView;
 @property (strong, nonatomic) NSArray *comments;
 @property (weak, nonatomic)IBOutlet UIImageView *postImage;
-@property (weak, nonatomic) BIDViewController *bidViewController;
+@property (weak, nonatomic) ViewMultiPostsVC *viewMultiPostsVC;
 
 @end
 
@@ -29,10 +29,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 
-- (id)initWithBIDViewController:(BIDViewController *)viewController{
+- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController{
     self = [super init];
     if (self) {
-        _bidViewController = viewController;// Custom initialization
+        _viewMultiPostsVC = viewController;// Custom initialization
     }
     return self;
 }
@@ -76,7 +76,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
        forCellReuseIdentifier:CellTableIdentifier];
 }
 - (IBAction)backButtonPressed:(id)sender {
-    [_bidViewController cancelViewingPost];
+    [_viewMultiPostsVC cancelViewingPost];
 }
 
 - (void)didReceiveMemoryWarning

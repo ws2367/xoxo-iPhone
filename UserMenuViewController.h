@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class BIDViewController;
+@class ViewMultiPostsVC;
 @interface UserMenuViewController : UIViewController
                                     <UISearchBarDelegate, UITextFieldDelegate>
 
-- (id)initWithBIDViewController:(BIDViewController *)viewController;
+- (id)initWithViewMultiPostsVC:(ViewMultiPostsVC *)viewController;
 
 @end
