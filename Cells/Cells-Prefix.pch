@@ -1,6 +1,7 @@
 //
 // Prefix header for all source files of the 'Cells' target in the 'Cells' project
 //
+// Only this file and Cells-Info.plist have to be in the folder named after Project Name "Cells"
 
 #import <Availability.h>
 
