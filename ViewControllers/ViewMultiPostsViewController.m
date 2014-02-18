@@ -15,6 +15,8 @@
 #import <AddressBookUI/AddressBookUI.h>
 #import "ServerConnector.h"
 #import "UserMenuViewController.h"
+#import "MultiPostsTableViewController.h"
+#import "Post.h"
 
 @interface ViewMultiPostsViewController ()
 
@@ -33,8 +35,9 @@
 
 // try adding a table view controller and UIRefreshControl
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
-@property (strong, nonatomic) UITableViewController *tableViewController;
-@property (strong, nonatomic) UIRefreshControl *refreshControlOftableViewController;
+@property (strong, nonatomic) MultiPostsTableViewController *tableViewController;
+
+// communicate to server side 
 @property (strong, nonatomic) ServerConnector *serverConnector;
 
 @end
@@ -43,14 +46,10 @@
 #define WIDTH  320
 #define ANIMATION_DURATION 0.4
 #define ANIMATION_DELAY 0.0
-// TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
-#define ROW_HEIGHT 218
-#define POSTS_INCREMENT_NUM 5
+
+
 
 @implementation ViewMultiPostsViewController
-
-
-static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 
@@ -58,64 +57,16 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     [super viewDidLoad];
     
-    /*
-    NSDictionary *firstData =
-    @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entities" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" };
-    NSDictionary *secondData =
-    @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" };
-    NSDictionary *thirdData =
-    @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" };
-    NSDictionary *fourthData =
-    @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" };
-    NSDictionary *fifthData =
-                   @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" };
-     */
-    
-    //Shawn test
-    self.posts = [[NSMutableArray alloc] init];
-    
-    //Iru test
-    //self.posts = [[NSMutableArray alloc] initWithObjects:firstData,secondData,thirdData,fourthData,fifthData, nil];
-
-
-    _serverConnector =
-    //[[ServerConnector alloc] initWithURL:@"http://gentle-atoll-8604.herokuapp.com/orderposts.json"
-    [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
-                                    verb:@"post"
-                             requestType:@"application/json"
-                            responseType:@"application/json"
-                         timeoutInterval:60
-                          viewController:self];
-    
-    _tableView.rowHeight = ROW_HEIGHT;
-    UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
-                                bundle:nil];
-    [_tableView registerNib:nib
-       forCellReuseIdentifier:CellTableIdentifier];
-    
-    
     //[tableView registerClass:[BIDNameAndColorCell class]
     //forCellReuseIdentifier:CellTableIdentifier];
 	// Do any additional setup after loading the view, typically from a nib.
     
-    //Adding a tableViewController to have the refreshControl on our tableView
-    _tableViewController = [[UITableViewController alloc] init];
+    //add a table view 
+    _tableViewController = [[MultiPostsTableViewController alloc] init];
     _tableViewController.tableView = _tableView;
-    _refreshControlOftableViewController = [UIRefreshControl new];
-    _tableViewController.refreshControl = _refreshControlOftableViewController;
-    [_tableViewController.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
-    //[_tableViewController.refreshControl beginRefreshing];
-    //[self startRefreshingView];
-    
-    
-    //swipe cells
-    UISwipeGestureRecognizer * recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    [recognizerRight setDirection:UISwipeGestureRecognizerDirectionRight];
-    UISwipeGestureRecognizer * recognizerLeft = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
-    [recognizerLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
-    [_tableView addGestureRecognizer:recognizerRight];
-    [_tableView addGestureRecognizer:recognizerLeft];
-    
+    _tableViewController.masterController = self;
+    _tableView.delegate = _tableViewController;
+    [_tableViewController setup];
 }
 
 - (void)didReceiveMemoryWarning
@@ -130,6 +81,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (IBAction)changeSegment:(id)sender {
     NSInteger selectedIdx = [sender selectedSegmentIndex];
+
+    //TODO: signal tableViewController to change content
+    /*
     NSDictionary *data;
     NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
     if(selectedIdx == 0){
@@ -160,91 +114,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
         
         
     }
-    [_serverConnector sendJSONGetJSONArray:data];
-}
-
-
-#pragma mark -
-#pragma mark Parent Overloaded Methods
-// This method does not actually overload any method of the parent
--(void)startRefreshingView{
-    //must be here because it can not be in viewDidLoad
-    [_refreshControlOftableViewController beginRefreshing];
-    
-    //send out request
-    NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
-    
-    NSDictionary *data;
-    if(_segmentedControl.selectedSegmentIndex == 0){
-        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
-    }
-    else if(_segmentedControl.selectedSegmentIndex == 1){
-        data = @{@"num" : numPosts, @"sortby" : @"recent"};
-    }
-    else{
-        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
-    }
-    
-    [_serverConnector sendJSONGetJSONArray:data];
-}
-
--(void)endRefreshingViewWithJSONArr:(NSArray *)JSONArr{
-    [self.posts removeAllObjects];
-    
-    NSLog(@"%@", JSONArr);
-    
-    for(NSDictionary *item in JSONArr) {
-        [self.posts addObject:item];
-    }
-    
-    //NSLog(@"Count posts: %d", [self.posts count]);
-    
-    [_tableView reloadData];
-    [_refreshControlOftableViewController endRefreshing];
+    [_serverConnector sendJSONGetJSONArray:data];*/
     
 }
-
-/*
-- (void)RefreshViewWithJSONArr:(NSArray *)JSONArr
-{
-    self.posts = JSONArr;
-    
-    NSLog(@"Gonna refresh view!");
-    
-    if (!JSONArr) {
-        NSLog(@"Error parsing JSON!");
-    } else {
-        for(NSDictionary *item in JSONArr) {
-            NSLog(@"Item: %@", item);
-        }
-    }
-    
-    
- 
-     if (!jsonArr) {
-     NSLog(@"Error parsing JSON!");
-     } else {
-     for(NSDictionary *item in jsonArr) {
-     NSLog(@"Item: %@", item);
-     }
-     }
-     
-     
-     NSArray *jsonArr2 = [poster sendJSONGetJSONArray:@{@"num" : @"3", @"sortby" : @"recent"}];
-     for(NSDictionary *item in jsonArr2) {
-     NSLog(@"Item2: %@", item);
-     }
-     
-     NSURL *url2 = [NSURL URLWithString:@"http://localhost:3000/hates"];
-     [poster setUrl:url2];
-     NSArray *jsonArr3 = [poster sendJSONGetJSONArray:@{@"user_id" : @"5", @"hate":@{@"hatee_id":@"3", @"hatee_type":@"Post"}}];
-     
-     for(NSDictionary *item in jsonArr3) {
-     NSLog(@"Item3: %@", item);
-     }
-
-}
-*/
 
 #pragma mark -
 #pragma mark Switch View Methods
@@ -395,6 +267,30 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 }
 
+// TODO: The viewPostViewController should handle a Post object passed by the sender
+- (void)startViewingPostForPost:(Post *)post {
+    [self allocateBlackMask];
+    
+    _viewPostViewController = [[ViewPostViewController alloc] initWithViewMultiPostsViewController:self];
+    
+    _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
+    _viewPostViewController.pic = @"pic1";
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _viewPostViewController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    [self.view addSubview:_viewPostViewController.view];
+
+    
+    
+}
 
 - (IBAction)startCreatingEntity:(id)sender {
     
@@ -486,6 +382,67 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     //NSLog(@"%@", arrayOfPeople);
 }
 
+
+- (void) startViewingEntityForEntity:(Entity *)entity
+{
+    [self allocateBlackMask];
+    _viewEntityViewController = [[ViewEntityViewController alloc] initWithViewMultiPostsViewController:self];
+    
+    _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
+
+    //This should be handling the Entity object
+    [_viewEntityViewController setEntityName:@"Iru Wang"];
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _viewEntityViewController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    
+    //[self.view insertSubview:self.postController.view atIndex:1];
+    [self.view addSubview:_viewEntityViewController.view];
+
+    
+}
+
+
+#pragma mark -
+#pragma mark Button Methods
+- (IBAction)userMenuButtonPressed:(id)sender {
+    
+    [self allocateBlackMask];
+    UITapGestureRecognizer *tapBIDView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelUserMenu)];
+    [_blackMaskOnTopOfView addGestureRecognizer:tapBIDView];
+    
+    
+    
+    _userMenuViewController = [[UserMenuViewController alloc] initWithViewMultiPostsViewController:self];
+    
+    _userMenuViewController.view.frame = CGRectMake( -WIDTH, 0, WIDTH, HEIGHT);
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/2, 0, WIDTH, HEIGHT);
+                         [_blackMaskOnTopOfView setAlpha:0.6];
+                         
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    
+    //[self.view insertSubview:self.postController.view atIndex:1];
+    [self.view addSubview:_userMenuViewController.view];
+    
+    
+}
+
+
+
 #pragma mark -
 #pragma mark Rearrange View Methods
 
@@ -513,191 +470,6 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                      }];
 }
 
-
-
-#pragma mark -
-#pragma mark Button Methods
-- (IBAction)userMenuButtonPressed:(id)sender {
-    
-    [self allocateBlackMask];
-    UITapGestureRecognizer *tapBIDView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelUserMenu)];
-    [_blackMaskOnTopOfView addGestureRecognizer:tapBIDView];
-
-    
-    
-    _userMenuViewController = [[UserMenuViewController alloc] initWithViewMultiPostsViewController:self];
-    
-    _userMenuViewController.view.frame = CGRectMake( -WIDTH, 0, WIDTH, HEIGHT);
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/2, 0, WIDTH, HEIGHT);
-                         [_blackMaskOnTopOfView setAlpha:0.6];
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    
-    //[self.view insertSubview:self.postController.view atIndex:1];
-    [self.view addSubview:_userMenuViewController.view];
-
-    
-}
-
-
-
--(void)entityButtonPressed:(UIButton *)sender{
-    [self allocateBlackMask];
-    _viewEntityViewController = [[ViewEntityViewController alloc] initWithViewMultiPostsViewController:self];
-    
-    _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
-    NSDictionary *rowData = self.posts[sender.tag];
-    [_viewEntityViewController setEntityName:rowData[@"entity"]];
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _viewEntityViewController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    
-    //[self.view insertSubview:self.postController.view atIndex:1];
-    [self.view addSubview:_viewEntityViewController.view];
-}
-
-
-
-
-#pragma mark -
-#pragma mark Table Data Source Methods
-- (NSInteger)tableView:(UITableView *)tableView 
-numberOfRowsInSection:(NSInteger)section
-{
-    return [self.posts count];
-}
-
-// This is where cells got data and set up
-- (UITableViewCell *)tableView:(UITableView *)tableView
-         cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
-    NSDictionary *rowData = self.posts[indexPath.row];
-    cell.content = rowData[@"content"];
-    
-    
-    //uncomment one of these (hasnt made compatible to both)
-    
-    
-    //to test dummy cells
-    //NSString *entitiesOfPost = rowData[@"entities"];
-    //cell.entity = entitiesOfPost;
-    
-    //to connect to server
-    NSArray *entitiesOfPost = rowData[@"entities"];
-    cell.entities = entitiesOfPost;
-    
-    
-    cell.pic = rowData[@"pic"];
-    // We want the cell to know which row it is, so we store that in button.tag
-    // However, here shareButton is depreciated
-    cell.shareButton.tag = indexPath.row;
-    // Here is where we register any target of buttons in cells if the target is not the cell itself
-    [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    cell.entityButton.tag = indexPath.row;
-    [cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-
-    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
-    
-    /*
-    CAGradientLayer *gradient = [CAGradientLayer layer];
-    gradient.frame = cell.bounds;
-    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor],
-                       (id)[[UIColor colorWithWhite:0 alpha:0.3] CGColor], nil];
-    [cell.layer addSublayer:gradient];
-    NSLog(@"adding gradient");
-    */
-    
-    
-    return cell;
-}
-#pragma mark -
-#pragma mark TableView Delegate Methods
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [self allocateBlackMask];
-    
-    _viewPostViewController = [[ViewPostViewController alloc] initWithViewMultiPostsViewController:self];
-    NSDictionary *rowData = self.posts[indexPath.row];
-    
-    _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
-    _viewPostViewController.pic = rowData[@"pic"];
-    
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _viewPostViewController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    [self.view addSubview:_viewPostViewController.view];
-
-}
-
-#pragma mark -
-#pragma mark UIScrollView Delegate Methods
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat height = scrollView.frame.size.height;
-    
-    CGFloat contentYoffset = scrollView.contentOffset.y;
-    
-    CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
-    
-    if(distanceFromBottom < height)
-    {
-        NSLog(@"end of the table %d", [_posts count]);
-        if(_posts.count < 20 &&  _segmentedControl.selectedSegmentIndex == 0){
-            NSDictionary *sixthData =
-            @{@"content" : @"new sixth cell's content!!!!!!", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic3" };
-            NSDictionary *seventhData =
-            @{@"content" : @"omgomgomgomgomg", @"entity" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" };
-            
-            [_posts addObject:sixthData];
-            [_posts addObject:seventhData];
-            
-            [_tableView reloadData];
-        }
-        
-    }
-}
-
-#pragma mark -
-#pragma mark Swipe Table Cell Methods
-- (void)handleSwipe:(UISwipeGestureRecognizer *)aSwipeGestureRecognizer; {
-    CGPoint location = [aSwipeGestureRecognizer locationInView:_tableView];
-    NSIndexPath * indexPath = [_tableView indexPathForRowAtPoint:location];
-    
-    if(indexPath){
-        BigPostTableViewCell * cell = (BigPostTableViewCell *)[_tableView cellForRowAtIndexPath:indexPath];
-        if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight){
-            [cell symptomCellSwipeRight];
-            NSLog(@"swipeRight at %d",indexPath.row);
-        }
-        else if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft){
-            [self sharePost];
-            NSLog(@"swipeLeft at %d",indexPath.row);
-        }
-    }
-}
 
 
 #pragma mark -

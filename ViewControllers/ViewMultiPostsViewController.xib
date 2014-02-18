@@ -54,10 +54,6 @@
                     <rect key="frame" x="0.0" y="68" width="320" height="500"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                    <connections>
-                        <outlet property="dataSource" destination="-1" id="Ubc-Hv-M0h"/>
-                        <outlet property="delegate" destination="-1" id="wQa-MK-ljM"/>
-                    </connections>
                 </tableView>
             </subviews>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

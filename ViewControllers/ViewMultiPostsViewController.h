@@ -9,14 +9,14 @@
 #import <UIKit/UIKit.h>
 #import <AddressBookUI/AddressBookUI.h>
 #import "XOXOUIViewController.h"
+#import "Post.h"
+#import "Entity.h"
 
 @class CreateEntityViewController;
 @class CreatePostViewController;
 
 @interface ViewMultiPostsViewController : XOXOUIViewController
-        <UITableViewDataSource, UITableViewDelegate, UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate, UIScrollViewDelegate>
-
-@property (strong, nonatomic) NSMutableArray *posts;
+        <UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *entities;
 
@@ -27,7 +27,10 @@
 - (void)cancelCreatingPost;
 - (void)cancelViewingPost;
 - (void)cancelViewingEntity;
+- (void)startViewingPostForPost:(Post *)post;
+- (void)startViewingEntityForEntity:(Entity *)entity;
 - (void)beginSearchTakeOverWindow;
 - (void)endSearchTakeOverWindow;
 
+-(void)sharePost;
 @end
