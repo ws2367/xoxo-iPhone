@@ -102,8 +102,10 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [self allocateBlackMask];
     _selectedEntity = [[Entity alloc] init];
     _selectedEntity.name = _nameTextField.text;
-    _selectedEntity.institution = _institutionTextField.text;
+/*    _selectedEntity.institution = _institutionTextField.text;
     _selectedEntity.location = _locationTextField.text;
+ */
+    
     [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
 }
 
@@ -155,8 +157,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     _selectedEntity = [[Entity alloc] init];
     _selectedEntity.name = rowData[@"Name"];
-    _selectedEntity.institution = rowData[@"Institution"];
-    _selectedEntity.location = rowData[@"Location"];
+    /*_selectedEntity.institution = rowData[@"Institution"];
+    
+    _selectedEntity.location = rowData[@"Location"];*/
     if (_viewMultiPostsViewController)
         [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
     else if(_createPostViewController)

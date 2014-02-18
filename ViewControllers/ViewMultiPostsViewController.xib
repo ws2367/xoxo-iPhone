@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3747"/>
     </dependencies>
     <objects>
-        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="BIDViewController">
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="ViewMultiPostsViewController">
             <connections>
                 <outlet property="segmentedControl" destination="1Y5-iJ-m2d" id="SdR-zg-tNC"/>
                 <outlet property="tableView" destination="3Ob-wy-ehX" id="GHi-4j-dJm"/>

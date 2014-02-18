@@ -10,7 +10,6 @@
 #import "BigPostTableViewCell.h"
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
-#import "Entity.h"
 #import "ViewPostViewController.h"
 #import "ViewEntityViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
