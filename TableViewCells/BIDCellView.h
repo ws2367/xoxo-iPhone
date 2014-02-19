@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
+// TODO: this will be depreciated in the future
 @interface BIDCellView : UIView
 
 @end

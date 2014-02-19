@@ -83,7 +83,8 @@
 		5177A69518B4455300F433DA /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		5177A69718B4455300F433DA /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
 		5177A69818B4455300F433DA /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
-		5177A69A18B446F800F433DA /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		5177A69A18B446F800F433DA /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		75073FA518120314009177C7 /* ViewPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostViewController.h; sourceTree = "<group>"; };
 		75073FA618120314009177C7 /* ViewPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostViewController.m; sourceTree = "<group>"; };
 		75073FA718120314009177C7 /* ViewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewPostViewController.xib; sourceTree = "<group>"; };
@@ -571,10 +572,11 @@
 		512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */ = {
 			isa = XCVersionGroup;
 			children = (
+				51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */,
 				5177A69A18B446F800F433DA /* Model 2.xcdatamodel */,
 				512422B218B3EAFD008BEF86 /* Model.xcdatamodel */,
 			);
-			currentVersion = 5177A69A18B446F800F433DA /* Model 2.xcdatamodel */;
+			currentVersion = 51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */;
 			path = Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;

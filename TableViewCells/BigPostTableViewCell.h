@@ -32,8 +32,8 @@
 @property (strong, nonatomic) IBOutlet UILabel *hateValue;
 @property (strong, nonatomic) NSArray *entities;
 
-- (void)symptomCellSwipeRight;
-- (void)symptomCellSwipeLeft;
+- (void)swipeRight;
+- (void)swipeLeft;
 
 @end
 

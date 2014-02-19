@@ -22,7 +22,7 @@
 
 @implementation MultiPostsTableViewController
 
-static NSString *BigPostTableViewCellIdentifier = @"CellTableIdentifier";
+static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -83,7 +83,7 @@ static NSString *BigPostTableViewCellIdentifier = @"CellTableIdentifier";
     self.tableView.rowHeight = ROW_HEIGHT;
     UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
                                 bundle:nil];
-    [self.tableView registerNib:nib forCellReuseIdentifier:BigPostTableViewCellIdentifier];
+    [self.tableView registerNib:nib forCellReuseIdentifier:CellTableIdentifier];
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
 
@@ -175,7 +175,7 @@ static NSString *BigPostTableViewCellIdentifier = @"CellTableIdentifier";
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BigPostTableViewCellIdentifier];
+    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     
     //TODO: check if the model is empty then this will raise exception
 
@@ -241,7 +241,7 @@ static NSString *BigPostTableViewCellIdentifier = @"CellTableIdentifier";
     if(indexPath){
         BigPostTableViewCell * cell = (BigPostTableViewCell *)[self.tableView cellForRowAtIndexPath:indexPath];
         if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionRight){
-            [cell symptomCellSwipeRight];
+            [cell swipeRight];
             NSLog(@"swipeRight at %d",indexPath.row);
         }
         else if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft){

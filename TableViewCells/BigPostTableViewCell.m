@@ -149,10 +149,10 @@
 #pragma mark -
 #pragma mark Swipe Methods
 // we don't know why it is called symptom cell
-- (void) symptomCellSwipeLeft{
+- (void) swipeLeft{
     
 }
-- (void) symptomCellSwipeRight{
+- (void) swipeRight{
     _mooseView = [[UIImageView alloc] init];
     _mooseView.frame = CGRectMake(-WIDTH + 135, 70, 50, 50);
     [_mooseView setImage:[UIImage imageNamed:@"moose"]];
