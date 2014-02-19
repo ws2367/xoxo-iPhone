@@ -13,7 +13,6 @@
 #import "ViewPostViewController.h"
 #import "ViewEntityViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
-#import "ServerConnector.h"
 #import "UserMenuViewController.h"
 #import "MultiPostsTableViewController.h"
 #import "Post.h"
@@ -36,9 +35,6 @@
 // try adding a table view controller and UIRefreshControl
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) MultiPostsTableViewController *tableViewController;
-
-// communicate to server side 
-@property (strong, nonatomic) ServerConnector *serverConnector;
 
 @end
 
@@ -65,6 +61,7 @@
     _tableViewController = [[MultiPostsTableViewController alloc] init];
     _tableViewController.tableView = _tableView;
     _tableViewController.masterController = self;
+    _tableViewController.managedObjectContext = self.managedObjectContext;
     _tableView.delegate = _tableViewController;
     [_tableViewController setup];
 }
@@ -407,6 +404,30 @@
     [self.view addSubview:_viewEntityViewController.view];
 
     
+}
+
+
+- (void) createPost{
+    
+    _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsViewController:self];
+    self.createPostController.entities = _entities;
+    _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
+    
+    [UIView animateWithDuration:ANIMATION_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         _createPostController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
+                         //_toCreatePostToolbar.frame = CGRectMake(0, 22, WIDTH, 44);
+                         //[self.myTableView setAlpha:0];
+                         //self.view.backgroundColor = [UIColor whiteColor];
+                     }
+                     completion:^(BOOL finished){
+                     }];
+    
+    [self.view addSubview:self.createPostController.view];
+    //[self.view addSubview:_toCreatePostToolbar];
+
 }
 
 

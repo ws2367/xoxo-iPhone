@@ -198,7 +198,31 @@
 }
 
 - (IBAction)postButtonPressed:(id)sender {
-    [_viewMultiPostsViewController finishCreatingPostBackToHomePage];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
+                                              inManagedObjectContext:appDelegate.managedObjectContext];
+    
+    if (post != nil) {
+        
+        post.content = _textView.text;
+        //TODO: change to real id
+        post.id = [NSNumber numberWithInt:1];//dummy integer now
+        
+        //TODO: set relationships with Entity
+        //post.entities
+        
+        //TODO: set picture to post
+        
+        NSError *SavingErr = nil;
+        
+        if ([appDelegate.managedObjectContext save:&SavingErr]) {
+            [_viewMultiPostsViewController finishCreatingPostBackToHomePage];
+        } else {
+            NSLog(@"Failed to save the managed object context.");
+        }
+    }
 }
 
 - (IBAction)backButtonPressed:(id)sender {

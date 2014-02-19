@@ -18,6 +18,9 @@
 @interface ViewMultiPostsViewController : XOXOUIViewController
         <UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
+//TODO: depreciate it after implementing Core Data
 @property (strong, nonatomic) NSMutableArray *entities;
 
 //These are all user actions that involves switching view controllers

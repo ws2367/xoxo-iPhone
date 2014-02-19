@@ -24,7 +24,7 @@
     // Override point for customization after application launch.
     self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
-    //self.window.rootViewController = self.viewController;
+    self.viewController.managedObjectContext = self.managedObjectContext;
     [self.window makeKeyAndVisible];
     return YES;
 }

@@ -16,12 +16,13 @@
 
 @interface MultiPostsTableViewController ()
 
+@property (strong, nonatomic)NSFetchedResultsController *fetchedResultsController;
 
 @end
 
 @implementation MultiPostsTableViewController
 
-static NSString *CellTableIdentifier = @"CellTableIdentifier";
+static NSString *BigPostTableViewCellIdentifier = @"BigPostTableViewCell";
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -80,9 +81,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
      */
     
     self.tableView.rowHeight = ROW_HEIGHT;
-    UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
+    UINib *nib = [UINib nibWithNibName:BigPostTableViewCellIdentifier
                                 bundle:nil];
-    [self.tableView registerNib:nib forCellReuseIdentifier:CellTableIdentifier];
+    [self.tableView registerNib:nib forCellReuseIdentifier:BigPostTableViewCellIdentifier];
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
 
@@ -96,6 +97,30 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [self.tableView addGestureRecognizer:recognizerRight];
     [self.tableView addGestureRecognizer:recognizerLeft];
     
+    //set up fetched results controller
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
+    
+    NSSortDescriptor *idSort = [[NSSortDescriptor alloc] initWithKey:@"id" ascending:YES];
+    request.sortDescriptors = @[idSort];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    _fetchedResultsController =
+    [[NSFetchedResultsController alloc]
+     initWithFetchRequest:request
+     managedObjectContext:appDelegate.managedObjectContext
+     sectionNameKeyPath:nil
+     cacheName:nil];
+    
+    _fetchedResultsController.delegate = self;
+    
+    // Let's perform one fetch here
+    NSError *fetchingErr = nil;
+    if ([self.fetchedResultsController performFetch:&fetchingErr]){
+        NSLog(@"Successfully fetched.");
+    } else {
+        NSLog(@"Failed to fetch");
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,42 +129,78 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark - Table view data source
+#pragma mark -
+#pragma mark Fetched Results Controller Delegate Methods
 
+- (void) controllerWillChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView beginUpdates];
+}
+
+- (void) controllerDidChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView endUpdates];
+}
+
+- (void) controller:(NSFetchedResultsController *)controller
+    didChangeObject:(id)anObject
+        atIndexPath:(NSIndexPath *)indexPath
+      forChangeType:(NSFetchedResultsChangeType)type
+       newIndexPath:(NSIndexPath *)newIndexPath{
+    
+    if (type == NSFetchedResultsChangeDelete) {
+        [self.tableView
+         deleteRowsAtIndexPaths:@[indexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else if (type == NSFetchedResultsChangeInsert) {
+        [self.tableView
+         insertRowsAtIndexPaths:@[indexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
 
 #pragma mark -
 #pragma mark Table Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [self.posts count];
+    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    return sectionInfo.numberOfObjects;
+
+    //return [self.posts count];
 }
 
 // This is where cells got data and set up
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
+    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BigPostTableViewCellIdentifier];
+    
+    
+    Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    cell.content = post.content;
+    //post.entities is a NSSet but cell.entities is a NSArray
+    cell.entities = [post.entities allObjects];
+    
+    cell.pic = @"pic1"; // dummy for now
+    
+    /*
     NSDictionary *rowData = self.posts[indexPath.row];
     cell.content = rowData[@"content"];
     
-    
     //uncomment one of these (hasnt made compatible to both)
-    
-    
-    //to test dummy cells
-    //NSString *entitiesOfPost = rowData[@"entities"];
-    //cell.entity = entitiesOfPost;
-    
+     
     //to connect to server
     NSArray *entitiesOfPost = rowData[@"entities"];
     cell.entities = entitiesOfPost;
-    
     
     cell.pic = rowData[@"pic"];
     // We want the cell to know which row it is, so we store that in button.tag
     // However, here shareButton is depreciated
     cell.shareButton.tag = indexPath.row;
+    */
+    
     // Here is where we register any target of buttons in cells if the target is not the cell itself
     [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     cell.entityButton.tag = indexPath.row;
@@ -229,10 +290,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     }
 }
 
-
-
 #pragma mark -
 #pragma mark Parent Overloaded Methods
+//TODO: figure out the neccesity of XOXOViewController and maybe kill it later
 // This method does not actually overload any method of the parent
 -(void)startRefreshingView{
     //must be here because it can not be in viewDidLoad

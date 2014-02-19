@@ -11,7 +11,7 @@
         <relationship name="entities" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Entity" inverseName="taggedIn" inverseEntity="Entity" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Post" positionX="160" positionY="192" width="128" height="88"/>
         <element name="Entity" positionX="-63" positionY="117" width="99" height="88"/>
+        <element name="Post" positionX="160" positionY="192" width="128" height="88"/>
     </elements>
 </model>

@@ -8,9 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate>
+@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate>
 
-@property(strong, nonatomic)ViewMultiPostsViewController *masterController;
+@property (strong, nonatomic)ViewMultiPostsViewController *masterController;
+
+@property (strong, nonatomic)NSManagedObjectContext *managedObjectContext;
 // this will be depreciated after we use Core Data
 @property (strong, nonatomic) NSMutableArray *posts;
 
