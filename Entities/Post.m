@@ -7,12 +7,13 @@
 //
 
 #import "Post.h"
+#import "Entity.h"
 
 
 @implementation Post
 
-@dynamic id;
 @dynamic content;
+@dynamic idNum;
 @dynamic entities;
 
 @end

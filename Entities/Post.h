@@ -9,18 +9,19 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
+@class Entity;
 
 @interface Post : NSManagedObject
 
-@property (nonatomic, retain) NSNumber * id;
 @property (nonatomic, retain) NSString * content;
+@property (nonatomic, retain) NSNumber * idNum;
 @property (nonatomic, retain) NSSet *entities;
 @end
 
 @interface Post (CoreDataGeneratedAccessors)
 
-- (void)addEntitiesObject:(NSManagedObject *)value;
-- (void)removeEntitiesObject:(NSManagedObject *)value;
+- (void)addEntitiesObject:(Entity *)value;
+- (void)removeEntitiesObject:(Entity *)value;
 - (void)addEntities:(NSSet *)values;
 - (void)removeEntities:(NSSet *)values;
 

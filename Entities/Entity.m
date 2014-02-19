@@ -12,7 +12,7 @@
 
 @implementation Entity
 
-@dynamic id;
+@dynamic idNum;
 @dynamic name;
 @dynamic taggedIn;
 

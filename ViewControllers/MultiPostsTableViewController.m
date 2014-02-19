@@ -22,7 +22,7 @@
 
 @implementation MultiPostsTableViewController
 
-static NSString *BigPostTableViewCellIdentifier = @"BigPostTableViewCell";
+static NSString *BigPostTableViewCellIdentifier = @"CellTableIdentifier";
 
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -81,7 +81,7 @@ static NSString *BigPostTableViewCellIdentifier = @"BigPostTableViewCell";
      */
     
     self.tableView.rowHeight = ROW_HEIGHT;
-    UINib *nib = [UINib nibWithNibName:BigPostTableViewCellIdentifier
+    UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
                                 bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:BigPostTableViewCellIdentifier];
     self.refreshControl = [UIRefreshControl new];
@@ -100,7 +100,7 @@ static NSString *BigPostTableViewCellIdentifier = @"BigPostTableViewCell";
     //set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
     
-    NSSortDescriptor *idSort = [[NSSortDescriptor alloc] initWithKey:@"id" ascending:YES];
+    NSSortDescriptor *idSort = [[NSSortDescriptor alloc] initWithKey:@"content" ascending:YES];
     request.sortDescriptors = @[idSort];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -153,7 +153,7 @@ static NSString *BigPostTableViewCellIdentifier = @"BigPostTableViewCell";
     }
     else if (type == NSFetchedResultsChangeInsert) {
         [self.tableView
-         insertRowsAtIndexPaths:@[indexPath]
+         insertRowsAtIndexPaths:@[newIndexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
@@ -165,6 +165,7 @@ static NSString *BigPostTableViewCellIdentifier = @"BigPostTableViewCell";
 {
     // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    NSLog(@"numbers %d", sectionInfo.numberOfObjects);
     return sectionInfo.numberOfObjects;
 
     //return [self.posts count];
@@ -176,9 +177,10 @@ static NSString *BigPostTableViewCellIdentifier = @"BigPostTableViewCell";
 {
     BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:BigPostTableViewCellIdentifier];
     
-    
+    //TODO: check if the model is empty then this will raise exception
+
     Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
+
     cell.content = post.content;
     //post.entities is a NSSet but cell.entities is a NSArray
     cell.entities = [post.entities allObjects];

@@ -54,8 +54,6 @@
     [super viewDidLoad];
     
     //[tableView registerClass:[BIDNameAndColorCell class]
-    //forCellReuseIdentifier:CellTableIdentifier];
-	// Do any additional setup after loading the view, typically from a nib.
     
     //add a table view 
     _tableViewController = [[MultiPostsTableViewController alloc] init];
@@ -407,10 +405,10 @@
 }
 
 
-- (void) createPost{
+- (IBAction) createPost:(id)sender{
     
     _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsViewController:self];
-    self.createPostController.entities = _entities;
+    self.createPostController.entities = [[NSMutableArray alloc] init];
     _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
     
     [UIView animateWithDuration:ANIMATION_DURATION
@@ -418,15 +416,11 @@
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
                      animations:^{
                          _createPostController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
-                         //_toCreatePostToolbar.frame = CGRectMake(0, 22, WIDTH, 44);
-                         //[self.myTableView setAlpha:0];
-                         //self.view.backgroundColor = [UIColor whiteColor];
                      }
                      completion:^(BOOL finished){
                      }];
     
     [self.view addSubview:self.createPostController.view];
-    //[self.view addSubview:_toCreatePostToolbar];
 
 }
 

@@ -9,8 +9,6 @@
 #import "CreatePostViewController.h"
 #import "CreateEntityViewController.h"
 #import "ViewMultiPostsViewController.h"
-#import "Entity.h"
-#import <QuartzCore/QuartzCore.h>
 #import "ServerConnector.h"
 
 @interface CreatePostViewController ()
@@ -51,7 +49,6 @@
         _viewMultiPostsViewController = viewController;// Custom initialization
         _entities = [[NSMutableArray alloc] init];
     }
-    NSLog(@"hello?");
     
     return self;
 }
@@ -200,15 +197,16 @@
 - (IBAction)postButtonPressed:(id)sender {
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSLog(@"before insert a object");
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
                                               inManagedObjectContext:appDelegate.managedObjectContext];
-    
+
     if (post != nil) {
         
         post.content = _textView.text;
         //TODO: change to real id
-        post.id = [NSNumber numberWithInt:1];//dummy integer now
+        //post.id = [NSNumber numberWithInt:0];//dummy integer now
         
         //TODO: set relationships with Entity
         //post.entities
@@ -216,13 +214,15 @@
         //TODO: set picture to post
         
         NSError *SavingErr = nil;
-        
+        NSLog(@"insert a object");
         if ([appDelegate.managedObjectContext save:&SavingErr]) {
+            NSLog(@"saved!");
             [_viewMultiPostsViewController finishCreatingPostBackToHomePage];
         } else {
             NSLog(@"Failed to save the managed object context.");
         }
     }
+    NSLog(@"done");
 }
 
 - (IBAction)backButtonPressed:(id)sender {
@@ -384,7 +384,6 @@
     photoIndex = 0;
     // Do any additional setup after loading the view from its nib.
     int cnt = [_entities count];
-    NSLog(@"In CreatPostViewController, count = %d", cnt);
 
     [_PostSuperImageView addGestureRecognizer:[[UISwipeGestureRecognizer alloc]
                                                initWithTarget:self

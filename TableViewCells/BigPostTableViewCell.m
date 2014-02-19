@@ -78,18 +78,20 @@
 // TODO: copy objects to _entities then show _entities on the view instead of outter pointers
 // Like what we do in setContent
 -(void) setEntities:(NSArray *)entities{
-    NSLog(@"%@", entities);
-    NSLog(@"%@", [entities objectAtIndex:0][@"name"]);
-    [_entityButton setTitle:[entities objectAtIndex:0][@"name"] forState:UIControlStateNormal];
-    /*for(NSDictionary *item in JSONArr) {
-        [self.posts addObject:item];
-    }*/
-    //NSDictionary
-//NSArray *keys = [entities allValues];
-  //  NSLog(@"%@",keys);
-    //NSArray *eachEntity = [entities allValues];
-    //NSLog(@"%@", [eachEntity objectAtIndex:0]);
+    
+    if ([entities count] > 0) {
+        NSLog(@"%@", [entities objectAtIndex:0][@"name"]);
+        [_entityButton setTitle:[entities objectAtIndex:0][@"name"] forState:UIControlStateNormal];
 
+        /*for(NSDictionary *item in JSONArr) {
+        [self.posts addObject:item];
+         }*/
+        //NSDictionary
+        //NSArray *keys = [entities allValues];
+        //  NSLog(@"%@",keys);
+        //NSArray *eachEntity = [entities allValues];
+        //NSLog(@"%@", [eachEntity objectAtIndex:0]);
+    }
 }
 
 // depreciated. Now we have multiple entities
