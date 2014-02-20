@@ -186,7 +186,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     // TODO: we might want to save new entities before creating posts, if so, do context save here
     
-    [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
+    // decide who calls to create entity, that is, are we adding more entities or just the first one?
+    if (_viewMultiPostsViewController)
+        [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
+    else if(_createPostViewController)
+        [_createPostViewController finishAddingEntity];
 }
 
 
