@@ -35,7 +35,7 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="createPost:" destination="-1" eventType="touchUpInside" id="WBX-wr-aVs"/>
+                        <action selector="startCreatingEntity:" destination="-1" eventType="touchUpInside" id="mhr-UF-NNP"/>
                     </connections>
                 </button>
                 <segmentedControl opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="1Y5-iJ-m2d">

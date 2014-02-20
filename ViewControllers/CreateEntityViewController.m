@@ -9,20 +9,26 @@
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
 #import "ViewMultiPostsViewController.h"
-#import "Entity.h"
-#import "EntityCell.h"
+#import "EntityTableViewCell.h"
+#import "Institution.h"
+#import "Location.h"
 
 @interface CreateEntityViewController ()
 
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *institutionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
-@property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+
+@property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 @property (weak, nonatomic) CreatePostViewController *createPostViewController;
-@property (weak, nonatomic) IBOutlet UITableView *entityTableView;
+
+// table view
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) UITableViewController *tableViewController;
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSArray *searchEntityResult;
 
@@ -34,8 +40,6 @@
 #define ANIMATION_DELAY 0.0
 
 @implementation CreateEntityViewController
-
-
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
     self = [super init];
@@ -80,12 +84,44 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
                    @{@"Name" : @"Dan Lin 3", @"Institution" : @"Santa Clara University", @"Location" : @"Santa Clara, CA", @"Pic" : @"pic4" }];
     //UITableView *tableView = (id)[self.view viewWithTag:1];
     
-    _entityTableView.rowHeight = 60;
-    UINib *nib = [UINib nibWithNibName:@"EntityCell"
+    // TODO: change this hard-coded number to the actual height of xib
+    _tableView.rowHeight = 60;
+    UINib *nib = [UINib nibWithNibName:@"EntityTableViewCell"
                                 bundle:nil];
-    [_entityTableView registerNib:nib
+    [_tableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
-    // Do any additional setup after loading the view from its nib.
+    
+    // set up table view controller
+    _tableViewController = [[UITableViewController alloc] init];
+    _tableViewController.tableView = _tableView;
+    
+    // set up fetched results controller
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Entity"];
+    
+    NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
+    request.sortDescriptors = @[nameSort];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    _fetchedResultsController =
+    [[NSFetchedResultsController alloc]
+     initWithFetchRequest:request
+     managedObjectContext:appDelegate.managedObjectContext
+     sectionNameKeyPath:nil
+     cacheName:nil];
+    
+    _fetchedResultsController.delegate = self;
+    
+    // Let's perform one fetch here
+    NSError *fetchingErr = nil;
+    if ([self.fetchedResultsController performFetch:&fetchingErr]){
+        NSLog(@"Successfully fetched.");
+    } else {
+        NSLog(@"Failed to fetch");
+    }
+
+    
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -96,16 +132,63 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 
 #pragma mark -
+#pragma mark Fetched Results Controller Delegate Methods
+
+- (void) controllerWillChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView beginUpdates];
+}
+
+- (void) controllerDidChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView endUpdates];
+}
+
+- (void) controller:(NSFetchedResultsController *)controller
+    didChangeObject:(id)anObject
+        atIndexPath:(NSIndexPath *)indexPath
+      forChangeType:(NSFetchedResultsChangeType)type
+       newIndexPath:(NSIndexPath *)newIndexPath{
+    
+    if (type == NSFetchedResultsChangeDelete) {
+        [self.tableView
+         deleteRowsAtIndexPaths:@[indexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else if (type == NSFetchedResultsChangeInsert) {
+        [self.tableView
+         insertRowsAtIndexPaths:@[newIndexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+
+#pragma mark -
 #pragma mark Button Pressed Functions
 
 - (IBAction)notHereButtonPressed:(id)sender {
     [self allocateBlackMask];
-    _selectedEntity = [[Entity alloc] init];
-    _selectedEntity.name = _nameTextField.text;
-/*    _selectedEntity.institution = _institutionTextField.text;
-    _selectedEntity.location = _locationTextField.text;
- */
     
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    _selectedEntity =
+        [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
+                                      inManagedObjectContext:appDelegate.managedObjectContext];
+
+    _selectedEntity.name = _nameTextField.text;
+    
+    // TODO: check if the institution and location is in the database, not just create them blindly
+    // TODO: Consider to add setters of properties of Institution through catergories and class extension
+    _selectedEntity.institution =
+        [NSEntityDescription insertNewObjectForEntityForName:@"Institution"
+                                      inManagedObjectContext:appDelegate.managedObjectContext];
+
+    _selectedEntity.institution.name = _institutionTextField.text;
+    _selectedEntity.institution.location =
+        [NSEntityDescription insertNewObjectForEntityForName:@"Location"
+                                      inManagedObjectContext:appDelegate.managedObjectContext];
+
+    _selectedEntity.institution.location.name = _locationTextField.text;
+    
+    // TODO: we might want to save new entities before creating posts
+
     [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
 }
 
@@ -133,17 +216,30 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [_searchEntityResult count];
+    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    NSLog(@"numbers of entities %d", sectionInfo.numberOfObjects);
+    return sectionInfo.numberOfObjects;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EntityCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
-    NSDictionary *rowData = _searchEntityResult[indexPath.row];
-    cell.name = rowData[@"Name"];
-    cell.institution =rowData[@"Institution"];
-    cell.location =rowData[@"Location"];
-    cell.pic = rowData[@"Pic"];
+    EntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
+    
+    // TODO: check if the model is empty then this will raise exception
+    // TODO: apply predicate to fetch only matching results
+    Entity *entity = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    
+    cell.name = entity.name;
+    cell.location = entity.institution.location.name;
+    cell.institution = entity.institution.name;
+    
+    cell.pic = @"pic1"; // dummy for now
+    
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+    
     return cell;
 }
 
@@ -153,13 +249,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     NSLog(@"selectrow");
     [self allocateBlackMask];
     
-     NSDictionary *rowData = _searchEntityResult[indexPath.row];
+    _selectedEntity = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    _selectedEntity = [[Entity alloc] init];
-    _selectedEntity.name = rowData[@"Name"];
-    /*_selectedEntity.institution = rowData[@"Institution"];
-    
-    _selectedEntity.location = rowData[@"Location"];*/
+    // decide who calls to create entity, that is, are we adding more entities or just the first one?
     if (_viewMultiPostsViewController)
         [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
     else if(_createPostViewController)

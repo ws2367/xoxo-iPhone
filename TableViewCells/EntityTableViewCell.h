@@ -1,5 +1,5 @@
 //
-//  EntityCell.h
+//  EntityTableViewCell
 //  Cells
 //
 //  Created by WYY on 13/10/17.
@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface EntityCell : UITableViewCell
+@interface EntityTableViewCell : UITableViewCell
 
 @property (copy, nonatomic) NSString *name;
 @property (copy, nonatomic) NSString *institution;

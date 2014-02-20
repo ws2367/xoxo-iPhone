@@ -29,7 +29,7 @@
 @property (strong, nonatomic) NSMutableArray *photos;
 @property (strong, nonatomic) NSMutableString *content;
 
-@property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
+@property (weak, nonatomic) ViewMultiPostsViewController *masterViewController;
 @property (strong, nonatomic) CreateEntityViewController *addEntityController;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
@@ -46,7 +46,7 @@
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
     self = [super init];
     if (self) {
-        _viewMultiPostsViewController = viewController;// Custom initialization
+        _masterViewController = viewController;// Custom initialization
         _entities = [[NSMutableArray alloc] init];
     }
     
@@ -134,17 +134,17 @@
     
     
 
-    NSLog(@"Start adding Entity bah!");
+    NSLog(@"Start adding more entities bah!");
 }
 
 - (void) finishAddingEntity {
-    Entity *person = _addEntityController.selectedEntity;
+    Entity *entity = _addEntityController.selectedEntity;
     
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
     
-    [_entities addObject:person];
+    [_entities addObject:entity];
     
     _entityNames = [NSMutableString string];
     
@@ -208,8 +208,8 @@
         //TODO: change to real id
         //post.id = [NSNumber numberWithInt:0];//dummy integer now
         
-        //TODO: set relationships with Entity
-        //post.entities
+        //set up relationship with entities
+        post.entities = [NSSet setWithArray:_entities];
         
         //TODO: set picture to post
         
@@ -217,7 +217,7 @@
         NSLog(@"insert a object");
         if ([appDelegate.managedObjectContext save:&SavingErr]) {
             NSLog(@"saved!");
-            [_viewMultiPostsViewController finishCreatingPostBackToHomePage];
+            [_masterViewController finishCreatingPostBackToHomePage];
         } else {
             NSLog(@"Failed to save the managed object context.");
         }
@@ -227,7 +227,7 @@
 
 - (IBAction)backButtonPressed:(id)sender {
     [_entities removeAllObjects];
-    [_viewMultiPostsViewController cancelCreatingPost];
+    [_masterViewController cancelCreatingPost];
 }
 
 - (IBAction)pickImageButtonPressed:(id)sender {
@@ -352,7 +352,7 @@
     }
     
 }- (IBAction)swiped:(id)sender {
-    [_viewMultiPostsViewController finishCreatingPostBackToHomePage];
+    [_masterViewController finishCreatingPostBackToHomePage];
 }
 
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -383,7 +383,6 @@
     
     photoIndex = 0;
     // Do any additional setup after loading the view from its nib.
-    int cnt = [_entities count];
 
     [_PostSuperImageView addGestureRecognizer:[[UISwipeGestureRecognizer alloc]
                                                initWithTarget:self

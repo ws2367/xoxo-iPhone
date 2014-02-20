@@ -80,7 +80,7 @@
 -(void) setEntities:(NSArray *)entities{
     
     if ([entities count] > 0) {
-        NSLog(@"%@", [entities objectAtIndex:0][@"name"]);
+        // TOOD: change it to show multiple names
         [_entityButton setTitle:[entities objectAtIndex:0][@"name"] forState:UIControlStateNormal];
 
         /*for(NSDictionary *item in JSONArr) {

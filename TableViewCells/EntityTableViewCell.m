@@ -6,9 +6,9 @@
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
-#import "EntityCell.h"
+#import "EntityTableViewCell.h"
 
-@implementation EntityCell
+@implementation EntityTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

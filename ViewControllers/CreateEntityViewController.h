@@ -13,7 +13,7 @@
 @class Entity;
 
 
-@interface CreateEntityViewController : UIViewController <UITextFieldDelegate> 
+@interface CreateEntityViewController : UIViewController <UITextFieldDelegate, NSFetchedResultsControllerDelegate>
 
 @property(strong, nonatomic) Entity *selectedEntity;
 

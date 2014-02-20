@@ -1,21 +1,19 @@
 //
-//  Post.m
+//  Location.m
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 2/19/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
-#import "Post.h"
-#import "Entity.h"
+#import "Location.h"
+#import "Institution.h"
 
 
-@implementation Post
+@implementation Location
 
-@dynamic content;
+@dynamic name;
 @dynamic remoteId;
-@dynamic comments;
-@dynamic entities;
-@dynamic user;
+@dynamic institutions;
 
 @end

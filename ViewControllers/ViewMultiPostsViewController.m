@@ -59,7 +59,6 @@
     _tableViewController = [[MultiPostsTableViewController alloc] init];
     _tableViewController.tableView = _tableView;
     _tableViewController.masterController = self;
-    _tableViewController.managedObjectContext = self.managedObjectContext;
     _tableView.delegate = _tableViewController;
     [_tableViewController setup];
 }
@@ -231,14 +230,13 @@
 
 
 - (void)finishCreatingEntityStartCreatingPost{
-    Entity *person = _createEntityController.selectedEntity;
+    Entity *entity = _createEntityController.selectedEntity;
     
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
     
-
-    [_entities addObject:person];
+    [_entities addObject:entity];
     
     //_toCreatePostToolbar = [self createPostToolbarForEntity:false];
     _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsViewController:self];
@@ -404,7 +402,8 @@
     
 }
 
-
+// this is a test function only
+// TODO: remove it after testing is done
 - (IBAction) createPost:(id)sender{
     
     _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsViewController:self];

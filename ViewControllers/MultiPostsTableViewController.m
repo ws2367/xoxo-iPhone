@@ -16,7 +16,7 @@
 
 @interface MultiPostsTableViewController ()
 
-@property (strong, nonatomic)NSFetchedResultsController *fetchedResultsController;
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @end
 
@@ -183,7 +183,15 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
     cell.content = post.content;
     //post.entities is a NSSet but cell.entities is a NSArray
-    cell.entities = [post.entities allObjects];
+    // actually, here we should do more work than just sending a NSArray of Entity to cell
+    // because table view cell should be model-agnostic. So we pass a NSArray of NSDictionary to it
+    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    
+    [post.entities enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
+        [arr addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
+    }];
+    
+    cell.entities = arr;
     
     cell.pic = @"pic1"; // dummy for now
     

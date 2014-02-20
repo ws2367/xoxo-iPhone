@@ -1,5 +1,5 @@
 //
-//  Entity.h
+//  User.h
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 2/19/14.
@@ -9,17 +9,16 @@
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Institution, Post;
+@class Post;
 
-@interface Entity : NSManagedObject
+@interface User : NSManagedObject
 
-@property (nonatomic, retain) NSString * name;
+@property (nonatomic, retain) NSString * username;
 @property (nonatomic, retain) NSNumber * remoteId;
 @property (nonatomic, retain) NSSet *posts;
-@property (nonatomic, retain) Institution *institution;
 @end
 
-@interface Entity (CoreDataGeneratedAccessors)
+@interface User (CoreDataGeneratedAccessors)
 
 - (void)addPostsObject:(Post *)value;
 - (void)removePostsObject:(Post *)value;
