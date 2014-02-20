@@ -11,12 +11,12 @@
 		5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5124229718B29639008BEF86 /* ViewMultiPostsViewController.m */; };
 		5124229A18B2967B008BEF86 /* ViewMultiPostsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5124229918B2967B008BEF86 /* ViewMultiPostsViewController.xib */; };
 		512422A618B2B2AD008BEF86 /* AppIcon40x40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 512422A518B2B2AD008BEF86 /* AppIcon40x40@2x.png */; };
-		512422AC18B2B537008BEF86 /* launchOrangeG@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 512422AA18B2B537008BEF86 /* launchOrangeG@2x.png */; };
-		512422AE18B2B5A5008BEF86 /* launchOrangeG-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 512422AD18B2B5A5008BEF86 /* launchOrangeG-568h@2x.png */; };
 		512422B018B3E9C1008BEF86 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 512422AF18B3E9C1008BEF86 /* CoreData.framework */; };
 		512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */; };
 		512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */; };
 		516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 516609EE181F4A8E0059F8BB /* ServerConnector.m */; };
+		5168110218B6868400B4AE0B /* launchOrangeC-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */; };
+		5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5168110118B6868400B4AE0B /* launchOrangeC@2x.png */; };
 		51F1769F18B5781500F7A058 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F1769E18B5781500F7A058 /* Post.m */; };
 		51F176A218B5781500F7A058 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A118B5781500F7A058 /* Comment.m */; };
 		51F176A818B5781500F7A058 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A718B5781500F7A058 /* Location.m */; };
@@ -77,14 +77,14 @@
 		512422A118B29FC3008BEF86 /* Cells-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Cells-Info.plist"; path = "Cells/Cells-Info.plist"; sourceTree = SOURCE_ROOT; };
 		512422A418B2B26D008BEF86 /* AppIcon60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AppIcon60x60@2x.png"; path = "Icons/AppIcon60x60@2x.png"; sourceTree = "<group>"; };
 		512422A518B2B2AD008BEF86 /* AppIcon40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "AppIcon40x40@2x.png"; path = "Icons/AppIcon40x40@2x.png"; sourceTree = "<group>"; };
-		512422AA18B2B537008BEF86 /* launchOrangeG@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchOrangeG@2x.png"; path = "Icons/launchOrangeG@2x.png"; sourceTree = "<group>"; };
-		512422AD18B2B5A5008BEF86 /* launchOrangeG-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchOrangeG-568h@2x.png"; path = "Icons/launchOrangeG-568h@2x.png"; sourceTree = "<group>"; };
 		512422AF18B3E9C1008BEF86 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		512422B218B3EAFD008BEF86 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		512422BF18B3F36D008BEF86 /* MultiPostsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiPostsTableViewController.h; sourceTree = "<group>"; };
 		512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiPostsTableViewController.m; sourceTree = "<group>"; };
 		516609ED181F4A8E0059F8BB /* ServerConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnector.h; sourceTree = "<group>"; };
 		516609EE181F4A8E0059F8BB /* ServerConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnector.m; sourceTree = "<group>"; };
+		5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchOrangeC-568h@2x.png"; path = "Icons/launchOrangeC-568h@2x.png"; sourceTree = "<group>"; };
+		5168110118B6868400B4AE0B /* launchOrangeC@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchOrangeC@2x.png"; path = "Icons/launchOrangeC@2x.png"; sourceTree = "<group>"; };
 		5177A69A18B446F800F433DA /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		51F1769D18B5781500F7A058 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
@@ -234,8 +234,8 @@
 		512422A318B2B196008BEF86 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
-				512422AD18B2B5A5008BEF86 /* launchOrangeG-568h@2x.png */,
-				512422AA18B2B537008BEF86 /* launchOrangeG@2x.png */,
+				5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */,
+				5168110118B6868400B4AE0B /* launchOrangeC@2x.png */,
 				512422A518B2B2AD008BEF86 /* AppIcon40x40@2x.png */,
 				512422A418B2B26D008BEF86 /* AppIcon60x60@2x.png */,
 			);
@@ -417,9 +417,9 @@
 			files = (
 				75CCCF4917FC03DF000BF0F4 /* InfoPlist.strings in Resources */,
 				75721FD2181107D600298ACF /* EntityTableViewCell.xib in Resources */,
+				5168110218B6868400B4AE0B /* launchOrangeC-568h@2x.png in Resources */,
 				5124229A18B2967B008BEF86 /* ViewMultiPostsViewController.xib in Resources */,
 				512422A618B2B2AD008BEF86 /* AppIcon40x40@2x.png in Resources */,
-				512422AE18B2B5A5008BEF86 /* launchOrangeG-568h@2x.png in Resources */,
 				752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */,
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
 				75C086B017FE30B800023200 /* pic2.png in Resources */,
@@ -434,7 +434,7 @@
 				75C086ED17FE9B2C00023200 /* hateoff.png in Resources */,
 				75C086EE17FE9B2C00023200 /* hateon.png in Resources */,
 				75C086EF17FE9B2C00023200 /* likeon.png in Resources */,
-				512422AC18B2B537008BEF86 /* launchOrangeG@2x.png in Resources */,
+				5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */,
 				75C086F017FE9B2C00023200 /* likeoff.png in Resources */,
 				75D1DA291804837400B431FF /* CreateEntityViewController.xib in Resources */,
 				75D1DAA21804CDF600B431FF /* CreatePostViewController.xib in Resources */,
