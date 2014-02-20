@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
-#import "CircleImageView.h"
+#import "CircleView.h"
 
-@implementation CircleImageView
+@implementation CircleView
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -24,10 +24,11 @@
 // An empty implementation adversely affects performance during animation.
 - (void)drawRect:(CGRect)rect
 {
-    UIBezierPath *circle = [UIBezierPath bezierPathWithOvalInRect:self.bounds];
-    [[UIColor colorWithWhite:1 alpha:1] setFill];
-    [circle fill];
+    CGContextRef context = UIGraphicsGetCurrentContext();
+    CGContextAddEllipseInRect(context, self.bounds);
+    CGContextClip(context);
+    
+    [self.image drawInRect:rect];
 }
-
 
 @end

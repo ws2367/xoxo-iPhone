@@ -7,6 +7,13 @@
 //
 
 #import "EntityTableViewCell.h"
+#import "CircleView.h"
+
+@interface EntityTableViewCell ()
+
+@property (weak, nonatomic) IBOutlet CircleView *circleView;
+
+@end
 
 @implementation EntityTableViewCell
 
@@ -31,7 +38,7 @@
 {
     if (![c isEqualToString:_pic]) {
         _pic = [c copy];
-        _myPic.image = [UIImage imageNamed:_pic];
+        _circleView.image = [UIImage imageNamed:_pic];
     }
 }
 

@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface CircleImageView : UIImageView
+@interface CircleView : UIView
+
+@property (strong, nonatomic) UIImage *image;
 
 @end

@@ -16,7 +16,6 @@
 @property (copy, nonatomic) NSString *pic;
 
 
-@property (weak, nonatomic) IBOutlet UIImageView *myPic;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (weak, nonatomic) IBOutlet UILabel *institutionLabel;

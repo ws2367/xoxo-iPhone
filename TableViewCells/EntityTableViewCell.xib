@@ -14,10 +14,6 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="60"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Cs-6Q-eMe" customClass="CircleImageView">
-                        <rect key="frame" x="196" y="7" width="64" height="46"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                    </imageView>
                     <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Institution" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tIF-2n-uxd">
                         <rect key="frame" x="46" y="28" width="171" height="16"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -37,12 +33,17 @@
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Efl-YS-3yR" customClass="CircleView">
+                        <rect key="frame" x="235" y="1" width="60" height="59"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
                 </subviews>
             </tableViewCellContentView>
             <connections>
+                <outlet property="circleView" destination="Efl-YS-3yR" id="jp8-I0-l4G"/>
                 <outlet property="institutionLabel" destination="tIF-2n-uxd" id="IO2-Kh-Xqn"/>
                 <outlet property="locationLabel" destination="6AI-Zj-mYb" id="Wua-zk-TkC"/>
-                <outlet property="myPic" destination="0Cs-6Q-eMe" id="x9H-8z-XBY"/>
                 <outlet property="nameLabel" destination="2TN-tV-ViQ" id="BPJ-eg-e9s"/>
             </connections>
         </tableViewCell>

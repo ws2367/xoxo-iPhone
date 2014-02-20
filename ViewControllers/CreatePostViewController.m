@@ -120,6 +120,8 @@
     [doneButton setFrame: CGRectMake((self.view.frame.size.width - 60.0), 0.0, 50.0, 35.0)];
 
     [doneButton setTitle: @"Done" forState: UIControlStateNormal];
+    
+    [doneButton setTitleColor:[UIColor colorWithRed:0.945 green:0.353 blue:0.133 alpha:1.0] forState:UIControlStateNormal];
 
     [doneButton addTarget: self action: @selector(doneEditing:) forControlEvents: UIControlEventTouchUpInside];
   
