@@ -30,6 +30,11 @@
 @property (strong, nonatomic) UITableViewController *tableViewController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
+
+// TODO: kill dummy pictures
+@property (strong, nonatomic) NSMutableArray *pictures;
+
+
 @end
 
 #define HEIGHT 568
@@ -111,7 +116,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
         NSLog(@"Failed to fetch");
     }
 
-    
+    //TODO: kill dummy pictures
+    _pictures = [[NSMutableArray alloc] init];
     
 }
 
@@ -266,7 +272,13 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     cell.location = entity.institution.location.name;
     cell.institution = entity.institution.name;
     
-    cell.pic = @"pic1"; // dummy for now
+    // dummy random pictures for now
+    // picture array has no insufficient pictures
+    if ([_pictures count] < (indexPath.row + 1)){
+        [_pictures addObject:[[NSString alloc] initWithFormat:@"pic%d", (arc4random() % 5 + 1)]];
+    }
+    cell.pic = [_pictures objectAtIndex:indexPath.row];
+
     
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];

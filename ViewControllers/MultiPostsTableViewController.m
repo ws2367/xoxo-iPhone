@@ -17,6 +17,8 @@
 @interface MultiPostsTableViewController ()
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+// TODO: kill dummy pictures
+@property (strong, nonatomic) NSMutableArray *pictures;
 
 @end
 
@@ -121,6 +123,9 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     } else {
         NSLog(@"Failed to fetch");
     }
+    
+    //TODO: kill dummy pictures
+    _pictures = [[NSMutableArray alloc] init];
 }
 
 - (void)didReceiveMemoryWarning
@@ -193,7 +198,12 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     
     cell.entities = arr;
     
-    cell.pic = @"pic1"; // dummy for now
+    // dummy random pictures for now
+    // picture array has no insufficient pictures
+    if ([_pictures count] < (indexPath.row + 1)){
+        [_pictures addObject:[[NSString alloc] initWithFormat:@"pic%d", (arc4random() % 5 + 1)]];
+    }
+    cell.pic = [_pictures objectAtIndex:indexPath.row];
     
     /*
     NSDictionary *rowData = self.posts[indexPath.row];
