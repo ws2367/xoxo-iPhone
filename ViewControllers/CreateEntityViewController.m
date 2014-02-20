@@ -30,8 +30,6 @@
 @property (strong, nonatomic) UITableViewController *tableViewController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (strong, nonatomic) NSArray *searchEntityResult;
-
 @end
 
 #define HEIGHT 568
@@ -74,14 +72,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 {
     [super viewDidLoad];
     
-    _searchEntityResult = @[
-                   @{@"Name" : @"Dan Lin", @"Institution" : @"Duke University", @"Location" : @"Fremont, CA", @"Pic" : @"pic1" },
-                   @{@"Name" : @"Iru Wang", @"Institution" : @"Stanford University", @"Location" : @"Stanford, CA", @"Pic" : @"pic2" },
-                   @{@"Name" : @"Shawn Shaw", @"Institution" : @"Columbia University", @"Location" : @"New York", @"Pic" : @"pic3" },
-                   @{@"Name" : @"Jocelin Ho", @"Institution" : @"Stanford University", @"Location" : @"Stanford, CA", @"Pic" : @"pic4" },
-                   @{@"Name" : @"Chiu-Ho Lin", @"Institution" : @"Santa Clara University", @"Location" : @"Santa Clara, CA", @"Pic" : @"pic4" },
-                   @{@"Name" : @"Dan Lin 2", @"Institution" : @"Santa Clara University", @"Location" : @"Santa Clara, CA", @"Pic" : @"pic1" },
-                   @{@"Name" : @"Dan Lin 3", @"Institution" : @"Santa Clara University", @"Location" : @"Santa Clara, CA", @"Pic" : @"pic4" }];
+        
     //UITableView *tableView = (id)[self.view viewWithTag:1];
     
     // TODO: change this hard-coded number to the actual height of xib
@@ -104,11 +95,11 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     _fetchedResultsController =
-    [[NSFetchedResultsController alloc]
-     initWithFetchRequest:request
-     managedObjectContext:appDelegate.managedObjectContext
-     sectionNameKeyPath:nil
-     cacheName:nil];
+        [[NSFetchedResultsController alloc]
+            initWithFetchRequest:request
+            managedObjectContext:appDelegate.managedObjectContext
+            sectionNameKeyPath:nil
+                    cacheName:nil];
     
     _fetchedResultsController.delegate = self;
     
@@ -187,8 +178,8 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
     _selectedEntity.institution.location.name = _locationTextField.text;
     
-    // TODO: we might want to save new entities before creating posts
-
+    // TODO: we might want to save new entities before creating posts, if so, do context save here
+    
     [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
 }
 
@@ -200,16 +191,56 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 
+- (BOOL) MOOSE_compareUIColorBetween:(UIColor *)colorA and:(UIColor *)colorB
+{
+    CGFloat redA, redB, greenA, greenB, blueA, blueB, alphaA, alphaB;
+    [colorA getRed:&redA green:&greenA blue:&blueA alpha:&alphaA];
+    [colorB getRed:&redB green:&greenB blue:&blueB alpha:&alphaB];
+    
+    if (redA == redB && greenA == greenB && blueA == blueB && alphaA == alphaB)
+        return FALSE;
+    else
+        return TRUE;
+}
+
 
 
 #pragma mark -
-#pragma mark TextField Delegate
+#pragma mark TextField Delegate methods
 
 -(BOOL) textFieldShouldReturn:(UITextField*) textField {
     [textField resignFirstResponder];
     return YES;
 }
 
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+
+{
+    if ([self MOOSE_compareUIColorBetween:[textField textColor] and:[UIColor lightGrayColor]]) {
+        [textField setText:@""];
+        [textField setTextColor:[UIColor blackColor]];
+    }
+}
+
+
+- (void) textFieldDidEndEditing:(UITextField *)textField
+
+{
+    if ([[textField text] isEqualToString:@""]) {
+        if (textField == _nameTextField) {
+            [textField setText:@"Name"];
+        }
+        else if (textField == _institutionTextField) {
+            [textField setText:@"School or Institution"];
+        }
+        else if (textField == _locationTextField) {
+            [textField setText:@"State"];
+        }
+        
+        [textField setTextColor:[UIColor lightGrayColor]];
+    }
+}
 
 #pragma mark -
 #pragma mark Table Data Source Methods

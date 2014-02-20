@@ -54,15 +54,30 @@
 }
 
 
+
+- (BOOL) MOOSE_compareUIColorBetween:(UIColor *)colorA and:(UIColor *)colorB
+{
+    CGFloat redA, redB, greenA, greenB, blueA, blueB, alphaA, alphaB;
+    [colorA getRed:&redA green:&greenA blue:&blueA alpha:&alphaA];
+    [colorB getRed:&redB green:&greenB blue:&blueB alpha:&alphaB];
+    
+    if (redA == redB && greenA == greenB && blueA == blueB && alphaA == alphaB)
+        return FALSE;
+    else
+        return TRUE;
+}
+
+
+
 #pragma mark -
 #pragma mark TextView Delegate
 
 - (void)textViewDidBeginEditing:(UITextView *) textView
 {
     
-    if ([_textView.text isEqualToString:@"Type the content here..."]) {
-        [_textView setText:@""];
-        [_textView setTextColor:[UIColor blackColor]];
+    if ([self MOOSE_compareUIColorBetween:[textView textColor] and:[UIColor lightGrayColor]]) {
+        [textView setText:@""];
+        [textView setTextColor:[UIColor blackColor]];
     }
     
     
@@ -75,6 +90,14 @@
          forControlEvents:UIControlEventTouchUpInside];
     
     _postButton.hidden = true;*/
+}
+
+- (void)textViewDidEndEditing:(UITextView *)textView
+{
+    if ([[textView text] isEqualToString:@""]) {
+        [textView setText:@"Write here!"];
+        [textView setTextColor:[UIColor lightGrayColor]];
+    }
 }
 
 
