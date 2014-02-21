@@ -57,6 +57,9 @@
 -(void) setContent:(NSString *)content{
     _content = [content copy];
     [_commentButton setTitle:_content forState:UIControlStateNormal];
+    _commentButton.titleLabel.numberOfLines = 3;
+    _commentButton.titleLabel.lineBreakMode = NSLineBreakByWordWrapping;
+    _commentButton.titleLabel.font = [UIFont fontWithName:@"American Typewriter" size:11];
 }
 
 -(void)setLevelNum:(NSInteger)levelNum{

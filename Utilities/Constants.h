@@ -10,6 +10,7 @@
 
 // initialized in .m file
 // extern can be put inside interface as well
+extern const float ANIMATION_KEYBOARD_DURATION;
 extern const float ANIMATION_DURATION;
 extern const float ANIMATION_DELAY;
 extern const int HEIGHT;

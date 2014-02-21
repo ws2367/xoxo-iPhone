@@ -18,7 +18,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *nameTextField;
 @property (weak, nonatomic) IBOutlet UITextField *institutionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
-@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
 
@@ -109,6 +108,11 @@
         NSLog(@"Failed to fetch");
     }
 
+    // set up textfield clear button mode
+    _nameTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _institutionTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    _locationTextField.clearButtonMode = UITextFieldViewModeWhileEditing;
+    
     //TODO: kill dummy pictures
     _pictures = [[NSMutableArray alloc] init];
     

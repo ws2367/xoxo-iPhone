@@ -20,6 +20,7 @@
 		516FB2E818B6EFF100088AF6 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 516FB2E718B6EFF100088AF6 /* Utility.m */; };
 		516FB2EB18B6F40700088AF6 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 516FB2EA18B6F40700088AF6 /* Constants.m */; };
 		5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32B18B7EE7500115C14 /* TopBorderTextField.m */; };
+		5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32E18B81A0400115C14 /* TopBorderView.m */; };
 		51F1769F18B5781500F7A058 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F1769E18B5781500F7A058 /* Post.m */; };
 		51F176A218B5781500F7A058 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A118B5781500F7A058 /* Comment.m */; };
 		51F176A818B5781500F7A058 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A718B5781500F7A058 /* Location.m */; };
@@ -95,6 +96,8 @@
 		5177A69A18B446F800F433DA /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		5180E32A18B7EE7500115C14 /* TopBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBorderTextField.h; sourceTree = "<group>"; };
 		5180E32B18B7EE7500115C14 /* TopBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderTextField.m; sourceTree = "<group>"; };
+		5180E32D18B81A0400115C14 /* TopBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBorderView.h; sourceTree = "<group>"; };
+		5180E32E18B81A0400115C14 /* TopBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderView.m; sourceTree = "<group>"; };
 		51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		51F1769D18B5781500F7A058 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		51F1769E18B5781500F7A058 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
@@ -301,6 +304,8 @@
 				51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */,
 				7539911E182F7EF300EFC00A /* UserMenuButtonView.h */,
 				7539911F182F7EF300EFC00A /* UserMenuButtonView.m */,
+				5180E32D18B81A0400115C14 /* TopBorderView.h */,
+				5180E32E18B81A0400115C14 /* TopBorderView.m */,
 			);
 			path = CustomViews;
 			sourceTree = "<group>";
@@ -489,6 +494,7 @@
 				51F176B118B5874C00F7A058 /* Entity.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
+				5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */,
 				7534DFC91822D75D009E5E3A /* XOXOUIViewController.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
 				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,

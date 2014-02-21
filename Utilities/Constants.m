@@ -9,6 +9,7 @@
 #import "Constants.h"
 
 // settin externs can be put inside implementation as well
+const float ANIMATION_KEYBOARD_DURATION = 0.3;
 const float ANIMATION_DURATION = 0.4;
 const float ANIMATION_DELAY = 0.0;
 const int HEIGHT = 568;

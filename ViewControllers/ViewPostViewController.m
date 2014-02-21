@@ -54,6 +54,28 @@
     return self;
 }
 
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleKeyboardWillShow:)
+     name:UIKeyboardWillShowNotification
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleKeyboardWillHide:)
+     name:UIKeyboardWillHideNotification
+     object:nil];
+}
+
+- (void) viewWillDisappear:(BOOL)animated{
+    [super viewWillDisappear:animated];
+    
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -79,7 +101,7 @@
     _comments = [_post.comments sortedArrayUsingDescriptors:
                          @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
                          ];
-
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -94,6 +116,55 @@
         _pic = [c copy];
         _postImage.image = [UIImage imageNamed:_pic];
     }
+}
+
+#pragma mark -
+#pragma mark Keyboard Notifification Methods
+- (void) handleKeyboardWillShow:(NSNotification *)paramNotification{
+    
+    // get the frame of the keyboard
+    NSValue *keyboardRectAsObject = [[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    // place it in a CGRect
+    CGRect keyboardRect = CGRectZero;
+    
+    // I know this all looks winding and turning, keyboardRecAsObject is set type of NSValue
+    // because collections like NSDictionary which is returned by [paramNotification userInfo]
+    // can only store objects, not CGRect which is a C struct
+    [keyboardRectAsObject getValue:&keyboardRect];
+    
+    // set the whole view to be right above keyboard
+    [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         self.view.frame =
+                         CGRectMake(self.view.frame.origin.x,
+                                    keyboardRect.origin.y - self.view.frame.size.height,
+                                    self.view.frame.size.width,
+                                    self.view.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
+//Oooooops. While the keyboard is moving, the super view leaks itself on the screen
+//TODO: make a background view to prevent it
+- (void) handleKeyboardWillHide:(NSNotification *)paramNotification{
+    // let's move the view back to full screen position
+    [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                     animations:^{
+                         self.view.frame =
+                         CGRectMake(0,
+                                    0,
+                                    self.view.frame.size.width,
+                                    self.view.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                     }];
+
 }
 
 #pragma mark -
@@ -127,7 +198,6 @@
         [_tableView reloadData];
     }
 }
-
 
 #pragma mark -
 #pragma mark Table Data Source Methods
