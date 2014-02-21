@@ -37,11 +37,6 @@
 
 @end
 
-#define HEIGHT 568
-#define WIDTH  320
-#define ANIMATION_DURATION 0.4
-#define ANIMATION_DELAY 0.0
-
 @implementation CreateEntityViewController
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
@@ -70,8 +65,6 @@
 //    }
 //    return self;
 //}
-
-static NSString *CellTableIdentifier = @"CellTableIdentifier";
 
 - (void)viewDidLoad
 {

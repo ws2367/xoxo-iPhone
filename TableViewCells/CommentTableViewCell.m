@@ -19,9 +19,6 @@
 
 @end
 
-
-
-#define WIDTH  320
 @implementation CommentTableViewCell
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier

@@ -15,12 +15,13 @@
 {
     int photoIndex;
     UIImageView *currImageView;
-    UIImageView *leftImageView;
-    UIImageView *rightImageView;
+    UIImageView *leftImageView; //not used
+    UIImageView *rightImageView; //not used
 }
 @property (weak, nonatomic) IBOutlet UITextView *textView;
-@property (weak, nonatomic) IBOutlet UIView *PostSuperImageView;
 
+// for image picker
+@property (weak, nonatomic) IBOutlet UIView *PostSuperImageView;
 @property (nonatomic, retain) UIImagePickerController *picker;
 
 @property (weak, nonatomic) IBOutlet UITextField *entitiesTextField;
@@ -31,13 +32,11 @@
 
 @property (weak, nonatomic) ViewMultiPostsViewController *masterViewController;
 @property (strong, nonatomic) CreateEntityViewController *addEntityController;
+
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
 
 @end
-
-#define ANIMATION_DURATION 0.4
-#define ANIMATION_DELAY 0.0
 
 
 @implementation CreatePostViewController

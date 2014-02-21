@@ -24,11 +24,6 @@
 @implementation ViewPostViewController
 
 
-
-static NSString *CellTableIdentifier = @"CellTableIdentifier";
-
-
-
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
     self = [super init];
     if (self) {

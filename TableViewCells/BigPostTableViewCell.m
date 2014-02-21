@@ -9,11 +9,6 @@
 #import "BigPostTableViewCell.h"
 #import <QuartzCore/QuartzCore.h> //for gradient color
 
-#define HEIGHT 568
-#define WIDTH  320
-#define ANIMATION_DURATION 0.4
-#define ANIMATION_DELAY 0.0
-
 @interface BigPostTableViewCell()
 @property (weak, nonatomic) IBOutlet UIView *lowerMask;
 @property (strong,nonatomic)  UIImageView *mooseView;

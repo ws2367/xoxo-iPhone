@@ -24,8 +24,6 @@
 
 @implementation MultiPostsTableViewController
 
-static NSString *CellTableIdentifier = @"CellTableIdentifier";
-
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
