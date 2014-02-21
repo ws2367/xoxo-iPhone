@@ -55,27 +55,13 @@
 
 
 
-- (BOOL) MOOSE_compareUIColorBetween:(UIColor *)colorA and:(UIColor *)colorB
-{
-    CGFloat redA, redB, greenA, greenB, blueA, blueB, alphaA, alphaB;
-    [colorA getRed:&redA green:&greenA blue:&blueA alpha:&alphaA];
-    [colorB getRed:&redB green:&greenB blue:&blueB alpha:&alphaB];
-    
-    if (redA == redB && greenA == greenB && blueA == blueB && alphaA == alphaB)
-        return FALSE;
-    else
-        return TRUE;
-}
-
-
 
 #pragma mark -
 #pragma mark TextView Delegate
 
 - (void)textViewDidBeginEditing:(UITextView *) textView
 {
-    
-    if ([self MOOSE_compareUIColorBetween:[textView textColor] and:[UIColor lightGrayColor]]) {
+    if ([Utility compareUIColorBetween:[textView textColor] and:[UIColor lightGrayColor]]) {
         [textView setText:@""];
         [textView setTextColor:[UIColor blackColor]];
     }

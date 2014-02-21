@@ -174,7 +174,6 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     _selectedEntity.name = _nameTextField.text;
     
     // TODO: Consider to add setters of properties of Institution through catergories and class extension
-    // TODO: check if the institution and location is in the database, not just create them blindly
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Institution"];
     request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _institutionTextField.text];
     
@@ -235,20 +234,6 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 }
 
 
-- (BOOL) MOOSE_compareUIColorBetween:(UIColor *)colorA and:(UIColor *)colorB
-{
-    CGFloat redA, redB, greenA, greenB, blueA, blueB, alphaA, alphaB;
-    [colorA getRed:&redA green:&greenA blue:&blueA alpha:&alphaA];
-    [colorB getRed:&redB green:&greenB blue:&blueB alpha:&alphaB];
-    
-    if (redA == redB && greenA == greenB && blueA == blueB && alphaA == alphaB)
-        return FALSE;
-    else
-        return TRUE;
-}
-
-
-
 #pragma mark -
 #pragma mark TextField Delegate methods
 
@@ -261,7 +246,7 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 
 {
-    if ([self MOOSE_compareUIColorBetween:[textField textColor] and:[UIColor lightGrayColor]]) {
+    if ([Utility compareUIColorBetween:[textField textColor] and:[UIColor lightGrayColor]]) {
         [textField setText:@""];
         [textField setTextColor:[UIColor blackColor]];
     }
