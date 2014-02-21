@@ -165,24 +165,58 @@ static NSString *CellTableIdentifier = @"CellTableIdentifier";
     [self allocateBlackMask];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    // TODO: you might want to check if the entity is really not in the database
     _selectedEntity =
         [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
                                       inManagedObjectContext:appDelegate.managedObjectContext];
 
     _selectedEntity.name = _nameTextField.text;
     
-    // TODO: check if the institution and location is in the database, not just create them blindly
     // TODO: Consider to add setters of properties of Institution through catergories and class extension
-    _selectedEntity.institution =
+    // TODO: check if the institution and location is in the database, not just create them blindly
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Institution"];
+    request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _institutionTextField.text];
+    
+    NSError *error = nil;
+    NSArray *matches = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    
+    // there should be only unique institutions
+    if (!matches || error || [matches count] > 1) {
+        // handle error here
+        NSLog(@"Errors in fetching institutions");
+    } else if ([matches count]) {
+        // found the thing
+        _selectedEntity.institution = [matches firstObject];
+    } else {
+        // found nothing, create it!
+        _selectedEntity.institution =
         [NSEntityDescription insertNewObjectForEntityForName:@"Institution"
                                       inManagedObjectContext:appDelegate.managedObjectContext];
-
-    _selectedEntity.institution.name = _institutionTextField.text;
-    _selectedEntity.institution.location =
+        
+        _selectedEntity.institution.name = _institutionTextField.text;
+    }
+    
+    request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
+    request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _locationTextField.text];
+    matches = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    
+    // there should be only unique locations
+    if (!matches || error || [matches count] > 1) {
+        // handle error here
+        NSLog(@"Errors in fetching locations");
+    } else if ([matches count]) {
+        // found the thing
+        _selectedEntity.institution.location = [matches firstObject];
+    } else {
+        // found nothing, create it!
+        _selectedEntity.institution.location =
         [NSEntityDescription insertNewObjectForEntityForName:@"Location"
                                       inManagedObjectContext:appDelegate.managedObjectContext];
-
-    _selectedEntity.institution.location.name = _locationTextField.text;
+        
+        _selectedEntity.institution.location.name = _locationTextField.text;
+    }
+    
     
     // TODO: we might want to save new entities before creating posts, if so, do context save here
     
