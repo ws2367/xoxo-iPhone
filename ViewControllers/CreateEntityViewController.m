@@ -275,6 +275,7 @@
     return sectionInfo.numberOfObjects;
 }
 
+// TODO: I am not sure if we want to do a performFetch here
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {

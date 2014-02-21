@@ -8,12 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Constants : NSObject
-
 // initialized in .m file
+// extern can be put inside interface as well
 extern const float ANIMATION_DURATION;
 extern const float ANIMATION_DELAY;
 extern const int HEIGHT;
 extern const int WIDTH;
 extern NSString *const CellTableIdentifier;
+
+@interface Constants : NSObject
 @end

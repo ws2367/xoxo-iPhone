@@ -120,14 +120,6 @@
      */
     
     return _result;
-}   
-/*
--(void) gotItwithNSArray:(NSArray *)res{
-    if(_clientViewController){
-        NSLog(@"getCalled?");
-        [_clientViewController receiveNSArray: res];
-
-    }
 }
-*/
+
 @end

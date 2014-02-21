@@ -7,10 +7,10 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="CreatePostViewController">
             <connections>
-                <outlet property="PostSuperImageView" destination="mIY-xF-OnM" id="MgW-My-dbv"/>
                 <outlet property="backButton" destination="0Cu-9q-e6W" id="tmB-6J-5Ds"/>
                 <outlet property="entitiesTextField" destination="P2c-Qg-W0x" id="MOh-8E-ML7"/>
                 <outlet property="postButton" destination="JLI-QQ-ner" id="Ik9-xJ-DpB"/>
+                <outlet property="superImageView" destination="mIY-xF-OnM" id="DFp-dS-xpQ"/>
                 <outlet property="textView" destination="zwI-uZ-ahX" id="GCS-cN-p09"/>
                 <outlet property="view" destination="1" id="3"/>
             </connections>
@@ -30,46 +30,49 @@
                         <outlet property="delegate" destination="-1" id="2vZ-2A-g2e"/>
                     </connections>
                 </textView>
-                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUx-8A-Qpb">
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YUx-8A-Qpb">
                     <rect key="frame" x="102" y="503" width="117" height="52"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="15"/>
                     <state key="normal" title="+Photos">
-                        <color key="titleColor" red="0.93725496530532837" green="0.32941177487373352" blue="0.14117647707462311" alpha="1" colorSpace="deviceRGB"/>
-                        <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="titleColor" red="0.93725496529999996" green="0.32941177490000001" blue="0.1411764771" alpha="1" colorSpace="deviceRGB"/>
                     </state>
                     <connections>
+                        <action selector="addPhoto:" destination="-1" eventType="touchUpInside" id="rac-vl-i3g"/>
                         <action selector="pickImageButtonPressed:" destination="-1" eventType="touchUpInside" id="62i-WQ-eXK"/>
                     </connections>
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P2c-Qg-W0x">
                     <rect key="frame" x="20" y="50" width="280" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="14"/>
                     <textInputTraits key="textInputTraits"/>
                 </textField>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="0Cu-9q-e6W">
                     <rect key="frame" x="14" y="20" width="42" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="15"/>
                     <state key="normal" title="Back">
                         <color key="titleColor" red="0.93725496529999996" green="0.32941177490000001" blue="0.1411764771" alpha="1" colorSpace="deviceRGB"/>
                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="backButtonPressed:" destination="-1" eventType="touchUpInside" id="8oY-sd-cML"/>
+                        <action selector="goBack:" destination="-1" eventType="touchUpInside" id="Chm-Zf-Abb"/>
                     </connections>
                 </button>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="JLI-QQ-ner">
                     <rect key="frame" x="271" y="20" width="32" height="30"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="15"/>
                     <state key="normal" title="Post">
                         <color key="titleColor" red="0.93725496529999996" green="0.32941177490000001" blue="0.1411764771" alpha="1" colorSpace="deviceRGB"/>
                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="postButtonPressed:" destination="-1" eventType="touchUpInside" id="wKC-NB-jis"/>
+                        <action selector="addPost:" destination="-1" eventType="touchUpInside" id="XhE-YD-nty"/>
                     </connections>
                 </button>
-                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mIY-xF-OnM" userLabel="PostSuperImageView">
+                <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mIY-xF-OnM" userLabel="superImageView">
                     <rect key="frame" x="0.0" y="288" width="320" height="215"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -82,9 +85,6 @@
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                    <connections>
-                        <outlet property="delegate" destination="-1" id="Rk3-E2-HsO"/>
-                    </connections>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z9L-Gh-cXk">
                     <rect key="frame" x="273" y="50" width="30" height="30"/>
@@ -94,7 +94,7 @@
                         <color key="titleShadowColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                     <connections>
-                        <action selector="addEntityPressed:" destination="-1" eventType="touchUpInside" id="bJ4-QA-5F2"/>
+                        <action selector="addEntity:" destination="-1" eventType="touchUpInside" id="21i-d3-hDX"/>
                     </connections>
                 </button>
             </subviews>

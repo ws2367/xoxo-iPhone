@@ -143,7 +143,6 @@
 
 #pragma mark -
 #pragma mark Swipe Methods
-// we don't know why it is called symptom cell
 - (void) swipeLeft{
     
 }
