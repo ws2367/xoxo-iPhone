@@ -204,23 +204,13 @@
     cell.pic = [_pictures objectAtIndex:indexPath.row];
     
     /*
-    NSDictionary *rowData = self.posts[indexPath.row];
-    cell.content = rowData[@"content"];
-    
-    //uncomment one of these (hasnt made compatible to both)
-     
-    //to connect to server
-    NSArray *entitiesOfPost = rowData[@"entities"];
-    cell.entities = entitiesOfPost;
-    
-    cell.pic = rowData[@"pic"];
     // We want the cell to know which row it is, so we store that in button.tag
     // However, here shareButton is depreciated
     cell.shareButton.tag = indexPath.row;
     */
     
     // Here is where we register any target of buttons in cells if the target is not the cell itself
-    [cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //[cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
     cell.entityButton.tag = indexPath.row;
     [cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
@@ -272,8 +262,14 @@
 #pragma mark In-cell Button Methods
 
 -(void)entityButtonPressed:(UIButton *)sender{
-    
-    [_masterController startViewingEntityForEntity:nil];
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+
+    // TODO: get it right! not just send the first entity of that post...
+    //we don't know which one is clicked... send the first one for now
+    Entity *entity = [[post.entities allObjects] firstObject];
+    [_masterController startViewingEntityForEntity:entity];
 }
 
 

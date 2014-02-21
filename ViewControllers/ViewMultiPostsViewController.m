@@ -372,11 +372,10 @@
 {
     [self allocateBlackMask];
     _viewEntityViewController = [[ViewEntityViewController alloc] initWithViewMultiPostsViewController:self];
-    
+
+    [_viewEntityViewController setEntity:entity]; // this has to be set before making the frame
     _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
 
-    //This should be handling the Entity object
-    [_viewEntityViewController setEntityName:@"Iru Wang"];
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
@@ -387,8 +386,6 @@
                      completion:^(BOOL finished){
                      }];
     
-    
-    //[self.view insertSubview:self.postController.view atIndex:1];
     [self.view addSubview:_viewEntityViewController.view];
 
     

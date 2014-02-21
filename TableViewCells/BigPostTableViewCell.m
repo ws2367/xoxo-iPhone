@@ -10,10 +10,20 @@
 #import <QuartzCore/QuartzCore.h> //for gradient color
 
 @interface BigPostTableViewCell()
+
+// TODO: what it this lowerMask for??
 @property (weak, nonatomic) IBOutlet UIView *lowerMask;
+
 @property (strong,nonatomic)  UIImageView *mooseView;
 @property (strong,nonatomic)  UIView *blackMask;
 @property (nonatomic) bool gradientFlag;
+
+@property (strong, nonatomic) IBOutlet UITextView *titleValue;
+@property (strong, nonatomic) IBOutlet UIImageView *myPic;
+@property (strong, nonatomic) IBOutlet UIButton *likeButton;
+@property (strong, nonatomic) IBOutlet UIButton *hateButton;
+@property (strong, nonatomic) IBOutlet UILabel *likeValue;
+@property (strong, nonatomic) IBOutlet UILabel *hateValue;
 
 @end
 
@@ -48,6 +58,7 @@
 - (void)setContent:(NSString *)n
 {
     if (![n isEqualToString:_content]) {
+        //TODO: check if this copying actually works as we want
         _content = [n copy];
         //NSRange stringRange = {0,65};
         //if(_content.length > 65){
@@ -89,18 +100,11 @@
     }
 }
 
-// depreciated. Now we have multiple entities
-- (void)setEntity:(NSString *)c
-{
-    if (![c isEqualToString:_entity]) {
-        _entity = [c copy];
-        [_entityButton setTitle:_entity forState:UIControlStateNormal];
-    }
-}
 
 - (void)setPic:(NSString *)c
 {
     if (![c isEqualToString:_pic]) {
+        //TODO: check if this copying actually works as we want
         _pic = [c copy];
         _myPic.image = [UIImage imageNamed:_pic];
     }

@@ -23,6 +23,8 @@
 
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 
+@property (strong, nonatomic) NSArray *comments; //store comment pointers
+
 //TODO: kill it after having real pictures
 @property (strong, nonatomic) NSString *pic;
 
@@ -71,6 +73,11 @@
     
     //TODO: kill it after having real pictures
     [self setPic:@"pic1"];
+    
+    // TODO: sort it by the time of creation, not by content
+    _comments = [_post.comments sortedArrayUsingDescriptors:
+                         @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
+                         ];
 
 }
 - (IBAction)backButtonPressed:(id)sender {
@@ -104,11 +111,7 @@
 {
     CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     
-    // TODO: sort it by the time of creation, not by content
-    NSArray *comments = [_post.comments sortedArrayUsingDescriptors:
-                         @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
-                        ];
-    Comment *comment = comments[indexPath.row];
+    Comment *comment = _comments[indexPath.row];
     
     cell.content = comment.content;
     cell.likeNum = [comment.likersNum integerValue];

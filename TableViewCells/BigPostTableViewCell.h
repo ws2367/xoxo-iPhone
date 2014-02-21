@@ -8,29 +8,18 @@
 
 #import <UIKit/UIKit.h>
 
-
-
-
 @interface BigPostTableViewCell : UITableViewCell
 
-@property (weak, nonatomic) IBOutlet UIButton *entityButton;
-
+@property (strong, nonatomic) NSArray *entities;
 @property (copy, nonatomic) NSString *content;
-@property (copy, nonatomic) NSString *entity;
-@property (weak, nonatomic) IBOutlet UIButton *shareButton;
 @property (copy, nonatomic) NSString *pic;
-@property (nonatomic, assign, getter=isLiked) BOOL liked;
-@property (nonatomic, assign, getter=isHated) BOOL hated;
 @property (nonatomic, assign) NSInteger likeNum;
 @property (nonatomic, assign) NSInteger hateNum;
+@property (nonatomic, assign, getter=isLiked) BOOL liked;
+@property (nonatomic, assign, getter=isHated) BOOL hated;
 
-@property (strong, nonatomic) IBOutlet UITextView *titleValue;
-@property (strong, nonatomic) IBOutlet UIImageView *myPic;
-@property (strong, nonatomic) IBOutlet UIButton *likeButton;
-@property (strong, nonatomic) IBOutlet UIButton *hateButton;
-@property (strong, nonatomic) IBOutlet UILabel *likeValue;
-@property (strong, nonatomic) IBOutlet UILabel *hateValue;
-@property (strong, nonatomic) NSArray *entities;
+// so the target and action can be set from outside
+@property (weak, nonatomic) IBOutlet UIButton *entityButton;
 
 - (void)swipeRight;
 - (void)swipeLeft;
