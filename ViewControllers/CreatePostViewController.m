@@ -25,11 +25,11 @@
 @property (nonatomic, retain) UIImagePickerController *picker;
 
 @property (weak, nonatomic) IBOutlet UITextField *entitiesTextField;
-@property (strong, nonatomic) NSMutableString *entityNames;
 
 // store data showed in the views here
 @property (strong, nonatomic) NSMutableArray *photos;
 @property (strong, nonatomic) NSMutableString *content;
+@property (strong, nonatomic) NSMutableString *entityNames;
 
 @property (weak, nonatomic) ViewMultiPostsViewController *masterViewController;
 @property (strong, nonatomic) CreateEntityViewController *addEntityController;
@@ -223,7 +223,6 @@
 - (IBAction)addPost:(id)sender {
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSLog(@"before insert a object");
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
                                               inManagedObjectContext:appDelegate.managedObjectContext];
@@ -238,9 +237,7 @@
         //TODO: set picture to post
         
         NSError *SavingErr = nil;
-        NSLog(@"insert a object");
         if ([appDelegate.managedObjectContext save:&SavingErr]) {
-            NSLog(@"saved!");
             [_masterViewController finishCreatingPostBackToHomePage];
         } else {
             NSLog(@"Failed to save the managed object context.");

@@ -166,7 +166,6 @@
     _myMap.showsUserLocation = TRUE;
     CLLocationCoordinate2D loc = [_myMap.userLocation coordinate];
     
-
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(loc, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
     MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
     
@@ -185,7 +184,6 @@
     
     [self updateMap];
     
-    
     //adjust View Region
     /*
     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(myCoordinate, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
@@ -203,7 +201,7 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [_entity.posts count];
+    return [_posts count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView

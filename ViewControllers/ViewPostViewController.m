@@ -17,6 +17,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (strong, nonatomic) NSString *content;
 
+@property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic)IBOutlet UIImageView *postImage;
@@ -80,9 +81,6 @@
                          ];
 
 }
-- (IBAction)backButtonPressed:(id)sender {
-    [_viewMultiPostsViewController cancelViewingPost];
-}
 
 - (void)didReceiveMemoryWarning
 {
@@ -99,13 +97,46 @@
 }
 
 #pragma mark -
+#pragma mark Button Methods
+- (IBAction)backButtonPressed:(id)sender {
+    [_viewMultiPostsViewController cancelViewingPost];
+}
+
+- (IBAction)postComment:(id)sender {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment" inManagedObjectContext:appDelegate.managedObjectContext];
+
+    comment.content = _commentTextField.text;
+    
+    [_post addCommentsObject:comment];
+    
+    NSError *SavingError = nil;
+    if (![appDelegate.managedObjectContext save:&SavingError]){
+        NSLog(@"Failed to save in commenting");
+        NSLog(@"%@", [SavingError localizedFailureReason]);
+        NSLog(@"%@", [SavingError localizedDescription]);
+        NSLog(@"%@", [SavingError localizedRecoveryOptions]);
+        NSLog(@"%@", [SavingError localizedRecoverySuggestion]);
+        NSLog(@"%@", [SavingError userInfo]);
+    } else {
+        NSLog(@"Saved Successfully in commenting");
+        _comments = [_post.comments sortedArrayUsingDescriptors:
+                     @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
+                     ];
+        [_tableView reloadData];
+    }
+}
+
+
+#pragma mark -
 #pragma mark Table Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [_post.comments count];
-
+    return [_comments count];
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -120,6 +151,33 @@
     [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
 
     return cell;
+}
+
+
+#pragma mark -
+#pragma mark TextField Delegate methods
+
+-(BOOL) textFieldShouldReturn:(UITextField*) textField {
+    [textField resignFirstResponder];
+    return YES;
+}
+
+
+- (void) textFieldDidBeginEditing:(UITextField *)textField
+{
+    if ([Utility compareUIColorBetween:[textField textColor] and:[UIColor lightGrayColor]]) {
+        [textField setTextColor:[UIColor blackColor]];
+        [textField setText:@""];
+    }
+}
+
+
+- (void) textFieldDidEndEditing:(UITextField *)textField
+{
+    if ([[textField text] isEqualToString:@""]) {
+        [textField setTextColor:[UIColor lightGrayColor]];
+        [textField setText:@"Write a comment..."];
+    }
 }
 
 

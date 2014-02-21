@@ -19,6 +19,7 @@
 		5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5168110118B6868400B4AE0B /* launchOrangeC@2x.png */; };
 		516FB2E818B6EFF100088AF6 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 516FB2E718B6EFF100088AF6 /* Utility.m */; };
 		516FB2EB18B6F40700088AF6 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 516FB2EA18B6F40700088AF6 /* Constants.m */; };
+		5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32B18B7EE7500115C14 /* TopBorderTextField.m */; };
 		51F1769F18B5781500F7A058 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F1769E18B5781500F7A058 /* Post.m */; };
 		51F176A218B5781500F7A058 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A118B5781500F7A058 /* Comment.m */; };
 		51F176A818B5781500F7A058 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A718B5781500F7A058 /* Location.m */; };
@@ -92,6 +93,8 @@
 		516FB2E918B6F40700088AF6 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		516FB2EA18B6F40700088AF6 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
 		5177A69A18B446F800F433DA /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
+		5180E32A18B7EE7500115C14 /* TopBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBorderTextField.h; sourceTree = "<group>"; };
+		5180E32B18B7EE7500115C14 /* TopBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderTextField.m; sourceTree = "<group>"; };
 		51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		51F1769D18B5781500F7A058 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		51F1769E18B5781500F7A058 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
@@ -290,6 +293,8 @@
 		7539911D182F7EA700EFC00A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				5180E32A18B7EE7500115C14 /* TopBorderTextField.h */,
+				5180E32B18B7EE7500115C14 /* TopBorderTextField.m */,
 				51F176B818B5E43000F7A058 /* CircleView.h */,
 				51F176B918B5E43000F7A058 /* CircleView.m */,
 				51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */,
@@ -472,6 +477,7 @@
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
+				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
 				51F176A218B5781500F7A058 /* Comment.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,

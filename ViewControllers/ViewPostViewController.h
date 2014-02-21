@@ -12,7 +12,7 @@
 @class ViewMultiPostsViewController;
 
 @interface ViewPostViewController : UIViewController
-                                <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
+                                <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate>
 
 @property (strong, nonatomic) Post *post;
 
