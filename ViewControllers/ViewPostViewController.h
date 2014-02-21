@@ -7,14 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Post.h"
 
 @class ViewMultiPostsViewController;
 
 @interface ViewPostViewController : UIViewController
-                                <UITableViewDelegate, UITableViewDataSource>
+                                <UITableViewDelegate, UITableViewDataSource, NSFetchedResultsControllerDelegate>
 
-@property (copy, nonatomic) NSString *pic;
-@property (strong, nonatomic) NSString *content;
+@property (strong, nonatomic) Post *post;
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 

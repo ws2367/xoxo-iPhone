@@ -25,7 +25,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        // Initialization code
+
     }
     return self;
 }
@@ -37,19 +37,26 @@
     // Configure the view for the selected state
 }
 
--(void) setCommentStr:(NSString *)commentStr{
-    _commentStr = [commentStr copy];
-    [_commentButton setTitle:_commentStr forState:UIControlStateNormal];
-    
-    _likeNum = 4;
-    _hateNum = 3;
-    _likeValue.text = [NSString stringWithFormat:@"%d", _likeNum];
+- (void) setHateNum:(NSInteger)hateNum{
+    _hateNum = hateNum;
     _hateValue.text = [NSString stringWithFormat:@"%d", _hateNum];
-    
-    _liked = false;
+
     _hated = false;
-    [_likeButton setImage:[UIImage imageNamed:@"likeoff"] forState:UIControlStateNormal];
     [_hateButton setImage:[UIImage imageNamed:@"hateoff"] forState:UIControlStateNormal];
+
+}
+
+- (void) setLikeNum:(NSInteger)likeNum{
+    _likeNum = likeNum;
+    _likeValue.text = [NSString stringWithFormat:@"%d", _likeNum];
+
+    _liked = false;
+    [_likeButton setImage:[UIImage imageNamed:@"likeoff"] forState:UIControlStateNormal];
+}
+
+-(void) setContent:(NSString *)content{
+    _content = [content copy];
+    [_commentButton setTitle:_content forState:UIControlStateNormal];
 }
 
 -(void)setLevelNum:(NSInteger)levelNum{

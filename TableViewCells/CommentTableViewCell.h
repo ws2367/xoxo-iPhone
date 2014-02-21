@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface CommentTableViewCell : UITableViewCell
-@property (copy, nonatomic) NSString *commentStr;
+@property (copy, nonatomic) NSString *content;
 @property (nonatomic, assign, getter=isLiked) BOOL liked;
 @property (nonatomic, assign, getter=isHated) BOOL hated;
 @property (nonatomic, assign) NSInteger likeNum;

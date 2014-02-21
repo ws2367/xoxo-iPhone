@@ -258,10 +258,9 @@
     [self allocateBlackMask];
     
     _viewPostViewController = [[ViewPostViewController alloc] initWithViewMultiPostsViewController:self];
-    
+    _viewPostViewController.post = post;
     _viewPostViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);
-    _viewPostViewController.pic = @"pic1";
-    
+
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn

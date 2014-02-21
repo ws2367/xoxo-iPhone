@@ -241,10 +241,10 @@
 
 #pragma mark -
 #pragma mark TableView Delegate Methods
-// This has to call parent controller to
+// This has to call parent controller
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    [_masterController startViewingPostForPost:nil];
+    Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    [_masterController startViewingPostForPost:post];
 }
 
 

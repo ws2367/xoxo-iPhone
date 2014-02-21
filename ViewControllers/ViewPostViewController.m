@@ -9,13 +9,22 @@
 #import "ViewPostViewController.h"
 #import "ViewMultiPostsViewController.h"
 #import "CommentTableViewCell.h"
+#import "Post.h"
+#import "Comment.h"
 
 @interface ViewPostViewController ()
 
-@property (weak, nonatomic) IBOutlet UITableView *myTableView;
-@property (strong, nonatomic) NSArray *comments;
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (strong, nonatomic) NSString *content;
+
+@property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @property (weak, nonatomic)IBOutlet UIImageView *postImage;
+
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
+
+//TODO: kill it after having real pictures
+@property (strong, nonatomic) NSString *pic;
 
 @end
 
@@ -46,29 +55,23 @@
 {
     [super viewDidLoad];
     
-    NSDictionary *firstData =
-    @{@"comment" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?" };
-    NSDictionary *secondData =
-    @{@"comment" : @"One of the partners of Orrzs is cute!!!"};
-    NSDictionary *thirdData =
-    @{@"comment" : @"Who is that girl? Heartbreak..." };
-    NSDictionary *fourthData =
-    @{@"comment" : @"Seriously, another girl?" };
-    NSDictionary *fifthData =
-    @{@"comment" : @"人生第一次當個瘋狂蘋果迷", };
-    
-    //Shawn test
-    //self.posts = [[NSMutableArray alloc] init];
-    
-    //Iru test
-    _comments = [[NSMutableArray alloc] initWithObjects:firstData,secondData,thirdData,fourthData,fifthData, nil];
-    // Do any additional setup after loading the view from its nib.
-    
-    _myTableView.rowHeight = ROW_HEIGHT;
+    // set up table view
+    _tableView.rowHeight = ROW_HEIGHT;
     UINib *nib = [UINib nibWithNibName:@"CommentTableViewCell"
                                 bundle:nil];
-    [_myTableView registerNib:nib
+    [_tableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
+    
+    // set the content
+    _content = [[NSString alloc] initWithString:_post.content];
+    _contentTextView.text = _content;
+    
+    // Note: I have tested that post and its related entities are visible here
+    // Also, I used Core Data Editor to test that comments do show up
+    
+    //TODO: kill it after having real pictures
+    [self setPic:@"pic1"];
+
 }
 - (IBAction)backButtonPressed:(id)sender {
     [_viewMultiPostsViewController cancelViewingPost];
@@ -93,15 +96,26 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [_comments count];
+    return [_post.comments count];
+
 }
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
-    NSDictionary *rowData = _comments[indexPath.row];
-    cell.commentStr = rowData[@"comment"];
-    cell.levelNum = indexPath.row;
+    
+    // TODO: sort it by the time of creation, not by content
+    NSArray *comments = [_post.comments sortedArrayUsingDescriptors:
+                         @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
+                        ];
+    Comment *comment = comments[indexPath.row];
+    
+    cell.content = comment.content;
+    cell.likeNum = [comment.likersNum integerValue];
+    cell.hateNum = [comment.hatersNum integerValue];
+    
+    [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+
     return cell;
 }
 
