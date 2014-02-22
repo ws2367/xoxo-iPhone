@@ -7,11 +7,11 @@
 //
 
 #import "EntityTableViewCell.h"
-#import "CircleView.h"
+#import "CircleViewForImage.h"
 
 @interface EntityTableViewCell ()
 
-@property (weak, nonatomic) IBOutlet CircleView *circleView;
+@property (weak, nonatomic) IBOutlet CircleViewForImage *circleView;
 
 @end
 

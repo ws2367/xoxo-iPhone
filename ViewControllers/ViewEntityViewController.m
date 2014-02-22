@@ -16,11 +16,15 @@
 #import "Location.h"
 #import "Entity.h"
 
-@interface ViewEntityViewController ()
-@property (weak, nonatomic) IBOutlet UIImageView *headImageView;
+#import "CircleViewForImage.h"
 
+@interface ViewEntityViewController ()
+
+// for map, potentially depreciated
 @property (weak, nonatomic) IBOutlet UIButton *dropPinButton;
 @property (weak, nonatomic) IBOutlet MKMapView *myMap;
+
+@property (weak, nonatomic) IBOutlet CircleViewForImage *circleViewForImage;
 
 // entity attributes
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -30,6 +34,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (strong, nonatomic) NSString *location;
 
+// store post array temorarily
 @property (copy, nonatomic) NSArray *posts;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -63,7 +68,7 @@
 {
     [super viewDidLoad];
     
-    [_headImageView setImage:[UIImage imageNamed:@"pic2"]];
+    [_circleViewForImage setImage:[UIImage imageNamed:@"pic2"]];
 
     _tableView.rowHeight = 254;
     UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"

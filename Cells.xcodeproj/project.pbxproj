@@ -28,7 +28,7 @@
 		51F176AE18B57E0400F7A058 /* Institution.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176AD18B57E0400F7A058 /* Institution.m */; };
 		51F176B118B5874C00F7A058 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B018B5874C00F7A058 /* Entity.m */; };
 		51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */; };
-		51F176BA18B5E43000F7A058 /* CircleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B918B5E43000F7A058 /* CircleView.m */; };
+		51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B918B5E43000F7A058 /* CircleViewForImage.m */; };
 		75073FA818120314009177C7 /* ViewPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FA618120314009177C7 /* ViewPostViewController.m */; };
 		75073FA918120314009177C7 /* ViewPostViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FA718120314009177C7 /* ViewPostViewController.xib */; };
 		75073FC01813B76D009177C7 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FBF1813B76D009177C7 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
@@ -113,8 +113,8 @@
 		51F176B018B5874C00F7A058 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
 		51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBorderTextField.h; sourceTree = "<group>"; };
 		51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBorderTextField.m; sourceTree = "<group>"; };
-		51F176B818B5E43000F7A058 /* CircleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleView.h; sourceTree = "<group>"; };
-		51F176B918B5E43000F7A058 /* CircleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleView.m; sourceTree = "<group>"; };
+		51F176B818B5E43000F7A058 /* CircleViewForImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleViewForImage.h; sourceTree = "<group>"; };
+		51F176B918B5E43000F7A058 /* CircleViewForImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleViewForImage.m; sourceTree = "<group>"; };
 		75073FA518120314009177C7 /* ViewPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostViewController.h; sourceTree = "<group>"; };
 		75073FA618120314009177C7 /* ViewPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostViewController.m; sourceTree = "<group>"; };
 		75073FA718120314009177C7 /* ViewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewPostViewController.xib; sourceTree = "<group>"; };
@@ -298,8 +298,8 @@
 			children = (
 				5180E32A18B7EE7500115C14 /* TopBorderTextField.h */,
 				5180E32B18B7EE7500115C14 /* TopBorderTextField.m */,
-				51F176B818B5E43000F7A058 /* CircleView.h */,
-				51F176B918B5E43000F7A058 /* CircleView.m */,
+				51F176B818B5E43000F7A058 /* CircleViewForImage.h */,
+				51F176B918B5E43000F7A058 /* CircleViewForImage.m */,
 				51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */,
 				51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */,
 				7539911E182F7EF300EFC00A /* UserMenuButtonView.h */,
@@ -487,7 +487,7 @@
 				51F176A218B5781500F7A058 /* Comment.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,
 				75CCCF4F17FC03DF000BF0F4 /* AppDelegate.m in Sources */,
-				51F176BA18B5E43000F7A058 /* CircleView.m in Sources */,
+				51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */,
 				75073FA818120314009177C7 /* ViewPostViewController.m in Sources */,
 				516FB2EB18B6F40700088AF6 /* Constants.m in Sources */,
 				75C0BDCE1829785E00B34113 /* UserMenuViewController.m in Sources */,

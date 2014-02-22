@@ -284,23 +284,10 @@
     
     CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
     
+    //TODO: grab more data from server
     if(distanceFromBottom < height)
     {
-        NSLog(@"end of the table %d", [_posts count]);
-        if(_posts.count < 20){
-            
-            NSDictionary *entity6 = @{ @"name": @"Dan Lin, Duke University, Durham"};
-            NSDictionary *entity7 = @{ @"name": @"Iru Wang, Stanford University, Palo Alto"};
-            NSDictionary *sixthData =
-            @{@"content" : @"new sixth cell's content!!!!!!", @"entities" : @[entity6], @"pic" : @"pic3" };
-            NSDictionary *seventhData =
-            @{@"content" : @"omgomgomgomgomg", @"entities" : @[entity7], @"pic" : @"pic1" };
-            
-            [_posts addObject:sixthData];
-            [_posts addObject:seventhData];
-            [self.tableView reloadData];
-        }
-        
+        //[self.tableView reloadData];
     }
 }
 

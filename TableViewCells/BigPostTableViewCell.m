@@ -211,7 +211,6 @@
         gradientRight.endPoint =CGPointMake(1, 0);
         [_myPic.layer addSublayer:gradientRight];
         [_myPic.layer addSublayer:gradientBelow];
-        NSLog(@"adding gradient");
         _gradientFlag = TRUE;
     }
 }
