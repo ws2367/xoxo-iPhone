@@ -107,9 +107,5 @@
             <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
             <nil key="highlightedColor"/>
         </label>
-        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" id="NNq-fw-Uka">
-            <rect key="frame" x="0.0" y="0.0" width="240" height="128"/>
-            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-        </imageView>
     </objects>
 </document>

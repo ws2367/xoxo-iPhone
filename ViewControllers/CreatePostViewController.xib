@@ -39,7 +39,6 @@
                     </state>
                     <connections>
                         <action selector="addPhoto:" destination="-1" eventType="touchUpInside" id="rac-vl-i3g"/>
-                        <action selector="pickImageButtonPressed:" destination="-1" eventType="touchUpInside" id="62i-WQ-eXK"/>
                     </connections>
                 </button>
                 <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="P2c-Qg-W0x">
@@ -85,6 +84,9 @@
                     <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                     <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="14"/>
                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="ZaB-Ct-G4T"/>
+                    </connections>
                 </textView>
                 <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="z9L-Gh-cXk">
                     <rect key="frame" x="273" y="50" width="30" height="30"/>

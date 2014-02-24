@@ -14,6 +14,7 @@
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
 
+// TODO: comment out depreciated codes!
 @interface MultiPostsTableViewController ()
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;

@@ -10,7 +10,7 @@
 
 @class ViewMultiPostsViewController;
 
-@interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate>
+@interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate, UITextViewDelegate>
 
 @property (strong, nonatomic) NSMutableArray *entities;
 

@@ -95,6 +95,7 @@
     // Also, I used Core Data Editor to test that comments do show up
     
     //TODO: kill it after having real pictures
+    //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
     [self setPic:@"pic1"];
     
     // TODO: sort it by the time of creation, not by content
@@ -178,6 +179,8 @@
     
     Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment" inManagedObjectContext:appDelegate.managedObjectContext];
 
+    // This is better than [comment setValue:..... forKey:@"content"]
+    // because literal string is not type-checked, but @properties are.
     comment.content = _commentTextField.text;
     
     [_post addCommentsObject:comment];
@@ -195,6 +198,9 @@
         _comments = [_post.comments sortedArrayUsingDescriptors:
                      @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
                      ];
+        
+        // TODO: we might want to add observer to observe the context change and thereafter
+        // reload table view, using a method to listen to
         [_tableView reloadData];
     }
 }
