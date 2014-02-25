@@ -12,7 +12,8 @@
 
 @property (strong, nonatomic) NSArray *entities;
 @property (copy, nonatomic) NSString *content;
-@property (copy, nonatomic) NSString *pic;
+//TODO: not sure what attributes should be used for image
+@property (strong, nonatomic) UIImage *image;
 @property (nonatomic, assign) NSInteger likeNum;
 @property (nonatomic, assign) NSInteger hateNum;
 @property (nonatomic, assign, getter=isLiked) BOOL liked;

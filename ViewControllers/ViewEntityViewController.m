@@ -15,6 +15,7 @@
 #import "Institution.h"
 #import "Location.h"
 #import "Entity.h"
+#import "Photo.h"
 
 #import "CircleViewForImage.h"
 
@@ -224,7 +225,9 @@
     }];
     
     cell.entities = array;
-    cell.pic = @"pic5";
+    //TODO: should present all images, not just the first one
+    Photo *photo = [[post.photos allObjects] firstObject];
+    cell.image = photo.image;
     return cell;
 }
 

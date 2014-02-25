@@ -26,10 +26,6 @@
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 
 @property (strong, nonatomic) NSArray *comments; //store comment pointers
-
-//TODO: kill it after having real pictures
-@property (strong, nonatomic) NSString *pic;
-
 @end
 
 #define ROW_HEIGHT 46
@@ -95,9 +91,8 @@
     // Note: I have tested that post and its related entities are visible here
     // Also, I used Core Data Editor to test that comments do show up
     
-    //TODO: kill it after having real pictures
     //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
-    //[self setPic:@"pic1"];
+    //TODO: we should show all images, not just the first one
     Photo *photo = [[self.post.photos allObjects] firstObject];
     self.postImage.image = photo.image;
     
@@ -112,14 +107,6 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-}
-
-- (void)setPic:(NSString *)c
-{
-    if (![c isEqualToString:_pic]) {
-        _pic = [c copy];
-        _postImage.image = [UIImage imageNamed:_pic];
-    }
 }
 
 #pragma mark -

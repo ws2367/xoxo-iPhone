@@ -10,6 +10,8 @@
 #import "MultiPostsTableViewController.h"
 #import "BigPostTableViewCell.h"
 
+#import "Photo.h"
+
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
@@ -18,8 +20,6 @@
 @interface MultiPostsTableViewController ()
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
-// TODO: kill dummy pictures
-@property (strong, nonatomic) NSMutableArray *pictures;
 
 @end
 
@@ -122,9 +122,7 @@
     } else {
         NSLog(@"Failed to fetch");
     }
-    
-    //TODO: kill dummy pictures
-    _pictures = [[NSMutableArray alloc] init];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -189,21 +187,18 @@
     //post.entities is a NSSet but cell.entities is a NSArray
     // actually, here we should do more work than just sending a NSArray of Entity to cell
     // because table view cell should be model-agnostic. So we pass a NSArray of NSDictionary to it
-    NSMutableArray *arr = [[NSMutableArray alloc] init];
+    NSMutableArray *entitiesArray = [[NSMutableArray alloc] init];
     
     [post.entities enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [arr addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
+        [entitiesArray addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
     }];
     
-    cell.entities = arr;
+    cell.entities = entitiesArray;
     
-    // dummy random pictures for now
-    // picture array has no insufficient pictures
-    if ([_pictures count] < (indexPath.row + 1)){
-        [_pictures addObject:[[NSString alloc] initWithFormat:@"pic%d", (arc4random() % 5 + 1)]];
-    }
-    cell.pic = [_pictures objectAtIndex:indexPath.row];
-    
+    //TODO: should present all images, not just the first one
+    Photo *photo = [[post.photos allObjects] firstObject];
+    cell.image = photo.image;
+
     /*
     // We want the cell to know which row it is, so we store that in button.tag
     // However, here shareButton is depreciated

@@ -19,7 +19,7 @@
 @property (nonatomic) bool gradientFlag;
 
 @property (strong, nonatomic) IBOutlet UITextView *titleValue;
-@property (strong, nonatomic) IBOutlet UIImageView *myPic;
+@property (strong, nonatomic) IBOutlet UIImageView *postImageView;
 @property (strong, nonatomic) IBOutlet UIButton *likeButton;
 @property (strong, nonatomic) IBOutlet UIButton *hateButton;
 @property (strong, nonatomic) IBOutlet UILabel *likeValue;
@@ -101,13 +101,9 @@
 }
 
 
-- (void)setPic:(NSString *)c
+- (void)setImage:(UIImage *)image
 {
-    if (![c isEqualToString:_pic]) {
-        //TODO: check if this copying actually works as we want
-        _pic = [c copy];
-        _myPic.image = [UIImage imageNamed:_pic];
-    }
+    _postImageView.image = image;
     [self createGradient];
 }
 
@@ -209,8 +205,8 @@
                                 (id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], nil];
         gradientRight.startPoint = CGPointMake(0.5, 0.5);
         gradientRight.endPoint =CGPointMake(1, 0);
-        [_myPic.layer addSublayer:gradientRight];
-        [_myPic.layer addSublayer:gradientBelow];
+        [_postImageView.layer addSublayer:gradientRight];
+        [_postImageView.layer addSublayer:gradientBelow];
         _gradientFlag = TRUE;
     }
 }
