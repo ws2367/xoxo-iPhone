@@ -45,7 +45,6 @@
 		75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FED1819966C009177C7 /* MapPinAnnotation.m */; };
 		752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */; };
 		752B5CD61854506100C0AE76 /* moose.png in Resources */ = {isa = PBXBuildFile; fileRef = 752B5CD51854506100C0AE76 /* moose.png */; };
-		7534DFC91822D75D009E5E3A /* XOXOUIViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7534DFC81822D75D009E5E3A /* XOXOUIViewController.m */; };
 		75399120182F7EF300EFC00A /* UserMenuButtonView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7539911F182F7EF300EFC00A /* UserMenuButtonView.m */; };
 		753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 753B4FD01842F86D00863B9F /* CommentTableViewCell.m */; };
 		753B4FD31842F91F00863B9F /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 753B4FD21842F91F00863B9F /* CommentTableViewCell.xib */; };
@@ -101,7 +100,7 @@
 		5180E32B18B7EE7500115C14 /* TopBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderTextField.m; sourceTree = "<group>"; };
 		5180E32D18B81A0400115C14 /* TopBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBorderView.h; sourceTree = "<group>"; };
 		5180E32E18B81A0400115C14 /* TopBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderView.m; sourceTree = "<group>"; };
-		51A4057B18BC4D0C00C61438 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
+		51A4057B18BC4D0C00C61438 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 		51A4057F18BC4FB400C61438 /* ImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageToDataTransformer.h; sourceTree = "<group>"; };
 		51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageToDataTransformer.m; sourceTree = "<group>"; };
 		51A4059A18BC53B900C61438 /* InitializedNSManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitializedNSManagedObject.h; sourceTree = "<group>"; };
@@ -142,8 +141,6 @@
 		75073FED1819966C009177C7 /* MapPinAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapPinAnnotation.m; sourceTree = "<group>"; };
 		752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BigPostTableViewCell.xib; sourceTree = "<group>"; };
 		752B5CD51854506100C0AE76 /* moose.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = moose.png; sourceTree = "<group>"; };
-		7534DFC71822D75D009E5E3A /* XOXOUIViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XOXOUIViewController.h; sourceTree = "<group>"; };
-		7534DFC81822D75D009E5E3A /* XOXOUIViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XOXOUIViewController.m; sourceTree = "<group>"; };
 		7539911E182F7EF300EFC00A /* UserMenuButtonView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMenuButtonView.h; sourceTree = "<group>"; };
 		7539911F182F7EF300EFC00A /* UserMenuButtonView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMenuButtonView.m; sourceTree = "<group>"; };
 		753B4FCF1842F86D00863B9F /* CommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CommentTableViewCell.h; path = TableViewCells/CommentTableViewCell.h; sourceTree = SOURCE_ROOT; };
@@ -211,8 +208,6 @@
 				75C0BDCA1829785E00B34113 /* UserMenuViewController.xib */,
 				75C0BDCB1829785E00B34113 /* UserMenuViewController.h */,
 				75C0BDCC1829785E00B34113 /* UserMenuViewController.m */,
-				7534DFC71822D75D009E5E3A /* XOXOUIViewController.h */,
-				7534DFC81822D75D009E5E3A /* XOXOUIViewController.m */,
 				75073FC31814BF1A009177C7 /* ViewEntityViewController.h */,
 				75073FC41814BF1A009177C7 /* ViewEntityViewController.m */,
 				75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */,
@@ -513,7 +508,6 @@
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
 				51A405A518BC547400C61438 /* Post.m in Sources */,
 				5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */,
-				7534DFC91822D75D009E5E3A /* XOXOUIViewController.m in Sources */,
 				51A405AB18BC547400C61438 /* Entity.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
 				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,

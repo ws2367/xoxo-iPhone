@@ -119,9 +119,8 @@
         }
     }
     // store posts in an NSArray
-    // TODO: sort it by the time of creation, not by content
     _posts = [_entity.posts sortedArrayUsingDescriptors:
-              @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]];
+              @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]]];
 
 }
 

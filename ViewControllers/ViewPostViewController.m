@@ -96,10 +96,12 @@
     Photo *photo = [[self.post.photos allObjects] firstObject];
     self.postImage.image = photo.image;
     
-    // TODO: sort it by the time of creation, not by content
     _comments = [_post.comments sortedArrayUsingDescriptors:
-                         @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
+                         @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]]
                          ];
+    
+    // remove separators of the table view
+    _tableView.separatorColor = [UIColor clearColor];
     
 }
 
@@ -186,7 +188,7 @@
     } else {
         NSLog(@"Saved Successfully in commenting");
         _comments = [_post.comments sortedArrayUsingDescriptors:
-                     @[[NSSortDescriptor sortDescriptorWithKey:@"content" ascending:YES]]
+                     @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]]
                      ];
         
         // TODO: we might want to add observer to observe the context change and thereafter

@@ -8,11 +8,10 @@
 
 #import "ServerConnector.h"
 #import "CreatePostViewController.h"
-#import "XOXOUIViewController.h"
 
 @interface ServerConnector ()
 @property (nonatomic, retain) NSArray * result;
-@property (weak, nonatomic) XOXOUIViewController *viewController;
+@property (weak, nonatomic) UIViewController *viewController;
 @end
 
 @implementation ServerConnector
@@ -25,7 +24,7 @@
       requestType:(NSString *)requestType_
      responseType:(NSString *)responseType_
   timeoutInterval:(int)timeoutInterval_
-   viewController:(XOXOUIViewController *)viewController_{
+   viewController:(UIViewController *)viewController_{
  
     
     //Consider not allocating spaces for NSString....

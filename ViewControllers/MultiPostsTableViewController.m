@@ -101,8 +101,8 @@
     //set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
     
-    NSSortDescriptor *idSort = [[NSSortDescriptor alloc] initWithKey:@"content" ascending:YES];
-    request.sortDescriptors = @[idSort];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
+    request.sortDescriptors = @[sort];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     

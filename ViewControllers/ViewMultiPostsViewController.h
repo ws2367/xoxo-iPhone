@@ -8,14 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import <AddressBookUI/AddressBookUI.h>
-#import "XOXOUIViewController.h"
 #import "Post.h"
 #import "Entity.h"
 
 @class CreateEntityViewController;
 @class CreatePostViewController;
 
-@interface ViewMultiPostsViewController : XOXOUIViewController
+@interface ViewMultiPostsViewController : UIViewController
         <UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;

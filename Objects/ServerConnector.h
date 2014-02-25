@@ -8,7 +8,6 @@
 
 #import <Foundation/Foundation.h>
 #import "CreatePostViewController.h"
-#import "XOXOUIViewController.h"
 
 @class CreatePostViewController;
 
@@ -25,7 +24,7 @@
       requestType:(NSString *)requestType_
      responseType:(NSString *)responseType_
   timeoutInterval:(int)timeoutInterval_
-   viewController:(XOXOUIViewController *)viewController_;
+   viewController:(UIViewController *)viewController_;
 
 
 // A NSDictionary is given as a JSON.
