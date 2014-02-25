@@ -10,6 +10,7 @@
 #import "CreateEntityViewController.h"
 #import "ViewMultiPostsViewController.h"
 #import "ServerConnector.h"
+#import "Photo.h"
 
 @interface CreatePostViewController ()
 {
@@ -234,7 +235,17 @@
         //set up relationship with entities
         post.entities = [NSSet setWithArray:_entities];
         
-        //TODO: set picture to post
+        //add photos to post
+        // In _photos are UIImage objects
+        for (UIImage *image in _photos){
+            //Here awakeFromInsert in initializedNSManagedObject will be called
+            Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext];
+            
+            // This will call ImageToDataTransformer
+            photo.image = image;
+            
+            [post addPhotosObject:photo];
+        }
         
         NSError *SavingErr = nil;
         if ([appDelegate.managedObjectContext save:&SavingErr]) {

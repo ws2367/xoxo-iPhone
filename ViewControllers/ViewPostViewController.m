@@ -11,6 +11,7 @@
 #import "CommentTableViewCell.h"
 #import "Post.h"
 #import "Comment.h"
+#import "Photo.h"
 
 @interface ViewPostViewController ()
 
@@ -96,7 +97,9 @@
     
     //TODO: kill it after having real pictures
     //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
-    [self setPic:@"pic1"];
+    //[self setPic:@"pic1"];
+    Photo *photo = [[self.post.photos allObjects] firstObject];
+    self.postImage.image = photo.image;
     
     // TODO: sort it by the time of creation, not by content
     _comments = [_post.comments sortedArrayUsingDescriptors:

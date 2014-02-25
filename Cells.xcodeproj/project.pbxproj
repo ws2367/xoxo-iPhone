@@ -21,12 +21,15 @@
 		516FB2EB18B6F40700088AF6 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 516FB2EA18B6F40700088AF6 /* Constants.m */; };
 		5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32B18B7EE7500115C14 /* TopBorderTextField.m */; };
 		5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32E18B81A0400115C14 /* TopBorderView.m */; };
-		51F1769F18B5781500F7A058 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F1769E18B5781500F7A058 /* Post.m */; };
-		51F176A218B5781500F7A058 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A118B5781500F7A058 /* Comment.m */; };
-		51F176A818B5781500F7A058 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176A718B5781500F7A058 /* Location.m */; };
-		51F176AB18B5781600F7A058 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176AA18B5781600F7A058 /* User.m */; };
-		51F176AE18B57E0400F7A058 /* Institution.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176AD18B57E0400F7A058 /* Institution.m */; };
-		51F176B118B5874C00F7A058 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B018B5874C00F7A058 /* Entity.m */; };
+		51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */; };
+		51A4059C18BC53B900C61438 /* InitializedNSManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4059B18BC53B900C61438 /* InitializedNSManagedObject.m */; };
+		51A4059F18BC547300C61438 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4059E18BC547300C61438 /* Comment.m */; };
+		51A405A218BC547400C61438 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405A118BC547400C61438 /* Location.m */; };
+		51A405A518BC547400C61438 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405A418BC547400C61438 /* Post.m */; };
+		51A405A818BC547400C61438 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405A718BC547400C61438 /* User.m */; };
+		51A405AB18BC547400C61438 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405AA18BC547400C61438 /* Entity.m */; };
+		51A405AE18BC547400C61438 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405AD18BC547400C61438 /* Photo.m */; };
+		51A405B118BC547400C61438 /* Institution.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405B018BC547400C61438 /* Institution.m */; };
 		51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */; };
 		51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B918B5E43000F7A058 /* CircleViewForImage.m */; };
 		75073FA818120314009177C7 /* ViewPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FA618120314009177C7 /* ViewPostViewController.m */; };
@@ -98,19 +101,26 @@
 		5180E32B18B7EE7500115C14 /* TopBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderTextField.m; sourceTree = "<group>"; };
 		5180E32D18B81A0400115C14 /* TopBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBorderView.h; sourceTree = "<group>"; };
 		5180E32E18B81A0400115C14 /* TopBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderView.m; sourceTree = "<group>"; };
+		51A4057B18BC4D0C00C61438 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
+		51A4057F18BC4FB400C61438 /* ImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageToDataTransformer.h; sourceTree = "<group>"; };
+		51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageToDataTransformer.m; sourceTree = "<group>"; };
+		51A4059A18BC53B900C61438 /* InitializedNSManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitializedNSManagedObject.h; sourceTree = "<group>"; };
+		51A4059B18BC53B900C61438 /* InitializedNSManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitializedNSManagedObject.m; sourceTree = "<group>"; };
+		51A4059D18BC547300C61438 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		51A4059E18BC547300C61438 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		51A405A018BC547400C61438 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		51A405A118BC547400C61438 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
+		51A405A318BC547400C61438 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
+		51A405A418BC547400C61438 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
+		51A405A618BC547400C61438 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		51A405A718BC547400C61438 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		51A405A918BC547400C61438 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		51A405AA18BC547400C61438 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
+		51A405AC18BC547400C61438 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		51A405AD18BC547400C61438 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		51A405AF18BC547400C61438 /* Institution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Institution.h; sourceTree = "<group>"; };
+		51A405B018BC547400C61438 /* Institution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Institution.m; sourceTree = "<group>"; };
 		51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
-		51F1769D18B5781500F7A058 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
-		51F1769E18B5781500F7A058 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
-		51F176A018B5781500F7A058 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
-		51F176A118B5781500F7A058 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		51F176A618B5781500F7A058 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		51F176A718B5781500F7A058 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		51F176A918B5781600F7A058 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		51F176AA18B5781600F7A058 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		51F176AC18B57E0400F7A058 /* Institution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Institution.h; sourceTree = "<group>"; };
-		51F176AD18B57E0400F7A058 /* Institution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Institution.m; sourceTree = "<group>"; };
-		51F176AF18B5874C00F7A058 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		51F176B018B5874C00F7A058 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
 		51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBorderTextField.h; sourceTree = "<group>"; };
 		51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBorderTextField.m; sourceTree = "<group>"; };
 		51F176B818B5E43000F7A058 /* CircleViewForImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleViewForImage.h; sourceTree = "<group>"; };
@@ -224,23 +234,30 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		5124229D18B29CFA008BEF86 /* Entities */ = {
+		5124229D18B29CFA008BEF86 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				51F176AF18B5874C00F7A058 /* Entity.h */,
-				51F176B018B5874C00F7A058 /* Entity.m */,
-				51F176AC18B57E0400F7A058 /* Institution.h */,
-				51F176AD18B57E0400F7A058 /* Institution.m */,
-				51F176A918B5781600F7A058 /* User.h */,
-				51F176AA18B5781600F7A058 /* User.m */,
-				51F176A618B5781500F7A058 /* Location.h */,
-				51F176A718B5781500F7A058 /* Location.m */,
-				51F176A018B5781500F7A058 /* Comment.h */,
-				51F176A118B5781500F7A058 /* Comment.m */,
-				51F1769D18B5781500F7A058 /* Post.h */,
-				51F1769E18B5781500F7A058 /* Post.m */,
+				512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */,
+				51A405AF18BC547400C61438 /* Institution.h */,
+				51A405B018BC547400C61438 /* Institution.m */,
+				51A405AC18BC547400C61438 /* Photo.h */,
+				51A405AD18BC547400C61438 /* Photo.m */,
+				51A405A918BC547400C61438 /* Entity.h */,
+				51A405AA18BC547400C61438 /* Entity.m */,
+				51A405A618BC547400C61438 /* User.h */,
+				51A405A718BC547400C61438 /* User.m */,
+				51A405A318BC547400C61438 /* Post.h */,
+				51A405A418BC547400C61438 /* Post.m */,
+				51A405A018BC547400C61438 /* Location.h */,
+				51A405A118BC547400C61438 /* Location.m */,
+				51A4059D18BC547300C61438 /* Comment.h */,
+				51A4059E18BC547300C61438 /* Comment.m */,
+				51A4059A18BC53B900C61438 /* InitializedNSManagedObject.h */,
+				51A4059B18BC53B900C61438 /* InitializedNSManagedObject.m */,
+				51A4057F18BC4FB400C61438 /* ImageToDataTransformer.h */,
+				51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */,
 			);
-			path = Entities;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		512422A318B2B196008BEF86 /* Icons */ = {
@@ -314,9 +331,8 @@
 			isa = PBXGroup;
 			children = (
 				5168110418B6EF1B00B4AE0B /* Utilities */,
-				512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */,
 				512422A318B2B196008BEF86 /* Icons */,
-				5124229D18B29CFA008BEF86 /* Entities */,
+				5124229D18B29CFA008BEF86 /* Models */,
 				5124229C18B29C5B008BEF86 /* ViewControllers */,
 				75CCCF4417FC03DF000BF0F4 /* TableViewCells */,
 				7539911D182F7EA700EFC00A /* CustomViews */,
@@ -477,37 +493,40 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51F176AB18B5781600F7A058 /* User.m in Sources */,
 				75CCCF4B17FC03DF000BF0F4 /* main.m in Sources */,
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
+				51A405B118BC547400C61438 /* Institution.m in Sources */,
+				51A405A218BC547400C61438 /* Location.m in Sources */,
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
 				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
+				51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
-				51F176A218B5781500F7A058 /* Comment.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,
 				75CCCF4F17FC03DF000BF0F4 /* AppDelegate.m in Sources */,
 				51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */,
 				75073FA818120314009177C7 /* ViewPostViewController.m in Sources */,
 				516FB2EB18B6F40700088AF6 /* Constants.m in Sources */,
 				75C0BDCE1829785E00B34113 /* UserMenuViewController.m in Sources */,
-				51F176B118B5874C00F7A058 /* Entity.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
+				51A405A818BC547400C61438 /* User.m in Sources */,
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
+				51A405A518BC547400C61438 /* Post.m in Sources */,
 				5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */,
 				7534DFC91822D75D009E5E3A /* XOXOUIViewController.m in Sources */,
+				51A405AB18BC547400C61438 /* Entity.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
 				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
 				75399120182F7EF300EFC00A /* UserMenuButtonView.m in Sources */,
+				51A405AE18BC547400C61438 /* Photo.m in Sources */,
+				51A4059F18BC547300C61438 /* Comment.m in Sources */,
 				75721FD01811074E00298ACF /* EntityTableViewCell.m in Sources */,
 				512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */,
-				51F1769F18B5781500F7A058 /* Post.m in Sources */,
 				512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */,
 				51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */,
-				51F176AE18B57E0400F7A058 /* Institution.m in Sources */,
-				51F176A818B5781500F7A058 /* Location.m in Sources */,
 				75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */,
+				51A4059C18BC53B900C61438 /* InitializedNSManagedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,11 +660,13 @@
 			isa = XCVersionGroup;
 			children = (
 				51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */,
+				51A4057B18BC4D0C00C61438 /* Model 4.xcdatamodel */,
 				5177A69A18B446F800F433DA /* Model 2.xcdatamodel */,
 				512422B218B3EAFD008BEF86 /* Model.xcdatamodel */,
 			);
-			currentVersion = 51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */;
-			path = Model.xcdatamodeld;
+			currentVersion = 51A4057B18BC4D0C00C61438 /* Model 4.xcdatamodel */;
+			name = Model.xcdatamodeld;
+			path = ../Model.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
