@@ -6,6 +6,8 @@
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
+//TODO: this class is depreciated
+/*
 #import <UIKit/UIKit.h>
 
 @interface SmallPostTableViewCell : UITableViewCell
@@ -26,3 +28,4 @@
 @property (strong, nonatomic) IBOutlet UILabel *hateValue;
 
 @end
+*/
