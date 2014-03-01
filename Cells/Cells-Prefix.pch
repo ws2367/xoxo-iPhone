@@ -25,3 +25,5 @@
     #import <SystemConfiguration/SystemConfiguration.h>
     #import <CoreServices/CoreServices.h>
 #endif
+
+#import <RestKit/RestKit.h>

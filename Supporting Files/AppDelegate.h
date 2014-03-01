@@ -15,12 +15,16 @@
 
 @property (strong, nonatomic) UIWindow *window;
 @property (strong, nonatomic) ViewMultiPostsViewController *viewController;
+@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
+// switch to RestKit's Core Data configuration
+/*
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
 @property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
 - (void)saveContext;
+ */
 - (NSURL *)applicationDocumentsDirectory;
 
 @end

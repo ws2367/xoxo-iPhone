@@ -14,17 +14,72 @@
 
 @synthesize window = _window;
 @synthesize managedObjectContext = __managedObjectContext;
-@synthesize managedObjectModel = __managedObjectModel;
-@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
+//@synthesize managedObjectModel = __managedObjectModel;
+//@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    NSError *error = nil;
+    NSURL *modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Model" ofType:@"momd"]];
+    // NOTE: Due to an iOS 5 bug, the managed object model returned is immutable.
+    NSManagedObjectModel *managedObjectModel = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] mutableCopy];
+    RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
+    
+    // Initialize the Core Data stack
+    [managedObjectStore createPersistentStoreCoordinator];
+    
+    NSPersistentStore __unused *persistentStore = [managedObjectStore addInMemoryPersistentStore:&error];
+    NSAssert(persistentStore, @"Failed to add persistent store: %@", error);
+    
+    [managedObjectStore createManagedObjectContexts];
+    
+    // Set the default store shared instance
+    [RKManagedObjectStore setDefaultStore:managedObjectStore];
+    
+    // configure the object manager
+    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000"]];
+    objectManager.managedObjectStore = managedObjectStore;
+    
+    [RKObjectManager setSharedManager:objectManager];
+    
+    RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
+
+    /* JSON looks like this
+     [
+        {"post":
+            {"content":"Illo sint delectus. In dolor eligendi ipsum. Soluta sed earum.",
+             "created_at":"2013-10-06T00:24:03Z",
+             "id":7,
+            }
+        },
+        {"post":
+            {....
+            }
+        }
+     ]
+    */
+    [entityMapping addAttributeMappingsFromDictionary:@{
+                                                        @"post.id":             @"remoteID",
+                                                        @"post.content":        @"content",
+                                                        @"post.created_at":     @"creationDate"}];
+
+    RKResponseDescriptor *responseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"/posts"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    [objectManager addResponseDescriptor:responseDescriptor];
+    
+    // view controller setup
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     // Override point for customization after application launch.
     self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
-    self.viewController.managedObjectContext = self.managedObjectContext;
+    __managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -56,7 +111,7 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
-
+/*
 - (void)saveContext
 {
     NSError *error = nil;
@@ -64,17 +119,19 @@
     if (managedObjectContext != nil)
     {
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error])
-        {
+        {*/
             /*
              Replace this implementation with code to handle the error appropriately.
              
              abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
              */
+/*
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         }
     }
-}
+}*/
+
 
 #pragma mark - Core Data stack
 
@@ -82,6 +139,7 @@
  Returns the managed object context for the application.
  If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
  */
+/*
 - (NSManagedObjectContext *)managedObjectContext
 {
     if (__managedObjectContext != nil)
@@ -97,11 +155,12 @@
     }
     return __managedObjectContext;
 }
-
+*/
 /**
  Returns the managed object model for the application.
  If the model doesn't already exist, it is created from the application's model.
  */
+/*
 - (NSManagedObjectModel *)managedObjectModel
 {
     if (__managedObjectModel != nil)
@@ -111,12 +170,13 @@
     NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"Model" withExtension:@"momd"];
     __managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     return __managedObjectModel;
-}
+}*/
 
 /**
  Returns the persistent store coordinator for the application.
  If the coordinator doesn't already exist, it is created and the application's store added to it.
  */
+/*
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
     if (__persistentStoreCoordinator != nil)
@@ -134,7 +194,7 @@
                              [NSNumber numberWithBool:YES], NSInferMappingModelAutomaticallyOption, nil];
     
     if (![__persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:options error:&error])
-    {
+    {*/
         /*
          Replace this implementation with code to handle the error appropriately.
          
@@ -158,12 +218,13 @@
          Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
          
          */
+/*
         NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
         abort();
     }
     
     return __persistentStoreCoordinator;
-}
+}*/
 
 #pragma mark - Application's Documents directory
 

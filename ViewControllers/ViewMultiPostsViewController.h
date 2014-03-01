@@ -17,8 +17,6 @@
 @interface ViewMultiPostsViewController : UIViewController
         <UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
 
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-
 //TODO: depreciate it after implementing Core Data
 @property (strong, nonatomic) NSMutableArray *entities;
 

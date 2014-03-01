@@ -51,24 +51,7 @@
 
 - (void)setup
 {
-    /*
-     NSDictionary *firstData =
-     @{@"content" : @"This guy seems like having a good time in Taiwan. Does not he know he has a girl friend?", @"entities" : @"Dan Lin, Duke University, Durham", @"pic" : @"pic1" };
-     NSDictionary *secondData =
-     @{@"content" : @"One of the partners of Orrzs is cute!!!", @"entity" : @"Iru Wang,Stanford University, Palo Alto", @"pic" : @"pic2" };
-     NSDictionary *thirdData =
-     @{@"content" : @"Who is that girl? Heartbreak...", @"entity" : @"Wen Hsiang Shaw, Columbia University, New York", @"pic" : @"pic3" };
-     NSDictionary *fourthData =
-     @{@"content" : @"Seriously, another girl?", @"entity" : @"Jeanne Jean, Mission San Jose High School, Fremont", @"pic" : @"pic4" };
-     NSDictionary *fifthData =
-     @{@"content" : @"人生第一次當個瘋狂蘋果迷", @"entity" : @"Jocelin Ho,Stanford University, Palo Alto", @"pic" : @"pic5" };
-     */
-    
-    //Shawn test
     self.posts = [[NSMutableArray alloc] init];
-    
-    //Iru test
-    //self.posts = [[NSMutableArray alloc] initWithObjects:firstData,secondData,thirdData,fourthData,fifthData, nil];
     
     /*
      _serverConnector =
@@ -123,6 +106,11 @@
         NSLog(@"Failed to fetch");
     }
 
+   // get objects from server
+   [[RKObjectManager sharedManager] getObjectsAtPath:@"/posts"
+                                          parameters:nil
+                                             success:nil
+                                             failure:nil];
 }
 
 - (void)didReceiveMemoryWarning
