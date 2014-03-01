@@ -15,5 +15,6 @@ profile
 *.swp
 *.out
 
-#Project File
-#Cells.xcodeproj/project.pbxproj
+#Let's ignore Pods directory for now
+Pods/*
+
