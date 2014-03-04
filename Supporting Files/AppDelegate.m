@@ -40,6 +40,11 @@
     
     // configure the object manager
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000"]];
+
+    // set up router
+    //objectManager.router = [[RKRouter alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/"]];
+    
+    
     objectManager.managedObjectStore = managedObjectStore;
     
     [RKObjectManager setSharedManager:objectManager];
@@ -52,7 +57,15 @@
                                                         @"content":     @"content",
                                                         @"uuid":        @"uuid",
                                                         @"updated_at":  @"updateDate"}];
+    
+    
     postMapping.identificationAttributes = @[@"uuid"];
+    // When the modificationKey is non-nil, the mapper will compare the value returned for the key on an existing object instance with
+    // the value in the representation being mapped. If they are exactly equal, then the mapper will skip all remaining property mappings
+    // and proceed to the next object.
+    postMapping.modificationAttribute = [[NSEntityDescription entityForName:@"Post"
+                                                     inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext] attributesByName][@"updateDate"];
+    
     RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
     [entityMapping addAttributeMappingsFromDictionary:@{@"id":          @"remoteID",
                                                         @"name":        @"name",
@@ -82,6 +95,14 @@
     [entityMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"institution"
                                                                                   toKeyPath:@"institution"
                                                                                 withMapping:institutionMapping]];
+    
+
+    // set up connection description
+    // As described in docs, entities are to managed objects what Class is to id, or—to use a database analogy—what tables are to rows.
+    // we use a convenience method to get relationship description and add connection specifier to it
+    // Each pair within the value for the connectedBy argument corresponds to an attribute pair in which the key is an attribute on the source entity
+    // and the value is the destination entity. In this example, commentsIDs is in Post and remoteID is in Comment
+    [postMapping addConnectionForRelationship:@"comments" connectedBy:@{@"commentsIDs":@"remoteID"}];
     
     RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
     [commentMapping addAttributeMappingsFromDictionary:@{@"id":@"remoteID",
@@ -115,6 +136,8 @@
                                                method:RKRequestMethodPOST];
     
     [objectManager addRequestDescriptor:requestDescriptor];
+    
+
     
     // view controller setup
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
