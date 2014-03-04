@@ -222,7 +222,6 @@
 }
 
 - (IBAction)addPost:(id)sender {
-    
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
@@ -233,16 +232,21 @@
         post.content = _textView.text;
         
         //set up relationship with entities
-        post.entities = [NSSet setWithArray:_entities];
+        [post setEntities:[NSSet setWithArray:_entities]];
+        [post setDirty:@YES];
+        [post setDeleted:@NO];
+        [post setUuid:[Utility getUUID]];
         
         //add photos to post
         // In _photos are UIImage objects
         for (UIImage *image in _photos){
-            //Here awakeFromInsert in initializedNSManagedObject will be called
             Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext];
             
             // This will call ImageToDataTransformer
             photo.image = image;
+            [photo setDirty:@YES];// dirty is a NSNumber so @YES is a literal in Obj C that is created for this purpose. [NSNumber numberWithBool:] works too.
+            [photo setDeleted:@NO];
+            [photo setUuid:[Utility getUUID]];
             
             [post addPhotosObject:photo];
         }
@@ -250,6 +254,11 @@
         NSError *SavingErr = nil;
         if ([appDelegate.managedObjectContext save:&SavingErr]) {
             [_masterViewController finishCreatingPostBackToHomePage];
+            if([self updatePost:post]){
+               // do nothing
+            } else {
+                NSLog(@"update post: %@ to remote server failed.", post.content);
+            }
         } else {
             NSLog(@"Failed to save the managed object context.");
         }
@@ -428,6 +437,17 @@
     }
 }
 
+# pragma mark -
+# pragma mark RestKit Methods
+- (BOOL) updatePost:(Post *)post {
+    
+    [[RKObjectManager sharedManager] postObject:post path:@"/posts" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+        NSLog(@"update succeeded.");
+    }failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        NSLog(@"update failed.");
+    }];
+    return YES;
+}
 /*
 - (IBAction)swiped:(id)sender {
     [_masterViewController finishCreatingPostBackToHomePage];

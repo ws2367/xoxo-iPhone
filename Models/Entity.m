@@ -2,7 +2,7 @@
 //  Entity.m
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 2/24/14.
+//  Created by Wen-Hsiang Shaw on 3/3/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
@@ -13,9 +13,11 @@
 
 @implementation Entity
 
+@dynamic updateDate;
 @dynamic name;
-@dynamic remoteId;
-@dynamic creationDate;
+@dynamic remoteID;
+@dynamic uuid;
+@dynamic dirty;
 @dynamic institution;
 @dynamic posts;
 

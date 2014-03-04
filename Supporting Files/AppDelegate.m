@@ -43,40 +43,81 @@
     objectManager.managedObjectStore = managedObjectStore;
     
     [RKObjectManager setSharedManager:objectManager];
+
+    // you can do things like post.id too
+    // set up mapping and response descriptor
+    RKEntityMapping *postMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
+    [postMapping addAttributeMappingsFromDictionary:@{
+                                                        @"id":          @"remoteID",
+                                                        @"content":     @"content",
+                                                        @"uuid":        @"uuid",
+                                                        @"updated_at":  @"updateDate"}];
+    postMapping.identificationAttributes = @[@"uuid"];
+    RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
+    [entityMapping addAttributeMappingsFromDictionary:@{@"id":          @"remoteID",
+                                                        @"name":        @"name",
+                                                        @"uuid":        @"uuid",
+                                                        @"updated_at":  @"updateDate"}];
+    entityMapping.identificationAttributes = @[@"uuid"];
+    [postMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"entities"
+                                                                                toKeyPath:@"entities"
+                                                                              withMapping:entityMapping]];
+
+    RKEntityMapping *institutionMapping = [RKEntityMapping mappingForEntityForName:@"Institution" inManagedObjectStore:managedObjectStore];
+    [institutionMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
+                                                             @"name": @"name",
+                                                             @"uuid": @"uuid",
+                                                             @"updated_at": @"updateDate"}];
+    institutionMapping.identificationAttributes = @[@"uuid"];
     
-    RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
-
-    /* JSON looks like this
-     [
-        {"post":
-            {"content":"Illo sint delectus. In dolor eligendi ipsum. Soluta sed earum.",
-             "created_at":"2013-10-06T00:24:03Z",
-             "id":7,
-            }
-        },
-        {"post":
-            {....
-            }
-        }
-     ]
-    */
-    [entityMapping addAttributeMappingsFromDictionary:@{
-                                                        @"post.id":             @"remoteID",
-                                                        @"post.content":        @"content",
-                                                        @"post.created_at":     @"creationDate"}];
-
+    RKEntityMapping *locationMapping = [RKEntityMapping mappingForEntityForName:@"Location" inManagedObjectStore:managedObjectStore];
+    [locationMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
+                                                          @"name": @"name"}];
+    locationMapping.identificationAttributes = @[@"name"];
+    
+    [institutionMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"location"
+                                                                                       toKeyPath:@"location"
+                                                                                     withMapping:locationMapping]];
+    
+    [entityMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"institution"
+                                                                                  toKeyPath:@"institution"
+                                                                                withMapping:institutionMapping]];
+    
+    RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
+    [commentMapping addAttributeMappingsFromDictionary:@{@"id":@"remoteID",
+                                                         @"content":@"content",
+                                                         @"uuid":@"uuid",
+                                                         @"anonymizedUserID": @"anonymized_user_id",
+                                                         @"updated_at":@"updateDate"}];
+    commentMapping.identificationAttributes = @[@"uuid"];
+    
+    [postMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"comments"
+                                                                                toKeyPath:@"comments"
+                                                                              withMapping:commentMapping]];
+    
     RKResponseDescriptor *responseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
+    [RKResponseDescriptor responseDescriptorWithMapping:postMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"/posts"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     [objectManager addResponseDescriptor:responseDescriptor];
+
+    // set up request descriptor
+    // this inverseMapping seems to handle relationships well, as far as I have seen
+    RKEntityMapping *postSerializationMapping = [postMapping inverseMapping];
+    
+    RKRequestDescriptor *requestDescriptor =
+    [RKRequestDescriptor requestDescriptorWithMapping:postSerializationMapping
+                                          objectClass:[Post class]
+                                          rootKeyPath:nil
+                                               method:RKRequestMethodPOST];
+    
+    [objectManager addRequestDescriptor:requestDescriptor];
     
     // view controller setup
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
     self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     __managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;

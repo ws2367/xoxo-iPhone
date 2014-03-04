@@ -205,7 +205,7 @@
                                 (id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], nil];
         gradientRight.startPoint = CGPointMake(0.5, 0.5);
         gradientRight.endPoint =CGPointMake(1, 0);
-        [_postImageView.layer addSublayer:gradientRight];
+        //[_postImageView.layer addSublayer:gradientRight]; //TODO: decide whether to leave gradient right on or off
         [_postImageView.layer addSublayer:gradientBelow];
         _gradientFlag = TRUE;
     }

@@ -2,23 +2,23 @@
 //  Comment.h
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 2/24/14.
+//  Created by Wen-Hsiang Shaw on 3/3/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
-#import "InitializedNSManagedObject.h"
 
 @class Post;
 
-@interface Comment : InitializedNSManagedObject
+@interface Comment : NSManagedObject
 
 @property (nonatomic, retain) NSString * content;
-@property (nonatomic, retain) NSNumber * hatersNum;
-@property (nonatomic, retain) NSNumber * likersNum;
-@property (nonatomic, retain) NSNumber * remoteId;
-@property (nonatomic, retain) NSDate * creationDate;
+@property (nonatomic, retain) NSDate * updateDate;
+@property (nonatomic, retain) NSNumber * remoteID;
+@property (nonatomic, retain) NSString * uuid;
+@property (nonatomic, retain) NSNumber * dirty;
+@property (nonatomic, retain) NSNumber * deleted;
 @property (nonatomic, retain) Post *post;
 
 @end

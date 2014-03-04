@@ -168,6 +168,10 @@
         [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
                                       inManagedObjectContext:appDelegate.managedObjectContext];
 
+    // set UUID
+    [_selectedEntity setUuid:[Utility getUUID]];
+    [_selectedEntity setDirty:@YES];
+
     _selectedEntity.name = _nameTextField.text;
     
     // TODO: Consider to add setters of properties of Institution through catergories and class extension
@@ -190,7 +194,10 @@
         [NSEntityDescription insertNewObjectForEntityForName:@"Institution"
                                       inManagedObjectContext:appDelegate.managedObjectContext];
         
-        _selectedEntity.institution.name = _institutionTextField.text;
+        [_selectedEntity.institution setName:_institutionTextField.text];
+        [_selectedEntity.institution setDirty:@YES];
+        [_selectedEntity.institution setDeleted:@NO];
+        [_selectedEntity.institution setUuid:[Utility getUUID]];
     }
     
     request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];

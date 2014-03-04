@@ -97,7 +97,7 @@
     self.postImage.image = photo.image;
     
     _comments = [_post.comments sortedArrayUsingDescriptors:
-                         @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]]
+                         @[[NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES]]
                          ];
     
     // remove separators of the table view
@@ -188,7 +188,7 @@
     } else {
         NSLog(@"Saved Successfully in commenting");
         _comments = [_post.comments sortedArrayUsingDescriptors:
-                     @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]]
+                     @[[NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES]]
                      ];
         
         // TODO: we might want to add observer to observe the context change and thereafter
@@ -213,8 +213,8 @@
     Comment *comment = _comments[indexPath.row];
     
     cell.content = comment.content;
-    cell.likeNum = [comment.likersNum integerValue];
-    cell.hateNum = [comment.hatersNum integerValue];
+    //cell.likeNum = [comment.likersNum integerValue];
+    //cell.hateNum = [comment.hatersNum integerValue];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
 

@@ -23,17 +23,16 @@
 		51732B9F18C174B40013D891 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51732B9E18C174B40013D891 /* Security.framework */; };
 		51732BA118C174BF0013D891 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51732BA018C174BF0013D891 /* CFNetwork.framework */; };
 		51732BA318C174CA0013D891 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51732BA218C174CA0013D891 /* SystemConfiguration.framework */; };
-		5177612618C1D25F00849E27 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 5177612518C1D25F00849E27 /* Post.m */; };
 		5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32B18B7EE7500115C14 /* TopBorderTextField.m */; };
 		5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32E18B81A0400115C14 /* TopBorderView.m */; };
 		51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */; };
-		51A4059C18BC53B900C61438 /* InitializedNSManagedObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4059B18BC53B900C61438 /* InitializedNSManagedObject.m */; };
-		51A4059F18BC547300C61438 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4059E18BC547300C61438 /* Comment.m */; };
-		51A405A218BC547400C61438 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405A118BC547400C61438 /* Location.m */; };
-		51A405A818BC547400C61438 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405A718BC547400C61438 /* User.m */; };
-		51A405AB18BC547400C61438 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405AA18BC547400C61438 /* Entity.m */; };
-		51A405AE18BC547400C61438 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405AD18BC547400C61438 /* Photo.m */; };
-		51A405B118BC547400C61438 /* Institution.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A405B018BC547400C61438 /* Institution.m */; };
+		51B0E2E818C48BE800EDFD95 /* Institution.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2E718C48BE800EDFD95 /* Institution.m */; };
+		51B0E2EB18C48BE800EDFD95 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2EA18C48BE800EDFD95 /* Comment.m */; };
+		51B0E2EE18C48BE800EDFD95 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2ED18C48BE800EDFD95 /* Post.m */; };
+		51B0E2F118C48BE800EDFD95 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2F018C48BE800EDFD95 /* Entity.m */; };
+		51B0E2F418C48BE900EDFD95 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2F318C48BE900EDFD95 /* User.m */; };
+		51B0E2F718C48BE900EDFD95 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2F618C48BE900EDFD95 /* Photo.m */; };
+		51B0E2FA18C48BE900EDFD95 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2F918C48BE900EDFD95 /* Location.m */; };
 		51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */; };
 		51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B918B5E43000F7A058 /* CircleViewForImage.m */; };
 		75073FA818120314009177C7 /* ViewPostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FA618120314009177C7 /* ViewPostViewController.m */; };
@@ -105,8 +104,6 @@
 		51732B9E18C174B40013D891 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		51732BA018C174BF0013D891 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
 		51732BA218C174CA0013D891 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
-		5177612418C1D25F00849E27 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
-		5177612518C1D25F00849E27 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		5177A69A18B446F800F433DA /* Model 2.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 2.xcdatamodel"; sourceTree = "<group>"; };
 		5180E32A18B7EE7500115C14 /* TopBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBorderTextField.h; sourceTree = "<group>"; };
 		5180E32B18B7EE7500115C14 /* TopBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderTextField.m; sourceTree = "<group>"; };
@@ -115,20 +112,20 @@
 		51A4057B18BC4D0C00C61438 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 		51A4057F18BC4FB400C61438 /* ImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageToDataTransformer.h; sourceTree = "<group>"; };
 		51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageToDataTransformer.m; sourceTree = "<group>"; };
-		51A4059A18BC53B900C61438 /* InitializedNSManagedObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = InitializedNSManagedObject.h; sourceTree = "<group>"; };
-		51A4059B18BC53B900C61438 /* InitializedNSManagedObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = InitializedNSManagedObject.m; sourceTree = "<group>"; };
-		51A4059D18BC547300C61438 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
-		51A4059E18BC547300C61438 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		51A405A018BC547400C61438 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		51A405A118BC547400C61438 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
-		51A405A618BC547400C61438 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
-		51A405A718BC547400C61438 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
-		51A405A918BC547400C61438 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
-		51A405AA18BC547400C61438 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
-		51A405AC18BC547400C61438 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
-		51A405AD18BC547400C61438 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
-		51A405AF18BC547400C61438 /* Institution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Institution.h; sourceTree = "<group>"; };
-		51A405B018BC547400C61438 /* Institution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Institution.m; sourceTree = "<group>"; };
+		51B0E2E618C48BE800EDFD95 /* Institution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Institution.h; sourceTree = "<group>"; };
+		51B0E2E718C48BE800EDFD95 /* Institution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Institution.m; sourceTree = "<group>"; };
+		51B0E2E918C48BE800EDFD95 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
+		51B0E2EA18C48BE800EDFD95 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		51B0E2EC18C48BE800EDFD95 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
+		51B0E2ED18C48BE800EDFD95 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
+		51B0E2EF18C48BE800EDFD95 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
+		51B0E2F018C48BE800EDFD95 /* Entity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Entity.m; sourceTree = "<group>"; };
+		51B0E2F218C48BE900EDFD95 /* User.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = User.h; sourceTree = "<group>"; };
+		51B0E2F318C48BE900EDFD95 /* User.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = User.m; sourceTree = "<group>"; };
+		51B0E2F518C48BE900EDFD95 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
+		51B0E2F618C48BE900EDFD95 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
+		51B0E2F818C48BE900EDFD95 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		51B0E2F918C48BE900EDFD95 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBorderTextField.h; sourceTree = "<group>"; };
 		51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BottomBorderTextField.m; sourceTree = "<group>"; };
@@ -248,22 +245,20 @@
 			isa = PBXGroup;
 			children = (
 				512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */,
-				5177612418C1D25F00849E27 /* Post.h */,
-				5177612518C1D25F00849E27 /* Post.m */,
-				51A405AF18BC547400C61438 /* Institution.h */,
-				51A405B018BC547400C61438 /* Institution.m */,
-				51A405AC18BC547400C61438 /* Photo.h */,
-				51A405AD18BC547400C61438 /* Photo.m */,
-				51A405A918BC547400C61438 /* Entity.h */,
-				51A405AA18BC547400C61438 /* Entity.m */,
-				51A405A618BC547400C61438 /* User.h */,
-				51A405A718BC547400C61438 /* User.m */,
-				51A405A018BC547400C61438 /* Location.h */,
-				51A405A118BC547400C61438 /* Location.m */,
-				51A4059D18BC547300C61438 /* Comment.h */,
-				51A4059E18BC547300C61438 /* Comment.m */,
-				51A4059A18BC53B900C61438 /* InitializedNSManagedObject.h */,
-				51A4059B18BC53B900C61438 /* InitializedNSManagedObject.m */,
+				51B0E2F818C48BE900EDFD95 /* Location.h */,
+				51B0E2F918C48BE900EDFD95 /* Location.m */,
+				51B0E2F518C48BE900EDFD95 /* Photo.h */,
+				51B0E2F618C48BE900EDFD95 /* Photo.m */,
+				51B0E2F218C48BE900EDFD95 /* User.h */,
+				51B0E2F318C48BE900EDFD95 /* User.m */,
+				51B0E2EF18C48BE800EDFD95 /* Entity.h */,
+				51B0E2F018C48BE800EDFD95 /* Entity.m */,
+				51B0E2EC18C48BE800EDFD95 /* Post.h */,
+				51B0E2ED18C48BE800EDFD95 /* Post.m */,
+				51B0E2E918C48BE800EDFD95 /* Comment.h */,
+				51B0E2EA18C48BE800EDFD95 /* Comment.m */,
+				51B0E2E618C48BE800EDFD95 /* Institution.h */,
+				51B0E2E718C48BE800EDFD95 /* Institution.m */,
 				51A4057F18BC4FB400C61438 /* ImageToDataTransformer.h */,
 				51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */,
 			);
@@ -547,37 +542,36 @@
 			files = (
 				75CCCF4B17FC03DF000BF0F4 /* main.m in Sources */,
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
-				51A405B118BC547400C61438 /* Institution.m in Sources */,
-				51A405A218BC547400C61438 /* Location.m in Sources */,
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
+				51B0E2FA18C48BE900EDFD95 /* Location.m in Sources */,
 				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
 				51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,
 				75CCCF4F17FC03DF000BF0F4 /* AppDelegate.m in Sources */,
 				51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */,
+				51B0E2E818C48BE800EDFD95 /* Institution.m in Sources */,
 				75073FA818120314009177C7 /* ViewPostViewController.m in Sources */,
 				516FB2EB18B6F40700088AF6 /* Constants.m in Sources */,
 				75C0BDCE1829785E00B34113 /* UserMenuViewController.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
-				51A405A818BC547400C61438 /* User.m in Sources */,
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
+				51B0E2F418C48BE900EDFD95 /* User.m in Sources */,
 				5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */,
-				5177612618C1D25F00849E27 /* Post.m in Sources */,
-				51A405AB18BC547400C61438 /* Entity.m in Sources */,
+				51B0E2EE18C48BE800EDFD95 /* Post.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
+				51B0E2F118C48BE800EDFD95 /* Entity.m in Sources */,
 				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
 				75399120182F7EF300EFC00A /* UserMenuButtonView.m in Sources */,
-				51A405AE18BC547400C61438 /* Photo.m in Sources */,
-				51A4059F18BC547300C61438 /* Comment.m in Sources */,
+				51B0E2EB18C48BE800EDFD95 /* Comment.m in Sources */,
 				75721FD01811074E00298ACF /* EntityTableViewCell.m in Sources */,
 				512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */,
 				512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */,
 				51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */,
+				51B0E2F718C48BE900EDFD95 /* Photo.m in Sources */,
 				75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */,
-				51A4059C18BC53B900C61438 /* InitializedNSManagedObject.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -53,25 +53,10 @@
 {
     self.posts = [[NSMutableArray alloc] init];
     
-    /*
-     _serverConnector =
-     //[[ServerConnector alloc] initWithURL:@"http://gentle-atoll-8604.herokuapp.com/orderposts.json"
-     [[ServerConnector alloc] initWithURL:@"http://localhost:3000/orderposts.json"
-     verb:@"post"
-     requestType:@"application/json"
-     responseType:@"application/json"
-     timeoutInterval:60
-     viewController:self];
-     */
-    
     self.tableView.rowHeight = ROW_HEIGHT;
     UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
                                 bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellTableIdentifier];
-    self.refreshControl = [UIRefreshControl new];
-    [self.refreshControl addTarget:self action:@selector(startRefreshingView) forControlEvents:UIControlEventValueChanged];
-
-    //[self startRefreshingView];
     
     // set up swipe gesture recognizer
     UISwipeGestureRecognizer * recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -83,8 +68,7 @@
     
     //set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
-    
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"creationDate" ascending:YES];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"updateDate" ascending:YES];
     request.sortDescriptors = @[sort];
     
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
@@ -106,17 +90,38 @@
         NSLog(@"Failed to fetch");
     }
 
-   // get objects from server
-   [[RKObjectManager sharedManager] getObjectsAtPath:@"/posts"
-                                          parameters:nil
-                                             success:nil
-                                             failure:nil];
-}
+    // set up and fire off refresh control
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self action:@selector(loadPosts) forControlEvents:UIControlEventValueChanged];
+
+    // these two have to be called together or it only shows refreshing but not actually pulling any data
+    [self loadPosts];
+    [self.refreshControl beginRefreshing];
+  }
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark -
+#pragma mark RestKit Methods
+- (void) loadPosts{
+    // get objects from server
+    [[RKObjectManager sharedManager] getObjectsAtPath:@"/posts"
+                                           parameters:@{@"timestamp": @"1381019094"}
+                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+                                                  [self.refreshControl endRefreshing];
+                                              }
+                                              failure:^(RKObjectRequestOperation *operation, NSError *error){
+                                                  [self.refreshControl endRefreshing];
+                                                  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                                                                      message:[error localizedDescription]
+                                                                                                     delegate:nil
+                                                                                            cancelButtonTitle:@"OK"
+                                                                                            otherButtonTitles:nil];
+                                              }];
 }
 
 #pragma mark -
@@ -274,95 +279,6 @@
         //[self.tableView reloadData];
     }
 }
-
-#pragma mark -
-#pragma mark Parent Overloaded Methods
-//TODO: figure out the neccesity of XOXOViewController and maybe kill it later
-// This method does not actually overload any method of the parent
--(void)startRefreshingView{
-    //must be here because it can not be in viewDidLoad
-    [self.refreshControl beginRefreshing];
-    
-    //send out request
-    NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
-
-    
-    //TODO: Fetch data from Model according to different status of segmentedControl
-    /*
-    NSDictionary *data;
-    if(_segmentedControl.selectedSegmentIndex == 0){
-        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
-    }
-    else if(_segmentedControl.selectedSegmentIndex == 1){
-        data = @{@"num" : numPosts, @"sortby" : @"recent"};
-    }
-    else{
-        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
-    }
-    
-    [_serverConnector sendJSONGetJSONArray:data];
-     */
-}
-
--(void)endRefreshingViewWithJSONArr:(NSArray *)JSONArr{
-    [self.posts removeAllObjects];
-    
-    NSLog(@"%@", JSONArr);
-    
-    for(NSDictionary *item in JSONArr) {
-        [self.posts addObject:item];
-    }
-    
-    //NSLog(@"Count posts: %d", [self.posts count]);
-    
-    [self.tableView reloadData];
-    [self.refreshControl endRefreshing];
-    
-}
-
-/*
- - (void)RefreshViewWithJSONArr:(NSArray *)JSONArr
- {
- self.posts = JSONArr;
- 
- NSLog(@"Gonna refresh view!");
- 
- if (!JSONArr) {
- NSLog(@"Error parsing JSON!");
- } else {
- for(NSDictionary *item in JSONArr) {
- NSLog(@"Item: %@", item);
- }
- }
- 
- 
- 
- if (!jsonArr) {
- NSLog(@"Error parsing JSON!");
- } else {
- for(NSDictionary *item in jsonArr) {
- NSLog(@"Item: %@", item);
- }
- }
- 
- 
- NSArray *jsonArr2 = [poster sendJSONGetJSONArray:@{@"num" : @"3", @"sortby" : @"recent"}];
- for(NSDictionary *item in jsonArr2) {
- NSLog(@"Item2: %@", item);
- }
- 
- NSURL *url2 = [NSURL URLWithString:@"http://localhost:3000/hates"];
- [poster setUrl:url2];
- NSArray *jsonArr3 = [poster sendJSONGetJSONArray:@{@"user_id" : @"5", @"hate":@{@"hatee_id":@"3", @"hatee_type":@"Post"}}];
- 
- for(NSDictionary *item in jsonArr3) {
- NSLog(@"Item3: %@", item);
- }
- 
- }
- */
-
-
 
 /*
 // Override to support conditional editing of the table view.

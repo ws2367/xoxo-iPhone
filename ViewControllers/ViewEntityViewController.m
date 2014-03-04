@@ -120,7 +120,7 @@
     }
     // store posts in an NSArray
     _posts = [_entity.posts sortedArrayUsingDescriptors:
-              @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]]];
+              @[[NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES]]];
 
 }
 
