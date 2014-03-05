@@ -15,6 +15,7 @@
 
 @property (nonatomic, retain) NSString * name;
 @property (nonatomic, retain) NSNumber * remoteID;
+@property (nonatomic, retain) NSDate * updateDate;
 @property (nonatomic, retain) NSSet *institutions;
 @end
 

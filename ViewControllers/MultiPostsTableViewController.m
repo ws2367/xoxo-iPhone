@@ -109,19 +109,45 @@
 #pragma mark RestKit Methods
 - (void) loadPosts{
     // get objects from server
-    [[RKObjectManager sharedManager] getObjectsAtPath:@"/posts"
-                                           parameters:@{@"timestamp": @"1381019094"}
-                                              success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
-                                                  [self.refreshControl endRefreshing];
-                                              }
-                                              failure:^(RKObjectRequestOperation *operation, NSError *error){
-                                                  [self.refreshControl endRefreshing];
-                                                  UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
-                                                                                                      message:[error localizedDescription]
-                                                                                                     delegate:nil
-                                                                                            cancelButtonTitle:@"OK"
-                                                                                            otherButtonTitles:nil];
-                                              }];
+    [[RKObjectManager sharedManager]
+     getObjectsAtPath:@"/locations"
+     parameters:@{@"timestamp": @"0"}
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+         [[RKObjectManager sharedManager]
+          getObjectsAtPath:@"/institutions"
+          parameters:@{@"timestamp": @"0"}
+          success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+              [[RKObjectManager sharedManager]
+               getObjectsAtPath:@"/entities"
+               parameters:@{@"timestamp": @"0"}
+               success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+                   [[RKObjectManager sharedManager]
+                    getObjectsAtPath:@"/posts"
+                    parameters:@{@"timestamp": @"0"}
+                    success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+                        [[RKObjectManager sharedManager]
+                         getObjectsAtPath:@"/comments"
+                         parameters:@{@"timestamp": @"0"}
+                         success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+                             [self.refreshControl endRefreshing];
+                         }
+                         failure:^(RKObjectRequestOperation *operation, NSError *error){
+                             [self.refreshControl endRefreshing];
+                             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                                                 message:[error localizedDescription]
+                                                                                delegate:nil
+                                                                       cancelButtonTitle:@"OK"
+                                                                       otherButtonTitles:nil];
+                         }];
+                    }
+                    failure:nil];
+               }
+               
+               failure:nil];
+          }
+          failure:nil];
+     }
+     failure:nil];
 }
 
 #pragma mark -

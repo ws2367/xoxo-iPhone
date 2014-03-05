@@ -44,89 +44,128 @@
     // set up router
     //objectManager.router = [[RKRouter alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/"]];
     
-    
     objectManager.managedObjectStore = managedObjectStore;
     
     [RKObjectManager setSharedManager:objectManager];
 
     // you can do things like post.id too
     // set up mapping and response descriptor
-    RKEntityMapping *postMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
-    [postMapping addAttributeMappingsFromDictionary:@{
-                                                        @"id":          @"remoteID",
-                                                        @"content":     @"content",
-                                                        @"uuid":        @"uuid",
-                                                        @"updated_at":  @"updateDate"}];
-    
-    
-    postMapping.identificationAttributes = @[@"uuid"];
-    // When the modificationKey is non-nil, the mapper will compare the value returned for the key on an existing object instance with
-    // the value in the representation being mapped. If they are exactly equal, then the mapper will skip all remaining property mappings
-    // and proceed to the next object.
-    postMapping.modificationAttribute = [[NSEntityDescription entityForName:@"Post"
-                                                     inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext] attributesByName][@"updateDate"];
-    
-    RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
-    [entityMapping addAttributeMappingsFromDictionary:@{@"id":          @"remoteID",
-                                                        @"name":        @"name",
-                                                        @"uuid":        @"uuid",
-                                                        @"updated_at":  @"updateDate"}];
-    entityMapping.identificationAttributes = @[@"uuid"];
-    [postMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"entities"
-                                                                                toKeyPath:@"entities"
-                                                                              withMapping:entityMapping]];
+    RKEntityMapping *locationMapping = [RKEntityMapping mappingForEntityForName:@"Location" inManagedObjectStore:managedObjectStore];
+    [locationMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
+                                                          @"name": @"name",
+                                                          @"updated_at": @"updateDate"}];
+    locationMapping.identificationAttributes = @[@"name"];
 
+    RKResponseDescriptor *locationResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:locationMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"/locations"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    // institution mapping
     RKEntityMapping *institutionMapping = [RKEntityMapping mappingForEntityForName:@"Institution" inManagedObjectStore:managedObjectStore];
     [institutionMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
                                                              @"name": @"name",
                                                              @"uuid": @"uuid",
+                                                             @"deleted": @"deleted",
+                                                             @"location_id" :@"locationID",
                                                              @"updated_at": @"updateDate"}];
     institutionMapping.identificationAttributes = @[@"uuid"];
     
-    RKEntityMapping *locationMapping = [RKEntityMapping mappingForEntityForName:@"Location" inManagedObjectStore:managedObjectStore];
-    [locationMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
-                                                          @"name": @"name"}];
-    locationMapping.identificationAttributes = @[@"name"];
-    
-    [institutionMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"location"
-                                                                                       toKeyPath:@"location"
-                                                                                     withMapping:locationMapping]];
-    
-    [entityMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"institution"
-                                                                                  toKeyPath:@"institution"
-                                                                                withMapping:institutionMapping]];
-    
-
     // set up connection description
     // As described in docs, entities are to managed objects what Class is to id, or—to use a database analogy—what tables are to rows.
     // we use a convenience method to get relationship description and add connection specifier to it
     // Each pair within the value for the connectedBy argument corresponds to an attribute pair in which the key is an attribute on the source entity
-    // and the value is the destination entity. In this example, commentsIDs is in Post and remoteID is in Comment
-    [postMapping addConnectionForRelationship:@"comments" connectedBy:@{@"commentsIDs":@"remoteID"}];
+    // and the value is the destination entity.
+    // In this example, locationID is in Institution (source) and remoteID is in Location (destination)
+    // The argument for relationship is the name of the relationship to the mapping entity. In this case, institution is the mapping entity.
+    // location is the name of the relationship to the entity Location for institution.
+    [institutionMapping addConnectionForRelationship:@"location" connectedBy:@{@"locationID":@"remoteID"}];
     
-    RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
-    [commentMapping addAttributeMappingsFromDictionary:@{@"id":@"remoteID",
-                                                         @"content":@"content",
-                                                         @"uuid":@"uuid",
-                                                         @"anonymizedUserID": @"anonymized_user_id",
-                                                         @"updated_at":@"updateDate"}];
-    commentMapping.identificationAttributes = @[@"uuid"];
+    RKResponseDescriptor *institutionResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"/institutions"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    [postMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"comments"
-                                                                                toKeyPath:@"comments"
-                                                                              withMapping:commentMapping]];
+    // entity mapping
+    RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
+    [entityMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
+                                                        @"name":            @"name",
+                                                        @"uuid":            @"uuid",
+                                                        @"deleted":         @"deleted",
+                                                        @"institution_id":  @"institutionID",
+                                                        @"updated_at":      @"updateDate"}];
+    entityMapping.identificationAttributes = @[@"uuid"];
     
-    RKResponseDescriptor *responseDescriptor =
+    [entityMapping addConnectionForRelationship:@"institution" connectedBy:@{@"institutionID":@"remoteID"}];
+    
+    RKResponseDescriptor *entityResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"/entities"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    // post mapping
+    RKEntityMapping *postMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
+    [postMapping addAttributeMappingsFromDictionary:@{
+                                                        @"id":              @"remoteID",
+                                                        @"content":         @"content",
+                                                        @"uuid":            @"uuid",
+                                                        @"deleted":         @"deleted",
+                                                        @"isYours":         @"isYours",
+                                                        @"entities_ids":    @"entitiesIDs",
+                                                        @"updated_at":      @"updateDate"}];
+    postMapping.identificationAttributes = @[@"uuid"];
+    
+    [postMapping addConnectionForRelationship:@"entities" connectedBy:@{@"entitiesIDs":@"remoteID"}];
+    
+    RKResponseDescriptor *postResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:postMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"/posts"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    [objectManager addResponseDescriptor:responseDescriptor];
-
-    // set up request descriptor
-    // this inverseMapping seems to handle relationships well, as far as I have seen
+    // comment mapping
+    RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
+    [commentMapping addAttributeMappingsFromDictionary:@{@"id":@"remoteID",
+                                                         @"content":@"content",
+                                                         @"uuid":@"uuid",
+                                                         @"anonymizedUserID": @"anonymized_user_id",
+                                                         @"deleted":@"deleted",
+                                                         @"post_id":@"postID",
+                                                         @"updated_at":@"updateDate"}];
+    commentMapping.identificationAttributes = @[@"uuid"];
+    
+    [commentMapping addConnectionForRelationship:@"post" connectedBy:@{@"postID":@"remoteID"}];
+    
+    RKResponseDescriptor *commentResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"/comments"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    // When the modificationKey is non-nil, the mapper will compare the value returned for the key on an existing object instance with
+    // the value in the representation being mapped. If they are exactly equal, then the mapper will skip all remaining property mappings
+    // and proceed to the next object.
+    //postMapping.modificationAttribute = [[NSEntityDescription entityForName:@"Post"
+    //                                                 inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext] attributesByName][@"updateDate"];
+    
+    // add response descriptors to object manager
+    [objectManager addResponseDescriptorsFromArray:@[locationResponseDescriptor,
+                                                     institutionResponseDescriptor,
+                                                     entityResponseDescriptor,
+                                                     postResponseDescriptor,
+                                                     commentResponseDescriptor]];
+    
+    /* Set up request descriptor
+     *
+     */
     RKEntityMapping *postSerializationMapping = [postMapping inverseMapping];
     
     RKRequestDescriptor *requestDescriptor =
@@ -136,8 +175,6 @@
                                                method:RKRequestMethodPOST];
     
     [objectManager addRequestDescriptor:requestDescriptor];
-    
-
     
     // view controller setup
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];

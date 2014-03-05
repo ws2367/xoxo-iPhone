@@ -14,6 +14,7 @@
 
 @dynamic name;
 @dynamic remoteID;
+@dynamic updateDate;
 @dynamic institutions;
 
 @end

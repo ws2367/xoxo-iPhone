@@ -15,12 +15,12 @@
 		512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */; };
 		512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */; };
 		5148477F18C69A7800280874 /* ArrayToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148477E18C69A7800280874 /* ArrayToDataTransformer.m */; };
-		5148478218C69AD000280874 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148478118C69AD000280874 /* Location.m */; };
 		5148478518C69AD100280874 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148478418C69AD100280874 /* Post.m */; };
 		5148478818C69AD100280874 /* Entity.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148478718C69AD100280874 /* Entity.m */; };
 		5148478B18C69AD100280874 /* Institution.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148478A18C69AD100280874 /* Institution.m */; };
 		5148478E18C69AD100280874 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148478D18C69AD100280874 /* Photo.m */; };
 		5148479118C69AD100280874 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148479018C69AD100280874 /* Comment.m */; };
+		5148479418C6B20600280874 /* Location.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148479318C6B20600280874 /* Location.m */; };
 		516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */ = {isa = PBXBuildFile; fileRef = 516609EE181F4A8E0059F8BB /* ServerConnector.m */; };
 		5168110218B6868400B4AE0B /* launchOrangeC-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */; };
 		5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5168110118B6868400B4AE0B /* launchOrangeC@2x.png */; };
@@ -95,8 +95,6 @@
 		512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiPostsTableViewController.m; sourceTree = "<group>"; };
 		5148477D18C69A7800280874 /* ArrayToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayToDataTransformer.h; sourceTree = "<group>"; };
 		5148477E18C69A7800280874 /* ArrayToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayToDataTransformer.m; sourceTree = "<group>"; };
-		5148478018C69AD000280874 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
-		5148478118C69AD000280874 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		5148478318C69AD100280874 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		5148478418C69AD100280874 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
 		5148478618C69AD100280874 /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Entity.h; sourceTree = "<group>"; };
@@ -107,6 +105,8 @@
 		5148478D18C69AD100280874 /* Photo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Photo.m; sourceTree = "<group>"; };
 		5148478F18C69AD100280874 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		5148479018C69AD100280874 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
+		5148479218C6B20600280874 /* Location.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Location.h; sourceTree = "<group>"; };
+		5148479318C6B20600280874 /* Location.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Location.m; sourceTree = "<group>"; };
 		516609ED181F4A8E0059F8BB /* ServerConnector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnector.h; sourceTree = "<group>"; };
 		516609EE181F4A8E0059F8BB /* ServerConnector.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnector.m; sourceTree = "<group>"; };
 		5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "launchOrangeC-568h@2x.png"; path = "Icons/launchOrangeC-568h@2x.png"; sourceTree = "<group>"; };
@@ -247,7 +247,6 @@
 		5124229D18B29CFA008BEF86 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				5148478018C69AD000280874 /* Location.h */,
 				5148478F18C69AD100280874 /* Comment.h */,
 				5148479018C69AD100280874 /* Comment.m */,
 				5148478C18C69AD100280874 /* Photo.h */,
@@ -258,8 +257,9 @@
 				5148478718C69AD100280874 /* Entity.m */,
 				5148478318C69AD100280874 /* Post.h */,
 				5148478418C69AD100280874 /* Post.m */,
-				5148478118C69AD000280874 /* Location.m */,
 				512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */,
+				5148479218C6B20600280874 /* Location.h */,
+				5148479318C6B20600280874 /* Location.m */,
 				51B0E2F218C48BE900EDFD95 /* User.h */,
 				51B0E2F318C48BE900EDFD95 /* User.m */,
 				5148477D18C69A7800280874 /* ArrayToDataTransformer.h */,
@@ -549,7 +549,7 @@
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
-				5148478218C69AD000280874 /* Location.m in Sources */,
+				5148479418C6B20600280874 /* Location.m in Sources */,
 				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
 				51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
