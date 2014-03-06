@@ -72,7 +72,7 @@
     
     //set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"updateDate" ascending:YES];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"updateDate" ascending:NO];
     request.sortDescriptors = @[sort];
     
     _fetchedResultsController =
