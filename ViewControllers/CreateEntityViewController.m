@@ -89,12 +89,10 @@
     NSSortDescriptor *nameSort = [[NSSortDescriptor alloc] initWithKey:@"name" ascending:YES];
     request.sortDescriptors = @[nameSort];
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
     _fetchedResultsController =
         [[NSFetchedResultsController alloc]
             initWithFetchRequest:request
-            managedObjectContext:appDelegate.managedObjectContext
+            managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
             sectionNameKeyPath:nil
                     cacheName:nil];
     
@@ -161,12 +159,12 @@
 - (IBAction)notHereButtonPressed:(id)sender {
     [self allocateBlackMask];
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
+    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
+
     // TODO: you might want to check if the entity is really not in the database
     _selectedEntity =
         [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
-                                      inManagedObjectContext:appDelegate.managedObjectContext];
+                                      inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
 
     // set UUID
     [_selectedEntity setUuid:[Utility getUUID]];
@@ -179,7 +177,7 @@
     request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _institutionTextField.text];
     
     NSError *error = nil;
-    NSArray *matches = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext executeFetchRequest:request error:&error];
     
     // there should be only unique institutions
     if (!matches || error || [matches count] > 1) {
@@ -192,43 +190,57 @@
         // found nothing, create it!
         _selectedEntity.institution =
         [NSEntityDescription insertNewObjectForEntityForName:@"Institution"
-                                      inManagedObjectContext:appDelegate.managedObjectContext];
+                                      inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
         
         [_selectedEntity.institution setName:_institutionTextField.text];
         [_selectedEntity.institution setDirty:@YES];
         [_selectedEntity.institution setDeleted:@NO];
         [_selectedEntity.institution setUuid:[Utility getUUID]];
+        NSLog(@"Created an institution with name %@", _selectedEntity.institution.name);
     }
     
     request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
     request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _locationTextField.text];
-    matches = [appDelegate.managedObjectContext executeFetchRequest:request error:&error];
+    matches = [managedObjectStore.mainQueueManagedObjectContext executeFetchRequest:request error:&error];
     
     // there should be only unique locations
     if (!matches || error || [matches count] > 1) {
         // handle error here
         NSLog(@"Errors in fetching locations");
     } else if ([matches count]) {
-        // found the thing
+        // found the thing, then set up relationship
         _selectedEntity.institution.location = [matches firstObject];
+        NSLog(@"Found location %@", _selectedEntity.institution.location.name);
+        
+        
+        // TODO: we might want to save new entities before creating posts, if so, do context save here
+        // decide who calls to create entity, that is, are we adding more entities or just the first one?
+        if (_viewMultiPostsViewController)
+            [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
+        else if(_createPostViewController)
+            [_createPostViewController finishAddingEntity];
     } else {
-        // found nothing, create it!
+        // found nothing, and we don't create Location!!
+        /*
         _selectedEntity.institution.location =
         [NSEntityDescription insertNewObjectForEntityForName:@"Location"
                                       inManagedObjectContext:appDelegate.managedObjectContext];
         
-        _selectedEntity.institution.location.name = _locationTextField.text;
+        _selectedEntity.institution.location.name = _locationTextField.text;*/
+        NSLog(@"Can't find this location in database, %@", _locationTextField.text);
+        
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No such state in America!"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+        [self dismissBlackMask];
     }
+
     
     
-    // TODO: we might want to save new entities before creating posts, if so, do context save here
-    
-    // decide who calls to create entity, that is, are we adding more entities or just the first one?
-    if (_viewMultiPostsViewController)
-        [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
-    else if(_createPostViewController)
-        [_createPostViewController finishAddingEntity];
-}
+   }
 
 
 - (IBAction)cancelButtonPressed:(id)sender {
@@ -282,7 +294,6 @@
 {
     // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSLog(@"numbers of entities %d", sectionInfo.numberOfObjects);
     return sectionInfo.numberOfObjects;
 }
 

@@ -56,6 +56,9 @@
     [objectManager setAcceptHeaderWithMIMEType:@"application/json"];
     [RKObjectManager setSharedManager:objectManager];
 
+    // Configure a managed object cache to ensure we do not create duplicate objects
+    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
+    
     // you can do things like post.id too
     // set up mapping and response descriptor
     // location mapping
@@ -105,6 +108,13 @@
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
+    RKResponseDescriptor *institutionPOSTResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"institutions"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
     // entity mapping
     RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
     [entityMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
@@ -120,6 +130,13 @@
     RKResponseDescriptor *entityResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
                                                  method:RKRequestMethodGET
+                                            pathPattern:@"entities"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    RKResponseDescriptor *entityPOSTResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
+                                                 method:RKRequestMethodPOST
                                             pathPattern:@"entities"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
@@ -144,6 +161,14 @@
                                             pathPattern:@"posts"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    RKResponseDescriptor *postPOSTResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"posts"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+
     
     // comment mapping
     RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
@@ -188,11 +213,10 @@
     
     // add response descriptors to object manager
     [objectManager addResponseDescriptorsFromArray:@[locationResponseDescriptor,
-                                                     institutionResponseDescriptor,
-                                                     entityResponseDescriptor,
-                                                     postResponseDescriptor,
-                                                     commentResponseDescriptor,
-                                                     commentPOSTResponseDescriptor,
+                                                     institutionResponseDescriptor, institutionPOSTResponseDescriptor,
+                                                     entityResponseDescriptor, entityPOSTResponseDescriptor,
+                                                     postResponseDescriptor, postPOSTResponseDescriptor,
+                                                     commentResponseDescriptor, commentPOSTResponseDescriptor,
                                                      commentOfPostResponseDescriptor]];
     
     /* Set up routing
@@ -205,13 +229,13 @@
     RKRoute *postRoute        = [RKRoute routeWithClass:[Post class] pathPattern:@"posts" method:RKRequestMethodGET];
     RKRoute *commentRoute     = [RKRoute routeWithClass:[Comment class] pathPattern:@"comments" method:RKRequestMethodGET];
     
-    RKRoute *commentPOSTRoute = [RKRoute routeWithClass:[Comment class] pathPattern:@"comments" method:RKRequestMethodPOST];
+    RKRoute *institutionPOSTRoute = [RKRoute routeWithClass:[Institution class] pathPattern:@"institutions" method:RKRequestMethodPOST];
     RKRoute *entityPOSTRoute  = [RKRoute routeWithClass:[Entity class] pathPattern:@"entities" method:RKRequestMethodPOST];
     RKRoute *postPOSTRoute    = [RKRoute routeWithClass:[Post class] pathPattern:@"posts" method:RKRequestMethodPOST];
-    
-    [objectManager.router.routeSet addRoutes:@[locationRoute, institutionRoute, entityRoute,
-                                               postRoute, commentRoute, commentPOSTRoute, entityPOSTRoute,
-                                               postPOSTRoute]];
+    RKRoute *commentPOSTRoute = [RKRoute routeWithClass:[Comment class] pathPattern:@"comments" method:RKRequestMethodPOST];
+
+    [objectManager.router.routeSet addRoutes:@[locationRoute, institutionRoute, entityRoute, postRoute, commentRoute,
+                                               institutionPOSTRoute, commentPOSTRoute, entityPOSTRoute, postPOSTRoute]];
     
     //secondly, relationship routes
     RKRoute *postCommentRelationshipRoute = [RKRoute routeWithRelationshipName:@"comments"
@@ -230,12 +254,11 @@
     /* Set up request descriptor
      *
      */
-    RKEntityMapping *postSerializationMapping = [postMapping inverseMapping];
-    
-    RKRequestDescriptor *requestDescriptor =
-    [RKRequestDescriptor requestDescriptorWithMapping:postSerializationMapping
-                                          objectClass:[Post class]
-                                          rootKeyPath:@"Post"
+    RKEntityMapping *institutionSerializationMapping = [institutionMapping inverseMapping];
+    RKRequestDescriptor *institutionRequestDescriptor =
+    [RKRequestDescriptor requestDescriptorWithMapping:institutionSerializationMapping
+                                          objectClass:[Institution class]
+                                          rootKeyPath:@"Institution"
                                                method:RKRequestMethodPOST];
     
     RKEntityMapping *entitySerializationMapping = [entityMapping inverseMapping];
@@ -244,6 +267,14 @@
     [RKRequestDescriptor requestDescriptorWithMapping:entitySerializationMapping
                                           objectClass:[Entity class]
                                           rootKeyPath:@"Entity"
+                                               method:RKRequestMethodPOST];
+    
+    RKEntityMapping *postSerializationMapping = [postMapping inverseMapping];
+    
+    RKRequestDescriptor *postRequestDescriptor =
+    [RKRequestDescriptor requestDescriptorWithMapping:postSerializationMapping
+                                          objectClass:[Post class]
+                                          rootKeyPath:@"Post"
                                                method:RKRequestMethodPOST];
     
     //TODO: actually... inverse mapping is bad because we don't want to send all the stuff back to server
@@ -255,7 +286,8 @@
                                           rootKeyPath:@"Comment"
                                                method:RKRequestMethodPOST];
     
-    [objectManager addRequestDescriptorsFromArray:@[requestDescriptor, entityRequestDescriptor, commentRequestDescriptor]];
+    [objectManager addRequestDescriptorsFromArray:@[institutionRequestDescriptor, postRequestDescriptor,
+                                                    entityRequestDescriptor, commentRequestDescriptor]];
     
     /* Set up view controller
      *

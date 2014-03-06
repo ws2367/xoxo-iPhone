@@ -11,6 +11,8 @@
 #import "ViewMultiPostsViewController.h"
 #import "ServerConnector.h"
 #import "Photo.h"
+#import "Institution.h"
+#import "Location.h"
 
 @interface CreatePostViewController ()
 {
@@ -222,10 +224,10 @@
 }
 
 - (IBAction)addPost:(id)sender {
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
-                                              inManagedObjectContext:appDelegate.managedObjectContext];
+                                              inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
 
     if (post != nil) {
         
@@ -240,7 +242,7 @@
         //add photos to post
         // In _photos are UIImage objects
         for (UIImage *image in _photos){
-            Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:appDelegate.managedObjectContext];
+            Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
             
             // This will call ImageToDataTransformer
             photo.image = image;
@@ -250,15 +252,43 @@
             
             [post addPhotosObject:photo];
         }
+
+        // send the institutions, entities and the post to the server!
+        RKObjectManager *objectManager = [RKObjectManager sharedManager];
+        
+        // send institutition first
+        // As said in posting a comment, even if we connect the relationship,
+        // we still need to set locationID in order to let the server know the relationship.
+        NSMutableArray *institutionsObjects = [[NSMutableArray alloc] init];
+        for (Entity *entity in post.entities) {
+            entity.institution.locationID = entity.institution.location.remoteID;
+            [institutionsObjects addObject:entity.institution];
+        }
+        
+        //TODO: do something when it fails....
+        [objectManager postObject:institutionsObjects path:@"institutions" parameters:nil
+                          success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                              // a good reason to separate the same loops over post.entities is because
+                              // entity.institution.remoteID will not be determined until the object manager post institution objects to the server
+                              // which is the line above
+                              NSMutableArray *entitiesObjects = [[NSMutableArray alloc] init];
+                              for (Entity *entity in post.entities) {
+                                  entity.institutionID = entity.institution.remoteID; // this line has to be executed after the response is returned from server!
+                                  [entitiesObjects addObject:entity];
+                              }
+                              [objectManager postObject:entitiesObjects path:@"entities" parameters:nil success:nil failure:nil];
+                          }
+                          failure:nil];
+
         
         NSError *SavingErr = nil;
-        if ([appDelegate.managedObjectContext save:&SavingErr]) {
+        if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:&SavingErr]) {
             [_masterViewController finishCreatingPostBackToHomePage];
-            if([self updatePost:post]){
+            //if([self updatePost:post]){
                // do nothing
-            } else {
+            //} else {
                 NSLog(@"update post: %@ to remote server failed.", post.content);
-            }
+           // }
         } else {
             NSLog(@"Failed to save the managed object context.");
         }
@@ -441,17 +471,8 @@
 # pragma mark RestKit Methods
 - (BOOL) updatePost:(Post *)post {
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    Post *post2 =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
-                                              inManagedObjectContext:appDelegate.managedObjectContext];
-
-    post2.content = @"I am post 2!";
     
-    Entity *entity = [NSEntityDescription insertNewObjectForEntityForName:@"Entity" inManagedObjectContext:appDelegate.managedObjectContext];
-    
-    entity.name = @"New Entity!";
-    
-    [[RKObjectManager sharedManager] postObject:@[post, entity] path:@"/posts" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    [[RKObjectManager sharedManager] postObject:@[post] path:@"/posts" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"update succeeded.");
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"update failed.");

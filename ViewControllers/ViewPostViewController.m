@@ -93,7 +93,6 @@
     // Note: I have tested that post and its related entities are visible here
     // Also, I used Core Data Editor to test that comments do show up
     
-    
     // Let's ask the server for the comments of this post!
     [[RKObjectManager sharedManager]
      getObjectsAtPathForRelationship:@"comments"
@@ -106,6 +105,7 @@
                                                             delegate:nil
                                                    cancelButtonTitle:@"OK"
                                                    otherButtonTitles:nil];
+         [alertView show];
      }];
 
     
@@ -117,12 +117,10 @@
     request.sortDescriptors = @[sort];
     [request setPredicate:predicate];
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
     _fetchedResultsController =
     [[NSFetchedResultsController alloc]
      initWithFetchRequest:request
-     managedObjectContext:appDelegate.managedObjectContext
+     managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
      sectionNameKeyPath:nil
      cacheName:nil];
     
@@ -242,10 +240,10 @@
 }
 
 - (IBAction)postComment:(id)sender {
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     
     Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
-                                                     inManagedObjectContext:appDelegate.managedObjectContext];
+                                                     inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
 
     // This is better than [comment setValue:..... forKey:@"content"]
     // because literal string is not type-checked, but @properties are.
@@ -267,9 +265,9 @@
          comment.dirty = @NO;
          
          // Here we are sure that remoteID, updateDate and anonymizedUserID is sent back and saved in Core Data!
-         [appDelegate.managedObjectContext performBlockAndWait:^{
+         [managedObjectStore.mainQueueManagedObjectContext performBlockAndWait:^{
              NSError *SavingError = nil;
-             if (![appDelegate.managedObjectContext save:&SavingError]){
+             if (![managedObjectStore.mainQueueManagedObjectContext save:&SavingError]){
                  NSLog(@"Failed to save in commenting");
                  NSLog(@"%@", [SavingError localizedDescription]);
              } else {
@@ -283,10 +281,11 @@
                                                            delegate:nil
                                                   cancelButtonTitle:@"OK"
                                                   otherButtonTitles:nil];
+         [alertView show];
     }];
    /*
     NSError *SavingError = nil;
-    if (![appDelegate.managedObjectContext save:&SavingError]){
+    if (![managedObjectStore.mainQueueManagedObjectContext save:&SavingError]){
         NSLog(@"Failed to save in commenting");
         NSLog(@"%@", [SavingError localizedDescription]);
     } else {

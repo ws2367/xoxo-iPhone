@@ -75,12 +75,10 @@
     NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"updateDate" ascending:YES];
     request.sortDescriptors = @[sort];
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    
     _fetchedResultsController =
     [[NSFetchedResultsController alloc]
      initWithFetchRequest:request
-     managedObjectContext:appDelegate.managedObjectContext
+     managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
      sectionNameKeyPath:nil
      cacheName:nil];
     
@@ -120,8 +118,8 @@
     [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
     [request setFetchLimit:1];
     
-    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
-    NSArray *match = [appDelegate.managedObjectContext executeFetchRequest:request error:nil];
+    
+    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
     NSString *timestamp = nil;
     if ([match count] > 0) {
         Location *location = [match objectAtIndex:0];
@@ -171,13 +169,38 @@
                                                                                 delegate:nil
                                                                        cancelButtonTitle:@"OK"
                                                                        otherButtonTitles:nil];
+                        [alertView show];
                     }];
                 }
-                failure:nil];
+               failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                   [self.refreshControl endRefreshing];
+                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                                       message:[error localizedDescription]
+                                                                      delegate:nil
+                                                             cancelButtonTitle:@"OK"
+                                                             otherButtonTitles:nil];
+                   [alertView show];
+               }];
           }
-          failure:nil];
+          failure:^(RKObjectRequestOperation *operation, NSError *error) {
+              [self.refreshControl endRefreshing];
+              UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                                  message:[error localizedDescription]
+                                                                 delegate:nil
+                                                        cancelButtonTitle:@"OK"
+                                                        otherButtonTitles:nil];
+              [alertView show];
+          }];
      }
-     failure:nil];
+     failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [self.refreshControl endRefreshing];
+         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                             message:[error localizedDescription]
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+         [alertView show];
+     }];
 }
 
 #pragma mark -
