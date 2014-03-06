@@ -11,6 +11,10 @@
 #import "BigPostTableViewCell.h"
 
 #import "Photo.h"
+#import "Location.h"
+#import "Institution.h"
+#import "Post.h"
+#import "Entity.h"
 
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
 #define ROW_HEIGHT 218
@@ -105,45 +109,71 @@
     // Dispose of any resources that can be recreated.
 }
 
+
 #pragma mark -
 #pragma mark RestKit Methods
+// Note that the precision of timestamp is very important. It has to be at least a float, preferably double
+- (NSString *) fetchLatestTimestampOfEntityName:(NSString *)entityName{
+    // get the latest updateDate
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    [request setFetchLimit:1];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    NSArray *match = [appDelegate.managedObjectContext executeFetchRequest:request error:nil];
+    NSString *timestamp = nil;
+    if ([match count] > 0) {
+        Location *location = [match objectAtIndex:0];
+        NSNumber *number = [NSNumber numberWithDouble:[location.updateDate timeIntervalSince1970]];
+        timestamp = [number stringValue];
+    } else {
+        timestamp = [NSString stringWithFormat:@"0"];
+    }
+    return timestamp;
+}
+
 - (void) loadPosts{
+    
+    // TODO: remove fake timestamp and uncoment comments
+    NSString *institutionTimestamp = [self fetchLatestTimestampOfEntityName:@"Institution"];
+    NSString *entityTimestamp = @"1393987365.145751"; //[self fetchLatestTimestampOfEntityName:@"Entity"];
+    NSString *postTimstamp = @"1393987368.206031"; //[self fetchLatestTimestampOfEntityName:@"Post"];
+    
     // get objects from server
+    // now this is pretty much routing-agnostic which is what we want.
     [[RKObjectManager sharedManager]
-     getObjectsAtPath:@"/locations"
+     getObject:[Location alloc] //it NSManagedObject.. not sure what will happen for allocating a NSManagedObject. Prob nothing.
+     path:nil
      parameters:@{@"timestamp": @"0"}
      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
          [[RKObjectManager sharedManager]
-          getObjectsAtPath:@"/institutions"
-          parameters:@{@"timestamp": @"0"}
+          getObject:[Institution alloc]
+          path:nil
+          parameters:@{@"timestamp": institutionTimestamp}
           success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
               [[RKObjectManager sharedManager]
-               getObjectsAtPath:@"/entities"
-               parameters:@{@"timestamp": @"0"}
+               getObject:[Entity alloc]
+               path:nil
+               parameters:@{@"timestamp": entityTimestamp}
                success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
                    [[RKObjectManager sharedManager]
-                    getObjectsAtPath:@"/posts"
-                    parameters:@{@"timestamp": @"0"}
+                    getObject:[Post alloc]
+                    path:nil
+                    parameters:@{@"timestamp": postTimstamp}
                     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
-                        [[RKObjectManager sharedManager]
-                         getObjectsAtPath:@"/comments"
-                         parameters:@{@"timestamp": @"0"}
-                         success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
                              [self.refreshControl endRefreshing];
                          }
-                         failure:^(RKObjectRequestOperation *operation, NSError *error){
+                    failure:^(RKObjectRequestOperation *operation, NSError *error){
                              [self.refreshControl endRefreshing];
                              UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
                                                                                  message:[error localizedDescription]
                                                                                 delegate:nil
                                                                        cancelButtonTitle:@"OK"
                                                                        otherButtonTitles:nil];
-                         }];
-                    }
-                    failure:nil];
-               }
-               
-               failure:nil];
+                    }];
+                }
+                failure:nil];
           }
           failure:nil];
      }

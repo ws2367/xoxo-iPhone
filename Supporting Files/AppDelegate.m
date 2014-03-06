@@ -7,8 +7,14 @@
 //
 
 #import "AppDelegate.h"
-
 #import "ViewMultiPostsViewController.h"
+
+// TODO: when we separate setting of Object Manager from here, we can remove following inclusion
+#import "Location.h"
+#import "Institution.h"
+#import "Entity.h"
+#import "Post.h"
+#import "Comment.h"
 
 @implementation AppDelegate
 
@@ -39,27 +45,36 @@
     [RKManagedObjectStore setDefaultStore:managedObjectStore];
     
     // configure the object manager
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000"]];
-
-    // set up router
-    //objectManager.router = [[RKRouter alloc] initWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/"]];
+    // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
+    // Remeber, evaluation of path patterns against base URL could be surprising.
+    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/"]];
+    
+    // TODO: Create another object manager that manages photo resources on S3
     
     objectManager.managedObjectStore = managedObjectStore;
-    
+    // only accepts JSON from the server
+    [objectManager setAcceptHeaderWithMIMEType:@"application/json"];
     [RKObjectManager setSharedManager:objectManager];
 
     // you can do things like post.id too
     // set up mapping and response descriptor
+    // location mapping
     RKEntityMapping *locationMapping = [RKEntityMapping mappingForEntityForName:@"Location" inManagedObjectStore:managedObjectStore];
     [locationMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
                                                           @"name": @"name",
                                                           @"updated_at": @"updateDate"}];
     locationMapping.identificationAttributes = @[@"name"];
 
+    /*
+     * Evaluation of a relative URL (path pattern after replacing symbols) against a base URL can be surprising.
+     * For ex, baseURL:@"http://example.com/v1/" and pathPattern: @"/foo" evaluate to @"http://example.com/foo"
+     * However, baseURL:@"http://example.com/v1/" and pathPattern: @"foo/" or @"foo" evaluate to @"http://example.com/v1/foo"
+     * Watch out for it!!!
+     */
     RKResponseDescriptor *locationResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:locationMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"/locations"
+                                            pathPattern:@"locations"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
@@ -86,7 +101,7 @@
     RKResponseDescriptor *institutionResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"/institutions"
+                                            pathPattern:@"institutions"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
@@ -105,7 +120,7 @@
     RKResponseDescriptor *entityResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"/entities"
+                                            pathPattern:@"entities"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
@@ -126,19 +141,19 @@
     RKResponseDescriptor *postResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:postMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"/posts"
+                                            pathPattern:@"posts"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     // comment mapping
     RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
-    [commentMapping addAttributeMappingsFromDictionary:@{@"id":@"remoteID",
-                                                         @"content":@"content",
-                                                         @"uuid":@"uuid",
-                                                         @"anonymizedUserID": @"anonymized_user_id",
-                                                         @"deleted":@"deleted",
-                                                         @"post_id":@"postID",
-                                                         @"updated_at":@"updateDate"}];
+    [commentMapping addAttributeMappingsFromDictionary:@{@"id":                 @"remoteID",
+                                                         @"content":            @"content",
+                                                         @"uuid":               @"uuid",
+                                                         @"anonymized_user_id": @"anonymizedUserID",
+                                                         @"deleted":            @"deleted",
+                                                         @"post_id":            @"postID",
+                                                         @"updated_at":         @"updateDate"}];
     commentMapping.identificationAttributes = @[@"uuid"];
     
     [commentMapping addConnectionForRelationship:@"post" connectedBy:@{@"postID":@"remoteID"}];
@@ -146,9 +161,24 @@
     RKResponseDescriptor *commentResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
                                                  method:RKRequestMethodGET
-                                            pathPattern:@"/comments"
+                                            pathPattern:@"comments"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+
+    RKResponseDescriptor *commentPOSTResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"comments"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+    RKResponseDescriptor *commentOfPostResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"posts/:remoteID/comments"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
     
     // When the modificationKey is non-nil, the mapper will compare the value returned for the key on an existing object instance with
     // the value in the representation being mapped. If they are exactly equal, then the mapper will skip all remaining property mappings
@@ -161,7 +191,41 @@
                                                      institutionResponseDescriptor,
                                                      entityResponseDescriptor,
                                                      postResponseDescriptor,
-                                                     commentResponseDescriptor]];
+                                                     commentResponseDescriptor,
+                                                     commentPOSTResponseDescriptor,
+                                                     commentOfPostResponseDescriptor]];
+    
+    /* Set up routing
+     *
+     */
+    //First off, class routes
+    RKRoute *locationRoute    = [RKRoute routeWithClass:[Location class] pathPattern:@"locations" method:RKRequestMethodGET];
+    RKRoute *institutionRoute = [RKRoute routeWithClass:[Institution class] pathPattern:@"institutions" method:RKRequestMethodGET];
+    RKRoute *entityRoute      = [RKRoute routeWithClass:[Entity class] pathPattern:@"entities" method:RKRequestMethodGET];
+    RKRoute *postRoute        = [RKRoute routeWithClass:[Post class] pathPattern:@"posts" method:RKRequestMethodGET];
+    RKRoute *commentRoute     = [RKRoute routeWithClass:[Comment class] pathPattern:@"comments" method:RKRequestMethodGET];
+    
+    RKRoute *commentPOSTRoute = [RKRoute routeWithClass:[Comment class] pathPattern:@"comments" method:RKRequestMethodPOST];
+    RKRoute *entityPOSTRoute  = [RKRoute routeWithClass:[Entity class] pathPattern:@"entities" method:RKRequestMethodPOST];
+    RKRoute *postPOSTRoute    = [RKRoute routeWithClass:[Post class] pathPattern:@"posts" method:RKRequestMethodPOST];
+    
+    [objectManager.router.routeSet addRoutes:@[locationRoute, institutionRoute, entityRoute,
+                                               postRoute, commentRoute, commentPOSTRoute, entityPOSTRoute,
+                                               postPOSTRoute]];
+    
+    //secondly, relationship routes
+    RKRoute *postCommentRelationshipRoute = [RKRoute routeWithRelationshipName:@"comments"
+                                                                  objectClass:[Post class]
+                                                                  pathPattern:@"posts/:remoteID/comments"
+                                                                       method:RKRequestMethodGET];
+    [objectManager.router.routeSet addRoute:postCommentRelationshipRoute];
+    
+    //Thirdly, named routes
+    RKRoute *pullAllRoute =[RKRoute routeWithName:@"pull_all" pathPattern:@"all" method:RKRequestMethodGET];
+    RKRoute *followPostRoute = [RKRoute routeWithName:@"follow_post" pathPattern:@"posts/:remoteID/follow" method:RKRequestMethodPOST];
+    
+    [objectManager.router.routeSet addRoutes:@[pullAllRoute, followPostRoute]];
+    
     
     /* Set up request descriptor
      *
@@ -171,12 +235,31 @@
     RKRequestDescriptor *requestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:postSerializationMapping
                                           objectClass:[Post class]
-                                          rootKeyPath:nil
+                                          rootKeyPath:@"Post"
                                                method:RKRequestMethodPOST];
     
-    [objectManager addRequestDescriptor:requestDescriptor];
+    RKEntityMapping *entitySerializationMapping = [entityMapping inverseMapping];
     
-    // view controller setup
+    RKRequestDescriptor *entityRequestDescriptor =
+    [RKRequestDescriptor requestDescriptorWithMapping:entitySerializationMapping
+                                          objectClass:[Entity class]
+                                          rootKeyPath:@"Entity"
+                                               method:RKRequestMethodPOST];
+    
+    //TODO: actually... inverse mapping is bad because we don't want to send all the stuff back to server
+    RKEntityMapping *commentSerializationMapping = [commentMapping inverseMapping];
+    
+    RKRequestDescriptor *commentRequestDescriptor =
+    [RKRequestDescriptor requestDescriptorWithMapping:commentSerializationMapping
+                                          objectClass:[Comment class]
+                                          rootKeyPath:@"Comment"
+                                               method:RKRequestMethodPOST];
+    
+    [objectManager addRequestDescriptorsFromArray:@[requestDescriptor, entityRequestDescriptor, commentRequestDescriptor]];
+    
+    /* Set up view controller
+     *
+     */
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
     self.window.rootViewController = self.viewController;

@@ -19,6 +19,8 @@
 @property (strong, nonatomic) NSString *content;
 
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
+
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (weak, nonatomic)IBOutlet UIImageView *postImage;
@@ -91,14 +93,54 @@
     // Note: I have tested that post and its related entities are visible here
     // Also, I used Core Data Editor to test that comments do show up
     
+    
+    // Let's ask the server for the comments of this post!
+    [[RKObjectManager sharedManager]
+     getObjectsAtPathForRelationship:@"comments"
+     ofObject:self.post
+     parameters:nil
+     success:nil // fetched result controller is watching database!
+     failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                             message:[error localizedDescription]
+                                                            delegate:nil
+                                                   cancelButtonTitle:@"OK"
+                                                   otherButtonTitles:nil];
+     }];
+
+    
+    // set up fetched results controller
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Comment"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"post.uuid = %@", _post.uuid];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"updateDate" ascending:YES];
+    request.sortDescriptors = @[sort];
+    [request setPredicate:predicate];
+    
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    
+    _fetchedResultsController =
+    [[NSFetchedResultsController alloc]
+     initWithFetchRequest:request
+     managedObjectContext:appDelegate.managedObjectContext
+     sectionNameKeyPath:nil
+     cacheName:nil];
+    
+    _fetchedResultsController.delegate = self;
+    
+    // Let's perform one fetch here
+    NSError *fetchingErr = nil;
+    if ([self.fetchedResultsController performFetch:&fetchingErr]){
+        NSLog(@"Successfully fetched.");
+    } else {
+        NSLog(@"Failed to fetch");
+    }
+    
     //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
     //TODO: we should show all images, not just the first one
     Photo *photo = [[self.post.photos allObjects] firstObject];
     self.postImage.image = photo.image;
     
-    _comments = [_post.comments sortedArrayUsingDescriptors:
-                         @[[NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES]]
-                         ];
     
     // remove separators of the table view
     _tableView.separatorColor = [UIColor clearColor];
@@ -110,6 +152,39 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+
+#pragma mark -
+#pragma mark Fetched Results Controller Delegate Methods
+
+- (void) controllerWillChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView beginUpdates];
+}
+
+- (void) controllerDidChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView endUpdates];
+}
+
+- (void) controller:(NSFetchedResultsController *)controller
+    didChangeObject:(id)anObject
+        atIndexPath:(NSIndexPath *)indexPath
+      forChangeType:(NSFetchedResultsChangeType)type
+       newIndexPath:(NSIndexPath *)newIndexPath{
+    
+    if (type == NSFetchedResultsChangeDelete) {
+        [self.tableView
+         deleteRowsAtIndexPaths:@[indexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else if (type == NSFetchedResultsChangeInsert) {
+        [self.tableView
+         insertRowsAtIndexPaths:@[newIndexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+}
+
+
 
 #pragma mark -
 #pragma mark Keyboard Notifification Methods
@@ -169,32 +244,54 @@
 - (IBAction)postComment:(id)sender {
     AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
     
-    Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment" inManagedObjectContext:appDelegate.managedObjectContext];
+    Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
+                                                     inManagedObjectContext:appDelegate.managedObjectContext];
 
     // This is better than [comment setValue:..... forKey:@"content"]
     // because literal string is not type-checked, but @properties are.
     comment.content = _commentTextField.text;
-    
+    comment.dirty = @YES;
+    comment.uuid = [Utility getUUID];
+
     [_post addCommentsObject:comment];
+    // Note that here, even if we connect the relationship to Post for the comment,
+    // we still need to set postID in order to let the server know the relationship.
+    comment.postID = _post.remoteID;
     
+    // Let's push this to the server now!
+    [[RKObjectManager sharedManager]
+     postObject:comment
+     path:nil
+     parameters:nil
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         comment.dirty = @NO;
+         
+         // Here we are sure that remoteID, updateDate and anonymizedUserID is sent back and saved in Core Data!
+         [appDelegate.managedObjectContext performBlockAndWait:^{
+             NSError *SavingError = nil;
+             if (![appDelegate.managedObjectContext save:&SavingError]){
+                 NSLog(@"Failed to save in commenting");
+                 NSLog(@"%@", [SavingError localizedDescription]);
+             } else {
+                 NSLog(@"Saved Successfully in commenting");
+             }
+         }];
+     }
+     failure:^(RKObjectRequestOperation *operation, NSError *error) {
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+    }];
+   /*
     NSError *SavingError = nil;
     if (![appDelegate.managedObjectContext save:&SavingError]){
         NSLog(@"Failed to save in commenting");
-        NSLog(@"%@", [SavingError localizedFailureReason]);
         NSLog(@"%@", [SavingError localizedDescription]);
-        NSLog(@"%@", [SavingError localizedRecoveryOptions]);
-        NSLog(@"%@", [SavingError localizedRecoverySuggestion]);
-        NSLog(@"%@", [SavingError userInfo]);
     } else {
         NSLog(@"Saved Successfully in commenting");
-        _comments = [_post.comments sortedArrayUsingDescriptors:
-                     @[[NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES]]
-                     ];
-        
-        // TODO: we might want to add observer to observe the context change and thereafter
-        // reload table view, using a method to listen to
-        [_tableView reloadData];
-    }
+    }*/
 }
 
 #pragma mark -
@@ -202,19 +299,20 @@
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [_comments count];
+    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    return sectionInfo.numberOfObjects;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
-    
-    Comment *comment = _comments[indexPath.row];
+ 
+    // TODO: check if the model is empty then this will raise exception
+    Comment *comment = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.content = comment.content;
-    //cell.likeNum = [comment.likersNum integerValue];
-    //cell.hateNum = [comment.hatersNum integerValue];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
 

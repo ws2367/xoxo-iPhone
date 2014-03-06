@@ -307,8 +307,6 @@
     }
     cell.pic = [_pictures objectAtIndex:indexPath.row];
 
-    
-    
     [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
     
     return cell;
@@ -317,7 +315,6 @@
 #pragma mark -
 #pragma mark Table Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSLog(@"selectrow");
     [self allocateBlackMask];
     
     _selectedEntity = [self.fetchedResultsController objectAtIndexPath:indexPath];

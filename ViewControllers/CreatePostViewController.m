@@ -441,7 +441,17 @@
 # pragma mark RestKit Methods
 - (BOOL) updatePost:(Post *)post {
     
-    [[RKObjectManager sharedManager] postObject:post path:@"/posts" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+    AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
+    Post *post2 =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
+                                              inManagedObjectContext:appDelegate.managedObjectContext];
+
+    post2.content = @"I am post 2!";
+    
+    Entity *entity = [NSEntityDescription insertNewObjectForEntityForName:@"Entity" inManagedObjectContext:appDelegate.managedObjectContext];
+    
+    entity.name = @"New Entity!";
+    
+    [[RKObjectManager sharedManager] postObject:@[post, entity] path:@"/posts" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"update succeeded.");
     }failure:^(RKObjectRequestOperation *operation, NSError *error) {
         NSLog(@"update failed.");
