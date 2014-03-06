@@ -226,7 +226,7 @@
     cell.entities = array;
     //TODO: should present all images, not just the first one
     Photo *photo = [[post.photos allObjects] firstObject];
-    cell.image = photo.image;
+    cell.image = [[UIImage alloc] initWithData:photo.image];
     return cell;
 }
 

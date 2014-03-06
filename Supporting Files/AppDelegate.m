@@ -47,7 +47,7 @@
     // configure the object manager
     // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
     // Remeber, evaluation of path patterns against base URL could be surprising.
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/"]];
+    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/v1/"]];
     
     // TODO: Create another object manager that manages photo resources on S3
     
@@ -291,10 +291,10 @@
     
     
     // set the transformable property image of Photo Entity to be allow external binary storage
-    NSEntityDescription *photoEntity = [NSEntityDescription entityForName:@"Photo"
+   /* NSEntityDescription *photoEntity = [NSEntityDescription entityForName:@"Photo"
                                                    inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
     NSAttributeDescription *imageAttribute = [[photoEntity attributesByName] objectForKey:@"image"];
-    [imageAttribute setAllowsExternalBinaryDataStorage:YES];
+    [imageAttribute setAllowsExternalBinaryDataStorage:YES];*/
     
     /* Set up view controller
      *

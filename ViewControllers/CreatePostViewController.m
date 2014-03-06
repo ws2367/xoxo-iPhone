@@ -247,8 +247,8 @@
         for (UIImage *image in _photos){
             Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
             
-            // This will call ImageToDataTransformer
-            photo.image = image;
+            // This will save NSData typed image to an external binary storage
+            photo.image = UIImagePNGRepresentation(image);
             [photo setDirty:@YES];// dirty is a NSNumber so @YES is a literal in Obj C that is created for this purpose. [NSNumber numberWithBool:] works too.
             [photo setDeleted:@NO];
             [photo setUuid:[Utility getUUID]];

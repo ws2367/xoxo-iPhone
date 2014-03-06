@@ -137,7 +137,7 @@
     //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
     //TODO: we should show all images, not just the first one
     Photo *photo = [[self.post.photos allObjects] firstObject];
-    self.postImage.image = photo.image;
+    self.postImage.image = [[UIImage alloc] initWithData:photo.image];
     
     
     // remove separators of the table view

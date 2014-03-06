@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+//TODO: depreciated
 @interface ImageToDataTransformer : NSValueTransformer
 
 @end
