@@ -289,6 +289,13 @@
     [objectManager addRequestDescriptorsFromArray:@[institutionRequestDescriptor, postRequestDescriptor,
                                                     entityRequestDescriptor, commentRequestDescriptor]];
     
+    
+    // set the transformable property image of Photo Entity to be allow external binary storage
+    NSEntityDescription *photoEntity = [NSEntityDescription entityForName:@"Photo"
+                                                   inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+    NSAttributeDescription *imageAttribute = [[photoEntity attributesByName] objectForKey:@"image"];
+    [imageAttribute setAllowsExternalBinaryDataStorage:YES];
+    
     /* Set up view controller
      *
      */
