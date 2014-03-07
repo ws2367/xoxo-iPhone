@@ -101,32 +101,7 @@
     [self loadPosts];
     [self.refreshControl beginRefreshing];
     
-    //testing
-    /*
-    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
-    Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
-                                                     inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
-    NSFetchRequest *testRequest = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
-    testRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"remoteID" ascending:YES]];
-    
-    NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext
-                        executeFetchRequest:testRequest error:nil];
-    //NSAssert([matches count], @"Can't fetch any posts!");
-    Post *post = [matches objectAtIndex:0];
-    comment.post = post;
-    
-    NSLog(@"comment.post id:%@", post.objectID);
-    NSLog(@"comment id:%@", comment.objectID);
-    
-    if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:nil])
-        NSLog(@"Successfully tested!");
-    else
-        NSLog(@"Failed in testing!");
-    
-    NSLog(@"comment.post id:%@", post.objectID);
-    NSLog(@"comment id:%@", comment.objectID);
-    */
-  }
+}
 
 
 - (void)didReceiveMemoryWarning
@@ -166,6 +141,17 @@
     NSString *entityTimestamp = @"1393987365.145751"; //[self fetchLatestTimestampOfEntityName:@"Entity"];
     NSString *postTimstamp = @"1393987368.206031"; //[self fetchLatestTimestampOfEntityName:@"Post"];
     
+
+    void (^failureAlert)(RKObjectRequestOperation *, NSError *) = ^(RKObjectRequestOperation *operation, NSError *error){
+        [self.refreshControl endRefreshing];
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    };
+    
     // get objects from server
     // now this is pretty much routing-agnostic which is what we want.
     [[RKObjectManager sharedManager]
@@ -189,46 +175,14 @@
                     parameters:@{@"timestamp": postTimstamp}
                     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
                              [self.refreshControl endRefreshing];
-                         }
-                    failure:^(RKObjectRequestOperation *operation, NSError *error){
-                             [self.refreshControl endRefreshing];
-                             UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
-                                                                                 message:[error localizedDescription]
-                                                                                delegate:nil
-                                                                       cancelButtonTitle:@"OK"
-                                                                       otherButtonTitles:nil];
-                        [alertView show];
-                    }];
+                    }
+                    failure:failureAlert];
                 }
-               failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                   [self.refreshControl endRefreshing];
-                   UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
-                                                                       message:[error localizedDescription]
-                                                                      delegate:nil
-                                                             cancelButtonTitle:@"OK"
-                                                             otherButtonTitles:nil];
-                   [alertView show];
-               }];
+               failure:failureAlert];
           }
-          failure:^(RKObjectRequestOperation *operation, NSError *error) {
-              [self.refreshControl endRefreshing];
-              UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
-                                                                  message:[error localizedDescription]
-                                                                 delegate:nil
-                                                        cancelButtonTitle:@"OK"
-                                                        otherButtonTitles:nil];
-              [alertView show];
-          }];
+          failure:failureAlert];
      }
-     failure:^(RKObjectRequestOperation *operation, NSError *error) {
-         [self.refreshControl endRefreshing];
-         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
-                                                             message:[error localizedDescription]
-                                                            delegate:nil
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil];
-         [alertView show];
-     }];
+      failure:failureAlert];
 }
 
 #pragma mark -
@@ -256,6 +210,11 @@
     else if (type == NSFetchedResultsChangeInsert) {
         [self.tableView
          insertRowsAtIndexPaths:@[newIndexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else if (type == NSFetchedResultsChangeUpdate) {
+        [self.tableView
+         reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }

@@ -236,7 +236,9 @@
         //set up relationship with entities
         [post setEntities:[NSSet setWithArray:_entities]];
         
+        // this is for the server!
         [post setEntitiesUUIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"uuid"]]];
+        
         NSLog(@"%@", post.entitiesUUIDs);
         [post setDirty:@YES];
         [post setDeleted:@NO];
@@ -259,6 +261,7 @@
         // send the institutions, entities and the post to the server!
         RKObjectManager *objectManager = [RKObjectManager sharedManager];
         
+
         // send institutition first, then entity
         // As said in posting a comment, even if we connect the relationship,
         // we still need to set locationID in order to let the server know the relationship.
@@ -270,109 +273,63 @@
             }
         }
         
-        
-        //TODO: the following is crazy................ if statement + asynchronous callback..... NEED a better way to handle it
-        
-        
-        
-        //TODO: do something when it fails....
-        /*
-        if ([institutionsObjects count] > 0) {
-            [objectManager postObject:institutionsObjects path:@"institutions" parameters:nil
-                          success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                              // a good reason to separate the same loops over post.entities is because
-                              // entity.institution.remoteID will not be determined until the object manager post institution objects to the server
-                              // which is the line above
-                              [institutionsObjects setValue:@NO forKey:@"dirty"]; // Yeahhh, they are clean again!
-
-                              NSMutableArray *entitiesObjects = [[NSMutableArray alloc] init];
-                              for (Entity *entity in post.entities) {
-                                  if ([entity.dirty boolValue]) {
-                                      entity.institutionID = entity.institution.remoteID; // this line has to be executed after the response is returned from server!
-                                      [entitiesObjects addObject:entity];
-                                  }
-                              }
-                              if ([entitiesObjects count] > 0) {
-                                  [objectManager postObject:entitiesObjects path:@"entities" parameters:nil
-                                                    success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                        [entitiesObjects setValue:@NO forKey:@"dirty"];
-                                                        
-                                                        // now let's send the post to the server!
-                                                        [[RKObjectManager sharedManager] postObject:post
-                                                                                               path:nil
-                                                                                         parameters:nil
-                                                                                            success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                                                                NSLog(@"Successfully posted a post!");
-                                                                                                [post setDirty:@NO]; // you are clean, post!
-                                                                                            } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                                                                NSLog(@"Damn failed to post a post!");
-                                                                                                // don't worry, it is still dirty. We'll get it sent some other time.
-                                                                                            }];
-
-                                                    }
-                                                    failure:nil];
-                              }
-                          }
-                          failure:nil];
-        } else {
-            NSMutableArray *entitiesObjects = [[NSMutableArray alloc] init];
-            for (Entity *entity in post.entities) {
-                if ([entity.dirty boolValue]) {
-                    entity.institutionID = entity.institution.remoteID; // this line has to be executed after the response is returned from server!
-                    [entitiesObjects addObject:entity];
-                }
+        // Let's find those dirty ones!
+        NSMutableArray *entitiesObjects = [[NSMutableArray alloc] init];
+        for (Entity *entity in post.entities) {
+            if ([entity.dirty boolValue]) {
+                entity.institutionUUID = entity.institution.uuid;
+                [entitiesObjects addObject:entity];
             }
-            if ([entitiesObjects count] > 0) {
-                [objectManager postObject:entitiesObjects path:@"entities" parameters:nil
-                                  success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                      [entitiesObjects setValue:@NO forKey:@"dirty"];
-                                      
-                                      // now let's send the post to the server!
-                                      [[RKObjectManager sharedManager] postObject:post
-                                                                             path:nil
-                                                                       parameters:nil
-                                                                          success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                                              NSLog(@"Successfully posted a post!");
-                                                                              [post setDirty:@NO]; // you are clean, post!
-                                                                          } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                                              NSLog(@"Damn failed to post a post!");
-                                                                              // don't worry, it is still dirty. We'll get it sent some other time.
-                                                                          }];
-                                      
-                                  }
-                                  failure:nil];
-            } else {
-                // now let's send the post to the server!
-                [[RKObjectManager sharedManager] postObject:post
-                                                       path:nil
-                                                 parameters:nil
-                                                    success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                                        NSLog(@"Successfully posted a post!");
-                                                        [post setDirty:@NO]; // you are clean, post!
-                                                    } failure:^(RKObjectRequestOperation *operation, NSError *error) {
-                                                        NSLog(@"Damn failed to post a post!");
-                                                        // don't worry, it is still dirty. We'll get it sent some other time.
-                                                    }];
-
-            }
-
-        }*/
-        
-        
-        // then we can save all the stuff to database
-        NSError *SavingErr = nil;
-        if ([managedObjectStore.mainQueueManagedObjectContext save:&SavingErr]) {
-            [_masterViewController finishCreatingPostBackToHomePage];
-            //if([self updatePost:post]){
-               // do nothing
-            //} else {
-                //NSLog(@"update post: %@ to remote server failed.", post.content);
-           // }
-        } else {
-            NSLog(@"Failed to save the managed object context.");
         }
+        
+        NSMutableArray *operations = [[NSMutableArray alloc] init];
+        
+        RKManagedObjectRequestOperation *institutionsPOSTOperation = nil;
+        RKManagedObjectRequestOperation *entitiesPOSTOperation = nil;
+        if ([institutionsObjects count] > 0) {
+            institutionsPOSTOperation = [objectManager appropriateObjectRequestOperationWithObject:institutionsObjects
+                                                                                            method:RKRequestMethodPOST
+                                                                                              path:@"institutions"
+                                                                                        parameters:nil];
+            [operations addObject:institutionsPOSTOperation];
+        }
+        
+        if ([entitiesObjects count] > 0) {
+            entitiesPOSTOperation = [objectManager appropriateObjectRequestOperationWithObject:entitiesObjects
+                                                                                        method:RKRequestMethodPOST
+                                                                                          path:@"entities"
+                                                                                    parameters:nil];
+            if (institutionsPOSTOperation != nil) [entitiesPOSTOperation addDependency:institutionsPOSTOperation];
+            [operations addObject:entitiesPOSTOperation];
+        }
+        
+        RKManagedObjectRequestOperation *postPOSTOperation =
+        [objectManager appropriateObjectRequestOperationWithObject:post
+                                                            method:RKRequestMethodPOST
+                                                              path:nil
+                                                        parameters:nil];
+        
+        if (entitiesPOSTOperation != nil) [postPOSTOperation addDependency:entitiesPOSTOperation];
+        [operations addObject:postPOSTOperation];
+        
+        [objectManager enqueueBatchOfObjectRequestOperations:operations progress:nil completion:^(NSArray *operations) {
+            
+            // Yeahhh, they are clean again!
+            [institutionsObjects setValue:@NO forKey:@"dirty"];
+            [entitiesObjects setValue:@NO forKey:@"dirty"];
+            [post setDirty:@NO]; // you are clean, post!
+            
+            // then we can save all the stuff to database
+            NSError *SavingErr = nil;
+            if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:&SavingErr]) {
+                NSLog(@"Successfully saved the post!");
+            } else {
+                NSLog(@"Failed to save the managed object context.");
+            }
+        }];
+        
+        [_masterViewController finishCreatingPostBackToHomePage];
     }
-    NSLog(@"done");
 }
 
 - (IBAction)goBack:(id)sender {
