@@ -241,7 +241,7 @@
         [post setDirty:@YES];
         [post setDeleted:@NO];
         [post setUuid:[Utility getUUID]];
-        
+                
         //add photos to post
         // In _photos are UIImage objects
         for (UIImage *image in _photos){
@@ -273,7 +273,11 @@
         
         //TODO: the following is crazy................ if statement + asynchronous callback..... NEED a better way to handle it
         
+        
+        
+        
         //TODO: do something when it fails....
+        /*
         if ([institutionsObjects count] > 0) {
             [objectManager postObject:institutionsObjects path:@"institutions" parameters:nil
                           success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
@@ -353,7 +357,7 @@
 
             }
 
-        }
+        }*/
         
         
         // then we can save all the stuff to database

@@ -19,7 +19,7 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
-@synthesize managedObjectContext = __managedObjectContext;
+//@synthesize managedObjectContext = __managedObjectContext;
 //@synthesize managedObjectModel = __managedObjectModel;
 //@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
@@ -36,8 +36,22 @@
     // Initialize the Core Data stack
     [managedObjectStore createPersistentStoreCoordinator];
     
-    NSPersistentStore __unused *persistentStore = [managedObjectStore addInMemoryPersistentStore:&error];
-    NSAssert(persistentStore, @"Failed to add persistent store: %@", error);
+    BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
+    if (! success) {
+        RKLogError(@"Failed to create Application Data Directory at path '%@': %@", RKApplicationDataDirectory(), error);
+    }
+    NSString *path = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"Moose.sqlite"];
+    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:path
+                                                                     fromSeedDatabaseAtPath:nil
+                                                                          withConfiguration:nil
+                                                                                    options:nil
+                                                                                      error:&error];
+    if (! persistentStore) {
+        RKLogError(@"Failed adding persistent store at path '%@': %@", path, error);
+    }
+    
+    //NSPersistentStore __unused *persistentStore = [managedObjectStore addInMemoryPersistentStore:&error];
+    //NSAssert(persistentStore, @"Failed to add persistent store: %@", error);
     
     [managedObjectStore createManagedObjectContexts];
     
@@ -189,18 +203,40 @@
                                             pathPattern:@"comments"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-
-    RKResponseDescriptor *commentPOSTResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
-                                                 method:RKRequestMethodPOST
-                                            pathPattern:@"comments"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     RKResponseDescriptor *commentOfPostResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts/:remoteID/comments"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+
+    // So here comes the problem.. I spent one and half day debugging this.. :(
+    // we CANNOT use the commentMapping used for GET requests to map responses from POST requests because
+    // we don't include postID in the response from a POST request.
+    // However, it would still try to connect the comment with a post because we added connection in commentMapping.
+    // Since postID is not included in the response, it sets comment's relationship to the post NIL!!!!!!
+    // Thus, we want to create another mapping without connection (relationship is taken cared of by Core Data
+    // since it is saved locally) for POST requests.
+    
+    RKEntityMapping *commentPOSTMapping = [RKEntityMapping mappingForEntityForName:@"Comment"
+                                                              inManagedObjectStore:managedObjectStore];
+    
+    // it's alright if you mapp attributes that will not be included in JSON response because mapping engine only updates
+    // attributes included in JSON response. But again, DON'T ADD RELATIONSHIP CONNECTION if you are sure it's not included!
+    [commentPOSTMapping addAttributeMappingsFromDictionary:@{@"id":                 @"remoteID",
+                                                         @"content":            @"content",
+                                                         @"uuid":               @"uuid",
+                                                         @"anonymized_user_id": @"anonymizedUserID",
+                                                         @"deleted":            @"deleted",
+                                                         @"updated_at":         @"updateDate"}];
+    commentPOSTMapping.identificationAttributes = @[@"uuid"];
+    
+    RKResponseDescriptor *commentPOSTResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:commentPOSTMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"comments"
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
@@ -302,7 +338,7 @@
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
-    __managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
+    //__managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
     [self.window makeKeyAndVisible];
     return YES;
 }

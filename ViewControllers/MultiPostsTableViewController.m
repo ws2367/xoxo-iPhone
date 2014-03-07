@@ -15,6 +15,7 @@
 #import "Institution.h"
 #import "Post.h"
 #import "Entity.h"
+#import "Comment.h"
 
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
 #define ROW_HEIGHT 218
@@ -99,7 +100,33 @@
     // these two have to be called together or it only shows refreshing but not actually pulling any data
     [self loadPosts];
     [self.refreshControl beginRefreshing];
+    
+    //testing
+    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
+    Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
+                                                     inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+    NSFetchRequest *testRequest = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
+    testRequest.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"remoteID" ascending:YES]];
+    
+    NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext
+                        executeFetchRequest:testRequest error:nil];
+    NSAssert([matches count], @"Can't fetch any posts!");
+    Post *post = [matches objectAtIndex:0];
+    comment.post = post;
+    
+    NSLog(@"comment.post id:%@", post.objectID);
+    NSLog(@"comment id:%@", comment.objectID);
+    
+    if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:nil])
+        NSLog(@"Successfully tested!");
+    else
+        NSLog(@"Failed in testing!");
+    
+    NSLog(@"comment.post id:%@", post.objectID);
+    NSLog(@"comment id:%@", comment.objectID);
+//
   }
+
 
 - (void)didReceiveMemoryWarning
 {

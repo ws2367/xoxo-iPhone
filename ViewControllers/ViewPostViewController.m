@@ -94,6 +94,7 @@
     // Also, I used Core Data Editor to test that comments do show up
     
     // Let's ask the server for the comments of this post!
+    /*
     [[RKObjectManager sharedManager]
      getObjectsAtPathForRelationship:@"comments"
      ofObject:self.post
@@ -107,7 +108,10 @@
                                                    otherButtonTitles:nil];
          [alertView show];
      }];
-
+     */
+    
+    // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
+    RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
     
     // set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Comment"];
@@ -129,6 +133,7 @@
     // Let's perform one fetch here
     NSError *fetchingErr = nil;
     if ([self.fetchedResultsController performFetch:&fetchingErr]){
+        NSLog(@"Numbe of fetchedobjects %lu", (unsigned long)[[self.fetchedResultsController fetchedObjects] count]);
         NSLog(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch");
@@ -240,10 +245,10 @@
 }
 
 - (IBAction)postComment:(id)sender {
-    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
-    
+    //RKManagedObjectStore *managedObjectStore = ;
+
     Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
-                                                     inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+                                                     inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
 
     // This is better than [comment setValue:..... forKey:@"content"]
     // because literal string is not type-checked, but @properties are.
@@ -251,10 +256,23 @@
     comment.dirty = @YES;
     comment.uuid = [Utility getUUID];
 
-    [_post addCommentsObject:comment];
+    [comment setPost:_post];
+    
     // Note that here, even if we connect the relationship to Post for the comment,
     // we still need to set postID in order to let the server know the relationship.
     comment.postID = _post.remoteID;
+    
+    /* We want that later comments appear on the bottom of earlier comments. However, fetched results controller
+     * sort comments by updateDate and updateDate is maintained by the server. Thus, we set it to the maximum locally first.
+     * After receiving update_at from the server, we update updateDate accordingly. It will seem like no change on UI.
+     * Moreover, when object manager post an object, it seems to save the NSManagedObject locally first so the relationship
+     * is built by Core Data. Then it sends out request, maps response so the attributes such as updateDate and remoteID 
+     * were updated. In the success block, I set dirty to NO and save the context again. I am sure dirt is set NO in DB.
+     *
+     * According to the logic above, the managed object context is saved three times.
+     */
+    comment.updateDate = [NSDate dateWithTimeIntervalSince1970:TIMESTAMP_MAX];
+    
     
     // Let's push this to the server now!
     [[RKObjectManager sharedManager]
@@ -264,16 +282,14 @@
      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
          comment.dirty = @NO;
          
+         NSError *SavingError = nil;
          // Here we are sure that remoteID, updateDate and anonymizedUserID is sent back and saved in Core Data!
-         [managedObjectStore.mainQueueManagedObjectContext performBlockAndWait:^{
-             NSError *SavingError = nil;
-             if (![managedObjectStore.mainQueueManagedObjectContext save:&SavingError]){
-                 NSLog(@"Failed to save in commenting");
-                 NSLog(@"%@", [SavingError localizedDescription]);
-             } else {
-                 NSLog(@"Saved Successfully in commenting");
-             }
-         }];
+         if (![comment.managedObjectContext saveToPersistentStore:&SavingError]){
+          NSLog(@"Failed to save in commenting");
+          NSLog(@"%@", [SavingError localizedDescription]);
+          } else {
+          NSLog(@"Saved Successfully in commenting");
+          }
      }
      failure:^(RKObjectRequestOperation *operation, NSError *error) {
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
@@ -283,14 +299,6 @@
                                                   otherButtonTitles:nil];
          [alertView show];
     }];
-   /*
-    NSError *SavingError = nil;
-    if (![managedObjectStore.mainQueueManagedObjectContext save:&SavingError]){
-        NSLog(@"Failed to save in commenting");
-        NSLog(@"%@", [SavingError localizedDescription]);
-    } else {
-        NSLog(@"Saved Successfully in commenting");
-    }*/
 }
 
 #pragma mark -
