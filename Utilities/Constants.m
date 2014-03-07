@@ -14,6 +14,7 @@ const float ANIMATION_DURATION = 0.4;
 const float ANIMATION_DELAY = 0.0;
 const int HEIGHT = 568;
 const int WIDTH = 320;
+const float TIMESTAMP_MAX = 2147483647.000;
 NSString *const CellTableIdentifier = @"CellTableIdentifier";
 
 @implementation Constants

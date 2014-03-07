@@ -15,6 +15,7 @@ extern const float ANIMATION_DURATION;
 extern const float ANIMATION_DELAY;
 extern const int HEIGHT;
 extern const int WIDTH;
+extern const float TIMESTAMP_MAX;
 extern NSString *const CellTableIdentifier;
 
 @interface Constants : NSObject
