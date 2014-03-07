@@ -236,8 +236,8 @@
         //set up relationship with entities
         [post setEntities:[NSSet setWithArray:_entities]];
         
-        [post setEntitiesIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"remoteID"]]];
-        NSLog(@"%@", post.entitiesIDs);
+        [post setEntitiesUUIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"uuid"]]];
+        NSLog(@"%@", post.entitiesUUIDs);
         [post setDirty:@YES];
         [post setDeleted:@NO];
         [post setUuid:[Utility getUUID]];
@@ -272,7 +272,6 @@
         
         
         //TODO: the following is crazy................ if statement + asynchronous callback..... NEED a better way to handle it
-        
         
         
         

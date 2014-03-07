@@ -6,7 +6,7 @@
         <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isYours" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="postID" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="postUUID" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,7 +14,7 @@
     </entity>
     <entity name="Entity" representedClassName="Entity" syncable="YES">
         <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="institutionID" optional="YES" transient="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
+        <attribute name="institutionUUID" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -43,6 +43,7 @@
         <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="image" optional="YES" attributeType="Binary" valueTransformerName="ImageToDataTransformer" allowsExternalBinaryDataStorage="YES" syncable="YES"/>
+        <attribute name="postUUID" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
@@ -52,7 +53,7 @@
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="dirty" optional="YES" attributeType="Boolean" syncable="YES"/>
-        <attribute name="entitiesIDs" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="ArrayToDataTransformer" syncable="YES"/>
+        <attribute name="entitiesUUIDs" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="ArrayToDataTransformer" syncable="YES"/>
         <attribute name="isYours" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -69,12 +70,12 @@
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="user" inverseEntity="Post" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Comment" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Entity" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Institution" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Location" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Photo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Post" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="User" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Comment" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="Entity" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Institution" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="Location" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Photo" positionX="0" positionY="0" width="128" height="150"/>
+        <element name="Post" positionX="0" positionY="0" width="128" height="225"/>
+        <element name="User" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>

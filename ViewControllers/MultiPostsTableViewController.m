@@ -102,6 +102,7 @@
     [self.refreshControl beginRefreshing];
     
     //testing
+    /*
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
                                                      inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
@@ -110,7 +111,7 @@
     
     NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext
                         executeFetchRequest:testRequest error:nil];
-    NSAssert([matches count], @"Can't fetch any posts!");
+    //NSAssert([matches count], @"Can't fetch any posts!");
     Post *post = [matches objectAtIndex:0];
     comment.post = post;
     
@@ -124,7 +125,7 @@
     
     NSLog(@"comment.post id:%@", post.objectID);
     NSLog(@"comment id:%@", comment.objectID);
-//
+    */
   }
 
 

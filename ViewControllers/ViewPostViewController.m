@@ -94,7 +94,6 @@
     // Also, I used Core Data Editor to test that comments do show up
     
     // Let's ask the server for the comments of this post!
-    /*
     [[RKObjectManager sharedManager]
      getObjectsAtPathForRelationship:@"comments"
      ofObject:self.post
@@ -108,7 +107,6 @@
                                                    otherButtonTitles:nil];
          [alertView show];
      }];
-     */
     
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
     RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
@@ -259,8 +257,8 @@
     [comment setPost:_post];
     
     // Note that here, even if we connect the relationship to Post for the comment,
-    // we still need to set postID in order to let the server know the relationship.
-    comment.postID = _post.remoteID;
+    // we still need to set postUUID in order to let the server know the relationship.
+    comment.postUUID = _post.uuid;
     
     /* We want that later comments appear on the bottom of earlier comments. However, fetched results controller
      * sort comments by updateDate and updateDate is maintained by the server. Thus, we set it to the maximum locally first.

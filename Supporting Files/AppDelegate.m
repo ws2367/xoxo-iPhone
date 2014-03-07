@@ -110,7 +110,7 @@
     // we use a convenience method to get relationship description and add connection specifier to it
     // Each pair within the value for the connectedBy argument corresponds to an attribute pair in which the key is an attribute on the source entity
     // and the value is the destination entity.
-    // In this example, locationID is in Institution (source) and remoteID is in Location (destination)
+    // In this example, locationID is in Institution (source) and uuid is in Location (destination)
     // The argument for relationship is the name of the relationship to the mapping entity. In this case, institution is the mapping entity.
     // location is the name of the relationship to the entity Location for institution.
     [institutionMapping addConnectionForRelationship:@"location" connectedBy:@{@"locationID":@"remoteID"}];
@@ -135,11 +135,11 @@
                                                         @"name":            @"name",
                                                         @"uuid":            @"uuid",
                                                         @"deleted":         @"deleted",
-                                                        @"institution_id":  @"institutionID",
+                                                        @"institution_uuid":  @"institutionUUID",
                                                         @"updated_at":      @"updateDate"}];
     entityMapping.identificationAttributes = @[@"uuid"];
     
-    [entityMapping addConnectionForRelationship:@"institution" connectedBy:@{@"institutionID":@"remoteID"}];
+    [entityMapping addConnectionForRelationship:@"institution" connectedBy:@{@"institutionUUID":@"uuid"}];
     
     RKResponseDescriptor *entityResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
@@ -163,11 +163,11 @@
                                                         @"uuid":            @"uuid",
                                                         @"deleted":         @"deleted",
                                                         @"isYours":         @"isYours",
-                                                        @"entities_ids":    @"entitiesIDs",
+                                                        @"entities_uuids":  @"entitiesUUIDs",
                                                         @"updated_at":      @"updateDate"}];
     postMapping.identificationAttributes = @[@"uuid"];
     
-    [postMapping addConnectionForRelationship:@"entities" connectedBy:@{@"entitiesIDs":@"remoteID"}];
+    [postMapping addConnectionForRelationship:@"entities" connectedBy:@{@"entitiesUUIDs":@"uuid"}];
     
     RKResponseDescriptor *postResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:postMapping
@@ -191,11 +191,11 @@
                                                          @"uuid":               @"uuid",
                                                          @"anonymized_user_id": @"anonymizedUserID",
                                                          @"deleted":            @"deleted",
-                                                         @"post_id":            @"postID",
+                                                         @"post_uuid":          @"postUUID",
                                                          @"updated_at":         @"updateDate"}];
     commentMapping.identificationAttributes = @[@"uuid"];
     
-    [commentMapping addConnectionForRelationship:@"post" connectedBy:@{@"postID":@"remoteID"}];
+    [commentMapping addConnectionForRelationship:@"post" connectedBy:@{@"postUUID":@"uuid"}];
     
     RKResponseDescriptor *commentResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
@@ -214,9 +214,9 @@
 
     // So here comes the problem.. I spent one and half day debugging this.. :(
     // we CANNOT use the commentMapping used for GET requests to map responses from POST requests because
-    // we don't include postID in the response from a POST request.
+    // we don't include postUUID in the response from a POST request.
     // However, it would still try to connect the comment with a post because we added connection in commentMapping.
-    // Since postID is not included in the response, it sets comment's relationship to the post NIL!!!!!!
+    // Since postUUID is not included in the response, it sets comment's relationship to the post NIL!!!!!!
     // Thus, we want to create another mapping without connection (relationship is taken cared of by Core Data
     // since it is saved locally) for POST requests.
     
