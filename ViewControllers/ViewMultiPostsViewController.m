@@ -180,40 +180,6 @@
 - (IBAction)changeSegment:(id)sender {
     NSInteger selectedIdx = [sender selectedSegmentIndex];
 
-    //TODO: signal tableViewController to change content
-    /*
-    NSDictionary *data;
-    NSString *numPosts = [NSString stringWithFormat:@"%d",[self.posts count] + POSTS_INCREMENT_NUM];
-    if(selectedIdx == 0){
-        
-        
-        //send out request
-        data = @{@"num" : numPosts, @"sortby" : @"popularity"};
-        //NSLog(@"To download %@ posts.", numPosts);
-        
-        NSLog(@"data I sent: %@", data);
-        
-        [_serverConnector sendJSONGetJSONArray:data];
-        
-    }
-    else if(selectedIdx == 1){
-        data = @{@"num" : numPosts, @"sortby" : @"recent"};
-        //NSLog(@"To download %@ posts.", numPosts);
-        
-        NSLog(@"data I sent: %@", data);
-
-        
-        [_serverConnector sendJSONGetJSONArray:data];
-
-    }
-    else{
-        data = @{@"num" : numPosts, @"sortby" : @"nearby"};
-        //NSLog(@"To download %@ posts.", numPosts);
-        
-        
-    }
-    [_serverConnector sendJSONGetJSONArray:data];*/
-    
 }
 
 #pragma mark -

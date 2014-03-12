@@ -290,6 +290,7 @@
           }
      }
      failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
                                                             message:[error localizedDescription]
                                                            delegate:nil

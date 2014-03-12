@@ -104,6 +104,13 @@
     [self.refreshControl beginRefreshing];
     
     //test
+    /*
+    Post *post = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath ]];
+     NSLog(@"before everything, post at 1 is %@", post.content);
+    int i= [[self.fetchedResultsController fetchedObjects] count];
+    post = [self.fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathWithIndex:(i - 1)]];
+    NSLog(@"before everything, post at %d is %@", i, post.content);
+     */
 }
 
 
@@ -311,6 +318,11 @@
     [self.tableView endUpdates];
 }
 
+
+/* Every time when a new post is created, it is first an insert at the bottom of the table view, then a move from the bottom to the top.
+ * Then an update because of the context save I think.
+ *
+ */
 - (void) controller:(NSFetchedResultsController *)controller
     didChangeObject:(id)anObject
         atIndexPath:(NSIndexPath *)indexPath
@@ -318,19 +330,30 @@
        newIndexPath:(NSIndexPath *)newIndexPath{
     
     if (type == NSFetchedResultsChangeDelete) {
+        MSDebug(@"we got an delete here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
         [self.tableView
          deleteRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeInsert) {
+        MSDebug(@"we got an insert here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
         [self.tableView
          insertRowsAtIndexPaths:@[newIndexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeUpdate) {
+        MSDebug(@"we got an update here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
         [self.tableView
          reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else if (type == NSFetchedResultsChangeMove) {
+        MSDebug(@"we got a move here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
 }
 

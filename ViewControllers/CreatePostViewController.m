@@ -249,13 +249,16 @@
         //add photos to post
         // In _photos are UIImage objects
         for (UIImage *image in _photos){
-            Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo" inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+            Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo"
+                                                         inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
             
             // This will save NSData typed image to an external binary storage
             photo.image = UIImagePNGRepresentation(image);
             [photo setDirty:@YES];// dirty is a NSNumber so @YES is a literal in Obj C that is created for this purpose. [NSNumber numberWithBool:] works too.
             [photo setDeleted:@NO];
             [photo setUuid:[Utility getUUID]];
+            
+            [photo setUpdateDate:[NSDate dateWithTimeIntervalSince1970:TIMESTAMP_MAX]];
             
             [post addPhotosObject:photo];
         }
@@ -329,11 +332,20 @@
                 } else {
                     [photo setDirty:@NO];
                 }
-                
+            }
+            
+            // then we can save all the stuff to database
+            NSError *SavingErr = nil;
+            if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:&SavingErr]) {
+                NSLog(@"Successfully saved the post!");
+            } else {
+                NSLog(@"Failed to save the managed object context.");
             }
         };
         
-        [objectManager enqueueBatchOfObjectRequestOperations:operations progress:nil completion:^(NSArray *operations) {
+        [objectManager enqueueBatchOfObjectRequestOperations:operations
+                                                    progress:nil
+                                                  completion:^(NSArray *operations) {
             
             // Yeahhh, they are clean again!
             [institutionsObjects setValue:@NO forKey:@"dirty"];
@@ -343,19 +355,8 @@
             // let's update the image to server asynchronously
             if (![post.remoteID isEqual:@0]) // make sure we got legitmate remote ID from server
                 updatePhotosToS3();
-            
-            // then we can save all the stuff to database
-            NSError *SavingErr = nil;
-            if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:&SavingErr]) {
-                NSLog(@"Successfully saved the post!");
-            } else {
-                NSLog(@"Failed to save the managed object context.");
-            }
-
+        
         }];
-        
-        
-        
         
         [_masterViewController finishCreatingPostBackToHomePage];
     }
