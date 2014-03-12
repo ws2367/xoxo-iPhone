@@ -37,6 +37,11 @@
     //NSString *key = [KeyChainWrapper getKeyForDevice];
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
 
+    if (sessionToken == nil) {
+        NSLog(@"User hasn't logged in");
+        return false;
+    }
+    
     NSDictionary *params = [NSDictionary dictionaryWithObject:sessionToken
                                                        forKey:@"auth_token"];
     NSLog(@"params: %@", params);
@@ -54,6 +59,8 @@
     jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     NSLog(@"JSON: %@", jsonFromData);
+    
+    
     
     [KeyChainWrapper storeCredentialsInKeyChain:jsonFromData[@"ACCESS_KEY_ID"]
                                       secretKey:jsonFromData[@"SECRET_KEY"]
@@ -79,12 +86,20 @@
     NSURLResponse *response = nil;
     NSError *error = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-
+    if (error != nil || data == nil){
+        NSLog(@"Can't log in!");
+        return false;
+    }
+        
     jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
 
     NSLog(@"JSON: %@", jsonFromData);
     
-    [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
+    if (jsonFromData[@"token"] != nil) {
+        [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
+    } else {
+        NSLog(@"Log in failed");
+    }
 
     return YES;
 }

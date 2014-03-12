@@ -96,8 +96,6 @@ static AmazonTVMClient *tvm = nil;
 {
     NSLog(@"init client");
     AmazonCredentials *credentials = [KeyChainWrapper getCredentialsFromKeyChain];
-    NSLog(@"key %@", credentials.accessKey);
-    NSLog(@"key %@", credentials.secretKey);
     
     s3  = [[AmazonS3Client alloc] initWithCredentials:credentials];
     //s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];

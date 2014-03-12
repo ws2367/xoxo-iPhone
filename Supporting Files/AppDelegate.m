@@ -384,7 +384,7 @@
     
     
     */
-    [AmazonClientManager login:@"mr. aiyana hagenes" password:@"password"];
+    [AmazonClientManager login:@"user" password:@"password"];
     //NSLog(@"S3: %@",[AmazonClientManager s3]);
     
     

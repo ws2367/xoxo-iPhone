@@ -104,11 +104,6 @@
     [self.refreshControl beginRefreshing];
     
     //test
-    Post *post = [[self.fetchedResultsController fetchedObjects] firstObject];
-    NSLog(@"post: %@", post);
-    NSLog(@"remoteID: %@", post.remoteID);
-    [self loadPhotosForPost:post];
-    
 }
 
 
@@ -241,8 +236,11 @@
     S3ListObjectsResult *result = response.listObjectsResult;
     
     for (S3ObjectSummary *objectSummary in result.objectSummaries) {
-        [photoKeys addObject:[objectSummary key]];
-        NSLog(@"photo key is %@", [photoKeys lastObject]);
+        // object summaries might include the folder itself so we need to filter it out
+        if (![[objectSummary key] hasSuffix:@"/"]) {
+            [photoKeys addObject:[objectSummary key]];
+            NSLog(@"photo key is %@", [photoKeys lastObject]);
+        }
     }
     
     return photoKeys;
@@ -255,7 +253,7 @@
     NSManagedObjectContext *context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
     NSError *error = nil;
 
-    MSDebug(@"Number of photo to download: %d", [photoKeys count]);
+    MSDebug(@"Number of photo to download for post %@: %d",post.remoteID, [photoKeys count]);
     
     for (NSString *photoKey in photoKeys){
         // file name is the uuid of the photo...

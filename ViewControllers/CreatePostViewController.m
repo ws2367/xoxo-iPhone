@@ -316,14 +316,20 @@
         
         /* A block object for updoading image to S3 server*/
         void (^updatePhotosToS3)(void) = ^(void) {
-        
+            
             for (Photo *photo in post.photos){
                 NSString *photoKey = [NSString stringWithFormat:@"%@/%@.png", post.remoteID, photo.uuid];
                 
                 S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:photoKey inBucket:S3BUCKET_NAME];
                 por.contentType = @"image/png";
                 por.data = photo.image;
-                [[AmazonClientManager s3] putObject:por];
+                S3PutObjectResponse *response = [[AmazonClientManager s3] putObject:por];
+                if (response.error != nil) {
+                    NSLog(@"Error while uploading photos");
+                } else {
+                    [photo setDirty:@NO];
+                }
+                
             }
         };
         
@@ -334,6 +340,10 @@
             [entitiesObjects setValue:@NO forKey:@"dirty"];
             [post setDirty:@NO]; // you are clean, post!
             
+            // let's update the image to server asynchronously
+            if (![post.remoteID isEqual:@0]) // make sure we got legitmate remote ID from server
+                updatePhotosToS3();
+            
             // then we can save all the stuff to database
             NSError *SavingErr = nil;
             if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:&SavingErr]) {
@@ -341,9 +351,7 @@
             } else {
                 NSLog(@"Failed to save the managed object context.");
             }
-            
-            // let's update the image to server asynchronously
-            updatePhotosToS3();
+
         }];
         
         
