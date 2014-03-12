@@ -32,6 +32,11 @@
 		51732BA318C174CA0013D891 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51732BA218C174CA0013D891 /* SystemConfiguration.framework */; };
 		5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32B18B7EE7500115C14 /* TopBorderTextField.m */; };
 		5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5180E32E18B81A0400115C14 /* TopBorderView.m */; };
+		5186F09318CEE3DE00B27C71 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5186F09018CEE3DE00B27C71 /* AWSRuntime.framework */; };
+		5186F09418CEE3DE00B27C71 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5186F09118CEE3DE00B27C71 /* AWSS3.framework */; };
+		5186F09818CEE43D00B27C71 /* AmazonClientManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 5186F09718CEE43D00B27C71 /* AmazonClientManager.m */; };
+		5186F09B18CEE58800B27C71 /* KeyChainWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 5186F09A18CEE58800B27C71 /* KeyChainWrapper.m */; };
+		5186F09E18CEE85E00B27C71 /* AmazonTVMClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5186F09D18CEE85E00B27C71 /* AmazonTVMClient.m */; };
 		51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */; };
 		51B0E2F418C48BE900EDFD95 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2F318C48BE900EDFD95 /* User.m */; };
 		51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */; };
@@ -124,6 +129,14 @@
 		5180E32B18B7EE7500115C14 /* TopBorderTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderTextField.m; sourceTree = "<group>"; };
 		5180E32D18B81A0400115C14 /* TopBorderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TopBorderView.h; sourceTree = "<group>"; };
 		5180E32E18B81A0400115C14 /* TopBorderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TopBorderView.m; sourceTree = "<group>"; };
+		5186F09018CEE3DE00B27C71 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = "../SDKs/aws-ios-sdk-1.7.1/AWSRuntime.framework"; sourceTree = "<group>"; };
+		5186F09118CEE3DE00B27C71 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "../SDKs/aws-ios-sdk-1.7.1/AWSS3.framework"; sourceTree = "<group>"; };
+		5186F09618CEE43D00B27C71 /* AmazonClientManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmazonClientManager.h; sourceTree = "<group>"; };
+		5186F09718CEE43D00B27C71 /* AmazonClientManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmazonClientManager.m; sourceTree = "<group>"; };
+		5186F09918CEE58800B27C71 /* KeyChainWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyChainWrapper.h; sourceTree = "<group>"; };
+		5186F09A18CEE58800B27C71 /* KeyChainWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyChainWrapper.m; sourceTree = "<group>"; };
+		5186F09C18CEE85E00B27C71 /* AmazonTVMClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AmazonTVMClient.h; sourceTree = "<group>"; };
+		5186F09D18CEE85E00B27C71 /* AmazonTVMClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AmazonTVMClient.m; sourceTree = "<group>"; };
 		51A4057B18BC4D0C00C61438 /* Model 4.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 4.xcdatamodel"; sourceTree = "<group>"; };
 		51A4057F18BC4FB400C61438 /* ImageToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageToDataTransformer.h; sourceTree = "<group>"; };
 		51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageToDataTransformer.m; sourceTree = "<group>"; };
@@ -173,7 +186,7 @@
 		75C0BDCA1829785E00B34113 /* UserMenuViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UserMenuViewController.xib; sourceTree = "<group>"; };
 		75C0BDCB1829785E00B34113 /* UserMenuViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserMenuViewController.h; sourceTree = "<group>"; };
 		75C0BDCC1829785E00B34113 /* UserMenuViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserMenuViewController.m; sourceTree = "<group>"; };
-		75CCCF3B17FC03DF000BF0F4 /* ChatterBox - debug mode.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatterBox - debug mode.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		75CCCF3B17FC03DF000BF0F4 /* ChatterBox(DB).app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "ChatterBox(DB).app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		75CCCF3E17FC03DF000BF0F4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		75CCCF4017FC03DF000BF0F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		75CCCF4217FC03DF000BF0F4 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -211,6 +224,8 @@
 				75CCCF4117FC03DF000BF0F4 /* Foundation.framework in Frameworks */,
 				75CCCF4317FC03DF000BF0F4 /* CoreGraphics.framework in Frameworks */,
 				2030C502A68542968957D8CF /* libPods.a in Frameworks */,
+				5186F09318CEE3DE00B27C71 /* AWSRuntime.framework in Frameworks */,
+				5186F09418CEE3DE00B27C71 /* AWSS3.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +307,19 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		5186F08F18CEE37600B27C71 /* AmazonClient */ = {
+			isa = PBXGroup;
+			children = (
+				5186F09618CEE43D00B27C71 /* AmazonClientManager.h */,
+				5186F09718CEE43D00B27C71 /* AmazonClientManager.m */,
+				5186F09918CEE58800B27C71 /* KeyChainWrapper.h */,
+				5186F09A18CEE58800B27C71 /* KeyChainWrapper.m */,
+				5186F09C18CEE85E00B27C71 /* AmazonTVMClient.h */,
+				5186F09D18CEE85E00B27C71 /* AmazonTVMClient.m */,
+			);
+			path = AmazonClient;
+			sourceTree = "<group>";
+		};
 		75073FCD1814C11C009177C7 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
@@ -340,6 +368,7 @@
 		75CCCF3217FC03DF000BF0F4 = {
 			isa = PBXGroup;
 			children = (
+				5186F08F18CEE37600B27C71 /* AmazonClient */,
 				5168110418B6EF1B00B4AE0B /* Utilities */,
 				512422A318B2B196008BEF86 /* Icons */,
 				5124229D18B29CFA008BEF86 /* Models */,
@@ -359,7 +388,7 @@
 		75CCCF3C17FC03DF000BF0F4 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				75CCCF3B17FC03DF000BF0F4 /* ChatterBox - debug mode.app */,
+				75CCCF3B17FC03DF000BF0F4 /* ChatterBox(DB).app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -367,6 +396,8 @@
 		75CCCF3D17FC03DF000BF0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				5186F09018CEE3DE00B27C71 /* AWSRuntime.framework */,
+				5186F09118CEE3DE00B27C71 /* AWSS3.framework */,
 				51732BA218C174CA0013D891 /* SystemConfiguration.framework */,
 				51732BA018C174BF0013D891 /* CFNetwork.framework */,
 				51732B9E18C174B40013D891 /* Security.framework */,
@@ -438,7 +469,7 @@
 			);
 			name = Cells;
 			productName = Cells;
-			productReference = 75CCCF3B17FC03DF000BF0F4 /* ChatterBox - debug mode.app */;
+			productReference = 75CCCF3B17FC03DF000BF0F4 /* ChatterBox(DB).app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -549,6 +580,7 @@
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
+				5186F09B18CEE58800B27C71 /* KeyChainWrapper.m in Sources */,
 				514B732718CA79BC00EEAC66 /* Location.m in Sources */,
 				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
 				51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */,
@@ -565,6 +597,7 @@
 				51B0E2F418C48BE900EDFD95 /* User.m in Sources */,
 				5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */,
 				514B732118CA79BC00EEAC66 /* Post.m in Sources */,
+				5186F09818CEE43D00B27C71 /* AmazonClientManager.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
 				514B731E18CA79BC00EEAC66 /* Entity.m in Sources */,
 				5148477F18C69A7800280874 /* ArrayToDataTransformer.m in Sources */,
@@ -575,6 +608,7 @@
 				75721FD01811074E00298ACF /* EntityTableViewCell.m in Sources */,
 				512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */,
 				512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */,
+				5186F09E18CEE85E00B27C71 /* AmazonTVMClient.m in Sources */,
 				514B731818CA79BB00EEAC66 /* Photo.m in Sources */,
 				51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */,
 				75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */,
@@ -659,11 +693,16 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/wen-hsiangshaw/dev/SDKs/FacebookSDK",
+					"/Users/wen-hsiangshaw/dev/SDKs/aws-ios-sdk-1.7.1",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
-				PRODUCT_NAME = "ChatterBox - debug mode";
+				PRODUCT_NAME = "ChatterBox(DB)";
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -675,6 +714,11 @@
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/wen-hsiangshaw/dev/SDKs/FacebookSDK",
+					"/Users/wen-hsiangshaw/dev/SDKs/aws-ios-sdk-1.7.1",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";

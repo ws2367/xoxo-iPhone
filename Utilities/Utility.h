@@ -13,5 +13,6 @@
 // in case you don't know, class methods are prefixed by plus sign (+)
 + (BOOL) compareUIColorBetween:(UIColor *)colorA and:(UIColor *)colorB;
 + (NSString *) getUUID;
++ (NSDate *)DateForRFC3339DateTimeString:(NSString *)rfc3339datestring;
 
 @end

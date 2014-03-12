@@ -11,11 +11,13 @@
 #import "Post.h"
 #import "Entity.h"
 
+#import <AWSRuntime/AWSRuntime.h>
+
 @class CreateEntityViewController;
 @class CreatePostViewController;
 
 @interface ViewMultiPostsViewController : UIViewController
-        <UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate>
+        <UINavigationControllerDelegate, ABPeoplePickerNavigationControllerDelegate, AmazonServiceRequestDelegate>
 
 //TODO: depreciate it after implementing Core Data
 @property (strong, nonatomic) NSMutableArray *entities;

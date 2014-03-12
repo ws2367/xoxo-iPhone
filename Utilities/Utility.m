@@ -31,4 +31,15 @@
     return (__bridge NSString *)string;
 }
 
+
++ (NSDate *)DateForRFC3339DateTimeString:(NSString *)rfc3339datestring
+{
+    NSDateFormatter *rfc3339DateFormatter = [[NSDateFormatter alloc] init];
+    [rfc3339DateFormatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH':'mm':'ss'Z'"];
+    [rfc3339DateFormatter setTimeZone:[NSTimeZone timeZoneForSecondsFromGMT:0]];
+    
+    NSDate *date = [rfc3339DateFormatter dateFromString:rfc3339datestring];
+    
+    return date;
+}
 @end

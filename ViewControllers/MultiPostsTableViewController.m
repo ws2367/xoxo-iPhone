@@ -17,6 +17,8 @@
 #import "Entity.h"
 #import "Comment.h"
 
+#import "AmazonClientManager.h"
+
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
@@ -101,6 +103,12 @@
     [self loadPosts];
     [self.refreshControl beginRefreshing];
     
+    //test
+    Post *post = [[self.fetchedResultsController fetchedObjects] firstObject];
+    NSLog(@"post: %@", post);
+    NSLog(@"remoteID: %@", post.remoteID);
+    [self loadPhotosForPost:post];
+    
 }
 
 
@@ -174,7 +182,13 @@
                     path:nil
                     parameters:@{@"timestamp": postTimstamp}
                     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
-                             [self.refreshControl endRefreshing];
+                        NSSet *posts = [mappingResult set];
+                        for (Post *post in posts){
+                            NSLog(@"remoteID: %@", post.remoteID);
+                            [self loadPhotosForPost:post];
+                        }
+                        
+                        [self.refreshControl endRefreshing];
                     }
                     failure:failureAlert];
                 }
@@ -184,6 +198,109 @@
      }
       failure:failureAlert];
 }
+
+#pragma mark -
+#pragma mark Amazon Client Methods
+// we are sure that the photo of the same uuid does not exist in core data
+- (void) createPhotoEntityForPost:(Post *)post
+                     andImageData:(NSData *)imageData
+                          andUUID:(NSString *)uuid
+           inManagedObjectContext:(NSManagedObjectContext *)context{
+    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo"
+                                                 inManagedObjectContext:context];
+    
+    // This will save NSData typed image to an external binary storage
+    photo.image = imageData;
+    [photo setDirty:@NO];// dirty is a NSNumber so @NO is a literal in Obj C that is created for this purpose. [NSNumber numberWithBool:] works too.
+    [photo setDeleted:@NO];
+    [photo setUuid:uuid];
+    
+    [post addPhotosObject:photo];
+}
+
+
+//TODO: here we can make it much more efficient by asking photos of all posts at once
+- (NSArray *) generatePhotoKeysForPost:(Post *)post withBucketName:(NSString *)bucketName{
+    
+    if ([post.remoteID isEqualToNumber:[NSNumber numberWithInt:0]]) {
+        NSLog(@"Error in loading photos: the post is not sync'd yet.");
+        return nil;
+    }
+        
+    S3ListObjectsRequest *request = [[S3ListObjectsRequest alloc] initWithName:bucketName];
+    [request setPrefix:[NSString stringWithFormat:@"%@/", post.remoteID]];
+    [request setDelimiter:@"/"];
+    
+    S3ListObjectsResponse *response = [[AmazonClientManager s3] listObjects:request];
+    if(response.error != nil){
+        NSLog(@"Error while listing photos: %@", response.error);
+        return nil;
+    }
+    
+    NSMutableArray *photoKeys = [[NSMutableArray alloc] init];
+    S3ListObjectsResult *result = response.listObjectsResult;
+    
+    for (S3ObjectSummary *objectSummary in result.objectSummaries) {
+        [photoKeys addObject:[objectSummary key]];
+        NSLog(@"photo key is %@", [photoKeys lastObject]);
+    }
+    
+    return photoKeys;
+}
+
+
+- (void) loadPhotosForPost:(Post *)post {
+    NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
+    
+    NSManagedObjectContext *context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
+    NSError *error = nil;
+
+    MSDebug(@"Number of photo to download: %d", [photoKeys count]);
+    
+    for (NSString *photoKey in photoKeys){
+        // file name is the uuid of the photo...
+        NSString* uuid = [[photoKey lastPathComponent] stringByDeletingPathExtension];
+
+        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
+        request.predicate = [NSPredicate predicateWithFormat:@"uuid = %@",uuid];
+        
+        NSArray *matches = [context executeFetchRequest:request error:&error];
+        
+        // there should be only unique institutions
+        if (!matches || error || [matches count] > 1) {
+            // handle error here
+            MSDebug(@"Errors in fetching photos");
+            MSDebug(@"match count %d", [matches count]);
+        } else if ([matches count]) {
+            // found the thing
+            MSDebug(@"The photo exists! uuid = %@", uuid);
+        } else {
+            MSDebug(@"Photos with uuid %@ does not exist. Let's create one!", uuid);
+            S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
+            [request setContentType:@"image/png"];
+            
+            S3GetObjectResponse *response = [[AmazonClientManager s3] getObject:request];
+            
+            if(response.error != nil){
+                NSLog(@"Error while downloading photos: %@", response.error);
+            }
+            
+            [self createPhotoEntityForPost:post
+                                 andImageData:response.body
+                                   andUUID:uuid
+                    inManagedObjectContext:context];
+        }
+        
+        //let's save all the photos we just created!
+        if ([context saveToPersistentStore:&error]) {
+            NSLog(@"Successfully saved the photos!");
+        } else {
+            NSLog(@"Failed to save the managed object context.");
+        }
+    }
+    
+}
+
 
 #pragma mark -
 #pragma mark Fetched Results Controller Delegate Methods
@@ -226,7 +343,6 @@
 {
     // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    NSLog(@"numbers %d", sectionInfo.numberOfObjects);
     return sectionInfo.numberOfObjects;
 
     //return [self.posts count];

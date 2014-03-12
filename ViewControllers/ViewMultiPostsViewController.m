@@ -6,18 +6,24 @@
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
+#import <AddressBookUI/AddressBookUI.h>
+
 #import "ViewMultiPostsViewController.h"
 #import "BigPostTableViewCell.h"
 #import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
 #import "ViewPostViewController.h"
 #import "ViewEntityViewController.h"
-#import <AddressBookUI/AddressBookUI.h>
 #import "UserMenuViewController.h"
 #import "MultiPostsTableViewController.h"
 #import "Post.h"
 
-@interface ViewMultiPostsViewController ()
+#import "AmazonClientManager.h"
+#import "KeyChainWrapper.h"
+
+@interface ViewMultiPostsViewController () {
+       NSMutableArray       *objects;
+}
 
 
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
@@ -36,11 +42,80 @@
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) MultiPostsTableViewController *tableViewController;
 
+
+
 @end
 
 @implementation ViewMultiPostsViewController
-
-
+/*
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+    dispatch_async(queue, ^{
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:YES];
+        });
+      
+        if(listObjectResponse.error != nil)
+        {
+            NSLog(@"Error: %@", listObjectResponse.error);
+        }
+        else
+        {
+            S3ListObjectsResult *listObjectsResults = listObjectResponse.listObjectsResult;
+            
+            if (objects == nil) {
+                objects = [[NSMutableArray alloc] initWithCapacity:[listObjectsResults.objectSummaries count]];
+            }
+            else {
+                [objects removeAllObjects];
+            }
+            
+            // By defrault, listObjects will only return 1000 keys
+            // This code will fetch all objects in bucket.
+            // NOTE: This could cause the application to run out of memory
+            NSString *lastKey = @"";
+            for (S3ObjectSummary *objectSummary in listObjectsResults.objectSummaries) {
+                [objects addObject:[objectSummary key]];
+                lastKey = [objectSummary key];
+            }
+            
+            while (listObjectsResults.isTruncated) {
+                listObjectRequest = [[S3ListObjectsRequest alloc] initWithName:@"xoxo_img/pictures"];
+                listObjectRequest.marker = lastKey;
+                
+                listObjectResponse = [[AmazonClientManager s3] listObjects:listObjectRequest];
+                if(listObjectResponse.error != nil)
+                {
+                    NSLog(@"Error: %@", listObjectResponse.error);
+                    [objects addObject:@"Unable to load objects!"];
+                    
+                    break;
+                }
+                
+                listObjectsResults = listObjectResponse.listObjectsResult;
+                
+                for (S3ObjectSummary *objectSummary in listObjectsResults.objectSummaries) {
+                    [objects addObject:[objectSummary key]];
+                    lastKey = [objectSummary key];
+                }
+            }
+            
+            NSLog(@"objects %@", objects);
+        }
+        
+        dispatch_async(dispatch_get_main_queue(), ^{
+            
+            [[UIApplication sharedApplication] setNetworkActivityIndicatorVisible:NO];
+            //[self.tableView reloadData];
+        });
+    });
+}
+*/
 
 - (void)viewDidLoad
 {
@@ -54,12 +129,48 @@
     _tableViewController.masterController = self;
     _tableView.delegate = _tableViewController;
     [_tableViewController setup];
+    
+    
+    //S3ListObjectsRequest  *listObjectRequest = [[S3ListObjectsRequest alloc] initWithName:@"xoxo_img"];
+    
+    // prevent it from throwing exception, let's assign a delegate to it
+    //listObjectRequest.delegate = self;
+    //S3ListObjectsResponse *listObjectResponse = [[AmazonClientManager s3] listObjects:listObjectRequest];
+
+    //NSArray *array = [[AmazonClientManager s3] listObjectsInBucket:S3BUCKET_NAME];
+    
+    //for (S3ObjectSummary *x in array) {
+    //    NSLog(@"objectSummary: %@",x);
+    //}
+
+    //NSMutableArray* objectSummaries = listObjectResponse.listObjectsResult.objectSummaries;
+
+    //for (S3ObjectSummary *x in objectSummaries) {
+    //    NSLog(@"objectSummary: %@",x);
+    //}
+
+    //NSArray *array = [[AmazonClientManager s3] listObjectsInBucket:@"xoxo_img"];
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+
+# pragma mark -
+# pragma mark Amazon Service Request Delegate Methods
+-(void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response{
+    NSLog(@"complete!");
+    NSLog(@"response %@", response);
+    NSLog(@"status %d", response.httpStatusCode);
+}
+
+-(void)request:(AmazonServiceRequest *)request didFailWithError:(NSError *)error{
+    NSLog(@"didfail Error: %@", error);
 }
 
 

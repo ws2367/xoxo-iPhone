@@ -15,6 +15,10 @@ const float ANIMATION_DELAY = 0.0;
 const int HEIGHT = 568;
 const int WIDTH = 320;
 const float TIMESTAMP_MAX = 2147483647.000;
+
+NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000";
+NSString *const S3BUCKET_NAME = @"xoxo_img";
+
 NSString *const CellTableIdentifier = @"CellTableIdentifier";
 
 @implementation Constants

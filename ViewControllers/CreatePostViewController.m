@@ -14,6 +14,8 @@
 #import "Institution.h"
 #import "Location.h"
 
+#import "AmazonClientManager.h"
+
 @interface CreatePostViewController ()
 {
     int photoIndex;
@@ -312,6 +314,19 @@
         if (entitiesPOSTOperation != nil) [postPOSTOperation addDependency:entitiesPOSTOperation];
         [operations addObject:postPOSTOperation];
         
+        /* A block object for updoading image to S3 server*/
+        void (^updatePhotosToS3)(void) = ^(void) {
+        
+            for (Photo *photo in post.photos){
+                NSString *photoKey = [NSString stringWithFormat:@"%@/%@.png", post.remoteID, photo.uuid];
+                
+                S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:photoKey inBucket:S3BUCKET_NAME];
+                por.contentType = @"image/png";
+                por.data = photo.image;
+                [[AmazonClientManager s3] putObject:por];
+            }
+        };
+        
         [objectManager enqueueBatchOfObjectRequestOperations:operations progress:nil completion:^(NSArray *operations) {
             
             // Yeahhh, they are clean again!
@@ -326,7 +341,13 @@
             } else {
                 NSLog(@"Failed to save the managed object context.");
             }
+            
+            // let's update the image to server asynchronously
+            updatePhotosToS3();
         }];
+        
+        
+        
         
         [_masterViewController finishCreatingPostBackToHomePage];
     }

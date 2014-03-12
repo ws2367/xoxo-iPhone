@@ -9,12 +9,16 @@
 #import "AppDelegate.h"
 #import "ViewMultiPostsViewController.h"
 
-// TODO: when we separate setting of Object Manager from here, we can remove following inclusion
+// Entity classes
 #import "Location.h"
 #import "Institution.h"
 #import "Entity.h"
 #import "Post.h"
 #import "Comment.h"
+
+#import "AmazonClientManager.h"
+
+//third party library
 
 @implementation AppDelegate
 
@@ -326,11 +330,63 @@
                                                     entityRequestDescriptor, commentRequestDescriptor]];
     
     
-    // set the transformable property image of Photo Entity to be allow external binary storage
-   /* NSEntityDescription *photoEntity = [NSEntityDescription entityForName:@"Photo"
-                                                   inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
-    NSAttributeDescription *imageAttribute = [[photoEntity attributesByName] objectForKey:@"image"];
-    [imageAttribute setAllowsExternalBinaryDataStorage:YES];*/
+    /* Set up Facebook Login */
+    // Whenever a person opens the app, check for a cached session
+    
+    
+    
+    /* test */
+    /*
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[@"mr. aiyana hagenes", @"password"]
+                                                       forKeys:@[@"user_name", @"password"]];
+    
+    NSLog(@"params: %@", params);
+    //send a request to server with uid and key
+    
+    NSURL *url = [NSURL URLWithString:TOKEN_VENDING_MACHINE_URL];
+    
+    // we are using AFTNETWOKRING 1.3.3.... not the latest one due to RestKit dependencies
+    AFHTTPClient *httpClient = [AFHTTPClient clientWithBaseURL:url];
+    
+    NSDictionary* __block jsonFromData = nil;
+    NSDictionary* __block creds = nil;
+    
+    void (^getCreds)(NSString *) = ^(NSString *token){
+        NSDictionary *params = [NSDictionary dictionaryWithObject:token
+                                                           forKey:@"auth_token"];
+        NSLog(@"params: %@", params);
+        
+        [httpClient getPath:@"S3Credentials"
+                 parameters:params
+                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                        creds = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseObject
+                                                                                options:NSJSONReadingMutableContainers
+                                                                                  error:nil];
+                        NSLog(@"CREDS :%@", creds);
+                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                        NSLog(@"Damn.. failed");
+                    }];
+    };
+    
+    
+    
+    [httpClient postPath:@"users/sign_in"
+              parameters:params
+                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
+                     jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                     NSLog(@"JSON: %@", jsonFromData);
+                     
+                     getCreds(jsonFromData[@"token"]);
+
+                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                     NSLog(@"Damn.. failed");
+                 }];
+    
+    
+    */
+    [AmazonClientManager login:@"mr. aiyana hagenes" password:@"password"];
+    //NSLog(@"S3: %@",[AmazonClientManager s3]);
+    
     
     /* Set up view controller
      *
