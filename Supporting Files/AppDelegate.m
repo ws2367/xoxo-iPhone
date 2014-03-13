@@ -54,7 +54,7 @@
     // configure the object manager
     // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
     // Remeber, evaluation of path patterns against base URL could be surprising.
-    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/v1/"]];
+    RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:BASE_URL]];
     
     
     // DON'T EVER ADD FOLLOWING LINE because last time when I added it, ghost entities pop out everywhere...

@@ -243,8 +243,10 @@
 }
 
 - (IBAction)postComment:(id)sender {
-    //RKManagedObjectStore *managedObjectStore = ;
 
+    // hide the keyboard
+    [_commentTextField resignFirstResponder];
+    
     Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
                                                      inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
 
@@ -298,6 +300,11 @@
                                                   otherButtonTitles:nil];
          [alertView show];
     }];
+    
+    // set it back to original
+    [_commentTextField setTextColor:[UIColor lightGrayColor]];
+    [_commentTextField setText:@"Write a comment..."];
+
 }
 
 #pragma mark -
@@ -320,7 +327,7 @@
     
     cell.content = comment.content;
     
-    [cell setSelectionStyle:UITableViewCellSelectionStyleDefault];
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
     return cell;
 }

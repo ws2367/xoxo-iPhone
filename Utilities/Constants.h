@@ -18,8 +18,11 @@ extern const float ANIMATION_DELAY;
 extern const int HEIGHT;
 extern const int WIDTH;
 extern const float TIMESTAMP_MAX;
-extern NSString *const TOKEN_VENDING_MACHINE_URL;
 extern NSString *const S3BUCKET_NAME;
+
+extern NSString *const TOKEN_VENDING_MACHINE_URL;
+extern NSString *const BASE_URL;
+
 
 extern NSString *const CellTableIdentifier;
 

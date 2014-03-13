@@ -111,12 +111,12 @@ static NSString *SessionToken = nil;
 +(void)storeCredentialsInKeyChain:(NSString *)theAccessKey secretKey:(NSString *)theSecretKey
                     securityToken:(NSString *)theSecurityToken expiration:(NSString *)theExpirationDate{
     
-    
-    AccessKey = [NSString stringWithString:theAccessKey];
-    SecretKey = [NSString stringWithString:theSecretKey];
-    SecurityToken = [NSString stringWithString:theSecurityToken];
-    Expiration = [NSString stringWithString:theExpirationDate];
-    
+    if (theAccessKey != nil && theSecretKey != nil && theSecurityToken != nil && theExpirationDate != nil) {
+        AccessKey = [NSString stringWithString:theAccessKey];
+        SecretKey = [NSString stringWithString:theSecretKey];
+        SecurityToken = [NSString stringWithString:theSecurityToken];
+        Expiration = [NSString stringWithString:theExpirationDate];
+    }
     /*
     [KeyChainWrapper storeValueInKeyChain:theAccessKey forKey:kKeychainAccessKeyIdentifier];
     [KeyChainWrapper storeValueInKeyChain:theSecretKey forKey:kKeychainSecretKeyIdentifier];
