@@ -274,7 +274,7 @@
         // there should be only unique institutions
         if (!matches || error || [matches count] > 1) {
             // handle error here
-            MSDebug(@"Errors in fetching photos");
+            NSLog(@"Errors in fetching photos");
             MSDebug(@"match count %d", [matches count]);
         } else if ([matches count]) {
             // found the thing

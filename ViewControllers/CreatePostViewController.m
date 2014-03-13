@@ -296,6 +296,7 @@
                                                                                             method:RKRequestMethodPOST
                                                                                               path:@"institutions"
                                                                                         parameters:nil];
+            //institutionsPOSTOperation.managedObjectCache = managedObjectStore.managedObjectCache;
             [operations addObject:institutionsPOSTOperation];
         }
         
@@ -305,16 +306,18 @@
                                                                                           path:@"entities"
                                                                                     parameters:nil];
             if (institutionsPOSTOperation != nil) [entitiesPOSTOperation addDependency:institutionsPOSTOperation];
+            //entitiesPOSTOperation.managedObjectCache = managedObjectStore.managedObjectCache;
             [operations addObject:entitiesPOSTOperation];
         }
         
         RKManagedObjectRequestOperation *postPOSTOperation =
         [objectManager appropriateObjectRequestOperationWithObject:post
                                                             method:RKRequestMethodPOST
-                                                              path:nil
+                                                              path:nil // determined by RKRouter
                                                         parameters:nil];
         
         if (entitiesPOSTOperation != nil) [postPOSTOperation addDependency:entitiesPOSTOperation];
+        //postPOSTOperation.managedObjectCache = managedObjectStore.managedObjectCache;
         [operations addObject:postPOSTOperation];
         
         /* A block object for updoading image to S3 server*/

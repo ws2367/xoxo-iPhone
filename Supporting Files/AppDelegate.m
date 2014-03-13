@@ -31,33 +31,22 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     
+    
+    
     NSError *error = nil;
-    NSURL *modelURL = [NSURL fileURLWithPath:[[NSBundle mainBundle] pathForResource:@"Model" ofType:@"momd"]];
-    // NOTE: Due to an iOS 5 bug, the managed object model returned is immutable.
-    NSManagedObjectModel *managedObjectModel = [[[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL] mutableCopy];
+    NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
-    
-    // Initialize the Core Data stack
-    [managedObjectStore createPersistentStoreCoordinator];
-    
     BOOL success = RKEnsureDirectoryExistsAtPath(RKApplicationDataDirectory(), &error);
     if (! success) {
         RKLogError(@"Failed to create Application Data Directory at path '%@': %@", RKApplicationDataDirectory(), error);
     }
     NSString *path = [RKApplicationDataDirectory() stringByAppendingPathComponent:@"Moose.sqlite"];
-    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:path
-                                                                     fromSeedDatabaseAtPath:nil
-                                                                          withConfiguration:nil
-                                                                                    options:nil
-                                                                                      error:&error];
+    NSPersistentStore *persistentStore = [managedObjectStore addSQLitePersistentStoreAtPath:path fromSeedDatabaseAtPath:nil withConfiguration:nil options:nil error:&error];
     if (! persistentStore) {
         RKLogError(@"Failed adding persistent store at path '%@': %@", path, error);
     }
-    
-    //NSPersistentStore __unused *persistentStore = [managedObjectStore addInMemoryPersistentStore:&error];
-    //NSAssert(persistentStore, @"Failed to add persistent store: %@", error);
-    
     [managedObjectStore createManagedObjectContexts];
+    
     
     // Set the default store shared instance
     [RKManagedObjectStore setDefaultStore:managedObjectStore];
@@ -67,15 +56,15 @@
     // Remeber, evaluation of path patterns against base URL could be surprising.
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:@"http://localhost:3000/v1/"]];
     
-    // TODO: Create another object manager that manages photo resources on S3
+    
+    // DON'T EVER ADD FOLLOWING LINE because last time when I added it, ghost entities pop out everywhere...
+    // THIS is kept here for the warning purpose
+    //managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
     
     objectManager.managedObjectStore = managedObjectStore;
     // only accepts JSON from the server
     [objectManager setAcceptHeaderWithMIMEType:@"application/json"];
     [RKObjectManager setSharedManager:objectManager];
-
-    // Configure a managed object cache to ensure we do not create duplicate objects
-    managedObjectStore.managedObjectCache = [[RKInMemoryManagedObjectCache alloc] initWithManagedObjectContext:managedObjectStore.persistentStoreManagedObjectContext];
     
     // you can do things like post.id too
     // set up mapping and response descriptor
@@ -144,6 +133,16 @@
     entityMapping.identificationAttributes = @[@"uuid"];
     
     [entityMapping addConnectionForRelationship:@"institution" connectedBy:@{@"institutionUUID":@"uuid"}];
+    
+    // not sure why this affects responses for GET requests...
+    /*
+    RKEntityMapping *entityPOSTMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
+    [entityPOSTMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
+                                                            @"uuid":            @"uuid",
+                                                            @"name":            @"name",
+                                                            @"deleted":         @"deleted",
+                                                            @"updated_at":      @"updateDate"}];
+    entityPOSTMapping.identificationAttributes = @[@"uuid"];*/
     
     RKResponseDescriptor *entityResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:entityMapping

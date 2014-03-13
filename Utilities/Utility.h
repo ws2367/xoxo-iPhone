@@ -15,4 +15,8 @@
 + (NSString *) getUUID;
 + (NSDate *)DateForRFC3339DateTimeString:(NSString *)rfc3339datestring;
 
+//void (^failureAlert)(RKOperationRequestOperation *, NSError *);
+
+
+
 @end
