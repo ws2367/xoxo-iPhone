@@ -390,11 +390,12 @@
     /* Set up view controller
      *
      */
+    /*
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
     self.window.rootViewController = self.viewController;
     //__managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
-    [self.window makeKeyAndVisible];
+    [self.window makeKeyAndVisible];*/
     return YES;
 }
 

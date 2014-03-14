@@ -11,19 +11,26 @@
 
 @interface BigPostTableViewCell()
 
-// TODO: what it this lowerMask for??
-@property (weak, nonatomic) IBOutlet UIView *lowerMask;
-
 @property (strong,nonatomic)  UIImageView *mooseView;
+
 @property (strong,nonatomic)  UIView *blackMask;
 @property (nonatomic) bool gradientFlag;
 
-@property (strong, nonatomic) IBOutlet UITextView *titleValue;
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (weak, nonatomic) IBOutlet UIButton *entityButton;
+
 @property (strong, nonatomic) IBOutlet UIImageView *postImageView;
+
+
+/*
 @property (strong, nonatomic) IBOutlet UIButton *likeButton;
 @property (strong, nonatomic) IBOutlet UIButton *hateButton;
 @property (strong, nonatomic) IBOutlet UILabel *likeValue;
 @property (strong, nonatomic) IBOutlet UILabel *hateValue;
+ */
+// TODO: what it this lowerMask for??
+//@property (weak, nonatomic) IBOutlet UIView *lowerMask;
+
 
 @end
 
@@ -36,9 +43,9 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-        [_lowerMask setAlpha:0.8];
-        _lowerMask.opaque = FALSE;
-        _gradientFlag = FALSE;
+        //[_lowerMask setAlpha:0.8];
+        //_lowerMask.opaque = FALSE;
+        //_gradientFlag = FALSE;
         //[self createGradient];
     }
     return self;
@@ -65,18 +72,20 @@
         //    _content = [_content substringWithRange:stringRange];
         //    _content = [_content stringByAppendingFormat:@"..."];
         //}
-        _titleValue.text = _content;
+        _contentTextView.text = _content;
     }
     
-    _likeNum = 4;
+    /*
+     _likeNum = 4;
     _hateNum = 3;
-    _likeValue.text = [NSString stringWithFormat:@"%d", _likeNum];
-    _hateValue.text = [NSString stringWithFormat:@"%d", _hateNum];
+    _likeValue.text = [NSString stringWithFormat:@"%d", (int)_likeNum];
+    _hateValue.text = [NSString stringWithFormat:@"%d", (int)_hateNum];
     
     _liked = false;
     _hated = false;
     [_likeButton setImage:[UIImage imageNamed:@"likeoff"] forState:UIControlStateNormal];
     [_hateButton setImage:[UIImage imageNamed:@"hateoff"] forState:UIControlStateNormal];
+     */
 
 }
 
@@ -112,6 +121,7 @@
 #pragma mark -
 #pragma mark Button Methods
 // TODO: we gonna use exclamation mark instead of like or hate
+/*
 - (IBAction)likeButtonPressed: (id)sender {
     if([self isLiked]){
         _liked = false;
@@ -139,6 +149,7 @@
         [_hateButton setImage:[UIImage imageNamed:@"hateon"] forState:UIControlStateNormal];
     }
 }
+ */
 
 
 #pragma mark -

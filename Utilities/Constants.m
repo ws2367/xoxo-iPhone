@@ -16,11 +16,12 @@ const int HEIGHT = 568;
 const int WIDTH = 320;
 const float TIMESTAMP_MAX = 2147483647.000;
 
-NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/";//"@"http://107.170.230.104:3000/";
+NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/";
 
 // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
 // Remeber, evaluation of path patterns against base URL could be surprising.
-NSString *const BASE_URL = @"http://localhost:3000/v1/";//@"http://107.170.230.104:3000/v1/";
+NSString *const BASE_URL = @"http://localhost:3000/v1/";
+
 NSString *const S3BUCKET_NAME = @"moose-photos";
 
 NSString *const CellTableIdentifier = @"CellTableIdentifier";

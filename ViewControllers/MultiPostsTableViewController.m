@@ -9,6 +9,8 @@
 #import "ViewMultiPostsViewController.h"
 #import "MultiPostsTableViewController.h"
 #import "BigPostTableViewCell.h"
+#import "ViewEntityViewController.h"
+#import "ViewPostViewController.h"
 
 #import "Photo.h"
 #import "Location.h"
@@ -38,6 +40,7 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
+        self.title = @"Popular";
     }
     return self;
 }
@@ -54,16 +57,20 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    
+    [self setup];
 }
 
 - (void)setup
 {
     self.posts = [[NSMutableArray alloc] init];
     
+    /* old codes before storyboarding
     self.tableView.rowHeight = ROW_HEIGHT;
     UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
-                                bundle:nil];
+                                    bundle:nil];
     [self.tableView registerNib:nib forCellReuseIdentifier:CellTableIdentifier];
+    */
     
     // set up swipe gesture recognizer
     UISwipeGestureRecognizer * recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -392,9 +399,12 @@
     cell.entities = entitiesArray;
     
     //TODO: should present all images, not just the first one
-    Photo *photo = [[post.photos allObjects] firstObject];
+    if ([post.photos count] > 0) {
+        Photo *photo = [[post.photos allObjects] firstObject];
+        cell.image = [[UIImage alloc] initWithData:photo.image];
+    }
     
-    cell.image = [[UIImage alloc] initWithData:photo.image];
+
 
     /*
     // We want the cell to know which row it is, so we store that in button.tag
@@ -404,8 +414,8 @@
     
     // Here is where we register any target of buttons in cells if the target is not the cell itself
     //[cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    cell.entityButton.tag = indexPath.row;
-    [cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    //cell.entityButton.tag = indexPath.row;
+    //[cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -523,16 +533,31 @@
 }
 */
 
-/*
+
+# pragma mark -
 #pragma mark - Navigation
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"viewEntitySegue"]){
+        ViewEntityViewController *nextController = segue.destinationViewController;
+        
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+        Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+        
+        // TODO: get it right! not just send the first entity of that post...
+        //we don't know which one is clicked... send the first one for now
+        Entity *entity = [[post.entities allObjects] firstObject];
 
-// In a story board-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+        [nextController setEntity:entity];
+    } else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+        ViewPostViewController *nextController = segue.destinationViewController;
+        
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+        Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+        
+        [nextController setPost:post];
+    }
 }
-
- */
 
 @end

@@ -69,6 +69,7 @@
 {
     [super viewDidLoad];
     
+    /*
     [_circleViewForImage setImage:[UIImage imageNamed:@"pic2"]];
 
     _tableView.rowHeight = 254;
@@ -78,7 +79,7 @@
        forCellReuseIdentifier:CellTableIdentifier];
     
     [_myMap setDelegate:self];
-    
+    */
     
     /*
     CLLocationCoordinate2D  ctrpoint;
@@ -87,9 +88,12 @@
     MapPinAnnotation *mapPinAnnotation = [[MapPinAnnotation alloc] initWithCoordinates:ctrpoint
                                                                              placeName:nil
                                                                            description:nil];
-     */
-    //[_myMap addAnnotation:mapPinAnnotation];
-    //[mapPinAnnotation release];
+    
+    [_myMap addAnnotation:mapPinAnnotation];
+    [mapPinAnnotation release];
+    _myMap.showsUserLocation = FALSE;
+    [self updateMap];
+    */
     
     /*For creating a mask
     CALayer *imageLayer = _headImageView.layer;
@@ -97,8 +101,6 @@
     [imageLayer setBorderWidth:1];
     [imageLayer setMasksToBounds:YES];
      */
-    _myMap.showsUserLocation = FALSE;
-    [self updateMap];
     
     // set up entity
     // TODO: make sure that Core Data makes every name attribute is filled
@@ -225,8 +227,11 @@
     
     cell.entities = array;
     //TODO: should present all images, not just the first one
-    Photo *photo = [[post.photos allObjects] firstObject];
-    cell.image = [[UIImage alloc] initWithData:photo.image];
+    if ([post.photos count] > 0) {
+        Photo *photo = [[post.photos allObjects] firstObject];
+        cell.image = [[UIImage alloc] initWithData:photo.image];
+    }
+    
     return cell;
 }
 

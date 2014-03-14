@@ -103,6 +103,8 @@
 			<string>{320, 480}</string>
 		</dict>
 	</array>
+	<key>UIMainStoryboardFile</key>
+	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
