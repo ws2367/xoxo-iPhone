@@ -17,4 +17,4 @@ profile
 
 #Let's ignore Pods directory for now
 Pods/*
-
+Libraries/*
