@@ -10,6 +10,7 @@
 
 @interface CommentTableViewCell : UITableViewCell
 @property (copy, nonatomic) NSString *content;
+@property (copy, nonatomic) NSString *date;
 @property (nonatomic, assign, getter=isLiked) BOOL liked;
 @property (nonatomic, assign, getter=isHated) BOOL hated;
 @property (nonatomic, assign) NSInteger likeNum;

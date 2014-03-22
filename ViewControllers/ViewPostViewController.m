@@ -20,6 +20,9 @@
 
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
 
+@property (weak, nonatomic) IBOutlet UILabel *entitiesLabel;
+@property (strong, nonatomic) NSString *names;
+
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
@@ -80,15 +83,22 @@
     [super viewDidLoad];
     
     // set up table view
+    /*
     _tableView.rowHeight = ROW_HEIGHT;
     UINib *nib = [UINib nibWithNibName:@"CommentTableViewCell"
                                 bundle:nil];
     [_tableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
-    
+    */
     // set the content
     _content = [[NSString alloc] initWithString:_post.content];
     _contentTextView.text = _content;
+    
+    // set entities' names
+    Entity *entity = [[_post.entities allObjects] firstObject];
+    _names = [NSString stringWithString:entity.name];
+    [_entitiesLabel setText:_names];
+    
     
     // Note: I have tested that post and its related entities are visible here
     // Also, I used Core Data Editor to test that comments do show up
@@ -136,6 +146,9 @@
     } else {
         NSLog(@"Failed to fetch");
     }
+    
+    
+    NSLog(@"Post has comments: %@", _post.comments);
     
     //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
     //TODO: we should show all images, not just the first one
