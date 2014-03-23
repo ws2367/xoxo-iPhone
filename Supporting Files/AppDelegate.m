@@ -19,6 +19,7 @@
 #import "AmazonClientManager.h"
 
 //third party library
+#import <FacebookSDK/FacebookSDK.h>
 
 @implementation AppDelegate
 
@@ -386,6 +387,9 @@
     [AmazonClientManager login:@"user" password:@"password"];
     //NSLog(@"S3: %@",[AmazonClientManager s3]);
     
+    // make sure that the FBLoginView class is loaded before the login view is shown.
+    [FBLoginView class];
+    
     
     /* Set up view controller
      *
@@ -419,6 +423,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    [FBAppCall handleDidBecomeActive];
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -550,5 +556,23 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+#pragma mark - Facebook SDK methods
+/**
+ Processes the response from interacting with the Facebook login process
+ */
+- (BOOL)application:(UIApplication *)application
+            openURL:(NSURL *)url
+  sourceApplication:(NSString *)sourceApplication
+         annotation:(id)annotation{
+    
+    // Call FBAppCall's handleOpenURL:sourceApplication to handle Facebook app responses
+    BOOL wasHandled = [FBAppCall handleOpenURL:url sourceApplication:sourceApplication];
+    
+    // You can add your app-specific url handling code here if needed
+    
+    return wasHandled;
+}
+
 
 @end

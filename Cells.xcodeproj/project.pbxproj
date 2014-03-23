@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		2030C502A68542968957D8CF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 426AC05381C84018A9CF6EC3 /* libPods.a */; };
+		511233F818DE2FFA00EFBF85 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 511233F718DE2FFA00EFBF85 /* FacebookSDK.framework */; };
+		511233FB18DE3E6000EFBF85 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511233FA18DE3E6000EFBF85 /* LoginViewController.m */; };
 		5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5124229718B29639008BEF86 /* ViewMultiPostsViewController.m */; };
 		5124229A18B2967B008BEF86 /* ViewMultiPostsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 5124229918B2967B008BEF86 /* ViewMultiPostsViewController.xib */; };
 		512422A618B2B2AD008BEF86 /* AppIcon40x40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 512422A518B2B2AD008BEF86 /* AppIcon40x40@2x.png */; };
@@ -90,6 +92,9 @@
 		323E8945FCCF413C9276D746 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		426AC05381C84018A9CF6EC3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		5101701D18170746009D9B70 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		511233F718DE2FFA00EFBF85 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = Libraries/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
+		511233F918DE3E6000EFBF85 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
+		511233FA18DE3E6000EFBF85 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
 		5124229618B29639008BEF86 /* ViewMultiPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewMultiPostsViewController.h; sourceTree = "<group>"; };
 		5124229718B29639008BEF86 /* ViewMultiPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewMultiPostsViewController.m; sourceTree = "<group>"; };
 		5124229918B2967B008BEF86 /* ViewMultiPostsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewMultiPostsViewController.xib; sourceTree = "<group>"; };
@@ -229,6 +234,7 @@
 				75CCCF4117FC03DF000BF0F4 /* Foundation.framework in Frameworks */,
 				75CCCF4317FC03DF000BF0F4 /* CoreGraphics.framework in Frameworks */,
 				2030C502A68542968957D8CF /* libPods.a in Frameworks */,
+				511233F818DE2FFA00EFBF85 /* FacebookSDK.framework in Frameworks */,
 				51E9FEDA18DCF93A00E60232 /* AWSRuntime.framework in Frameworks */,
 				51E9FEDB18DCF93A00E60232 /* AWSS3.framework in Frameworks */,
 			);
@@ -240,6 +246,8 @@
 		5124229C18B29C5B008BEF86 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				511233F918DE3E6000EFBF85 /* LoginViewController.h */,
+				511233FA18DE3E6000EFBF85 /* LoginViewController.m */,
 				75C0BDCA1829785E00B34113 /* UserMenuViewController.xib */,
 				75C0BDCB1829785E00B34113 /* UserMenuViewController.h */,
 				75C0BDCC1829785E00B34113 /* UserMenuViewController.m */,
@@ -404,6 +412,7 @@
 		75CCCF3D17FC03DF000BF0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				511233F718DE2FFA00EFBF85 /* FacebookSDK.framework */,
 				51E9FED818DCF93A00E60232 /* AWSRuntime.framework */,
 				51E9FED918DCF93A00E60232 /* AWSS3.framework */,
 				51732BA218C174CA0013D891 /* SystemConfiguration.framework */,
@@ -619,6 +628,7 @@
 				512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */,
 				512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */,
 				5186F09E18CEE85E00B27C71 /* AmazonTVMClient.m in Sources */,
+				511233FB18DE3E6000EFBF85 /* LoginViewController.m in Sources */,
 				514B731818CA79BB00EEAC66 /* Photo.m in Sources */,
 				51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */,
 				75073FEE1819966C009177C7 /* MapPinAnnotation.m in Sources */,
@@ -709,6 +719,7 @@
 					"/Users/wen-hsiangshaw/dev/SDKs/aws-ios-sdk-1.7.1",
 					"$(PROJECT_DIR)/Libraries/aws-ios-sdk-1.7.0",
 					"$(PROJECT_DIR)/Libraries/aws-ios-sdk-1.7.1",
+					"$(PROJECT_DIR)/Libraries/FacebookSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
@@ -732,6 +743,7 @@
 					"/Users/wen-hsiangshaw/dev/SDKs/aws-ios-sdk-1.7.1",
 					"$(PROJECT_DIR)/Libraries/aws-ios-sdk-1.7.0",
 					"$(PROJECT_DIR)/Libraries/aws-ios-sdk-1.7.1",
+					"$(PROJECT_DIR)/Libraries/FacebookSDK",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
