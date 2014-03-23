@@ -34,7 +34,7 @@
 
 +(AmazonS3Client *)s3;
 
-+(TVMClient *)tvm;
+//+(TVMClient *)tvm;
 
 +(bool)isLoggedIn;
 +(BOOL)login:(NSString *)FBAccessToken;

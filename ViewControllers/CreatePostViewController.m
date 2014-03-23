@@ -321,8 +321,11 @@
         [operations addObject:postPOSTOperation];
         
         /* A block object for updoading image to S3 server*/
-        void (^updatePhotosToS3)(void) = ^(void) {
-            
+        void (^uploadPhotosToS3)(void) = ^(void) {
+            if (![ClientManager validateCredentials]){
+                NSLog(@"Abort uploading photos to S3");
+                return;
+            }
             for (Photo *photo in post.photos){
                 NSString *photoKey = [NSString stringWithFormat:@"%@/%@.png", post.remoteID, photo.uuid];
                 
@@ -357,7 +360,7 @@
             
             // let's update the image to server asynchronously
             if (![post.remoteID isEqual:@0]) // make sure we got legitmate remote ID from server
-                updatePhotosToS3();
+                uploadPhotosToS3();
         
         }];
         

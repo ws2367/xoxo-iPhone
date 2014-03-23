@@ -260,8 +260,13 @@
     return photoKeys;
 }
 
-
+// let's validate AWS credentials before going further
 - (void) loadPhotosForPost:(Post *)post {
+    if (![ClientManager validateCredentials]){
+        NSLog(@"Abort loading photos for post %@", post.remoteID);
+        return;
+    }
+    
     NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
     
     NSManagedObjectContext *context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;

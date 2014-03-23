@@ -42,7 +42,9 @@ static TVMClient *tvm = nil;
 
 +(AmazonS3Client *)s3
 {
-    [ClientManager validateCredentials];
+    BOOL success = [ClientManager validateCredentials];
+    if (!success)
+        NSLog(@"Failed to validate credentials! S3 client is invalid.");
     return s3;
 }
 
@@ -72,16 +74,17 @@ static TVMClient *tvm = nil;
 
 +(BOOL)validateCredentials
 {
-    BOOL succeeded = NO;
-    
     if ([KeyChainWrapper areAWSCredentialsExpired])
     {
-        succeeded = [[ClientManager tvm] getToken];
+        BOOL succeeded = [[ClientManager tvm] getToken];
         if (succeeded)
         {
             [ClientManager initClient];
+        } else {
+            return false;
         }
     }
+    /*}
     
     else if (s3 == nil)
     {
@@ -93,8 +96,9 @@ static TVMClient *tvm = nil;
             }
         }
     }
-    
-    return succeeded;
+    */
+    return true;
+     
 }
 
 +(void)initClient

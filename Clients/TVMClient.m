@@ -33,20 +33,26 @@
 }
 
 -(BOOL)getToken{
-    //NSString *uid = [KeyChainWrapper getUidForDevice];
-    //NSString *key = [KeyChainWrapper getKeyForDevice];
-    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-
-    if (sessionToken == nil) {
+    if (![KeyChainWrapper isSessionTokenValid]) {
         NSLog(@"User hasn't logged in");
         return false;
     }
     
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
     NSDictionary *params = [NSDictionary dictionaryWithObject:sessionToken
                                                        forKey:@"auth_token"];
-    NSLog(@"params: %@", params);
     
     NSDictionary* jsonFromData = nil;
+    BOOL success = [self sendSynchronousRequestWithClient:_httpClient
+                                                   method:@"GET"
+                                                     path:@"S3Credentials"
+                                               parameters:params
+                                                 response:&jsonFromData
+                                                 errorLog:@"Can't retrieve S3 credentials via server!"];
+    if (!success) {
+        return false;
+    }
+/*
     NSURLResponse *response = nil;
     NSError *error = nil;
     
@@ -59,7 +65,7 @@
     jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
     
     NSLog(@"JSON: %@", jsonFromData);
-    
+    */
     
     
     [KeyChainWrapper storeCredentialsInKeyChain:jsonFromData[@"ACCESS_KEY_ID"]
@@ -69,32 +75,24 @@
     
      //process response and store credentials in keychainwrapper
     
-    return YES;
+    return true;
     
 }
 -(BOOL)login:(NSString *)FBAccessToken{
     NSDictionary *params = [NSDictionary dictionaryWithObject:FBAccessToken forKey:@"fb_access_token"];
     
-    NSLog(@"params: %@", params);
+    NSLog(@"Before login: %@", params);
     NSDictionary* jsonFromData = nil;
     
-    NSMutableURLRequest *request = [_httpClient requestWithMethod:@"POST"
-                                                      path:@"users/sign_in"
-                                                parameters:params];
+    [self sendSynchronousRequestWithClient:_httpClient
+                                    method:@"POST"
+                                      path:@"users/sign_in"
+                                parameters:params
+                                  response:&jsonFromData
+                                  errorLog:@"Can't log in!"];
     
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request
-                                         returningResponse:&response
-                                                     error:&error];
-    if (error != nil || data == nil){
-        NSLog(@"Can't log in!");
-        return false;
-    }
-        
-    jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-
-    NSLog(@"JSON: %@", jsonFromData);
+       
+    NSLog(@"After login: %@", jsonFromData);
     
     if (jsonFromData[@"token"] != nil) {
         [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
@@ -111,16 +109,12 @@
         NSDictionary *params = [NSDictionary dictionaryWithObject:[KeyChainWrapper getSessionTokenForUser]
                                                            forKey:@"authentication_token"];
         
-        NSDictionary *jsonFromData;
-        
         [self sendSynchronousRequestWithClient:_httpClient
                                         method:@"DELETE"
                                           path:@"users/sign_out"
                                     parameters:params
-                                      response:&jsonFromData
+                                      response:nil
                                       errorLog:@"Can't log out!"];
-        
-        NSLog(@"JSON: %@", jsonFromData);
     }
     
     return YES;
@@ -136,18 +130,22 @@
 {
     NSMutableURLRequest *request = [client requestWithMethod:method path:path parameters:params];
     
-    NSURLResponse *_response = nil;
+    NSHTTPURLResponse *_response = nil;
     NSError *error = nil;
     NSData *data = [NSURLConnection sendSynchronousRequest:request
                                          returningResponse:&_response
                                                      error:&error];
-    if (error != nil || data == nil){
+    
+    if (error != nil || data == nil || _response.statusCode != 200){
         NSLog(@"%@", errorLog);
         return false;
     }
-    
-    (*response) = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    
+
+    if (response != nil) {
+        (*response) = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data
+                                                                      options:NSJSONReadingMutableContainers
+                                                                        error:nil];
+    }
     return true;
 }
 
