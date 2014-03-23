@@ -18,7 +18,7 @@
 #import "MultiPostsTableViewController.h"
 #import "Post.h"
 
-#import "AmazonClientManager.h"
+#import "ClientManager.h"
 #import "KeyChainWrapper.h"
 
 @interface ViewMultiPostsViewController () {
@@ -88,7 +88,7 @@
                 listObjectRequest = [[S3ListObjectsRequest alloc] initWithName:@"xoxo_img/pictures"];
                 listObjectRequest.marker = lastKey;
                 
-                listObjectResponse = [[AmazonClientManager s3] listObjects:listObjectRequest];
+                listObjectResponse = [[ClientManager s3] listObjects:listObjectRequest];
                 if(listObjectResponse.error != nil)
                 {
                     NSLog(@"Error: %@", listObjectResponse.error);
@@ -135,9 +135,9 @@
     
     // prevent it from throwing exception, let's assign a delegate to it
     //listObjectRequest.delegate = self;
-    //S3ListObjectsResponse *listObjectResponse = [[AmazonClientManager s3] listObjects:listObjectRequest];
+    //S3ListObjectsResponse *listObjectResponse = [[ClientManager s3] listObjects:listObjectRequest];
 
-    //NSArray *array = [[AmazonClientManager s3] listObjectsInBucket:S3BUCKET_NAME];
+    //NSArray *array = [[ClientManager s3] listObjectsInBucket:S3BUCKET_NAME];
     
     //for (S3ObjectSummary *x in array) {
     //    NSLog(@"objectSummary: %@",x);
@@ -149,7 +149,7 @@
     //    NSLog(@"objectSummary: %@",x);
     //}
 
-    //NSArray *array = [[AmazonClientManager s3] listObjectsInBucket:@"xoxo_img"];
+    //NSArray *array = [[ClientManager s3] listObjectsInBucket:@"xoxo_img"];
 }
 
 

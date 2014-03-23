@@ -7,6 +7,7 @@
 //
 
 #import "LoginViewController.h"
+#import "ClientManager.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -33,7 +34,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    _loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_likes"]];
+    _loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_birthday"]];
     _loginView.delegate = self;
 }
 
@@ -49,11 +50,21 @@
 
 - (void) loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     self.statusLabel.text = @"You'are logged in as";
+    
+    FBAccessTokenData *accessTokenData = FBSession.activeSession.accessTokenData;
+    NSString *accessToken = accessTokenData.accessToken;
+
+    NSLog(@"accessToken: %@", accessToken);
+ 
+    [ClientManager login:accessToken];
+    
 }
 
 - (void) loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
     self.statusLabel.text = @"You're logged out!";
     [self.nameLabel setText:@""];
+    
+    [ClientManager logout];
 }
 
 // Handle possible errors that can occur during login

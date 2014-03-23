@@ -16,7 +16,7 @@ const int HEIGHT = 568;
 const int WIDTH = 320;
 const float TIMESTAMP_MAX = 2147483647.000;
 
-NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/";
+NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
 
 // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
 // Remeber, evaluation of path patterns against base URL could be surprising.

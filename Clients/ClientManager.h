@@ -1,5 +1,5 @@
 //
-//  AmazonClientManager.h
+//  ClientManager.h
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 3/10/14.
@@ -25,19 +25,20 @@
 #import <Foundation/Foundation.h>
 
 #import <AWSS3/AWSS3.h>
-#import "AmazonTVMClient.h"
+#import "TVMClient.h"
 
 
-@interface AmazonClientManager : NSObject
+@interface ClientManager : NSObject
 
 +(void)setup:(NSString *)accessKey secretKey:(NSString *)secretKey securityToken:(NSString *)token expiration:(NSString *)expiration;
 
 +(AmazonS3Client *)s3;
 
-+(AmazonTVMClient *)tvm;
++(TVMClient *)tvm;
 
 +(bool)isLoggedIn;
-+(BOOL)login:(NSString *)username password:(NSString *)password;
++(BOOL)login:(NSString *)FBAccessToken;
++(BOOL)logout;
 +(BOOL)validateCredentials;
 //+(void)wipeAllCredentials;
 //+ (BOOL)wipeCredentialsOnAuthError:(NSError *)error;

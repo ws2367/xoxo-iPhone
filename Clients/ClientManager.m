@@ -1,5 +1,5 @@
 //
-//  AmazonClientManager.m
+//  ClientManager.m
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 3/10/14.
@@ -22,7 +22,7 @@
  */
 
 
-#import "AmazonClientManager.h"
+#import "ClientManager.h"
 #import "KeyChainWrapper.h"
 //#import "Response.h"
 
@@ -31,9 +31,9 @@
 //#import "KeyChainWrapper.h"
 
 static AmazonS3Client *s3  = nil;
-static AmazonTVMClient *tvm = nil;
+static TVMClient *tvm = nil;
 
-@implementation AmazonClientManager
+@implementation ClientManager
 
 +(void)setup:(NSString *)accessKey secretKey:(NSString *)secretKey securityToken:(NSString *)token expiration:(NSString *)expiration
 {
@@ -42,14 +42,14 @@ static AmazonTVMClient *tvm = nil;
 
 +(AmazonS3Client *)s3
 {
-    [AmazonClientManager validateCredentials];
+    [ClientManager validateCredentials];
     return s3;
 }
 
-+(AmazonTVMClient *)tvm
++(TVMClient *)tvm
 {
     if (tvm == nil) {
-        tvm = [[AmazonTVMClient alloc] initWithEndpoint:TOKEN_VENDING_MACHINE_URL];
+        tvm = [[TVMClient alloc] initWithEndpoint:TOKEN_VENDING_MACHINE_URL];
     }
     
     return tvm;
@@ -60,21 +60,26 @@ static AmazonTVMClient *tvm = nil;
     return ([KeyChainWrapper getSessionTokenForUser] != nil);
 }
 
-+(BOOL)login:(NSString *)username password:(NSString *)password
++(BOOL)login:(NSString *)FBAccessToken
 {
-    return [[AmazonClientManager tvm] login:username password:password];
+    return [[ClientManager tvm] login:FBAccessToken];
+}
+
++(BOOL) logout
+{
+    return [[ClientManager tvm] logout];
 }
 
 +(BOOL)validateCredentials
 {
     BOOL succeeded = NO;
     
-    if ([KeyChainWrapper areCredentialsExpired])
+    if ([KeyChainWrapper areAWSCredentialsExpired])
     {
-        succeeded = [[AmazonClientManager tvm] getToken];
+        succeeded = [[ClientManager tvm] getToken];
         if (succeeded)
         {
-            [AmazonClientManager initClient];
+            [ClientManager initClient];
         }
     }
     
@@ -84,7 +89,7 @@ static AmazonTVMClient *tvm = nil;
         {
             if (s3 == nil)
             {
-                [AmazonClientManager initClient];
+                [ClientManager initClient];
             }
         }
     }
@@ -95,7 +100,7 @@ static AmazonTVMClient *tvm = nil;
 +(void)initClient
 {
     NSLog(@"init client");
-    AmazonCredentials *credentials = [KeyChainWrapper getCredentialsFromKeyChain];
+    AmazonCredentials *credentials = [KeyChainWrapper getAWSCredentialsFromKeyChain];
     
     s3  = [[AmazonS3Client alloc] initWithCredentials:credentials];
     //s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];

@@ -16,7 +16,7 @@
 #import "Post.h"
 #import "Comment.h"
 
-#import "AmazonClientManager.h"
+#import "ClientManager.h"
 
 //third party library
 #import <FacebookSDK/FacebookSDK.h>
@@ -384,8 +384,8 @@
     
     
     */
-    [AmazonClientManager login:@"user" password:@"password"];
-    //NSLog(@"S3: %@",[AmazonClientManager s3]);
+
+    //NSLog(@"S3: %@",[ClientManager s3]);
     
     // make sure that the FBLoginView class is loaded before the login view is shown.
     [FBLoginView class];

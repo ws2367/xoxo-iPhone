@@ -19,7 +19,7 @@
 #import "Entity.h"
 #import "Comment.h"
 
-#import "AmazonClientManager.h"
+#import "ClientManager.h"
 
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
 #define ROW_HEIGHT 218
@@ -209,7 +209,7 @@
 }
 
 #pragma mark -
-#pragma mark Amazon Client Methods
+#pragma mark Client Methods
 // we are sure that the photo of the same uuid does not exist in core data
 - (void) createPhotoEntityForPost:(Post *)post
                      andImageData:(NSData *)imageData
@@ -240,7 +240,7 @@
     [request setPrefix:[NSString stringWithFormat:@"%@/", post.remoteID]];
     [request setDelimiter:@"/"];
     
-    S3ListObjectsResponse *response = [[AmazonClientManager s3] listObjects:request];
+    S3ListObjectsResponse *response = [[ClientManager s3] listObjects:request];
     if(response.error != nil){
         NSLog(@"Error while listing photos: %@", response.error);
         return nil;
@@ -291,7 +291,7 @@
             S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
             [request setContentType:@"image/png"];
             
-            S3GetObjectResponse *response = [[AmazonClientManager s3] getObject:request];
+            S3GetObjectResponse *response = [[ClientManager s3] getObject:request];
             
             if(response.error != nil){
                 NSLog(@"Error while downloading photos: %@", response.error);

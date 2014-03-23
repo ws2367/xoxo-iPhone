@@ -14,7 +14,6 @@ static NSString *SecurityToken = nil;
 static NSString *Expiration = nil;
 
 static NSString *UID = nil;
-static NSString *Username = nil;
 static NSString *Key = nil;
 
 static NSString *SessionToken = nil;
@@ -22,9 +21,9 @@ static NSString *SessionToken = nil;
 @implementation KeyChainWrapper
 
 
-+(bool)areCredentialsExpired
++(bool)areAWSCredentialsExpired
 {
-    AMZLogDebug(@"areCredentialsExpired");
+    AMZLogDebug(@"areAWSCredentialsExpired");
     
     NSString *expiration = Expiration;
     if (expiration == nil) {
@@ -52,7 +51,7 @@ static NSString *SessionToken = nil;
     }
 }
 
-
+/*
 +(void)registerDeviceId:(NSString *)uid andKey:(NSString *)key
 {
     UID = [NSString stringWithString:uid];
@@ -61,18 +60,17 @@ static NSString *SessionToken = nil;
     //[KeyChainWrapper storeValueInKeyChain:uid forKey:kKeychainUidIdentifier];
     //[KeyChainWrapper storeValueInKeyChain:key forKey:kKeychainKeyIdentifier];
 }
-
-+(void)storeUsername:(NSString *)theUsername
+ 
++(NSString *)getKeyForDevice
 {
-    Username = [NSString stringWithString:theUsername];
-    
-    //[KeyChainWrapper storeValueInKeyChain:theUsername forKey:kKeychainUsernameIdentifier];
+    return Key;
 }
 
-+(NSString *)username
++(NSString *)getUidForDevice
 {
-    return Username;
+    return UID;
 }
+*/
 
 +(void)storeSessionToken:(NSString *)theSessionToken{
     SessionToken = [NSString stringWithString:theSessionToken];
@@ -83,20 +81,19 @@ static NSString *SessionToken = nil;
     return SessionToken;
 }
 
-+(NSString *)getKeyForDevice
++(BOOL) isSessionTokenValid
 {
-    return Key;
+    if (SessionToken == nil || [SessionToken isEqualToString:@""]){
+        return false;
+    } else {
+        return true;
+    }
 }
 
-+(NSString *)getUidForDevice
-{
-    return UID;
-}
-
-+(AmazonCredentials *)getCredentialsFromKeyChain
++(AmazonCredentials *)getAWSCredentialsFromKeyChain
 {
     if ((AccessKey != nil) && (SecretKey != nil) && (SecurityToken != nil)) {
-        if (![KeyChainWrapper areCredentialsExpired]) {
+        if (![KeyChainWrapper areAWSCredentialsExpired]) {
             AmazonCredentials *credentials = [[AmazonCredentials alloc] initWithAccessKey:AccessKey withSecretKey:SecretKey];
             credentials.securityToken = SecurityToken;
             

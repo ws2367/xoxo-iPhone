@@ -1,22 +1,22 @@
 //
-//  AmazonTVMClient.m
+//  TVMClient.m
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 3/10/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
-#import "AmazonTVMClient.h"
+#import "TVMClient.h"
 #import "KeyChainWrapper.h"
 
-@interface AmazonTVMClient ()
+@interface TVMClient ()
 
 @property (retain, nonatomic) AFHTTPClient *httpClient;
 @end
 
 
 
-@implementation AmazonTVMClient
+@implementation TVMClient
 
 -(id)initWithEndpoint:(NSString *)theEndpoint{
 
@@ -72,9 +72,8 @@
     return YES;
     
 }
--(BOOL)login:(NSString *)username password:(NSString *)password{
-    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[username, password]
-                                                       forKeys:@[@"user_name", @"password"]];
+-(BOOL)login:(NSString *)FBAccessToken{
+    NSDictionary *params = [NSDictionary dictionaryWithObject:FBAccessToken forKey:@"fb_access_token"];
     
     NSLog(@"params: %@", params);
     NSDictionary* jsonFromData = nil;
@@ -85,7 +84,9 @@
     
     NSURLResponse *response = nil;
     NSError *error = nil;
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
+    NSData *data = [NSURLConnection sendSynchronousRequest:request
+                                         returningResponse:&response
+                                                     error:&error];
     if (error != nil || data == nil){
         NSLog(@"Can't log in!");
         return false;
@@ -102,6 +103,52 @@
     }
 
     return YES;
+}
+
+- (BOOL)logout
+{
+    if ([KeyChainWrapper isSessionTokenValid]) {
+        NSDictionary *params = [NSDictionary dictionaryWithObject:[KeyChainWrapper getSessionTokenForUser]
+                                                           forKey:@"authentication_token"];
+        
+        NSDictionary *jsonFromData;
+        
+        [self sendSynchronousRequestWithClient:_httpClient
+                                        method:@"DELETE"
+                                          path:@"users/sign_out"
+                                    parameters:params
+                                      response:&jsonFromData
+                                      errorLog:@"Can't log out!"];
+        
+        NSLog(@"JSON: %@", jsonFromData);
+    }
+    
+    return YES;
+
+}
+
+- (BOOL) sendSynchronousRequestWithClient:(AFHTTPClient *)client
+                                   method:(NSString *)method
+                                     path:(NSString *)path
+                               parameters:(NSDictionary *)params
+                                 response:(NSDictionary **)response
+                                 errorLog:(NSString *)errorLog
+{
+    NSMutableURLRequest *request = [client requestWithMethod:method path:path parameters:params];
+    
+    NSURLResponse *_response = nil;
+    NSError *error = nil;
+    NSData *data = [NSURLConnection sendSynchronousRequest:request
+                                         returningResponse:&_response
+                                                     error:&error];
+    if (error != nil || data == nil){
+        NSLog(@"%@", errorLog);
+        return false;
+    }
+    
+    (*response) = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
+    
+    return true;
 }
 
 //-(Response *)processRequest:(Request *)request responseHandler:(ResponseHandler *)handler{}

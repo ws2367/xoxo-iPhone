@@ -1,5 +1,5 @@
 //
-//  AmazonTVMClient.h
+//  TVMClient.h
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 3/10/14.
@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface AmazonTVMClient : NSObject
+@interface TVMClient : NSObject
 
 @property (nonatomic, retain) NSString *endpoint;
 //@property (nonatomic, retain) NSString *appName;
@@ -16,7 +16,9 @@
 
 -(id)initWithEndpoint:(NSString *)endpoint;
 -(BOOL)getToken;
--(BOOL)login:(NSString *)username password:(NSString *)password;
+-(BOOL)login:(NSString *)FBAccessToken;
+-(BOOL)logout;
+
 //-(Response *)processRequest:(Request *)request responseHandler:(ResponseHandler *)handler;
 //-(NSString *)getEndpointDomain:(NSString *)originalEndpoint;
 

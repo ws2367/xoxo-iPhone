@@ -14,7 +14,7 @@
 #import "Institution.h"
 #import "Location.h"
 
-#import "AmazonClientManager.h"
+#import "ClientManager.h"
 
 @interface CreatePostViewController ()
 {
@@ -329,7 +329,7 @@
                 S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:photoKey inBucket:S3BUCKET_NAME];
                 por.contentType = @"image/png";
                 por.data = photo.image;
-                S3PutObjectResponse *response = [[AmazonClientManager s3] putObject:por];
+                S3PutObjectResponse *response = [[ClientManager s3] putObject:por];
                 if (response.error != nil) {
                     NSLog(@"Error while uploading photos");
                 } else {
