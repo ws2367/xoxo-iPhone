@@ -147,7 +147,7 @@
         NSLog(@"Failed to fetch");
     }
     
-    
+
     NSLog(@"Post has comments: %@", _post.comments);
     
     //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
@@ -339,6 +339,9 @@
     Comment *comment = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.content = comment.content;
+ 
+    NSLog(@"CELL: %@",cell);
+    NSLog(@"content: %@", cell.content);
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
