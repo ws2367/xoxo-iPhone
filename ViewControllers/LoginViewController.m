@@ -99,17 +99,27 @@
     }
 }
 
+#pragma mark - Navigation Controller delegate method
+- (void)navigationController:(UINavigationController *)navController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if ([viewController respondsToSelector:@selector(willAppearIn:)])
+        [viewController performSelector:@selector(willAppearIn:) withObject:navController];
+}
 
 
-/*
-#pragma mark - Navigation
+
+#pragma mark - prepare for segue
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    if([segue.identifier isEqualToString:@"viewMultiPostsSegue"]){
+        UINavigationController *nav = segue.destinationViewController;
+        nav.delegate = self;
+    }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
 }
-*/
+
 
 @end

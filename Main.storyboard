@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13A603" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
         <!--View Controller - My posts-->
@@ -43,11 +43,11 @@
                         <viewControllerLayoutGuide type="top" id="OZb-mY-zAe"/>
                         <viewControllerLayoutGuide type="bottom" id="Ezl-5Z-e73"/>
                     </layoutGuides>
-                    <view key="view" contentMode="scaleToFill" id="d3P-9e-uwF">
+                    <view key="view" contentMode="scaleToFill" id="Bfz-1J-b6i">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="60o-Qp-zYa">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thY-NY-mnp">
                                 <rect key="frame" x="120" y="273" width="81" height="21"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -61,7 +61,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="7iI-Ff-kSD" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1504" y="125"/>
+            <point key="canvasLocation" x="1626" y="143"/>
         </scene>
         <!--View Post View Controller-->
         <scene sceneID="NSB-WL-wYf">
@@ -202,6 +202,16 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIM-Z9-maz">
+                                <rect key="frame" x="171" y="369" width="46" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Button">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <segue destination="pux-Kp-BJn" kind="modal" identifier="viewMultiPostsSegue" id="x9l-61-AXH"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -235,10 +245,10 @@
             </objects>
             <point key="canvasLocation" x="82" y="-556"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--Multi Posts Tab Bar Controller-->
         <scene sceneID="bR8-dw-18x">
             <objects>
-                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="fp0-ag-Q8x" sceneMemberID="viewController">
+                <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="fp0-ag-Q8x" customClass="MultiPostsTabBarController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="AP6-rD-JzY"/>
                     <nil key="simulatedBottomBarMetrics"/>
@@ -249,6 +259,7 @@
                     <connections>
                         <segue destination="zey-aU-Gub" kind="relationship" relationship="viewControllers" id="Sne-u3-mjj"/>
                         <segue destination="4o8-5A-P8n" kind="relationship" relationship="viewControllers" id="4bv-nv-yKA"/>
+                        <segue destination="bs7-2m-2iS" kind="push" identifier="createPostSegue" id="RNz-9H-R8S"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qtr-ez-ZFv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -445,10 +456,41 @@
             </objects>
             <point key="canvasLocation" x="1705" y="-1250"/>
         </scene>
+        <!--View Controller-->
+        <scene sceneID="2LP-UC-Nj1">
+            <objects>
+                <viewController id="bs7-2m-2iS" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="qdN-h9-fnr"/>
+                        <viewControllerLayoutGuide type="bottom" id="q9N-Oa-haQ"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="TCA-RY-LoZ">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Create Post" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yvl-2J-nWr">
+                                <rect key="frame" x="120" y="273" width="91" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="a8x-tc-rx3"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5vK-pL-mFn" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1045" y="833"/>
+        </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="x9l-61-AXH"/>
+    </inferredMetricsTieBreakers>
 </document>
