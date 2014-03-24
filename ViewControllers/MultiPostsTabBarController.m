@@ -7,10 +7,12 @@
 //
 
 #import "MultiPostsTabBarController.h"
+#import "MyPostsViewController.h"
 
 @interface MultiPostsTabBarController ()
-
+@property(strong,nonatomic) UIBarButtonItem * settingBtn;
 @end
+
 
 @implementation MultiPostsTabBarController
 
@@ -26,6 +28,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.delegate = self;
+    _settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
 	// Do any additional setup after loading the view.
 }
 
@@ -73,14 +77,30 @@
     // Dispose of any resources that can be recreated.
 }
 
-
-#pragma mark - Prepare Segue
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-// Get the new view controller using [segue destinationViewController].
-// Pass the selected object to the new view controller.
+#pragma mark - detect which viewcontroller is selected right now
+- (void)tabBarController:(UITabBarController *)tabBarController
+ didSelectViewController:(UIViewController *)viewController{
+    NSLog(@"everexecuted?");
+    if([viewController isKindOfClass:MyPostsViewController.class]){
+        self.navigationItem.rightBarButtonItem = _settingBtn;
+    }
+    else{
+        self.navigationItem.rightBarButtonItem = NULL;
+    }
 }
+
+- (void)mySettingButtonPressed:(id)sender{
+    [self performSegueWithIdentifier:@"viewMySetting" sender:sender];
+}
+
+
+//#pragma mark - Prepare Segue
+//
+//// In a storyboard-based application, you will often want to do a little preparation before navigation
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//// Get the new view controller using [segue destinationViewController].
+//// Pass the selected object to the new view controller.
+//}
 
 @end

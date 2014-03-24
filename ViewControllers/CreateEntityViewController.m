@@ -339,12 +339,13 @@
     
     //old UI:
         // decide who calls to create entity, that is, are we adding more entities or just the first one?
-        /*
+    /*
         if (_viewMultiPostsViewController)
             [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
         else if(_createPostViewController)
             [_createPostViewController finishAddingEntity];
-         */
+     */
+         
     
     //    //    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     //    //

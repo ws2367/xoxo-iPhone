@@ -34,6 +34,7 @@
         [self.navigationBar setBackgroundImage:blank forBarMetrics:UIBarMetricsDefault];
     
     [self.navigationBar setBarStyle:UIBarStyleBlack];
+    [self.navigationBar setTintColor:[UIColor orangeColor]];
 }
 
 

@@ -26,10 +26,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Setting"
-                                                           style:self.editButtonItem.style
-                                                          target:self
-                                                          action:@selector(mySettingButtonPressed)];	// Do any additional setup after loading the view.
+    UIBarButtonItem *settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Show" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = settingBtn;
+    NSLog(@"loaded my posts");
     
 }
 

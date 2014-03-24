@@ -57,6 +57,7 @@
     NSLog(@"accessToken: %@", accessToken);
  
     [ClientManager login:accessToken];
+//    [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
     
 }
 
@@ -65,6 +66,7 @@
     [self.nameLabel setText:@""];
     
     [ClientManager logout];
+    NSLog(@"am i logged out?");
 }
 
 // Handle possible errors that can occur during login

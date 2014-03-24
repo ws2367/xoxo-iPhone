@@ -11,4 +11,6 @@
 
 @interface LoginViewController : UIViewController <FBLoginViewDelegate, UINavigationControllerDelegate>
 
+- (void) loginViewShowingLoggedOutUser:(FBLoginView *)loginView;
+
 @end

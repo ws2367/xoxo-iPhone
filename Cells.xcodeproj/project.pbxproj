@@ -92,6 +92,7 @@
 		7A33F90F18DFE3C300CEE1A7 /* FriendsPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F90E18DFE3C300CEE1A7 /* FriendsPostsViewController.m */; };
 		7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */; };
 		7A33F91518DFE3F600CEE1A7 /* MyPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */; };
+		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -230,6 +231,8 @@
 		7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularPostsViewController.m; sourceTree = "<group>"; };
 		7A33F91318DFE3F600CEE1A7 /* MyPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPostsViewController.h; sourceTree = "<group>"; };
 		7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPostsViewController.m; sourceTree = "<group>"; };
+		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
+		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		F75D3B90DF4C4E4C8683B2BF /* Pods-Cells.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cells.xcconfig"; path = "Pods/Pods-Cells.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -297,6 +300,8 @@
 				7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */,
 				7A33F91318DFE3F600CEE1A7 /* MyPostsViewController.h */,
 				7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */,
+				7ABC939A18E0AEA4005E403B /* SettingViewController.h */,
+				7ABC939B18E0AEA4005E403B /* SettingViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -654,6 +659,7 @@
 				51BA54B718D2730200B85BAF /* NavigationController.m in Sources */,
 				514B731E18CA79BC00EEAC66 /* Entity.m in Sources */,
 				5148477F18C69A7800280874 /* ArrayToDataTransformer.m in Sources */,
+				7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */,
 				75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */,
 				75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */,
 				514B731B18CA79BB00EEAC66 /* Comment.m in Sources */,

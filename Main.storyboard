@@ -234,6 +234,7 @@
                         <segue destination="GyV-8z-QUK" kind="relationship" relationship="viewControllers" id="SmY-cV-Uev"/>
                         <segue destination="lWb-zS-cZi" kind="relationship" relationship="viewControllers" id="Lw1-SK-Y4T"/>
                         <segue destination="Y0h-ma-CBO" kind="relationship" relationship="viewControllers" id="3dQ-av-UVP"/>
+                        <segue destination="xvr-rN-5oX" kind="push" identifier="viewMySetting" id="sbZ-41-PmR"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qtr-ez-ZFv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -487,6 +488,17 @@
                                     <action selector="addPhoto:" destination="bs7-2m-2iS" eventType="touchUpInside" id="82y-QE-3au"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vgn-XH-jAr">
+                                <rect key="frame" x="137" y="491" width="37" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" red="0.93725496529999996" green="0.32941177490000001" blue="0.1411764771" alpha="1" colorSpace="deviceRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="doneCreatingPost:" destination="bs7-2m-2iS" eventType="touchUpInside" id="LkT-Sd-Cbo"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -547,7 +559,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" id="xG9-8X-c9V"/>
+                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="xG9-8X-c9V"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R9c-8h-fHB">
@@ -559,7 +571,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="LAB-UI-cDH" kind="push" id="Ofo-Wv-zxB"/>
+                                                <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="Ofo-Wv-zxB"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -627,7 +639,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" id="7Fc-R9-neg"/>
+                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="7Fc-R9-neg"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gdE-Ob-PuR">
@@ -639,7 +651,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="LAB-UI-cDH" kind="push" id="VUp-Cz-zVB"/>
+                                                <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="VUp-Cz-zVB"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -707,7 +719,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" id="XjB-PO-Ge8"/>
+                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="XjB-PO-Ge8"/>
                                             </connections>
                                         </button>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YjV-HT-W8T">
@@ -719,7 +731,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="LAB-UI-cDH" kind="push" id="mRO-sd-lnh"/>
+                                                <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="mRO-sd-lnh"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -843,7 +855,47 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="8uj-dN-xbh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1669" y="1239"/>
+            <point key="canvasLocation" x="1905" y="1239"/>
+        </scene>
+        <!--Setting View Controller-->
+        <scene sceneID="LmU-ch-HFd">
+            <objects>
+                <viewController id="xvr-rN-5oX" customClass="SettingViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="k77-No-9hL"/>
+                        <viewControllerLayoutGuide type="bottom" id="inG-mQ-iwq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="Zfp-ki-dlh">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O7d-9E-ORK">
+                                <rect key="frame" x="103" y="117" width="42" height="21"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="npW-5L-tNJ">
+                                <rect key="frame" x="81" y="132" width="64" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="sign out?">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="signOutButtonPressed:" destination="xvr-rN-5oX" eventType="touchUpInside" id="Kdr-lV-X8l"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="e1C-ZC-9YY"/>
+                    <connections>
+                        <segue destination="2dw-Jg-arN" kind="modal" identifier="goBackToLoginViewSegue" id="niE-Lm-ayc"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="0dK-xy-enQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1071" y="1951"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

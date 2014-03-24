@@ -594,5 +594,11 @@
     }
 }
 
+# pragma mark -
+#pragma mark - done Creating Post
+- (IBAction)doneCreatingPost:(id)sender {
+    [self.navigationController popViewControllerAnimated:true];
+}
+
 
 @end

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MultiPostsTabBarController : UITabBarController
+@interface MultiPostsTabBarController : UITabBarController <UITabBarControllerDelegate>
 -(void)willAppearIn:(UINavigationController *)navigationController;
 @end
