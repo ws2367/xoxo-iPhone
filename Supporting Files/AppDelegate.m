@@ -89,76 +89,6 @@
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    
-    // institution mapping
-    RKEntityMapping *institutionMapping = [RKEntityMapping mappingForEntityForName:@"Institution" inManagedObjectStore:managedObjectStore];
-    [institutionMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
-                                                             @"uuid": @"uuid",
-                                                             @"name": @"name",
-                                                             @"deleted": @"deleted",
-                                                             @"location_id" :@"locationID",
-                                                             @"updated_at": @"updateDate"}];
-    institutionMapping.identificationAttributes = @[@"remoteID"];
-
-    RKResponseDescriptor *institutionWithCommentResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"posts/:remoteID/comments"
-                                                keyPath:@"Institution"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    // entity mapping
-    RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
-    [entityMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
-                                                        @"name":            @"name",
-                                                        @"uuid":            @"uuid",
-                                                        @"deleted":         @"deleted",
-                                                        @"updated_at":      @"updateDate",
-                                                        //meta attributes
-                                                        @"is_your_friend":  @"isYourFriend",
-                                                        @"fb_user_id":      @"fbUserID"}];
-    entityMapping.identificationAttributes = @[@"uuid"];
-
-    [entityMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"institution"
-                                                                                  toKeyPath:@"institution"
-                                                                                withMapping:institutionMapping]];
-    
-    RKResponseDescriptor *entityResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"entities"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    // post mapping
-    RKEntityMapping *postMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
-    [postMapping addAttributeMappingsFromDictionary:@{
-                                                      @"id":              @"remoteID",
-                                                      @"content":         @"content",
-                                                      @"uuid":            @"uuid",
-                                                      @"deleted":         @"deleted",
-                                                      @"updated_at":      @"updateDate",
-                                                      //meta attributes
-                                                      @"is_yours":         @"isYours",
-                                                      @"popularity":      @"popularity",
-                                                      @"following":       @"following"}];
-    postMapping.identificationAttributes = @[@"uuid"];
-    
-    // Define the relationship mapping
-    [postMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"entities"
-                                                                                toKeyPath:@"entities"
-                                                                              withMapping:entityMapping]];
-    RKResponseDescriptor *postResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"posts"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    /**
-     * depreciated when using relationship mapping
-     */
-    /*
     // institution mapping
     RKEntityMapping *institutionMapping = [RKEntityMapping mappingForEntityForName:@"Institution" inManagedObjectStore:managedObjectStore];
     [institutionMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
@@ -205,7 +135,16 @@
     
     [entityMapping addConnectionForRelationship:@"institution" connectedBy:@{@"institutionUUID":@"uuid"}];
     
-     
+    // not sure why this affects responses for GET requests...
+    /*
+    RKEntityMapping *entityPOSTMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
+    [entityPOSTMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
+                                                            @"uuid":            @"uuid",
+                                                            @"name":            @"name",
+                                                            @"deleted":         @"deleted",
+                                                            @"updated_at":      @"updateDate"}];
+    entityPOSTMapping.identificationAttributes = @[@"uuid"];*/
+    
     RKResponseDescriptor *entityResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
                                                  method:RKRequestMethodGET
@@ -248,7 +187,6 @@
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
 
-    */
     
     // comment mapping
     RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
@@ -274,7 +212,7 @@
     [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts/:remoteID/comments"
-                                                keyPath:@"Comment"
+                                                keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
 
@@ -315,10 +253,9 @@
     
     // add response descriptors to object manager
     [objectManager addResponseDescriptorsFromArray:@[locationResponseDescriptor,
-                                                     institutionWithCommentResponseDescriptor,
-                                                     //institutionResponseDescriptor, institutionPOSTResponseDescriptor,
-                                                     entityResponseDescriptor, //entityPOSTResponseDescriptor,
-                                                     postResponseDescriptor, //postPOSTResponseDescriptor,
+                                                     institutionResponseDescriptor, institutionPOSTResponseDescriptor,
+                                                     entityResponseDescriptor, entityPOSTResponseDescriptor,
+                                                     postResponseDescriptor, postPOSTResponseDescriptor,
                                                      commentResponseDescriptor, commentPOSTResponseDescriptor,
                                                      commentOfPostResponseDescriptor]];
     
@@ -357,14 +294,13 @@
     /* Set up request descriptor
      *
      */
-    /*
     RKEntityMapping *institutionSerializationMapping = [institutionMapping inverseMapping];
     RKRequestDescriptor *institutionRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:institutionSerializationMapping
                                           objectClass:[Institution class]
                                           rootKeyPath:@"Institution"
                                                method:RKRequestMethodPOST];
-    */
+    
     RKEntityMapping *entitySerializationMapping = [entityMapping inverseMapping];
     
     RKRequestDescriptor *entityRequestDescriptor =
@@ -390,8 +326,7 @@
                                           rootKeyPath:@"Comment"
                                                method:RKRequestMethodPOST];
     
-    [objectManager addRequestDescriptorsFromArray:@[//institutionRequestDescriptor,
-                                                    postRequestDescriptor,
+    [objectManager addRequestDescriptorsFromArray:@[institutionRequestDescriptor, postRequestDescriptor,
                                                     entityRequestDescriptor, commentRequestDescriptor]];
     
     

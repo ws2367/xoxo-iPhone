@@ -9,13 +9,9 @@
 #import "ViewPostViewController.h"
 #import "ViewMultiPostsViewController.h"
 #import "CommentTableViewCell.h"
-#import "KeyChainWrapper.h"
-
 #import "Post.h"
 #import "Comment.h"
 #import "Photo.h"
-#import "Institution.h"
-#import "Location.h"
 
 @interface ViewPostViewController ()
 
@@ -99,23 +95,20 @@
     _contentTextView.text = _content;
     
     // set entities' names
-    [self setNameAndInstitionAndLocationForPost:_post];
+    Entity *entity = [[_post.entities allObjects] firstObject];
+    _names = [NSString stringWithString:entity.name];
+    [_entitiesLabel setText:_names];
     
-    NSArray *missingInstitutionIDs = [self fetchMissingInstitutionIDsForPost:_post];
-    MSDebug(@"Missing institution IDs: %@", missingInstitutionIDs);
     
-    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[missingInstitutionIDs, sessionToken]
-                                                       forKeys:@[@"Institution", @"auth_token"]];
+    // Note: I have tested that post and its related entities are visible here
+    // Also, I used Core Data Editor to test that comments do show up
     
     // Let's ask the server for the comments of this post!
     [[RKObjectManager sharedManager]
      getObjectsAtPathForRelationship:@"comments"
      ofObject:self.post
-     parameters:params
-     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         [self setNameAndInstitionAndLocationForPost:_post];
-     }
+     parameters:nil
+     success:nil // fetched result controller is watching database!
      failure:^(RKObjectRequestOperation *operation, NSError *error) {
          UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
                                                              message:[error localizedDescription]
@@ -346,6 +339,9 @@
     Comment *comment = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.content = comment.content;
+ 
+    NSLog(@"CELL: %@",cell);
+    NSLog(@"content: %@", cell.content);
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
@@ -379,30 +375,7 @@
     }
 }
 
-#pragma mark -
-#pragma mark Miscellaneous
-- (NSArray *)fetchMissingInstitutionIDsForPost:(Post *)post{
-    NSMutableArray *ids = [[NSMutableArray alloc] init];
-    for (Entity *entity in post.entities){
-        if (entity.institution.uuid == nil) {
-            [ids addObject:entity.institution.remoteID];
-        }
-    }
-    return ids;
-}
 
-- (void) setNameAndInstitionAndLocationForPost:(Post *)post{
-    Entity *entity = [[post.entities allObjects] firstObject];
-    NSMutableString *name = [NSMutableString stringWithString:entity.name];
-    if (entity.institution.name)
-        [name appendFormat:@", %@", entity.institution.name];
-    if (entity.institution.location)
-        [name appendFormat:@", %@", entity.institution.location.name];
-    
-    _names = name;
-    MSDebug(@"%@", _names);
-    [_entitiesLabel setText:_names];
 
-}
 
 @end
