@@ -326,36 +326,46 @@
 #pragma mark -
 #pragma mark Table Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    
+    
     [self allocateBlackMask];
     
     _selectedEntity = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    // decide who calls to create entity, that is, are we adding more entities or just the first one?
-    if (_viewMultiPostsViewController)
-        [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
-    else if(_createPostViewController)
-        [_createPostViewController finishAddingEntity];
+    //new UI:
+    [_delegate addEntityForStoryBoard:_selectedEntity];
+    [self.navigationController popViewControllerAnimated:YES];
     
-    //    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //
-    //        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    //        NSInteger catIndex = [taskCategories indexOfObject:self.currentCategory];
-    //        if (catIndex == indexPath.row) {
-    //            return;
-    //        }
-    //        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:catIndex inSection:0];
-    //
-    //        UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-    //        if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-    //            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-    //            self.currentCategory = [taskCategories objectAtIndex:indexPath.row];
-    //        }
-    //
-    //        UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
-    //        if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
-    //            oldCell.accessoryType = UITableViewCellAccessoryNone;
-    //        }
-    //    }
+    //old UI:
+        // decide who calls to create entity, that is, are we adding more entities or just the first one?
+        /*
+        if (_viewMultiPostsViewController)
+            [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
+        else if(_createPostViewController)
+            [_createPostViewController finishAddingEntity];
+         */
+    
+    //    //    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    //    //
+    //    //        [tableView deselectRowAtIndexPath:indexPath animated:NO];
+    //    //        NSInteger catIndex = [taskCategories indexOfObject:self.currentCategory];
+    //    //        if (catIndex == indexPath.row) {
+    //    //            return;
+    //    //        }
+    //    //        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:catIndex inSection:0];
+    //    //
+    //    //        UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
+    //    //        if (newCell.accessoryType == UITableViewCellAccessoryNone) {
+    //    //            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
+    //    //            self.currentCategory = [taskCategories objectAtIndex:indexPath.row];
+    //    //        }
+    //    //
+    //    //        UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
+    //    //        if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
+    //    //            oldCell.accessoryType = UITableViewCellAccessoryNone;
+    //    //        }
+    //    //    }
 }
 
 

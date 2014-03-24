@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @class ViewMultiPostsViewController;
+@class Entity;
 
 @interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate, UITextViewDelegate>
 
@@ -17,5 +18,6 @@
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 
 - (void) finishAddingEntity;
+-(void) addEntityForStoryBoard:(Entity *)en;
 
 @end

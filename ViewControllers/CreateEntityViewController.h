@@ -16,6 +16,7 @@
 @interface CreateEntityViewController : UIViewController <UITextFieldDelegate, NSFetchedResultsControllerDelegate>
 
 @property(strong, nonatomic) Entity *selectedEntity;
+@property(weak,nonatomic) CreatePostViewController *delegate;
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 

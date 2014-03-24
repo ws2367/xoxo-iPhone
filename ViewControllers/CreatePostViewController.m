@@ -382,6 +382,25 @@
 }
 
 
+-(void) addEntityForStoryBoard:(Entity *)en{
+    if(_entities == nil){
+        _entities = [[NSMutableArray alloc] init];
+    }
+    
+    [_entities addObject:en];
+    
+    _entityNames = [NSMutableString string];
+    
+    for (Entity *ent in _entities) {
+        [_entityNames appendString:ent.name];
+        if (ent != [_entities lastObject])
+            [_entityNames appendString:@", "];
+    }
+    
+    self.entitiesTextField.text = (NSString *)_entityNames;
+}
+
+
 - (void) finishAddingEntity {
     Entity *entity = _addEntityController.selectedEntity;
     
@@ -565,4 +584,15 @@
 //    [textField resignFirstResponder];
 //    return YES;
 //}
+
+# pragma mark -
+#pragma mark - Navigation
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"createEntitySegue"]){
+        CreateEntityViewController *nextController = segue.destinationViewController;
+        nextController.delegate = self;
+    }
+}
+
+
 @end
