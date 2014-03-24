@@ -339,9 +339,6 @@
     Comment *comment = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.content = comment.content;
- 
-    NSLog(@"CELL: %@",cell);
-    NSLog(@"content: %@", cell.content);
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 

@@ -11,6 +11,7 @@
 #import "BigPostTableViewCell.h"
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
+#import "KeyChainWrapper.h"
 
 #import "Photo.h"
 #import "Location.h"
@@ -104,10 +105,10 @@
 
     // set up and fire off refresh control
     self.refreshControl = [UIRefreshControl new];
-    [self.refreshControl addTarget:self action:@selector(loadPosts) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(loadMostPopularPostsFromServer) forControlEvents:UIControlEventValueChanged];
 
     // these two have to be called together or it only shows refreshing but not actually pulling any data
-    [self loadPosts];
+    [self loadMostPopularPostsFromServer];
     [self.refreshControl beginRefreshing];
     
     //test
@@ -151,6 +152,84 @@
     return timestamp;
 }
 
+- (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:sort]];
+    [request setFetchLimit:number];
+    
+    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    if ([match count] > number) {
+        NSLog(@"Fetched more than fetch limit!");
+    } else if ([match count] == 0){
+        // an empty array
+        // do nothing
+    } else {
+        [match enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [ids addObject:[(Post *)obj remoteID]];
+        }];
+    }
+    return ids;
+}
+
+- (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
+    // make a better guess...
+    // remeber sorting booleans is possible. After all, FALSE (aka 0) comes before TRUE (aka 1)
+    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:sort]];
+    [request setFetchLimit:number];
+    
+    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    if ([match count] > number) {
+        NSLog(@"Fetched more than fetch limit!");
+    } else if ([match count] == 0){
+        // an empty array
+        // do nothing
+    } else {
+        [match enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [ids addObject:[(Entity *)obj remoteID]];
+        }];
+    }
+    return ids;
+}
+
+- (void) loadMostPopularPostsFromServer{
+    
+    // fetch ten most popular posts ids
+    NSArray *localPostIDs = [self fetchMostPopularPostIDsOfNumber:10];
+    NSArray *localEntityIDs = [self fetchEntityIDsOfNumber:40];
+    
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    
+    MSDebug(@"post IDs to be pushed to server: %@", localPostIDs);
+    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localPostIDs, localEntityIDs, sessionToken]
+                                                       forKeys:@[@"Post", @"Entity", @"auth_token"]];
+    
+    [[RKObjectManager sharedManager] getObject:[Post alloc]
+                                        path:nil
+                                    parameters:params
+                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           MSDebug(@"Successfully loadded posts from server");
+                                           [self.refreshControl endRefreshing];
+                                       } failure:^(RKObjectRequestOperation *operation, NSError *error) {
+                                           [self.refreshControl endRefreshing];
+                                           UIAlertView *alertView = [[UIAlertView alloc]
+                                                                     initWithTitle:@"Can't connect to the server!"
+                                                                     message:[error localizedDescription]
+                                                                     delegate:nil
+                                                                     cancelButtonTitle:@"OK"
+                                                                     otherButtonTitles:nil];
+                                           [alertView show];
+                                           [self.refreshControl endRefreshing];
+                                       }];
+}
+
+/*
 - (void) loadPosts{
     
     // TODO: remove fake timestamp and uncoment comments
@@ -206,7 +285,7 @@
           failure:failureAlert];
      }
       failure:failureAlert];
-}
+}*/
 
 #pragma mark -
 #pragma mark Client Methods
