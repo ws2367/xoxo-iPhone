@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-#define MSDebug //NSLog
+#define MSDebug NSLog
 
 // initialized in .m file
 // extern can be put inside interface as well
