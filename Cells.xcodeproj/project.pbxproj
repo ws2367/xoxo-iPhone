@@ -93,6 +93,7 @@
 		7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */; };
 		7A33F91518DFE3F600CEE1A7 /* MyPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
+		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -233,6 +234,8 @@
 		7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPostsViewController.m; sourceTree = "<group>"; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
+		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
+		7ABC939E18E0DC24005E403B /* SuperImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SuperImageView.m; path = ../ViewControllers/SuperImageView.m; sourceTree = "<group>"; };
 		F75D3B90DF4C4E4C8683B2BF /* Pods-Cells.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cells.xcconfig"; path = "Pods/Pods-Cells.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -399,6 +402,8 @@
 		7539911D182F7EA700EFC00A /* CustomViews */ = {
 			isa = PBXGroup;
 			children = (
+				7ABC939D18E0DC24005E403B /* SuperImageView.h */,
+				7ABC939E18E0DC24005E403B /* SuperImageView.m */,
 				5180E32A18B7EE7500115C14 /* TopBorderTextField.h */,
 				5180E32B18B7EE7500115C14 /* TopBorderTextField.m */,
 				51F176B818B5E43000F7A058 /* CircleViewForImage.h */,
@@ -666,6 +671,7 @@
 				75399120182F7EF300EFC00A /* UserMenuButtonView.m in Sources */,
 				75721FD01811074E00298ACF /* EntityTableViewCell.m in Sources */,
 				512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */,
+				7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */,
 				512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */,
 				5186F09E18CEE85E00B27C71 /* TVMClient.m in Sources */,
 				511233FB18DE3E6000EFBF85 /* LoginViewController.m in Sources */,

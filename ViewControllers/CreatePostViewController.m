@@ -13,6 +13,7 @@
 #import "Photo.h"
 #import "Institution.h"
 #import "Location.h"
+#import "SuperImageView.h"
 
 #import "ClientManager.h"
 
@@ -26,7 +27,7 @@
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
 // for image picker controller
-@property (weak, nonatomic) IBOutlet UIView *superImageView;
+@property (weak, nonatomic) IBOutlet SuperImageView *superImageView;
 @property (nonatomic, retain) UIImagePickerController *picker;
 
 @property (weak, nonatomic) IBOutlet UITextField *entitiesTextField;
@@ -77,6 +78,8 @@
     photoIndex = 0;
     // Do any additional setup after loading the view from its nib.
     
+    //do swipe in superImageView
+    /*
     [_superImageView addGestureRecognizer:[[UISwipeGestureRecognizer alloc]
                                                initWithTarget:self
                                                action:@selector(swipeImage:)]];
@@ -87,7 +90,8 @@
     
     recognizer.direction = UISwipeGestureRecognizerDirectionLeft;
     [_superImageView addGestureRecognizer:recognizer];
-    
+    */
+     
     _entityNames = [NSMutableString string];
     
     if (_content == NULL) _content = [NSMutableString string];
@@ -451,7 +455,8 @@
 
 -(void)imagePickerController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [[picked presentingViewController] dismissViewControllerAnimated:YES completion:nil];
-    
+    [_superImageView addPhoto:[info objectForKey:UIImagePickerControllerOriginalImage]];
+    /*
     [_photos addObject:[info objectForKey:UIImagePickerControllerOriginalImage]];
     photoIndex = (int)[_photos count] - 1;
     
@@ -467,6 +472,7 @@
     [currImageView setImage:[_photos objectAtIndex:photoIndex]];
     
     [self.view addSubview:currImageView];
+    */
 }
 
 
@@ -476,6 +482,7 @@
 #pragma mark Gesture Controller Method
 
 // TODO: change this to provide better user experience - the moving image should follow the swipe closely
+/*
 - (void)swipeImage:(UISwipeGestureRecognizer *)gesture
 {
     if (gesture.direction == UISwipeGestureRecognizerDirectionRight) {
@@ -557,6 +564,7 @@
         }
     }
 }
+ */
 
 # pragma mark -
 # pragma mark RestKit Methods
