@@ -83,7 +83,7 @@
     
     //set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"updateDate" ascending:NO];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"popularity" ascending:NO];
     request.sortDescriptors = @[sort];
     
     _fetchedResultsController =
@@ -131,27 +131,6 @@
 
 #pragma mark -
 #pragma mark RestKit Methods
-// Note that the precision of timestamp is very important. It has to be at least a float, preferably double
-- (NSString *) fetchLatestTimestampOfEntityName:(NSString *)entityName{
-    // get the latest updateDate
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
-    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-    [request setFetchLimit:1];
-    
-    
-    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
-    NSString *timestamp = nil;
-    if ([match count] > 0) {
-        Location *location = [match objectAtIndex:0];
-        NSNumber *number = [NSNumber numberWithDouble:[location.updateDate timeIntervalSince1970]];
-        timestamp = [number stringValue];
-    } else {
-        timestamp = [NSString stringWithFormat:@"0"];
-    }
-    return timestamp;
-}
-
 - (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number{
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
     NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO];
@@ -230,8 +209,30 @@
 }
 
 /*
+ // Note that the precision of timestamp is very important. It has to be at least a float, preferably double
+ - (NSString *) fetchLatestTimestampOfEntityName:(NSString *)entityName{
+ // get the latest updateDate
+ NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:entityName];
+ NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
+ [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+ [request setFetchLimit:1];
+ 
+ 
+ NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+ NSString *timestamp = nil;
+ if ([match count] > 0) {
+ Location *location = [match objectAtIndex:0];
+ NSNumber *number = [NSNumber numberWithDouble:[location.updateDate timeIntervalSince1970]];
+ timestamp = [number stringValue];
+ } else {
+ timestamp = [NSString stringWithFormat:@"0"];
+ }
+ return timestamp;
+ }
+ 
+
 - (void) loadPosts{
-    
+ 
     // TODO: remove fake timestamp and uncoment comments
     NSString *institutionTimestamp = [self fetchLatestTimestampOfEntityName:@"Institution"];
     NSString *entityTimestamp = @"1393987365.145751"; //[self fetchLatestTimestampOfEntityName:@"Entity"];

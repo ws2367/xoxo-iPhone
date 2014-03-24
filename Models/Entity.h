@@ -2,7 +2,7 @@
 //  Entity.h
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 3/7/14.
+//  Created by Wen-Hsiang Shaw on 3/23/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
@@ -19,6 +19,8 @@
 @property (nonatomic, retain) NSNumber * remoteID;
 @property (nonatomic, retain) NSDate * updateDate;
 @property (nonatomic, retain) NSString * uuid;
+@property (nonatomic, retain) NSNumber * isYourFriend;
+@property (nonatomic, retain) NSNumber * fbUserID;
 @property (nonatomic, retain) Institution *institution;
 @property (nonatomic, retain) NSSet *posts;
 @end

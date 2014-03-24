@@ -98,8 +98,15 @@
                                                              @"deleted": @"deleted",
                                                              @"location_id" :@"locationID",
                                                              @"updated_at": @"updateDate"}];
-    institutionMapping.identificationAttributes = @[@"uuid"];
+    institutionMapping.identificationAttributes = @[@"remoteID"];
 
+    RKResponseDescriptor *institutionWithCommentResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"posts/:remoteID/comments"
+                                                keyPath:@"Institution"
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
     // entity mapping
     RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
     [entityMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
@@ -267,7 +274,7 @@
     [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts/:remoteID/comments"
-                                                keyPath:nil
+                                                keyPath:@"Comment"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
 
@@ -308,6 +315,7 @@
     
     // add response descriptors to object manager
     [objectManager addResponseDescriptorsFromArray:@[locationResponseDescriptor,
+                                                     institutionWithCommentResponseDescriptor,
                                                      //institutionResponseDescriptor, institutionPOSTResponseDescriptor,
                                                      entityResponseDescriptor, //entityPOSTResponseDescriptor,
                                                      postResponseDescriptor, //postPOSTResponseDescriptor,
