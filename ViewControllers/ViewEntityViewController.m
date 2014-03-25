@@ -7,6 +7,7 @@
 //
 
 #import "ViewEntityViewController.h"
+#import "ViewPostViewController.h"
 #import "BigPostTableViewCell.h"
 #import "ViewMultiPostsViewController.h"
 #import <MapKit/MapKit.h>
@@ -334,5 +335,33 @@
      */
     
 }
+
+# pragma mark -
+#pragma mark Prepare Segue
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"toSelfSegue"]){
+        ViewEntityViewController *nextController = segue.destinationViewController;
+        
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+        Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+        
+        // TODO: get it right! not just send the first entity of that post...
+        //we don't know which one is clicked... send the first one for now
+        Entity *entity = [[post.entities allObjects] firstObject];
+        
+        [nextController setEntity:entity];
+    }
+    else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+        ViewPostViewController *nextController = segue.destinationViewController;
+        
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+        Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+        
+        [nextController setPost:post];
+    }
+}
+
 
 @end

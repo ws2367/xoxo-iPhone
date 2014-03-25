@@ -7,6 +7,7 @@
 //
 
 #import "ViewPostViewController.h"
+#import "ViewEntityViewController.h"
 #import "ViewMultiPostsViewController.h"
 #import "CommentTableViewCell.h"
 #import "KeyChainWrapper.h"
@@ -35,6 +36,7 @@
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 
 @property (strong, nonatomic) NSArray *comments; //store comment pointers
+@property (strong, nonatomic) NSMutableArray *entities;
 @end
 
 #define ROW_HEIGHT 46
@@ -377,6 +379,9 @@
 }
 
 - (void) setNameAndInstitionAndLocationForPost:(Post *)post{
+    if(_entities == nil){
+        _entities = [[NSMutableArray alloc] initWithArray:[post.entities allObjects]];
+    }
     Entity *entity = [[post.entities allObjects] firstObject];
     NSMutableString *name = [NSMutableString stringWithString:entity.name];
     if (entity.institution.name)
@@ -387,7 +392,40 @@
     _names = name;
     MSDebug(@"%@", _names);
     [_entitiesLabel setText:_names];
+    _entitiesLabel.userInteractionEnabled = YES;
+    _entitiesLabel.tag = 0;
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(entityClicked:)];
+//    UITapGestureRecognizer *tapGesture = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(entityClicked) sender:entity] autorelease];
+    [_entitiesLabel addGestureRecognizer:tapGesture];
 
 }
+
+- (void) entityClicked:(UITapGestureRecognizer *)gr {
+    UILabel *tappedLabel = (UILabel *)gr.view;
+    [self performSegueWithIdentifier:@"viewEntitySegue" sender:tappedLabel];
+}
+
+
+# pragma mark -
+#pragma mark Prepare Segue
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"viewEntitySegue"]){
+        ViewEntityViewController *nextController = segue.destinationViewController;
+        
+        Entity *entity = [_entities objectAtIndex:[(UILabel *)sender tag]];
+        
+        [nextController setEntity:entity];
+    }
+    else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+        ViewPostViewController *nextController = segue.destinationViewController;
+        
+        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+        Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+        
+        [nextController setPost:post];
+    }
+}
+
 
 @end
