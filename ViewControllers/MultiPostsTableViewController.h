@@ -17,4 +17,10 @@
 
 - (void)setup;
 
+- (void)startRefreshingUp;
+
+- (void)startRefreshingDown;
+
+- (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number;
+
 @end
