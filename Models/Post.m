@@ -2,7 +2,7 @@
 //  Post.m
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 3/7/14.
+//  Created by Wen-Hsiang Shaw on 3/23/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
@@ -23,6 +23,8 @@
 @dynamic remoteID;
 @dynamic updateDate;
 @dynamic uuid;
+@dynamic popularity;
+@dynamic following;
 @dynamic comments;
 @dynamic entities;
 @dynamic photos;

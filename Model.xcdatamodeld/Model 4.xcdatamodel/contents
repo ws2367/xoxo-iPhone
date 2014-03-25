@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="3401" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="5063" systemVersion="13C64" minimumToolsVersion="Xcode 4.3" macOSVersion="Automatic" iOSVersion="Automatic">
     <entity name="Comment" representedClassName="Comment" syncable="YES">
         <attribute name="anonymizedUserID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
@@ -14,7 +14,9 @@
     </entity>
     <entity name="Entity" representedClassName="Entity" syncable="YES">
         <attribute name="dirty" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="fbUserID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="institutionUUID" optional="YES" transient="YES" attributeType="String" syncable="YES"/>
+        <attribute name="isYourFriend" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="name" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="Date" syncable="YES"/>
@@ -54,7 +56,9 @@
         <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="dirty" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
         <attribute name="entitiesUUIDs" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="ArrayToDataTransformer" syncable="YES"/>
+        <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isYours" optional="YES" attributeType="Boolean" syncable="YES"/>
+        <attribute name="popularity" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="remoteID" optional="YES" attributeType="Integer 32" defaultValueString="0" syncable="YES"/>
         <attribute name="updateDate" optional="YES" attributeType="Date" syncable="YES"/>
         <attribute name="uuid" optional="YES" attributeType="String" syncable="YES"/>
@@ -70,12 +74,12 @@
         <relationship name="posts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Post" inverseName="user" inverseEntity="Post" syncable="YES"/>
     </entity>
     <elements>
-        <element name="Comment" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Entity" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Institution" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Location" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Photo" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="Post" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="User" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="Comment" positionX="0" positionY="0" width="128" height="195"/>
+        <element name="Entity" positionX="0" positionY="0" width="128" height="193"/>
+        <element name="Institution" positionX="0" positionY="0" width="128" height="180"/>
+        <element name="Location" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Photo" positionX="0" positionY="0" width="128" height="165"/>
+        <element name="Post" positionX="0" positionY="0" width="128" height="255"/>
+        <element name="User" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>
