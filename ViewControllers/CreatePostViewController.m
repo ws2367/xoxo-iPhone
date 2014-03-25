@@ -571,9 +571,9 @@
 - (BOOL) updatePost:(Post *)post {
     
     
-    [[RKObjectManager sharedManager] postObject:@[post] path:@"/posts" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-        NSLog(@"update succeeded.");
-    }failure:[Utility generateFailureAlertWithMessage:@"Can't upload post!"]];
+    [[RKObjectManager sharedManager] postObject:@[post] path:@"/posts" parameters:nil
+                                        success:[Utility successBlockWithDebugMessage:@"update succeeded." block:nil]
+                                        failure:[Utility failureBlockWithAlertMessage:@"Can't upload post!"]];
     return YES;
 }
 /*

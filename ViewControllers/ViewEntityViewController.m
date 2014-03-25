@@ -91,11 +91,9 @@
      getObjectsAtPathForRelationship:@"posts"
      ofObject:self.entity
      parameters:params
-     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         MSDebug(@"Successfully loaded posts for the entity");
-         [self setNameAndInstitutionAndLocation];
-     }
-     failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
+     success:[Utility successBlockWithDebugMessage:@"Successfully loaded posts for the entity"
+                                                     block:^{[self setNameAndInstitutionAndLocation];}]
+     failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server!"]];
     
     // set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];

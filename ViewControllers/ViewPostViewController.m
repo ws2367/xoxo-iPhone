@@ -116,10 +116,9 @@
      getObjectsAtPathForRelationship:@"comments"
      ofObject:self.post
      parameters:params
-     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         [self setAllContentForPost:_post];
-     }
-     failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
+     success:[Utility successBlockWithDebugMessage:@"Successfully pulled comments for the post!"
+                                                     block:^{[self setAllContentForPost:_post];}]
+     failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server!"]];
     
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
     RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
@@ -269,13 +268,14 @@
     // This is better than [comment setValue:..... forKey:@"content"]
     // because literal string is not type-checked, but @properties are.
     comment.content = _commentTextField.text;
-    comment.dirty = @YES;
+    comment.dirty = @NO; //TODO: kill diry field when its ready to die
     comment.uuid = [Utility getUUID];
-
+    comment.isYours = @YES;
     [comment setPost:_post];
     
     // Note that here, even if we connect the relationship to Post for the comment,
     // we still need to set postUUID in order to let the server know the relationship.
+    //TODO: change to using remoteID instead of uuid
     comment.postUUID = _post.uuid;
     
     /* We want that later comments appear on the bottom of earlier comments. However, fetched results controller
@@ -289,25 +289,29 @@
      */
     comment.updateDate = [NSDate dateWithTimeIntervalSince1970:TIMESTAMP_MAX];
     
+    // check if seesion token is valid
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        NSLog(@"At ViewPostViewController: user session token is not valid. Stop posting the comment.");
+        return;
+    }
     
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken]
+                                                       forKeys:@[@"auth_token"]];
+
+    MSDebug(@"The comment to be posted: %@", comment);
     // Let's push this to the server now!
     [[RKObjectManager sharedManager]
      postObject:comment
      path:nil
-     parameters:nil
-     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         comment.dirty = @NO;
+     parameters:params
+     success:[Utility successBlockWithDebugMessage:@"Succcessfully posted the comment" block:nil]
+     failure:^(RKObjectRequestOperation *operation, NSError *error) {
+         [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext deleteObject:comment];
          
-         NSError *SavingError = nil;
-         // Here we are sure that remoteID, updateDate and anonymizedUserID is sent back and saved in Core Data!
-         if (![comment.managedObjectContext saveToPersistentStore:&SavingError]){
-          NSLog(@"Failed to save in commenting");
-          NSLog(@"%@", [SavingError localizedDescription]);
-          } else {
-          NSLog(@"Saved Successfully in commenting");
-          }
-     }
-     failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
+         [Utility generateAlertWithMessage:@"No network!" error:nil];
+     }];
     
     // set it back to original
     [_commentTextField setTextColor:[UIColor lightGrayColor]];

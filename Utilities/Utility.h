@@ -16,8 +16,13 @@
 + (NSDate *)DateForRFC3339DateTimeString:(NSString *)rfc3339datestring;
 
 typedef void (^RKFailureBlock)(RKObjectRequestOperation *, NSError *);
+typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 
-+ (RKFailureBlock) generateFailureAlertWithMessage:(NSString *)message;
++ (RKFailureBlock) failureBlockWithAlertMessage:(NSString *)message;
+
++ (RKFailureBlock) failureBlockWithAlertMessage:(NSString *)message block:(void (^)(void))callbackBlock;
+
++ (RKSuccessBlock) successBlockWithDebugMessage:(NSString *)message block:(void (^)(void))callbackBlock;
 
 + (void) generateAlertWithMessage:(NSString *)message
                             error:(NSError *)error;

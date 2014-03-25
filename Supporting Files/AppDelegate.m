@@ -328,7 +328,6 @@
     
     
     /* Fetch location */
-    /*
     NSString *timestamp = [self fetchLatestTimestampOfLocation];
     MSDebug(@"Location timestamp: %@", timestamp);
     
@@ -337,10 +336,9 @@
     [[RKObjectManager sharedManager] getObject:[Location alloc]
                                           path:nil
                                     parameters:params
-                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                           MSDebug(@"Successfully loaded locations (states)");
-                                       }failure:[Utility generateFailureAlertWithMessage:@"Can't upload post!"]];
-    */
+                                       success:[Utility successBlockWithDebugMessage:@"Successfully loaded locations (states)" block:nil]
+                                       failure:[Utility failureBlockWithAlertMessage:@"Can't download states!"]];
+    
     /* Set up view controller
      *
      */

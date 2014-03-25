@@ -43,7 +43,7 @@
     return date;
 }
 
-+ (RKFailureBlock) generateFailureAlertWithMessage:(NSString *)message
++ (RKFailureBlock) failureBlockWithAlertMessage:(NSString *)message
 {
     return ^(RKObjectRequestOperation *operation, NSError *error){
         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message
@@ -55,15 +55,45 @@
     };
 }
 
++ (RKFailureBlock) failureBlockWithAlertMessage:(NSString *)message block:(void (^)(void))callbackBlock
+{
+    return ^(RKObjectRequestOperation *operation, NSError *error){
+        if (callbackBlock) {callbackBlock();}
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    };
+}
+
++ (RKSuccessBlock) successBlockWithDebugMessage:(NSString *)message block:(void (^)(void))callbackBlock
+{
+    return ^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult){
+        if (callbackBlock) {callbackBlock();}
+        MSDebug(@"%@", message);
+    };
+}
+
+
 + (void) generateAlertWithMessage:(NSString *)message error:(NSError *)error
 {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message
-                                                        message:[error localizedDescription]
-                                                       delegate:nil
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
+    UIAlertView *alertView = nil;
+    if (error) {
+        alertView = [[UIAlertView alloc] initWithTitle:message
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+    } else {
+        alertView = [[UIAlertView alloc] initWithTitle:message
+                                                            message:nil
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+    }
     [alertView show];
 
 }
-
 @end
