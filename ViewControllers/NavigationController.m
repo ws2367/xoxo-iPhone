@@ -7,6 +7,7 @@
 //
 
 #import "NavigationController.h"
+#import "LoginViewController.h"
 
 @interface NavigationController ()
 
@@ -48,6 +49,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+-(void) userLoggedOut{
+    [(LoginViewController *)self.delegate loginViewShowingLoggedOutUser:nil];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    
 }
 
 /*

@@ -10,4 +10,5 @@
 
 @interface NavigationController : UINavigationController
 
+-(void) userLoggedOut;
 @end

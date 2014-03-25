@@ -7,7 +7,7 @@
 //
 
 #import "SettingViewController.h"
-#import "LoginViewController.h"
+#import "NavigationController.h"
 
 @interface SettingViewController ()
 
@@ -54,8 +54,7 @@
         case 0:
             break;
         case 1:
-//            [self.navigationController popToRootViewControllerAnimated:true];
-            [self performSegueWithIdentifier:@"goBackToLoginViewSegue" sender:nil];
+            [(NavigationController *)self.navigationController userLoggedOut];
             break;
         default:
             break;
@@ -63,14 +62,10 @@
     
 }
 
-#pragma mark - Prepare Segue
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-    if([segue.identifier isEqualToString:@"goBackToLoginViewSegue"]){
-        LoginViewController *loginView = segue.destinationViewController;
-        [loginView loginViewShowingLoggedOutUser:nil];
-    }
-}
+//#pragma mark - Prepare Segue
+//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+//{
+//}
 
 
 
