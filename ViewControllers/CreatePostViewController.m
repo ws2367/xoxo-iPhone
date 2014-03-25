@@ -14,8 +14,12 @@
 #import "Institution.h"
 #import "Location.h"
 #import "SuperImageView.h"
-
 #import "ClientManager.h"
+
+
+#define VIEW_OFFSET_KEYBOARD 70
+#define ANIMATION_CUTDOWN 0.05
+
 
 @interface CreatePostViewController ()
 {
@@ -46,6 +50,8 @@
 @end
 
 
+
+
 @implementation CreatePostViewController
 
 
@@ -54,6 +60,7 @@
     if (self) {
         _masterViewController = viewController;// Custom initialization
         _entities = [[NSMutableArray alloc] init];
+//        _textView.inputAccessoryView = self.uiViewforKeyboardAttachment;
     }
     
     return self;
@@ -63,6 +70,8 @@
 -(void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
     
     //To make the border look very close to a UITextField
     [_textView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
@@ -110,11 +119,81 @@
     }
 }
 
+#pragma mark -
+#pragma mark View Will Appear
+- (void) viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleKeyboardWillShow:)
+     name:UIKeyboardWillShowNotification
+     object:nil];
+    
+    [[NSNotificationCenter defaultCenter]
+     addObserver:self
+     selector:@selector(handleKeyboardWillHide:)
+     name:UIKeyboardWillHideNotification
+     object:nil];
+}
+
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
+#pragma mark -
+#pragma mark Keyboard Notifification Methods
+- (void) handleKeyboardWillShow:(NSNotification *)paramNotification{
+    
+    // get the frame of the keyboard
+    NSValue *keyboardRectAsObject = [[paramNotification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey];
+    
+    // place it in a CGRect
+    CGRect keyboardRect = CGRectZero;
+    
+    // I know this all looks winding and turning, keyboardRecAsObject is set type of NSValue
+    // because collections like NSDictionary which is returned by [paramNotification userInfo]
+    // can only store objects, not CGRect which is a C struct
+    [keyboardRectAsObject getValue:&keyboardRect];
+    
+    // set the whole view to be right above keyboard
+    [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         self.view.frame =
+                         CGRectMake(self.view.frame.origin.x,
+                                    keyboardRect.origin.y - self.view.frame.size.height + VIEW_OFFSET_KEYBOARD,
+                                    self.view.frame.size.width,
+                                    self.view.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                     }];
+
+
+}
+
+//Oooooops. While the keyboard is moving, the super view leaks itself on the screen
+//TODO: make a background view to prevent it
+- (void) handleKeyboardWillHide:(NSNotification *)paramNotification{
+    [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION - ANIMATION_CUTDOWN
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseOut
+                     animations:^{
+                         self.view.frame =
+                         CGRectMake(0,
+                                    0,
+                                    self.view.frame.size.width,
+                                    self.view.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                     }];
+}
+
 
 
 #pragma mark -

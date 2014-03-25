@@ -220,7 +220,7 @@
     // set the whole view to be right above keyboard
     [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
                           delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                        options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          self.view.frame =
                          CGRectMake(self.view.frame.origin.x,
@@ -238,7 +238,7 @@
     // let's move the view back to full screen position
     [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
                           delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                        options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
                      animations:^{
                          self.view.frame =
                          CGRectMake(0,
