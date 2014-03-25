@@ -77,16 +77,17 @@
     if (_entity) {
         _name = [[NSString alloc] initWithString:_entity.name];
         _nameLabel.text = _name;
-        NSLog(@"name: %@", _name);
+        MSDebug(@"Entity name: %@", _name);
         if (_entity.institution) {
-            _institution = [[NSString alloc] initWithString:_entity.institution.name];
-            _institutionLabel.text = _institution;
-            NSLog(@"inst: %@", _institution);
-        
+            if (_entity.institution.name) {
+                _institution = [[NSString alloc] initWithString:_entity.institution.name];
+                _institutionLabel.text = _institution;
+                MSDebug(@"Entity institution: %@", _institution);
+            }
             if (_entity.institution.location) {
                 _location = [[NSString alloc] initWithString:_entity.institution.location.name];
                 _locationLabel.text = _location;
-                NSLog(@"location: %@", _location);
+                MSDebug(@"Entity location: %@", _location);
             }
         }
     }
