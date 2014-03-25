@@ -13,7 +13,7 @@
 @class ViewMultiPostsViewController;
 
 @interface ViewEntityViewController : UIViewController
-                                        <MKMapViewDelegate>
+                                        <MKMapViewDelegate, NSFetchedResultsControllerDelegate>
 
 @property (strong, nonatomic) Entity *entity;
 

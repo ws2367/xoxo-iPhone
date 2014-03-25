@@ -12,6 +12,7 @@
 #import <MapKit/MapKit.h>
 #import "MapPinAnnotation.h"
 
+#import "KeyChainWrapper.h"
 #import "Institution.h"
 #import "Location.h"
 #import "Entity.h"
@@ -39,6 +40,8 @@
 @property (copy, nonatomic) NSArray *posts;
 
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
+@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 
@@ -69,39 +72,6 @@
 {
     [super viewDidLoad];
     
-    /*
-    [_circleViewForImage setImage:[UIImage imageNamed:@"pic2"]];
-
-    _tableView.rowHeight = 254;
-    UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
-                                bundle:nil];
-    [_tableView registerNib:nib
-       forCellReuseIdentifier:CellTableIdentifier];
-    
-    [_myMap setDelegate:self];
-    */
-    
-    /*
-    CLLocationCoordinate2D  ctrpoint;
-    ctrpoint.latitude = 53.58448;
-    ctrpoint.longitude =-8.93772;
-    MapPinAnnotation *mapPinAnnotation = [[MapPinAnnotation alloc] initWithCoordinates:ctrpoint
-                                                                             placeName:nil
-                                                                           description:nil];
-    
-    [_myMap addAnnotation:mapPinAnnotation];
-    [mapPinAnnotation release];
-    _myMap.showsUserLocation = FALSE;
-    [self updateMap];
-    */
-    
-    /*For creating a mask
-    CALayer *imageLayer = _headImageView.layer;
-    [imageLayer setCornerRadius:5];
-    [imageLayer setBorderWidth:1];
-    [imageLayer setMasksToBounds:YES];
-     */
-    
     // set up entity
     // TODO: make sure that Core Data makes every name attribute is filled
     if (_entity) {
@@ -120,6 +90,48 @@
             }
         }
     }
+    
+    //TODO: prepare post ids and entity ids too
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken]
+                                                       forKeys:@[@"auth_token"]];
+    
+    // Let's ask the server for the posts of this entity!
+    [[RKObjectManager sharedManager]
+     getObjectsAtPathForRelationship:@"posts"
+     ofObject:self.entity
+     parameters:params
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         MSDebug(@"Successfully loaded posts for the entity");
+     }
+     failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
+    
+    // set up fetched results controller
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
+    
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"ANY entities.remoteID = %@", _entity.remoteID];
+    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"updateDate" ascending:NO];
+    request.sortDescriptors = @[sort];
+    [request setPredicate:predicate];
+    
+    _fetchedResultsController =
+    [[NSFetchedResultsController alloc]
+     initWithFetchRequest:request
+     managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
+     sectionNameKeyPath:nil
+     cacheName:nil];
+    
+    _fetchedResultsController.delegate = self;
+    
+    // Let's perform one fetch here
+    NSError *fetchingErr = nil;
+    if ([self.fetchedResultsController performFetch:&fetchingErr]){
+        MSDebug(@"Number of fetched posts %d", [[self.fetchedResultsController fetchedObjects] count]);
+        MSDebug(@"Successfully fetched.");
+    } else {
+        NSLog(@"Failed to fetch posts for entity");
+    }
+
     // store posts in an NSArray
     _posts = [_entity.posts sortedArrayUsingDescriptors:
               @[[NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES]]];
@@ -132,108 +144,101 @@
     // Dispose of any resources that can be recreated.
 }
 
-#pragma mark -
-#pragma mark Update Methods
-- (void)updateMap{
-    
-    [_myMap removeAnnotations:_myMap.annotations];
-    //series of coordinates
-    CLLocationCoordinate2D myCoordinate1 = {45, 121.5};
-    CLLocationCoordinate2D myCoordinate2 = {46, 120};
-    CLLocationCoordinate2D myCoordinate3 = {30, 122};
-    
-    //Create your annotation
-    MKPointAnnotation *point1 = [[MKPointAnnotation alloc] init];
-    MKPointAnnotation *point2 = [[MKPointAnnotation alloc] init];
-    MKPointAnnotation *point3 = [[MKPointAnnotation alloc] init];
-    // Set your annotation to point at your coordinate
-    point1.coordinate = myCoordinate1;
-    point2.coordinate = myCoordinate2;
-    point3.coordinate = myCoordinate3;
-    
-    NSArray *myPoints = @[point1,point2,point3];
-    //If you want to clear other pins/annotations this is how to do it
-    //for (id annotation in _myMap.annotations) {
-    //    [_myMap removeAnnotation:annotation];
-    //}
-    //Drop pin on map
-    
-    [_myMap addAnnotations:myPoints];
-    [_myMap showAnnotations:myPoints animated:YES];
-    
-
-}
-
 
 #pragma mark -
-#pragma mark Button Methods
+#pragma mark Fetched Results Controller Delegate Methods
 
-- (IBAction)meButtonPressed:(id)sender {
-    
-    _myMap.showsUserLocation = TRUE;
-    CLLocationCoordinate2D loc = [_myMap.userLocation coordinate];
-    
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(loc, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
-    MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
-    
-    _myMap.autoresizingMask =
-    (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-    
-    [_myMap setRegion:adjustedRegion animated:YES];
-     
+- (void) controllerWillChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView beginUpdates];
 }
 
-- (IBAction)backButtonPressed:(id)sender {
-    [_viewMultiPostsViewController cancelViewingEntity];
+- (void) controllerDidChangeContent:(NSFetchedResultsController *)controller{
+    [self.tableView endUpdates];
 }
 
-- (IBAction)dropPinPressed:(id)sender {
-    
-    [self updateMap];
-    
-    //adjust View Region
-    /*
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(myCoordinate, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
-    MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
-    
-    _myMap.autoresizingMask =
-    (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-    
-    [_myMap setRegion:adjustedRegion animated:YES];
-     */
 
+/* Every time when a new post is created, it is first an insert at the bottom of the table view, then a move from the bottom to the top.
+ * Then an update because of the context save I think.
+ *
+ */
+- (void) controller:(NSFetchedResultsController *)controller
+    didChangeObject:(id)anObject
+        atIndexPath:(NSIndexPath *)indexPath
+      forChangeType:(NSFetchedResultsChangeType)type
+       newIndexPath:(NSIndexPath *)newIndexPath{
+    
+    if (type == NSFetchedResultsChangeDelete) {
+        MSDebug(@"we got an delete here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
+        [self.tableView
+         deleteRowsAtIndexPaths:@[indexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else if (type == NSFetchedResultsChangeInsert) {
+        MSDebug(@"we got an insert here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
+        [self.tableView
+         insertRowsAtIndexPaths:@[newIndexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
+    else if (type == NSFetchedResultsChangeUpdate) {
+        MSDebug(@"we got an update here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
+        [self.tableView
+         reloadRowsAtIndexPaths:@[indexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    } else if (type == NSFetchedResultsChangeMove) {
+        MSDebug(@"we got a move here! new %d, old %d",newIndexPath.row, indexPath.row);
+        
+        [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+        [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
+
 #pragma mark -
 #pragma mark Table Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    return [_posts count];
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    return sectionInfo.numberOfObjects;
 }
 
+// This is where cells got data and set up
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
     
-    Post *post = _posts[indexPath.row];
-    cell.content = post.content;
+    //TODO: check if the model is empty then this will raise exception
+    Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    NSMutableArray *array = [[NSMutableArray alloc] init];
+    cell.content = post.content;
+
+    //post.entities is a NSSet but cell.entities is a NSArray
+    // actually, here we should do more work than just sending a NSArray of Entity to cell
+    // because table view cell should be model-agnostic. So we pass a NSArray of NSDictionary to it
+    NSMutableArray *entitiesArray = [[NSMutableArray alloc] init];
     
     [post.entities enumerateObjectsUsingBlock:^(id obj, BOOL *stop) {
-        [array addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
+        [entitiesArray addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
     }];
     
-    cell.entities = array;
+    cell.entities = entitiesArray;
+    
     //TODO: should present all images, not just the first one
     if ([post.photos count] > 0) {
         Photo *photo = [[post.photos allObjects] firstObject];
         cell.image = [[UIImage alloc] initWithData:photo.image];
     }
     
+    [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+    
+    
     return cell;
 }
+
+//TODO: remove following methods since they are depreciated
 
 #pragma mark -
 #pragma mark Map View Delegate Methods
@@ -271,6 +276,46 @@
 - (void)mapView:(MKMapView *)theMapView didUpdateUserLocation:(MKUserLocation *)userLocation
 {
     [theMapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
+}
+
+
+
+#pragma mark -
+#pragma mark Button Methods
+
+- (IBAction)meButtonPressed:(id)sender {
+    
+    _myMap.showsUserLocation = TRUE;
+    CLLocationCoordinate2D loc = [_myMap.userLocation coordinate];
+    
+    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(loc, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
+    MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
+    
+    _myMap.autoresizingMask =
+    (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+    
+    [_myMap setRegion:adjustedRegion animated:YES];
+    
+}
+
+- (IBAction)backButtonPressed:(id)sender {
+    [_viewMultiPostsViewController cancelViewingEntity];
+}
+
+- (IBAction)dropPinPressed:(id)sender {
+    
+    
+    //adjust View Region
+    /*
+     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(myCoordinate, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
+     MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
+     
+     _myMap.autoresizingMask =
+     (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+     
+     [_myMap setRegion:adjustedRegion animated:YES];
+     */
+    
 }
 
 @end

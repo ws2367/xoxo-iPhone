@@ -116,14 +116,7 @@
      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
          [self setNameAndInstitionAndLocationForPost:_post];
      }
-     failure:^(RKObjectRequestOperation *operation, NSError *error) {
-         UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
-                                                             message:[error localizedDescription]
-                                                            delegate:nil
-                                                   cancelButtonTitle:@"OK"
-                                                   otherButtonTitles:nil];
-         [alertView show];
-     }];
+     failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
     
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
     RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
@@ -155,7 +148,7 @@
     }
     
 
-    NSLog(@"Post has comments: %@", _post.comments);
+    MSDebug(@"Post has comments: %@", _post.comments);
     
     //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
     //TODO: we should show all images, not just the first one
@@ -311,15 +304,7 @@
           NSLog(@"Saved Successfully in commenting");
           }
      }
-     failure:^(RKObjectRequestOperation *operation, NSError *error) {
-         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Can't connect to the server!"
-                                                            message:[error localizedDescription]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-         [alertView show];
-    }];
+     failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
     
     // set it back to original
     [_commentTextField setTextColor:[UIColor lightGrayColor]];

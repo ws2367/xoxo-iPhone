@@ -43,5 +43,27 @@
     return date;
 }
 
++ (RKFailureBlock) generateFailureAlertWithMessage:(NSString *)message
+{
+    return ^(RKObjectRequestOperation *operation, NSError *error){
+        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message
+                                                            message:[error localizedDescription]
+                                                           delegate:nil
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];
+        [alertView show];
+    };
+}
+
++ (void) generateAlertWithMessage:(NSString *)message error:(NSError *)error
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:message
+                                                        message:[error localizedDescription]
+                                                       delegate:nil
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+    [alertView show];
+
+}
 
 @end

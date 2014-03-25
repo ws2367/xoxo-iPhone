@@ -573,9 +573,7 @@
     
     [[RKObjectManager sharedManager] postObject:@[post] path:@"/posts" parameters:nil success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
         NSLog(@"update succeeded.");
-    }failure:^(RKObjectRequestOperation *operation, NSError *error) {
-        NSLog(@"update failed.");
-    }];
+    }failure:[Utility generateFailureAlertWithMessage:@"Can't upload post!"]];
     return YES;
 }
 /*

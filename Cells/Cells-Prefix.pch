@@ -14,7 +14,6 @@
     #import <CoreData/CoreData.h>
     #import <Foundation/Foundation.h>
     #import "AppDelegate.h"
-    #import "Utility.h"
     #import "Constants.h"
 #endif
 
@@ -27,3 +26,4 @@
 #endif
 
 #import <RestKit/RestKit.h>
+#import "Utility.h" // Utility needs RestKit

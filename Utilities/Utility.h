@@ -15,8 +15,11 @@
 + (NSString *) getUUID;
 + (NSDate *)DateForRFC3339DateTimeString:(NSString *)rfc3339datestring;
 
-//void (^failureAlert)(RKOperationRequestOperation *, NSError *);
+typedef void (^RKFailureBlock)(RKObjectRequestOperation *, NSError *);
 
++ (RKFailureBlock) generateFailureAlertWithMessage:(NSString *)message;
 
++ (void) generateAlertWithMessage:(NSString *)message
+                            error:(NSError *)error;
 
 @end

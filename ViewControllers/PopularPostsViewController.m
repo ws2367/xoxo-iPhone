@@ -46,6 +46,13 @@
     NSArray *localPostIDs = [self fetchMostPopularPostIDsOfNumber:10];
     NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
     
+    // check if seesion token is valid
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        NSLog(@"At PopularPostsViewController: user session token is not valid. Stop refreshing up");
+        [self.refreshControl endRefreshing];
+        return;
+    }
+    
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
     
     MSDebug(@"post IDs to be pushed to server: %@", localPostIDs);
@@ -62,14 +69,7 @@
                                            [self.refreshControl endRefreshing];
                                        } failure:^(RKObjectRequestOperation *operation, NSError *error) {
                                            [self.refreshControl endRefreshing];
-                                           UIAlertView *alertView = [[UIAlertView alloc]
-                                                                     initWithTitle:@"Can't connect to the server!"
-                                                                     message:[error localizedDescription]
-                                                                     delegate:nil
-                                                                     cancelButtonTitle:@"OK"
-                                                                     otherButtonTitles:nil];
-                                           [alertView show];
-                                           [self.refreshControl endRefreshing];
+                                           [Utility generateAlertWithMessage:@"Can't connect to the server" error:error];
                                        }];
 
 }

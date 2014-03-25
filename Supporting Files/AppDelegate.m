@@ -155,6 +155,16 @@
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
+    
+    RKResponseDescriptor *postOfEntityResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"entities/:remoteID/posts"
+                                                keyPath:nil
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+    
+
+    
     /**
      * depreciated when using relationship mapping
      */
@@ -318,7 +328,7 @@
                                                      institutionWithCommentResponseDescriptor,
                                                      //institutionResponseDescriptor, institutionPOSTResponseDescriptor,
                                                      entityResponseDescriptor, //entityPOSTResponseDescriptor,
-                                                     postResponseDescriptor, //postPOSTResponseDescriptor,
+                                                     postResponseDescriptor, postOfEntityResponseDescriptor, //postPOSTResponseDescriptor,
                                                      commentResponseDescriptor, commentPOSTResponseDescriptor,
                                                      commentOfPostResponseDescriptor]];
     
@@ -345,7 +355,11 @@
                                                                   objectClass:[Post class]
                                                                   pathPattern:@"posts/:remoteID/comments"
                                                                        method:RKRequestMethodGET];
-    [objectManager.router.routeSet addRoute:postCommentRelationshipRoute];
+    RKRoute *entityPostRelationshipRoute  = [RKRoute routeWithRelationshipName:@"posts"
+                                                                   objectClass:[Entity class]
+                                                                   pathPattern:@"entities/:remoteID/posts"
+                                                                        method:RKRequestMethodGET];
+    [objectManager.router.routeSet addRoutes:@[postCommentRelationshipRoute, entityPostRelationshipRoute]];
     
     //Thirdly, named routes
     RKRoute *pullAllRoute =[RKRoute routeWithName:@"pull_all" pathPattern:@"all" method:RKRequestMethodGET];
