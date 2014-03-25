@@ -53,7 +53,7 @@
 }
 
 -(void) userLoggedOut{
-    [(LoginViewController *)self.delegate loginViewShowingLoggedOutUser:nil];
+    [(LoginViewController *)self.delegate logoutUser];
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }

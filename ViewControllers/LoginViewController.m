@@ -67,7 +67,6 @@
     [self.nameLabel setText:@""];
     
     [ClientManager logout];
-    NSLog(@"am i logged out?");
 }
 
 // Handle possible errors that can occur during login
@@ -121,6 +120,10 @@
 }
 
 
+#pragma mark - log out user method
+-(void) logoutUser{
+    [FBSession.activeSession closeAndClearTokenInformation];
+}
 
 #pragma mark - prepare for segue
 
