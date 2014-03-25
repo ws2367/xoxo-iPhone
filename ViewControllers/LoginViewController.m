@@ -8,6 +8,7 @@
 
 #import "LoginViewController.h"
 #import "ClientManager.h"
+#import "NavigationController.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -127,8 +128,9 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"viewMultiPostsSegue"]){
-        UINavigationController *nav = segue.destinationViewController;
+        NavigationController *nav = segue.destinationViewController;
         nav.delegate = self;
+        [nav setUserName:[self.nameLabel text]];
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

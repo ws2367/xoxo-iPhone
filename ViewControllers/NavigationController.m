@@ -10,6 +10,7 @@
 #import "LoginViewController.h"
 
 @interface NavigationController ()
+@property(strong, nonatomic)NSString *userName;
 
 @end
 
@@ -57,6 +58,13 @@
     
 }
 
+-(void) setUserName:(NSString *)userName{
+    _userName = userName;
+}
+
+-(NSString *) getUserName{
+    return _userName;
+}
 /*
 #pragma mark - Navigation
 

@@ -10,6 +10,7 @@
 #import "NavigationController.h"
 
 @interface SettingViewController ()
+@property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 
 @end
 
@@ -27,6 +28,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    [_nameLabel setText:[(NavigationController *)self.navigationController getUserName]];
 	// Do any additional setup after loading the view.
 }
 
