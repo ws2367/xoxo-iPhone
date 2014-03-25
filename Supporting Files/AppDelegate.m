@@ -31,9 +31,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    
-    
-    
     NSError *error = nil;
     NSManagedObjectModel *managedObjectModel = [NSManagedObjectModel mergedModelFromBundles:nil];
     RKManagedObjectStore *managedObjectStore = [[RKManagedObjectStore alloc] initWithManagedObjectModel:managedObjectModel];
@@ -89,7 +86,6 @@
                                                 keyPath:nil
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
-    
     // institution mapping
     RKEntityMapping *institutionMapping = [RKEntityMapping mappingForEntityForName:@"Institution" inManagedObjectStore:managedObjectStore];
     [institutionMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
@@ -100,12 +96,22 @@
                                                              @"updated_at": @"updateDate"}];
     institutionMapping.identificationAttributes = @[@"remoteID"];
 
+    [institutionMapping addConnectionForRelationship:@"location" connectedBy:@{@"locationID":@"remoteID"}];
+
     RKResponseDescriptor *institutionWithCommentResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts/:remoteID/comments"
                                                 keyPath:@"Institution"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+
+    RKResponseDescriptor *institutionWithPostOfEntityResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
+                                                 method:RKRequestMethodGET
+                                            pathPattern:@"entities/:remoteID/posts"
+                                                keyPath:@"Institution"
+                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+
     
     // entity mapping
     RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
@@ -152,7 +158,7 @@
     [RKResponseDescriptor responseDescriptorWithMapping:postMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts"
-                                                keyPath:nil
+                                                keyPath:@"Post"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
     
@@ -160,106 +166,10 @@
     [RKResponseDescriptor responseDescriptorWithMapping:postMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"entities/:remoteID/posts"
-                                                keyPath:nil
+                                                keyPath:@"Post"
                                             statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
     
 
-    
-    /**
-     * depreciated when using relationship mapping
-     */
-    /*
-    // institution mapping
-    RKEntityMapping *institutionMapping = [RKEntityMapping mappingForEntityForName:@"Institution" inManagedObjectStore:managedObjectStore];
-    [institutionMapping addAttributeMappingsFromDictionary:@{@"id": @"remoteID",
-                                                             @"name": @"name",
-                                                             @"uuid": @"uuid",
-                                                             @"deleted": @"deleted",
-                                                             @"location_id" :@"locationID",
-                                                             @"updated_at": @"updateDate"}];
-    institutionMapping.identificationAttributes = @[@"uuid"];
-    
-    // set up connection description
-    // As described in docs, entities are to managed objects what Class is to id, or—to use a database analogy—what tables are to rows.
-    // we use a convenience method to get relationship description and add connection specifier to it
-    // Each pair within the value for the connectedBy argument corresponds to an attribute pair in which the key is an attribute on the source entity
-    // and the value is the destination entity.
-    // In this example, locationID is in Institution (source) and uuid is in Location (destination)
-    // The argument for relationship is the name of the relationship to the mapping entity. In this case, institution is the mapping entity.
-    // location is the name of the relationship to the entity Location for institution.
-    [institutionMapping addConnectionForRelationship:@"location" connectedBy:@{@"locationID":@"remoteID"}];
-    
-    RKResponseDescriptor *institutionResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"institutions"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    RKResponseDescriptor *institutionPOSTResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
-                                                 method:RKRequestMethodPOST
-                                            pathPattern:@"institutions"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    // entity mapping
-    RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
-    [entityMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
-                                                        @"name":            @"name",
-                                                        @"uuid":            @"uuid",
-                                                        @"deleted":         @"deleted",
-                                                        @"institution_uuid":  @"institutionUUID",
-                                                        @"updated_at":      @"updateDate"}];
-    entityMapping.identificationAttributes = @[@"uuid"];
-    
-    [entityMapping addConnectionForRelationship:@"institution" connectedBy:@{@"institutionUUID":@"uuid"}];
-    
-     
-    RKResponseDescriptor *entityResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"entities"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    RKResponseDescriptor *entityPOSTResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
-                                                 method:RKRequestMethodPOST
-                                            pathPattern:@"entities"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    // post mapping
-    RKEntityMapping *postMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
-    [postMapping addAttributeMappingsFromDictionary:@{
-                                                        @"id":              @"remoteID",
-                                                        @"content":         @"content",
-                                                        @"uuid":            @"uuid",
-                                                        @"deleted":         @"deleted",
-                                                        @"isYours":         @"isYours",
-                                                        @"entities_uuids":  @"entitiesUUIDs",
-                                                        @"updated_at":      @"updateDate"}];
-    postMapping.identificationAttributes = @[@"uuid"];
-    
-    [postMapping addConnectionForRelationship:@"entities" connectedBy:@{@"entitiesUUIDs":@"uuid"}];
-    
-    RKResponseDescriptor *postResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"posts"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-    
-    RKResponseDescriptor *postPOSTResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:postMapping
-                                                 method:RKRequestMethodPOST
-                                            pathPattern:@"posts"
-                                                keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
-
-    */
-    
     // comment mapping
     RKEntityMapping *commentMapping = [RKEntityMapping mappingForEntityForName:@"Comment" inManagedObjectStore:managedObjectStore];
     [commentMapping addAttributeMappingsFromDictionary:@{@"id":                 @"remoteID",
@@ -326,6 +236,7 @@
     // add response descriptors to object manager
     [objectManager addResponseDescriptorsFromArray:@[locationResponseDescriptor,
                                                      institutionWithCommentResponseDescriptor,
+                                                     institutionWithPostOfEntityResponseDescriptor,
                                                      //institutionResponseDescriptor, institutionPOSTResponseDescriptor,
                                                      entityResponseDescriptor, //entityPOSTResponseDescriptor,
                                                      postResponseDescriptor, postOfEntityResponseDescriptor, //postPOSTResponseDescriptor,
@@ -412,64 +323,24 @@
     /* Set up Facebook Login */
     // Whenever a person opens the app, check for a cached session
     
-    
-    
-    /* test */
-    /*
-    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[@"mr. aiyana hagenes", @"password"]
-                                                       forKeys:@[@"user_name", @"password"]];
-    
-    NSLog(@"params: %@", params);
-    //send a request to server with uid and key
-    
-    NSURL *url = [NSURL URLWithString:TOKEN_VENDING_MACHINE_URL];
-    
-    // we are using AFTNETWOKRING 1.3.3.... not the latest one due to RestKit dependencies
-    AFHTTPClient *httpClient = [AFHTTPClient clientWithBaseURL:url];
-    
-    NSDictionary* __block jsonFromData = nil;
-    NSDictionary* __block creds = nil;
-    
-    void (^getCreds)(NSString *) = ^(NSString *token){
-        NSDictionary *params = [NSDictionary dictionaryWithObject:token
-                                                           forKey:@"auth_token"];
-        NSLog(@"params: %@", params);
-        
-        [httpClient getPath:@"S3Credentials"
-                 parameters:params
-                    success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                        creds = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseObject
-                                                                                options:NSJSONReadingMutableContainers
-                                                                                  error:nil];
-                        NSLog(@"CREDS :%@", creds);
-                    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                        NSLog(@"Damn.. failed");
-                    }];
-    };
-    
-    
-    
-    [httpClient postPath:@"users/sign_in"
-              parameters:params
-                 success:^(AFHTTPRequestOperation *operation, id responseObject) {
-                     jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-                     NSLog(@"JSON: %@", jsonFromData);
-                     
-                     getCreds(jsonFromData[@"token"]);
-
-                 } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                     NSLog(@"Damn.. failed");
-                 }];
-    
-    
-    */
-
-    //NSLog(@"S3: %@",[ClientManager s3]);
-    
     // make sure that the FBLoginView class is loaded before the login view is shown.
     [FBLoginView class];
     
     
+    /* Fetch location */
+    /*
+    NSString *timestamp = [self fetchLatestTimestampOfLocation];
+    MSDebug(@"Location timestamp: %@", timestamp);
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObject:timestamp forKey:@"timestamp"];
+
+    [[RKObjectManager sharedManager] getObject:[Location alloc]
+                                          path:nil
+                                    parameters:params
+                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           MSDebug(@"Successfully loaded locations (states)");
+                                       }failure:[Utility generateFailureAlertWithMessage:@"Can't upload post!"]];
+    */
     /* Set up view controller
      *
      */
@@ -651,6 +522,28 @@
     // You can add your app-specific url handling code here if needed
     
     return wasHandled;
+}
+
+
+#pragma mark - Miscellaneous Methods
+- (NSString *) fetchLatestTimestampOfLocation{
+    // get the latest updateDate
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
+    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
+    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
+    [request setFetchLimit:1];
+    
+    
+    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+    NSString *timestamp = nil;
+    if ([match count] > 0) {
+        Location *location = [match objectAtIndex:0];
+        NSNumber *number = [NSNumber numberWithDouble:[location.updateDate timeIntervalSince1970]];
+        timestamp = [number stringValue];
+    } else {
+        timestamp = [NSString stringWithFormat:@"0"];
+    }
+    return timestamp;
 }
 
 

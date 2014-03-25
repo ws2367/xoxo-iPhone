@@ -36,9 +36,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (strong, nonatomic) NSString *location;
 
-// store post array temorarily
-@property (copy, nonatomic) NSArray *posts;
-
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -74,28 +71,19 @@
     
     // set up entity
     // TODO: make sure that Core Data makes every name attribute is filled
-    if (_entity) {
-        _name = [[NSString alloc] initWithString:_entity.name];
-        _nameLabel.text = _name;
-        MSDebug(@"Entity name: %@", _name);
-        if (_entity.institution) {
-            if (_entity.institution.name) {
-                _institution = [[NSString alloc] initWithString:_entity.institution.name];
-                _institutionLabel.text = _institution;
-                MSDebug(@"Entity institution: %@", _institution);
-            }
-            if (_entity.institution.location) {
-                _location = [[NSString alloc] initWithString:_entity.institution.location.name];
-                _locationLabel.text = _location;
-                MSDebug(@"Entity location: %@", _location);
-            }
-        }
-    }
-    
+    [self setNameAndInstitutionAndLocation];
+   
     //TODO: prepare post ids and entity ids too
+    
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken]
-                                                       forKeys:@[@"auth_token"]];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjects:@[sessionToken]
+                                                                     forKeys:@[@"auth_token"]];
+    
+    // return null if not missing
+    NSNumber *institutionID = [self fetchMissingInstitutionIDForEntity:_entity];
+    if (institutionID) {
+        [params setValue:institutionID forKey:@"Institution"];
+    }
     
     // Let's ask the server for the posts of this entity!
     [[RKObjectManager sharedManager]
@@ -104,6 +92,7 @@
      parameters:params
      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
          MSDebug(@"Successfully loaded posts for the entity");
+         [self setNameAndInstitutionAndLocation];
      }
      failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
     
@@ -132,11 +121,6 @@
     } else {
         NSLog(@"Failed to fetch posts for entity");
     }
-
-    // store posts in an NSArray
-    _posts = [_entity.posts sortedArrayUsingDescriptors:
-              @[[NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES]]];
-
 }
 
 - (void)didReceiveMemoryWarning
@@ -238,6 +222,38 @@
     
     return cell;
 }
+
+#pragma mark -
+#pragma mark Miscellaneous Methods
+- (NSNumber *)fetchMissingInstitutionIDForEntity:(Entity *)entity{
+    if (entity.institution.name == nil) {
+        return entity.institution.remoteID;
+    } else {
+        return NULL;
+    }
+}
+
+- (void) setNameAndInstitutionAndLocation{
+    if (_entity) {
+        _name = [[NSString alloc] initWithString:_entity.name];
+        _nameLabel.text = _name;
+        MSDebug(@"Entity name: %@", _name);
+        if (_entity.institution) {
+            if (_entity.institution.name) {
+                _institution = [[NSString alloc] initWithString:_entity.institution.name];
+                _institutionLabel.text = _institution;
+                MSDebug(@"Entity institution: %@", _institution);
+            }
+            if (_entity.institution.location) {
+                _location = [[NSString alloc] initWithString:_entity.institution.location.name];
+                _locationLabel.text = _location;
+                MSDebug(@"Entity location: %@", _location);
+            }
+        }
+    }
+
+}
+
 
 //TODO: remove following methods since they are depreciated
 
