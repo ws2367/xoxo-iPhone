@@ -87,20 +87,6 @@
                                     <outlet property="delegate" destination="M7g-9K-4Ou" id="v70-4N-dqD"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Name" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1OZ-oI-mHw">
-                                <rect key="frame" x="6" y="220" width="303" height="33"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Content goes here" translatesAutoresizingMaskIntoConstraints="NO" id="exS-uR-eO9">
-                                <rect key="frame" x="0.0" y="261" width="316" height="75"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                            </textView>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ug6-xb-d5p" customClass="TopBorderView">
                                 <rect key="frame" x="0.0" y="523" width="316" height="38"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -133,8 +119,6 @@
                     <navigationItem key="navigationItem" id="j3Q-Ae-EVg"/>
                     <connections>
                         <outlet property="commentTextField" destination="6uu-Qi-E5V" id="Rqn-ld-AlV"/>
-                        <outlet property="contentTextView" destination="exS-uR-eO9" id="11J-bl-U4r"/>
-                        <outlet property="entitiesLabel" destination="1OZ-oI-mHw" id="9c7-HH-nQ8"/>
                         <outlet property="postImage" destination="xGU-1Q-YEX" id="ujF-1p-QNU"/>
                         <outlet property="tableView" destination="6b4-rw-rTx" id="LJ5-s6-vuy"/>
                         <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="3Vc-NU-qSJ"/>

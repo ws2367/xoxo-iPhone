@@ -24,8 +24,6 @@
 @property (strong, nonatomic) NSString *content;
 
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
-
-@property (weak, nonatomic) IBOutlet UILabel *entitiesLabel;
 @property (strong, nonatomic) NSString *names;
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -40,6 +38,9 @@
 @end
 
 #define ROW_HEIGHT 46
+#define START_ENTITIES_Y 220
+#define ENTITY_HEIGHT 25
+#define LEFT_OFFSET 5
 
 @implementation ViewPostViewController
 
@@ -97,11 +98,11 @@
        forCellReuseIdentifier:CellTableIdentifier];
     */
     // set the content
-    _content = [[NSString alloc] initWithString:_post.content];
-    _contentTextView.text = _content;
+//    _content = [[NSString alloc] initWithString:_post.content];
+//    _contentTextView.text = _content;
     
     // set entities' names
-    [self setNameAndInstitionAndLocationForPost:_post];
+    [self setAllContentForPost:_post];
     
     NSArray *missingInstitutionIDs = [self fetchMissingInstitutionIDsForPost:_post];
     MSDebug(@"Missing institution IDs: %@", missingInstitutionIDs);
@@ -116,7 +117,7 @@
      ofObject:self.post
      parameters:params
      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-         [self setNameAndInstitionAndLocationForPost:_post];
+         [self setAllContentForPost:_post];
      }
      failure:[Utility generateFailureAlertWithMessage:@"Can't connect to the server!"]];
     
@@ -378,31 +379,37 @@
     return ids;
 }
 
-- (void) setNameAndInstitionAndLocationForPost:(Post *)post{
-    if(_entities == nil){
-        _entities = [[NSMutableArray alloc] initWithArray:[post.entities allObjects]];
+- (void) setAllContentForPost:(Post *)post{
+    CGFloat currentY = START_ENTITIES_Y;
+    _entities = [[NSMutableArray alloc] initWithArray:[post.entities allObjects]];
+    NSUInteger cnt = 0;
+    for (Entity *en in _entities){
+        NSMutableString *name = [NSMutableString stringWithString:en.name];
+        if (en.institution.name)
+            [name appendFormat:@", %@", en.institution.name];
+        if (en.institution.location)
+            [name appendFormat:@", %@", en.institution.location.name];
+        UIButton *enButton = [[UIButton alloc] initWithFrame:CGRectMake(LEFT_OFFSET, currentY, self.view.frame.size.width, ENTITY_HEIGHT)];
+        enButton.tag = cnt;
+        [enButton setTitle:name forState:UIControlStateNormal];
+        [enButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
+        enButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        [self.view addSubview:enButton];
+        [enButton addTarget:self action:@selector(entityClicked:) forControlEvents:UIControlEventTouchUpInside];
+        currentY += ENTITY_HEIGHT;
+        cnt++;
     }
-    Entity *entity = [[post.entities allObjects] firstObject];
-    NSMutableString *name = [NSMutableString stringWithString:entity.name];
-    if (entity.institution.name)
-        [name appendFormat:@", %@", entity.institution.name];
-    if (entity.institution.location)
-        [name appendFormat:@", %@", entity.institution.location.name];
     
-    _names = name;
-    MSDebug(@"%@", _names);
-    [_entitiesLabel setText:_names];
-    _entitiesLabel.userInteractionEnabled = YES;
-    _entitiesLabel.tag = 0;
-    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(entityClicked:)];
-//    UITapGestureRecognizer *tapGesture = [[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(entityClicked) sender:entity] autorelease];
-    [_entitiesLabel addGestureRecognizer:tapGesture];
-
+    UITextView *contentView = [[UITextView alloc] initWithFrame:CGRectMake(0, currentY, self.view.frame.size.width, 300)];
+    contentView.text = post.content;
+    [contentView sizeToFit];
+    [self.view addSubview:contentView];
+    currentY += contentView.frame.size.height;
+    [_tableView setFrame:CGRectMake(0, currentY, self.view.frame.size.width, 300)];
 }
 
-- (void) entityClicked:(UITapGestureRecognizer *)gr {
-    UILabel *tappedLabel = (UILabel *)gr.view;
-    [self performSegueWithIdentifier:@"viewEntitySegue" sender:tappedLabel];
+- (void) entityClicked:(UIButton *)button {
+    [self performSegueWithIdentifier:@"viewEntitySegue" sender:button];
 }
 
 
@@ -412,7 +419,7 @@
     if ([segue.identifier isEqualToString:@"viewEntitySegue"]){
         ViewEntityViewController *nextController = segue.destinationViewController;
         
-        Entity *entity = [_entities objectAtIndex:[(UILabel *)sender tag]];
+        Entity *entity = [_entities objectAtIndex:[(UIButton *)sender tag]];
         
         [nextController setEntity:entity];
     }
