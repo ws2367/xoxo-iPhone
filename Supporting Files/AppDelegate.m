@@ -300,8 +300,9 @@
     //Thirdly, named routes
     RKRoute *pullAllRoute =[RKRoute routeWithName:@"pull_all" pathPattern:@"all" method:RKRequestMethodGET];
     RKRoute *followPostRoute = [RKRoute routeWithName:@"follow_post" pathPattern:@"posts/:remoteID/follow" method:RKRequestMethodPOST];
+    RKRoute *unfollowPostRoute = [RKRoute routeWithName:@"unfollow_post" pathPattern:@"posts/:remoteID/unfollow" method:RKRequestMethodDELETE];
     
-    [objectManager.router.routeSet addRoutes:@[pullAllRoute, followPostRoute]];
+    [objectManager.router.routeSet addRoutes:@[pullAllRoute, followPostRoute, unfollowPostRoute]];
     
     
     /* Set up request descriptor

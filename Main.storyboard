@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -290,6 +290,14 @@
                                                 <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="t97-Ex-rYS"/>
                                             </connections>
                                         </button>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szz-qY-9AA">
+                                            <rect key="frame" x="274" y="20" width="41" height="30"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                            <state key="normal" title="follow">
+                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                            </state>
+                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.85124885948905105" alpha="1" colorSpace="calibratedWhite"/>
@@ -297,6 +305,7 @@
                                     <outlet property="contentTextView" destination="N9t-9i-6WZ" id="3ew-x5-tBO"/>
                                     <outlet property="dateLabel" destination="ZqN-VF-co1" id="VJJ-oJ-H4K"/>
                                     <outlet property="entityButton" destination="t2l-Pq-Doa" id="uiX-pU-AwC"/>
+                                    <outlet property="followButton" destination="szz-qY-9AA" id="5Fs-tA-Klq"/>
                                     <outlet property="postImageView" destination="AnE-Eu-YY0" id="jch-ee-Zng"/>
                                 </connections>
                             </tableViewCell>
