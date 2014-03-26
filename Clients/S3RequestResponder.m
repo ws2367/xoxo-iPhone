@@ -53,7 +53,6 @@
 
 - (void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response
 {
-    MSDebug(@"Entered Amazon request delegate method");
     if (response.error) {
         [Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
     }

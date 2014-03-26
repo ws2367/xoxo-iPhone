@@ -41,8 +41,6 @@ static NSString *SessionToken = nil;
     // if expiration is coming in fifteen minutes, let's renew it!
     NSDate *soon = [NSDate dateWithTimeIntervalSinceNow:(15 * 60)];
     
-    NSLog(@"Expiration: %@, Time now: %@", date, [NSDate dateWithTimeIntervalSinceNow:0]);
-    
     if ( [soon compare:date] == NSOrderedDescending) {
         return YES;
     }

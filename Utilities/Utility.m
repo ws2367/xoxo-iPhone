@@ -109,6 +109,15 @@
 
 }
 
++ (void)saveToPersistenceStore:(NSManagedObjectContext *)context failureMessage:(NSString *)failureMessage{
+    if ([context saveToPersistentStore:nil]) {
+        MSDebug(@"Successfully saved to persistence store.");
+    } else {
+        NSLog(@"%@", failureMessage);
+    }
+
+}
+
 
 + (NSString *)getDateToShow:(NSDate *)date{
     

@@ -103,7 +103,6 @@ static TVMClient *tvm = nil;
 
 +(void)initClient
 {
-    NSLog(@"init client");
     AmazonCredentials *credentials = [KeyChainWrapper getAWSCredentialsFromKeyChain];
     
     s3  = [[AmazonS3Client alloc] initWithCredentials:credentials];

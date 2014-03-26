@@ -127,7 +127,8 @@
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
-    
+    // hide the progress view first
+    _progressView.hidden = true;
 }
 
 -(void) viewDidAppear:(BOOL)animated{
@@ -142,10 +143,6 @@
      selector:@selector(handleKeyboardWillHide:)
      name:UIKeyboardWillHideNotification
      object:nil];
-
-    // hide the progress view first
-    _progressView.hidden = true;
-
 }
 
 
@@ -283,10 +280,12 @@
     }
 }
 
-
-
 #pragma mark -
 #pragma mark Button Methods
+- (IBAction)doneCreatingPost:(id)sender {
+    [self uploadPostAndRelatedObjects];
+    [self.navigationController popViewControllerAnimated:true];
+}
 
 - (IBAction)addPhoto:(id)sender {
     _picker = [[UIImagePickerController alloc] init];
@@ -339,13 +338,8 @@
         }
         
         // then we can save all the stuff to database
-        NSError *SavingErr = nil;
-        if ([[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
-             saveToPersistentStore:&SavingErr]) {
-            MSDebug(@"Successfully saved the post!");
-        } else {
-            NSLog(@"Failed to save the managed object context.");
-        }
+        [Utility saveToPersistenceStore:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
+                         failureMessage:@"Failed to save the managed object context."];
 
 }
 
@@ -413,10 +407,20 @@
         
         // send the institutions, entities and the post to the server!
         RKObjectManager *objectManager = [RKObjectManager sharedManager];
-
+    
+        NSMutableArray *objectsToPush = [NSMutableArray arrayWithArray:institutionsObjects];
+        [objectsToPush addObjectsFromArray:entitiesObjects];
+        [objectsToPush addObject:post];
+        
         // check if seesion token is valid
         if (![KeyChainWrapper isSessionTokenValid]) {
-            NSLog(@"At PopularPostsViewController: user session token is not valid. Stop uploading post.");
+            NSLog(@"At CreatePostViewController: user session token is not valid. Stop uploading post.");
+            for (NSManagedObject *managedObject in objectsToPush) {
+                [managedObjectStore.mainQueueManagedObjectContext deleteObject:managedObject];
+            }
+            [Utility saveToPersistenceStore:managedObjectStore.mainQueueManagedObjectContext
+                             failureMessage:@"Failed to delete posts and related objects persistenly."];
+            [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
             return;
         }
         
@@ -425,10 +429,6 @@
         NSDictionary *params =
         [NSDictionary dictionaryWithObjects:@[sessionToken]
                                     forKeys:@[@"auth_token"]];
-        
-        NSMutableArray *objectsToPush = [NSMutableArray arrayWithArray:institutionsObjects];
-        [objectsToPush addObjectsFromArray:entitiesObjects];
-        [objectsToPush addObject:post];
         
         RKManagedObjectRequestOperation *operation =
         [objectManager appropriateObjectRequestOperationWithObject:objectsToPush
@@ -439,7 +439,14 @@
         [operation setCompletionBlockWithSuccess:
          [Utility successBlockWithDebugMessage:@"Uploaded posts and stuff to server, except for photos."
                                          block:^{[self uploadPhotosToS3ForPost:post];}]
-                                         failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!"]];
+                                         failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!" block:^{
+            
+            for (NSManagedObject *managedObject in objectsToPush) {
+                [managedObjectStore.mainQueueManagedObjectContext deleteObject:managedObject];
+            }
+            [Utility saveToPersistenceStore:managedObjectStore.mainQueueManagedObjectContext
+                             failureMessage:@"Failed to delete posts and related objects persistenly."];
+        }]];
         
         [operation.HTTPRequestOperation setUploadProgressBlock:
          ^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
@@ -488,13 +495,4 @@
     }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
-# pragma mark -
-#pragma mark - done Creating Post
-- (IBAction)doneCreatingPost:(id)sender {
-    [self uploadPostAndRelatedObjects];
-    [self.navigationController popViewControllerAnimated:true];
-}
-
-
 @end
