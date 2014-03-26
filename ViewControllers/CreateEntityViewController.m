@@ -212,7 +212,7 @@
         // found the thing, then set up relationship
         _selectedEntity.institution.location = [matches firstObject];
         MSDebug(@"Found location %@", _selectedEntity.institution.location.name);
-        
+        [_delegate addEntity:_selectedEntity];
         [self.navigationController popViewControllerAnimated:YES];
     } else {
         // found nothing, and we don't create Location!!
@@ -221,6 +221,7 @@
         
         [self dismissBlackMask];
     }
+
 }
 
 #pragma mark -
