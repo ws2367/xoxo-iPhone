@@ -15,6 +15,7 @@ const float ANIMATION_DELAY = 0.0;
 const int HEIGHT = 568;
 const int WIDTH = 320;
 const float TIMESTAMP_MAX = 2147483647.000;
+const int NAVIGATION_BAR_CUT_DOWN_HEIGHT = 64;
 
 NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
 

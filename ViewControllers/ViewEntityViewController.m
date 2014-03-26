@@ -198,6 +198,8 @@
     Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.content = post.content;
+    [cell setDateToShow:[Utility getDateToShow:post.updateDate]];
+    
 
     //post.entities is a NSSet but cell.entities is a NSArray
     // actually, here we should do more work than just sending a NSArray of Entity to cell

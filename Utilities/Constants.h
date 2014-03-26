@@ -18,6 +18,7 @@ extern const float ANIMATION_DELAY;
 extern const int HEIGHT;
 extern const int WIDTH;
 extern const float TIMESTAMP_MAX;
+extern const int NAVIGATION_BAR_CUT_DOWN_HEIGHT;
 extern NSString *const S3BUCKET_NAME;
 
 extern NSString *const TOKEN_VENDING_MACHINE_URL;

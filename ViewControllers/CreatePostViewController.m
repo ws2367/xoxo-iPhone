@@ -176,9 +176,9 @@
                      animations:^{
                          self.view.frame =
                          CGRectMake(self.view.frame.origin.x,
-                                    keyboardRect.origin.y - self.view.frame.size.height + VIEW_OFFSET_KEYBOARD,
-                                    self.view.frame.size.width,
-                                    self.view.frame.size.height);
+                                    keyboardRect.origin.y - HEIGHT + VIEW_OFFSET_KEYBOARD,
+                                    WIDTH,
+                                    HEIGHT);
                      }
                      completion:^(BOOL finished){
                      }];
@@ -196,8 +196,8 @@
                          self.view.frame =
                          CGRectMake(0,
                                     0,
-                                    self.view.frame.size.width,
-                                    self.view.frame.size.height);
+                                    WIDTH,
+                                    HEIGHT);
                      }
                      completion:^(BOOL finished){
                      }];
@@ -214,14 +214,14 @@
     // should change accordingly in landscape orientation.
     UIView *res = [[UIView alloc] initWithFrame:CGRectMake(0.0,
                                                            0.0,
-                                                           self.view.frame.size.width,
+                                                           WIDTH,
                                                            35.0)];
     
     [res setBackgroundColor:[[UIColor lightGrayColor] colorWithAlphaComponent:0.3]];
     
     UIButton *doneButton = [UIButton buttonWithType: UIButtonTypeRoundedRect];
     
-    [doneButton setFrame: CGRectMake((self.view.frame.size.width - 60.0), 0.0, 50.0, 35.0)];
+    [doneButton setFrame: CGRectMake((WIDTH - 60.0), 0.0, 50.0, 35.0)];
     
     [doneButton setTitle: @"Done" forState: UIControlStateNormal];
     

@@ -169,7 +169,7 @@
 		51F176B818B5E43000F7A058 /* CircleViewForImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CircleViewForImage.h; sourceTree = "<group>"; };
 		51F176B918B5E43000F7A058 /* CircleViewForImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CircleViewForImage.m; sourceTree = "<group>"; };
 		75073FA518120314009177C7 /* ViewPostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostViewController.h; sourceTree = "<group>"; };
-		75073FA618120314009177C7 /* ViewPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostViewController.m; sourceTree = "<group>"; };
+		75073FA618120314009177C7 /* ViewPostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ViewPostViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		75073FA718120314009177C7 /* ViewPostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewPostViewController.xib; sourceTree = "<group>"; };
 		75073FBF1813B76D009177C7 /* AddressBookUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBookUI.framework; path = System/Library/Frameworks/AddressBookUI.framework; sourceTree = SDKROOT; };
 		75073FC11813BF15009177C7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
@@ -225,7 +225,7 @@
 		75D1DA261804837400B431FF /* CreateEntityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateEntityViewController.m; sourceTree = "<group>"; };
 		75D1DA271804837400B431FF /* CreateEntityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreateEntityViewController.xib; sourceTree = "<group>"; };
 		75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatePostViewController.h; sourceTree = "<group>"; };
-		75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreatePostViewController.m; sourceTree = "<group>"; };
+		75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CreatePostViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		75D1DAA01804CDF600B431FF /* CreatePostViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CreatePostViewController.xib; sourceTree = "<group>"; };
 		7A33F90A18DFE3AF00CEE1A7 /* FavoritesPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesPostsViewController.h; sourceTree = "<group>"; };
 		7A33F90B18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesPostsViewController.m; sourceTree = "<group>"; };

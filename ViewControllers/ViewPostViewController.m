@@ -229,9 +229,9 @@
                      animations:^{
                          self.view.frame =
                          CGRectMake(self.view.frame.origin.x,
-                                    keyboardRect.origin.y - self.view.frame.size.height,
-                                    self.view.frame.size.width,
-                                    self.view.frame.size.height);
+                                    keyboardRect.origin.y - HEIGHT,
+                                    WIDTH,
+                                    HEIGHT);
                      }
                      completion:^(BOOL finished){
                      }];
@@ -248,8 +248,8 @@
                          self.view.frame =
                          CGRectMake(0,
                                     0,
-                                    self.view.frame.size.width,
-                                    self.view.frame.size.height);
+                                    WIDTH,
+                                    HEIGHT);
                      }
                      completion:^(BOOL finished){
                      }];
@@ -398,7 +398,7 @@
             [name appendFormat:@", %@", en.institution.name];
         if (en.institution.location)
             [name appendFormat:@", %@", en.institution.location.name];
-        UIButton *enButton = [[UIButton alloc] initWithFrame:CGRectMake(LEFT_OFFSET, currentY, self.view.frame.size.width, ENTITY_HEIGHT)];
+        UIButton *enButton = [[UIButton alloc] initWithFrame:CGRectMake(LEFT_OFFSET, currentY, WIDTH, ENTITY_HEIGHT)];
         enButton.tag = cnt;
         [enButton setTitle:name forState:UIControlStateNormal];
         [enButton setTitleColor:[UIColor orangeColor] forState:UIControlStateNormal];
@@ -409,12 +409,13 @@
         cnt++;
     }
     
-    UITextView *contentView = [[UITextView alloc] initWithFrame:CGRectMake(0, currentY, self.view.frame.size.width, 300)];
+    UITextView *contentView = [[UITextView alloc] initWithFrame:CGRectMake(0, currentY, WIDTH, 300)];
     contentView.text = post.content;
+    [contentView setEditable:NO];
     [contentView sizeToFit];
     [self.view addSubview:contentView];
     currentY += contentView.frame.size.height;
-    [_tableView setFrame:CGRectMake(0, currentY, self.view.frame.size.width, 300)];
+    [_tableView setFrame:CGRectMake(0, currentY, WIDTH, 300)];
 }
 
 - (void) entityClicked:(UIButton *)button {

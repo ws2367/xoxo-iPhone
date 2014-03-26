@@ -28,17 +28,24 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    UIGraphicsBeginImageContextWithOptions(CGSizeMake(36, 36), NO, 0.0);
-    UIImage *blank = UIGraphicsGetImageFromCurrentImageContext();
-    UIGraphicsEndImageContext();
     
-    if ([self.navigationBar respondsToSelector:@selector(setBackgroundImage:forBarMetrics:)])
-        [self.navigationBar setBackgroundImage:blank forBarMetrics:UIBarMetricsDefault];
     
-    [self.navigationBar setBarStyle:UIBarStyleBlack];
+    [self.navigationBar setBackgroundImage:[UIImage new] forBarMetrics:UIBarMetricsDefault];
+    self.navigationBar.shadowImage = [UIImage new];
+    self.navigationBar.translucent = YES;
+    
     [self.navigationBar setTintColor:[UIColor orangeColor]];
 }
 
+-(void) viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:YES];
+    
+    // need to put in viewDidAppear not viewWillAppear, because it will overwrite the size.
+    // although we see that it zoom to full size then to our customized size, since its
+    // translucent, we leave it this way.
+    [self.navigationBar setFrame:CGRectMake(0, 0, NAVIGATION_BAR_CUT_DOWN_HEIGHT, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
+
+}
 
 - (void)viewDidLoad
 {

@@ -86,9 +86,11 @@
     NSLog(@"everexecuted?");
     if([viewController isKindOfClass:MyPostsViewController.class]){
         self.navigationItem.rightBarButtonItem = _settingBtn;
+        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, WIDTH, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
     }
     else{
         self.navigationItem.rightBarButtonItem = NULL;
+        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, NAVIGATION_BAR_CUT_DOWN_HEIGHT, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
     }
 }
 
