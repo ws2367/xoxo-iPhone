@@ -211,7 +211,7 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="fp0-ag-Q8x" customClass="MultiPostsTabBarController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="AP6-rD-JzY"/>
-                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics" translucent="NO"/>
+                    <nil key="simulatedBottomBarMetrics"/>
                     <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="VAL-49-4zb">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
@@ -223,7 +223,8 @@
                         <segue destination="GyV-8z-QUK" kind="relationship" relationship="viewControllers" id="SmY-cV-Uev"/>
                         <segue destination="lWb-zS-cZi" kind="relationship" relationship="viewControllers" id="Lw1-SK-Y4T"/>
                         <segue destination="Y0h-ma-CBO" kind="relationship" relationship="viewControllers" id="3dQ-av-UVP"/>
-                        <segue destination="xvr-rN-5oX" kind="push" identifier="viewMySetting" id="sbZ-41-PmR"/>
+                        <segue destination="xvr-rN-5oX" kind="push" identifier="viewMySettingSegue" id="sbZ-41-PmR"/>
+                        <segue destination="OYH-Te-k9x" kind="push" identifier="searchSegue" id="hdU-KL-hjb"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qtr-ez-ZFv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -901,6 +902,33 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0dK-xy-enQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1071" y="1951"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="KFU-6R-QKN">
+            <objects>
+                <viewController id="OYH-Te-k9x" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="dAU-rq-eFG"/>
+                        <viewControllerLayoutGuide type="bottom" id="FAw-gJ-axs"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="gro-5r-QZc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGd-Gn-ABh">
+                                <rect key="frame" x="28" y="117" width="130" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="aDR-aH-Nub"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d5l-Gx-BOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1071" y="2659"/>
         </scene>
     </scenes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">

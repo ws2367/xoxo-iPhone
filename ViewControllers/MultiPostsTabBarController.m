@@ -11,6 +11,7 @@
 
 @interface MultiPostsTabBarController ()
 @property(strong,nonatomic) UIBarButtonItem * settingBtn;
+@property(strong,nonatomic) UIBarButtonItem * searchBtn;
 @end
 
 
@@ -30,6 +31,8 @@
     [super viewDidLoad];
     self.delegate = self;
     _settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
+    _searchBtn = [[UIBarButtonItem alloc] initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:self action:@selector(searchButtonPressed:)];
+    self.navigationItem.leftBarButtonItem = _searchBtn;
 	// Do any additional setup after loading the view.
 }
 
@@ -90,7 +93,11 @@
 }
 
 - (void)mySettingButtonPressed:(id)sender{
-    [self performSegueWithIdentifier:@"viewMySetting" sender:sender];
+    [self performSegueWithIdentifier:@"viewMySettingSegue" sender:sender];
+}
+
+- (void)searchButtonPressed:(id)sender{
+    [self performSegueWithIdentifier:@"searchSegue" sender:sender];
 }
 
 
