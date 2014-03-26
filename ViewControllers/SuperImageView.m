@@ -32,7 +32,6 @@
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     _startPoint = [touch locationInView:self];
-    NSLog(@"touched!");
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
@@ -49,15 +48,11 @@
     }
     else{
         if(_atPhotoIndex < [_photosImageViews count] - 1){
-            NSLog(@"moving left....");
             UIImageView *rightImageView = [_photosImageViews objectAtIndex:_atPhotoIndex +1];
             [rightImageView setFrame:CGRectMake(self.frame.size.width + xoffset, 0, self.frame.size.width, self.frame.size.height)];
-
-//            [rightImageView setFrame:CGRectMake(self.frame.size.width - xoffset, 0, self.frame.size.width, self.frame.size.height)];
             [rightImageView setHidden:NO];
         }
     }
-    NSLog(@"touchmoved!");
 }
 
 
@@ -65,15 +60,12 @@
     UITouch *touch = [touches anyObject];
     CGFloat touchX =[touch locationInView:self].x;
     if(_startPoint.x - touchX < -self.frame.size.width/3 && _atPhotoIndex > 0){
-        NSLog(@"we want to see left");
         UIImageView *leftImageView = [_photosImageViews objectAtIndex:_atPhotoIndex - 1];
         [self animationToCenter:leftImageView pushaway:_currentImageView right:YES];
         _atPhotoIndex = _atPhotoIndex -1;
         _currentImageView = leftImageView;
     }
     else if(_startPoint.x - touchX > self.frame.size.width/3 && _atPhotoIndex < [_photosImageViews count] - 1){
-        NSLog(@"we want to see right");
-        NSLog(@"[_photosImageViews count] %d", (int)[_photosImageViews count]);
         UIImageView *rightImageView = [_photosImageViews objectAtIndex:_atPhotoIndex + 1];
         [self animationToCenter:rightImageView pushaway:_currentImageView right:NO];
         _atPhotoIndex = _atPhotoIndex + 1;
@@ -107,7 +99,7 @@
 -(void)animationToCenter:(UIImageView *)toCenterImageView pushaway:(UIImageView *)toPushImageView right:(BOOL)toright{
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+                        options: (UIViewAnimationOptions)UIViewAnimationCurveLinear
                      animations:^{
                          toCenterImageView.frame = CGRectMake(0, 0, self.frame.size.width, self.frame.size.height);
                          if(toPushImageView != nil){

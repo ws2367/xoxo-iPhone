@@ -117,6 +117,7 @@
     if(_photos == nil){
         _photos = [[NSMutableArray alloc] init];
     }
+    
 }
 
 #pragma mark -
@@ -124,6 +125,10 @@
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
     
+    
+}
+
+-(void) viewDidAppear:(BOOL)animated{
     [[NSNotificationCenter defaultCenter]
      addObserver:self
      selector:@selector(handleKeyboardWillShow:)
@@ -677,6 +682,7 @@
         CreateEntityViewController *nextController = segue.destinationViewController;
         nextController.delegate = self;
     }
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 # pragma mark -

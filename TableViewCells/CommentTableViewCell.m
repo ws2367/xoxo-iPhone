@@ -44,9 +44,7 @@
 - (void) setDate:(NSString *)date{
     _date = [date copy];
     [_dateLabel setText:_date];
-    _dateLabel.textAlignment = NSTextAlignmentRight;
-    MSDebug(@"got date: %@", _date);
-    
+    _dateLabel.textAlignment = NSTextAlignmentRight;    
 }
 
 -(void) setContent:(NSString *)content{
