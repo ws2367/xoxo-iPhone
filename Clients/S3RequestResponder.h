@@ -1,5 +1,5 @@
 //
-//  S3Delegate.h
+//  S3RequestResponder.h
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 3/25/14.
@@ -7,7 +7,27 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <AWSS3/AWSS3.h>
+#import "Post.h"
 
-@interface S3Delegate : NSObject
+@protocol S3RequestResponderDelegate;
+
+@interface S3RequestResponder: NSObject <AmazonServiceRequestDelegate>
+
+@property (nonatomic, weak) id<S3RequestResponderDelegate> delegate;
+
++ (S3RequestResponder *) S3RequestResponderForPost:(Post *)post uuid:(NSString *)uuid;
+
+- (id)initWithPost:(Post *)post uuid:(NSString *)uuid;
+
+@end
+
+
+
+@protocol S3RequestResponderDelegate <NSObject>
+
+@required
+
+- (void) removeS3RequestResponder:(id)delegate;
 
 @end
