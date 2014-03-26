@@ -1,5 +1,5 @@
 //
-//  BIDNameAndColorCell.m
+//  BigPostTableViewCell.m
 //  Cells
 //
 //  Created by WYY on 13/10/2.
@@ -21,6 +21,8 @@
 
 @property (strong, nonatomic) IBOutlet UIImageView *postImageView;
 
+@property (weak, nonatomic) IBOutlet UILabel *dateLabel;
+@property (copy, nonatomic) NSString *dateToShow;
 
 /*
 @property (strong, nonatomic) IBOutlet UIButton *likeButton;
@@ -114,6 +116,12 @@
 {
     _postImageView.image = image;
     [self createGradient];
+}
+
+
+-(void) setDateToShow:(NSString *)dateToShow{
+    _dateToShow = [dateToShow copy];
+    _dateLabel.text = _dateToShow;
 }
 
 

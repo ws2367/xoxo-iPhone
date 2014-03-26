@@ -16,4 +16,5 @@
 @property (nonatomic, assign) NSInteger likeNum;
 @property (nonatomic, assign) NSInteger hateNum;
 @property (nonatomic, assign) NSInteger levelNum;
+- (void) setDate:(NSString *)date;
 @end

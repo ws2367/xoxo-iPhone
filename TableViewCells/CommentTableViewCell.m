@@ -29,7 +29,7 @@
 {
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
-
+       
     }
     return self;
 }
@@ -42,8 +42,11 @@
 }
 
 - (void) setDate:(NSString *)date{
-    _date = [NSString stringWithString:date];
+    _date = [date copy];
     [_dateLabel setText:_date];
+    _dateLabel.textAlignment = NSTextAlignmentRight;
+    MSDebug(@"got date: %@", _date);
+    
 }
 
 -(void) setContent:(NSString *)content{

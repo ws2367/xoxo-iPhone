@@ -198,6 +198,11 @@
          insertRowsAtIndexPaths:@[newIndexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+    else if (type == NSFetchedResultsChangeUpdate) {
+        [self.tableView
+         reloadRowsAtIndexPaths:@[indexPath]
+         withRowAnimation:UITableViewRowAnimationAutomatic];
+    }
 }
 
 
@@ -338,7 +343,7 @@
     Comment *comment = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.content = comment.content;
-    
+    [cell setDate:[Utility getDateToShow:comment.updateDate]];
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
     return cell;

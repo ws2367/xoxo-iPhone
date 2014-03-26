@@ -27,4 +27,6 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 + (void) generateAlertWithMessage:(NSString *)message
                             error:(NSError *)error;
 
++ (NSString *)getDateToShow:(NSDate *)date;
+
 @end

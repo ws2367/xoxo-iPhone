@@ -325,6 +325,10 @@
     Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
 
     cell.content = post.content;
+    [cell setDateToShow:[Utility getDateToShow:post.updateDate]];
+    
+    
+//    cell.dateToShow = getDateToShow(post.updateDate);
     //post.entities is a NSSet but cell.entities is a NSArray
     // actually, here we should do more work than just sending a NSArray of Entity to cell
     // because table view cell should be model-agnostic. So we pass a NSArray of NSDictionary to it
@@ -341,6 +345,8 @@
         Photo *photo = [[post.photos allObjects] firstObject];
         cell.image = [[UIImage alloc] initWithData:photo.image];
     }
+    
+    
     
 
 

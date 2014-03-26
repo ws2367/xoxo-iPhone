@@ -23,6 +23,7 @@
 
 - (void)swipeRight;
 - (void)swipeLeft;
+-(void) setDateToShow:(NSString *)dateToShow;
 
 @end
 

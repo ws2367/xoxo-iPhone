@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -68,7 +68,7 @@
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                                 <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0s ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TS4-pd-2db">
-                                                    <rect key="frame" x="273" y="23" width="42" height="21"/>
+                                                    <rect key="frame" x="224" y="23" width="91" height="21"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                                     <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
@@ -293,6 +293,7 @@
                                 <color key="backgroundColor" white="0.85124885948905105" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="contentTextView" destination="N9t-9i-6WZ" id="3ew-x5-tBO"/>
+                                    <outlet property="dateLabel" destination="ZqN-VF-co1" id="VJJ-oJ-H4K"/>
                                     <outlet property="entityButton" destination="t2l-Pq-Doa" id="uiX-pU-AwC"/>
                                     <outlet property="postImageView" destination="AnE-Eu-YY0" id="jch-ee-Zng"/>
                                 </connections>
@@ -327,7 +328,7 @@
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="CellTableIdentifier" id="9gt-EG-dRl" customClass="BigPostTableViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="250"/>
+                                        <rect key="frame" x="0.0" y="86" width="320" height="250"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9gt-EG-dRl" id="UMY-B8-vGN">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
@@ -573,6 +574,7 @@
                                 <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="contentTextView" destination="vPr-qs-AKN" id="t0k-BE-Yco"/>
+                                    <outlet property="dateLabel" destination="9ag-bV-jg0" id="57S-4v-WLn"/>
                                     <outlet property="entityButton" destination="R9c-8h-fHB" id="NbI-T1-XBQ"/>
                                     <outlet property="postImageView" destination="liA-7B-dY3" id="Z5o-ie-cRK"/>
                                 </connections>
@@ -653,6 +655,7 @@
                                 <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="contentTextView" destination="Nqh-Lf-cmC" id="4Il-7g-SeP"/>
+                                    <outlet property="dateLabel" destination="YGs-mI-FKL" id="i6C-m9-Otu"/>
                                     <outlet property="entityButton" destination="gdE-Ob-PuR" id="z5g-GL-CB4"/>
                                     <outlet property="postImageView" destination="MV3-0O-e49" id="Hg3-7O-133"/>
                                 </connections>
@@ -733,6 +736,7 @@
                                 <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
                                     <outlet property="contentTextView" destination="6o9-tJ-BBt" id="DYu-gR-4US"/>
+                                    <outlet property="dateLabel" destination="XIB-Qb-jsJ" id="gZS-FJ-3Z2"/>
                                     <outlet property="entityButton" destination="YjV-HT-W8T" id="E79-hD-26Z"/>
                                     <outlet property="postImageView" destination="Spo-jB-7nW" id="xHu-F3-WPH"/>
                                 </connections>
@@ -899,7 +903,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Kxe-No-J1p"/>
+        <segue reference="cL5-ka-YOO"/>
         <segue reference="3Vc-NU-qSJ"/>
     </inferredMetricsTieBreakers>
 </document>
