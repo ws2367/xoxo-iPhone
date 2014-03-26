@@ -16,6 +16,7 @@
 		512422B018B3E9C1008BEF86 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 512422AF18B3E9C1008BEF86 /* CoreData.framework */; };
 		512422B318B3EAFD008BEF86 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 512422B118B3EAFD008BEF86 /* Model.xcdatamodeld */; };
 		512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */; };
+		5147AA9418E296CC00771E53 /* S3RequestResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 5147AA9318E296CC00771E53 /* S3RequestResponder.m */; };
 		5148477F18C69A7800280874 /* ArrayToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148477E18C69A7800280874 /* ArrayToDataTransformer.m */; };
 		514B731818CA79BB00EEAC66 /* Photo.m in Sources */ = {isa = PBXBuildFile; fileRef = 514B731718CA79BB00EEAC66 /* Photo.m */; };
 		514B731B18CA79BB00EEAC66 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 514B731A18CA79BB00EEAC66 /* Comment.m */; };
@@ -113,6 +114,8 @@
 		512422B218B3EAFD008BEF86 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		512422BF18B3F36D008BEF86 /* MultiPostsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiPostsTableViewController.h; sourceTree = "<group>"; };
 		512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiPostsTableViewController.m; sourceTree = "<group>"; };
+		5147AA9218E296CC00771E53 /* S3RequestResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = S3RequestResponder.h; sourceTree = "<group>"; };
+		5147AA9318E296CC00771E53 /* S3RequestResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = S3RequestResponder.m; sourceTree = "<group>"; };
 		5148477D18C69A7800280874 /* ArrayToDataTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ArrayToDataTransformer.h; sourceTree = "<group>"; };
 		5148477E18C69A7800280874 /* ArrayToDataTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ArrayToDataTransformer.m; sourceTree = "<group>"; };
 		514B731618CA79BB00EEAC66 /* Photo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Photo.h; sourceTree = "<group>"; };
@@ -360,6 +363,8 @@
 		5186F08F18CEE37600B27C71 /* Clients */ = {
 			isa = PBXGroup;
 			children = (
+				5147AA9218E296CC00771E53 /* S3RequestResponder.h */,
+				5147AA9318E296CC00771E53 /* S3RequestResponder.m */,
 				5186F09618CEE43D00B27C71 /* ClientManager.h */,
 				5186F09718CEE43D00B27C71 /* ClientManager.m */,
 				5186F09918CEE58800B27C71 /* KeyChainWrapper.h */,
@@ -641,6 +646,7 @@
 				514B732718CA79BC00EEAC66 /* Location.m in Sources */,
 				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
 				51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */,
+				5147AA9418E296CC00771E53 /* S3RequestResponder.m in Sources */,
 				7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,

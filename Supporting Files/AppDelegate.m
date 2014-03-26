@@ -79,12 +79,14 @@
      * However, baseURL:@"http://example.com/v1/" and pathPattern: @"foo/" or @"foo" evaluate to @"http://example.com/v1/foo"
      * Watch out for it!!!
      */
+    
+    NSIndexSet *successCode = RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful);
+    
     RKResponseDescriptor *locationResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:locationMapping
-                                                 method:RKRequestMethodGET
+    [RKResponseDescriptor responseDescriptorWithMapping:locationMapping method:RKRequestMethodGET
                                             pathPattern:@"locations"
                                                 keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
     
     // institution mapping
     RKEntityMapping *institutionMapping = [RKEntityMapping mappingForEntityForName:@"Institution" inManagedObjectStore:managedObjectStore];
@@ -97,20 +99,28 @@
     institutionMapping.identificationAttributes = @[@"remoteID"];
 
     [institutionMapping addConnectionForRelationship:@"location" connectedBy:@{@"locationID":@"remoteID"}];
+    
+    RKResponseDescriptor *institutionWithPostPostResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"posts"
+                                                keyPath:@"Institution"
+                                            statusCodes:successCode];
 
+    
     RKResponseDescriptor *institutionWithCommentResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts/:remoteID/comments"
                                                 keyPath:@"Institution"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
 
     RKResponseDescriptor *institutionWithPostOfEntityResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:institutionMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"entities/:remoteID/posts"
                                                 keyPath:@"Institution"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
 
     
     // entity mapping
@@ -134,7 +144,15 @@
                                                  method:RKRequestMethodGET
                                             pathPattern:@"entities"
                                                 keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
+    
+    RKResponseDescriptor *entityWithPostPostResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"posts"
+                                                keyPath:@"Entity"
+                                            statusCodes:successCode];
+
     
     // post mapping
     RKEntityMapping *postMapping = [RKEntityMapping mappingForEntityForName:@"Post" inManagedObjectStore:managedObjectStore];
@@ -159,15 +177,21 @@
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts"
                                                 keyPath:@"Post"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
     
-    
+    RKResponseDescriptor *postPostResponseDescriptor =
+    [RKResponseDescriptor responseDescriptorWithMapping:postMapping
+                                                 method:RKRequestMethodPOST
+                                            pathPattern:@"posts"
+                                                keyPath:@"Post"
+                                            statusCodes:successCode];
+
     RKResponseDescriptor *postOfEntityResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:postMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"entities/:remoteID/posts"
                                                 keyPath:@"Post"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
     
 
     // comment mapping
@@ -188,14 +212,14 @@
                                                  method:RKRequestMethodGET
                                             pathPattern:@"comments"
                                                 keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
     
     RKResponseDescriptor *commentOfPostResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:commentMapping
                                                  method:RKRequestMethodGET
                                             pathPattern:@"posts/:remoteID/comments"
                                                 keyPath:@"Comment"
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
     
 
     // So here comes the problem.. I spent one and half day debugging this.. :(
@@ -224,7 +248,7 @@
                                                  method:RKRequestMethodPOST
                                             pathPattern:@"comments"
                                                 keyPath:nil
-                                            statusCodes:RKStatusCodeIndexSetForClass(RKStatusCodeClassSuccessful)];
+                                            statusCodes:successCode];
     
     
     // When the modificationKey is non-nil, the mapper will compare the value returned for the key on an existing object instance with
@@ -236,10 +260,11 @@
     // add response descriptors to object manager
     [objectManager addResponseDescriptorsFromArray:@[locationResponseDescriptor,
                                                      institutionWithCommentResponseDescriptor,
+                                                     institutionWithPostPostResponseDescriptor,
                                                      institutionWithPostOfEntityResponseDescriptor,
-                                                     //institutionResponseDescriptor, institutionPOSTResponseDescriptor,
-                                                     entityResponseDescriptor, //entityPOSTResponseDescriptor,
-                                                     postResponseDescriptor, postOfEntityResponseDescriptor, //postPOSTResponseDescriptor,
+                                                     entityWithPostPostResponseDescriptor,
+                                                     entityResponseDescriptor, postPostResponseDescriptor,
+                                                     postResponseDescriptor, postOfEntityResponseDescriptor,
                                                      commentResponseDescriptor, commentPOSTResponseDescriptor,
                                                      commentOfPostResponseDescriptor]];
     
@@ -282,15 +307,28 @@
     /* Set up request descriptor
      *
      */
-    /*
-    RKEntityMapping *institutionSerializationMapping = [institutionMapping inverseMapping];
+
+    RKObjectMapping *institutionSerializationMapping = [RKObjectMapping requestMapping];
+    
+    [institutionSerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID": @"id",
+                                                             @"uuid": @"uuid",
+                                                             @"name": @"name",
+                                                             @"locationID": @"location_id"}];
+    
     RKRequestDescriptor *institutionRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:institutionSerializationMapping
                                           objectClass:[Institution class]
                                           rootKeyPath:@"Institution"
                                                method:RKRequestMethodPOST];
-    */
-    RKEntityMapping *entitySerializationMapping = [entityMapping inverseMapping];
+    
+    RKObjectMapping *entitySerializationMapping = [RKObjectMapping requestMapping];
+    [entitySerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID":        @"id",
+                                                                     @"name":            @"name",
+                                                                     @"uuid":            @"uuid",
+                                                                     //meta attributes
+                                                                     @"isYourFriend":    @"is_your_friend",
+                                                                     @"fbUserID":        @"fb_user_id",
+                                                                     @"institutionUUID":  @"institution_uuid"}];
     
     RKRequestDescriptor *entityRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:entitySerializationMapping
@@ -298,16 +336,25 @@
                                           rootKeyPath:@"Entity"
                                                method:RKRequestMethodPOST];
     
-    RKEntityMapping *postSerializationMapping = [postMapping inverseMapping];
-    
+    RKObjectMapping *postSerializationMapping = [RKObjectMapping requestMapping];
+    [postSerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID":        @"id",
+                                                                   @"content":         @"content",
+                                                                   @"uuid":            @"uuid",
+                                                                   @"entitiesUUIDs":   @"entities_uuids"}];
+
     RKRequestDescriptor *postRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:postSerializationMapping
                                           objectClass:[Post class]
                                           rootKeyPath:@"Post"
                                                method:RKRequestMethodPOST];
     
-    //TODO: actually... inverse mapping is bad because we don't want to send all the stuff back to server
-    RKEntityMapping *commentSerializationMapping = [commentMapping inverseMapping];
+    RKObjectMapping *commentSerializationMapping = [RKObjectMapping requestMapping];
+    
+    [commentSerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID":   @"id",
+                                                                      @"content":    @"content",
+                                                                      @"uuid":       @"uuid",
+                                                                      @"postUUID":   @"post_uuid"}];
+
     
     RKRequestDescriptor *commentRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:commentSerializationMapping
@@ -315,9 +362,10 @@
                                           rootKeyPath:@"Comment"
                                                method:RKRequestMethodPOST];
     
-    [objectManager addRequestDescriptorsFromArray:@[//institutionRequestDescriptor,
+    [objectManager addRequestDescriptorsFromArray:@[institutionRequestDescriptor,
                                                     postRequestDescriptor,
-                                                    entityRequestDescriptor, commentRequestDescriptor]];
+                                                    entityRequestDescriptor,
+                                                    commentRequestDescriptor]];
     
     
     /* Set up Facebook Login */

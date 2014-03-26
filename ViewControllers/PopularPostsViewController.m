@@ -64,8 +64,14 @@
     [[RKObjectManager sharedManager] getObject:[Post alloc]
                                           path:nil
                                     parameters:params
-                                       success:[Utility successBlockWithDebugMessage:@"Successfully loadded posts from server"
-                                                                                       block:^{[self.refreshControl endRefreshing];}]
+                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           MSDebug(@"Successfully loadded posts from server");
+                                           NSArray *posts = [mappingResult array];
+                                           for (Post *post in posts) {
+                                               [super loadPhotosForPost:post];
+                                           }
+                                           [self.refreshControl endRefreshing];
+                                       }
                                        failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server"
                                                                                block:^{[self.refreshControl endRefreshing];}]
      ];

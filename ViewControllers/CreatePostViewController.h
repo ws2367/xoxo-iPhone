@@ -17,7 +17,6 @@
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 
-- (void) finishAddingEntity;
--(void) addEntityForStoryBoard:(Entity *)en;
+-(void) addEntity:(Entity *)en;
 
 @end

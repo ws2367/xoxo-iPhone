@@ -156,7 +156,7 @@
 #pragma mark -
 #pragma mark Button Pressed Functions
 
-- (IBAction)notHereButtonPressed:(id)sender {
+- (IBAction)addPersonPressed:(id)sender {
     [self allocateBlackMask];
     
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
@@ -177,7 +177,8 @@
     request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _institutionTextField.text];
     
     NSError *error = nil;
-    NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext executeFetchRequest:request error:&error];
+    NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext
+                        executeFetchRequest:request error:&error];
     
     // there should be only unique institutions
     if (!matches || error || [matches count] > 1) {
@@ -196,7 +197,7 @@
         [_selectedEntity.institution setDirty:@YES];
         [_selectedEntity.institution setDeleted:@NO];
         [_selectedEntity.institution setUuid:[Utility getUUID]];
-        NSLog(@"Created an institution with name %@", _selectedEntity.institution.name);
+        MSDebug(@"Created an institution with name %@", _selectedEntity.institution.name);
     }
     
     request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
@@ -210,45 +211,17 @@
     } else if ([matches count]) {
         // found the thing, then set up relationship
         _selectedEntity.institution.location = [matches firstObject];
-        NSLog(@"Found location %@", _selectedEntity.institution.location.name);
+        MSDebug(@"Found location %@", _selectedEntity.institution.location.name);
         
-        
-        // TODO: we might want to save new entities before creating posts, if so, do context save here
-        // decide who calls to create entity, that is, are we adding more entities or just the first one?
-        if (_viewMultiPostsViewController)
-            [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
-        else if(_createPostViewController)
-            [_createPostViewController finishAddingEntity];
+        [self.navigationController popViewControllerAnimated:YES];
     } else {
         // found nothing, and we don't create Location!!
-        /*
-        _selectedEntity.institution.location =
-        [NSEntityDescription insertNewObjectForEntityForName:@"Location"
-                                      inManagedObjectContext:appDelegate.managedObjectContext];
-        
-        _selectedEntity.institution.location.name = _locationTextField.text;*/
         NSLog(@"Can't find this location in database, %@", _locationTextField.text);
+        [Utility generateAlertWithMessage:@"No such state in America!" error:error];
         
-        UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"No such state in America!"
-                                                            message:[error localizedDescription]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
-        [alertView show];
         [self dismissBlackMask];
     }
-
-    
-    
-   }
-
-
-- (IBAction)cancelButtonPressed:(id)sender {
-    //[(ViewMultiPostsViewController *)[self presentingViewController] cancelButton];
-    //[(ViewMultiPostsViewController *)self.presentingViewController cancelButton];
-    [_viewMultiPostsViewController cancelCreatingEntity];
 }
-
 
 #pragma mark -
 #pragma mark TextField Delegate methods
@@ -333,40 +306,9 @@
     
     _selectedEntity = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    //new UI:
-    [_delegate addEntityForStoryBoard:_selectedEntity];
+    [_delegate addEntity:_selectedEntity];
     [self.navigationController popViewControllerAnimated:YES];
     
-    //old UI:
-        // decide who calls to create entity, that is, are we adding more entities or just the first one?
-    /*
-        if (_viewMultiPostsViewController)
-            [_viewMultiPostsViewController finishCreatingEntityStartCreatingPost];
-        else if(_createPostViewController)
-            [_createPostViewController finishAddingEntity];
-     */
-         
-    
-    //    //    - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    //    //
-    //    //        [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    //    //        NSInteger catIndex = [taskCategories indexOfObject:self.currentCategory];
-    //    //        if (catIndex == indexPath.row) {
-    //    //            return;
-    //    //        }
-    //    //        NSIndexPath *oldIndexPath = [NSIndexPath indexPathForRow:catIndex inSection:0];
-    //    //
-    //    //        UITableViewCell *newCell = [tableView cellForRowAtIndexPath:indexPath];
-    //    //        if (newCell.accessoryType == UITableViewCellAccessoryNone) {
-    //    //            newCell.accessoryType = UITableViewCellAccessoryCheckmark;
-    //    //            self.currentCategory = [taskCategories objectAtIndex:indexPath.row];
-    //    //        }
-    //    //
-    //    //        UITableViewCell *oldCell = [tableView cellForRowAtIndexPath:oldIndexPath];
-    //    //        if (oldCell.accessoryType == UITableViewCellAccessoryCheckmark) {
-    //    //            oldCell.accessoryType = UITableViewCellAccessoryNone;
-    //    //        }
-    //    //    }
 }
 
 

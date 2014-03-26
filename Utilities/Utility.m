@@ -89,22 +89,21 @@
     };
 }
 
-
 + (void) generateAlertWithMessage:(NSString *)message error:(NSError *)error
 {
     UIAlertView *alertView = nil;
     if (error) {
         alertView = [[UIAlertView alloc] initWithTitle:message
-                                                            message:[error localizedDescription]
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
+                                               message:[error localizedDescription]
+                                              delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
     } else {
         alertView = [[UIAlertView alloc] initWithTitle:message
-                                                            message:nil
-                                                           delegate:nil
-                                                  cancelButtonTitle:@"OK"
-                                                  otherButtonTitles:nil];
+                                               message:nil
+                                              delegate:nil
+                                     cancelButtonTitle:@"OK"
+                                     otherButtonTitles:nil];
     }
     [alertView show];
 

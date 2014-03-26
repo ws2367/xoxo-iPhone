@@ -14,6 +14,7 @@
 #import "Institution.h"
 #import "Location.h"
 #import "SuperImageView.h"
+#import "KeyChainWrapper.h"
 #import "ClientManager.h"
 
 
@@ -29,6 +30,8 @@
     UIImageView *rightImageView; //not used
 }
 @property (weak, nonatomic) IBOutlet UITextView *textView;
+
+@property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 // for image picker controller
 @property (weak, nonatomic) IBOutlet SuperImageView *superImageView;
@@ -117,7 +120,6 @@
     if(_photos == nil){
         _photos = [[NSMutableArray alloc] init];
     }
-    
 }
 
 #pragma mark -
@@ -140,6 +142,10 @@
      selector:@selector(handleKeyboardWillHide:)
      name:UIKeyboardWillHideNotification
      object:nil];
+
+    // hide the progress view first
+    _progressView.hidden = true;
+
 }
 
 
@@ -281,57 +287,89 @@
 
 #pragma mark -
 #pragma mark Button Methods
-- (IBAction)addEntity:(id)sender {
-    [_content setString:_textView.text];
-    
-    _addEntityController =
-    [[CreateEntityViewController alloc] initWithCreatePostViewController:self];
-    
-    _addEntityController.view.frame = CGRectMake(0,
-                                                   self.view.frame.size.height,
-                                                   self.view.frame.size.width,
-                                                   self.view.frame.size.height);
-    
-    
-    [self.view addSubview:_addEntityController.view];
-    
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _addEntityController.view.frame = CGRectMake(0,
-                                                                      0,
-                                                                      self.view.frame.size.width,
-                                                                      self.view.frame.size.height);
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    
 
-    NSLog(@"Start adding more entities bah!");
+- (IBAction)addPhoto:(id)sender {
+    _picker = [[UIImagePickerController alloc] init];
+    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
+    _picker.delegate = self;
+    _picker.allowsEditing = NO;
+    [self presentViewController:_picker animated:YES completion:nil];
 }
 
-- (IBAction)addPost:(id)sender {
+
+-(void) addEntity:(Entity *)en{
+    if(_entities == nil){
+        _entities = [[NSMutableArray alloc] init];
+    }
+    
+    [_entities addObject:en];
+    
+    _entityNames = [NSMutableString string];
+    
+    for (Entity *ent in _entities) {
+        [_entityNames appendString:ent.name];
+        if (ent != [_entities lastObject])
+            [_entityNames appendString:@", "];
+    }
+    
+    self.entitiesTextField.text = (NSString *)_entityNames;
+}
+
+
+#pragma mark -
+#pragma mark Server Communication Methods
+- (void)uploadPhotosToS3ForPost:(Post *)post {
+        if (![ClientManager validateCredentials]){
+            NSLog(@"Abort uploading photos to S3");
+            return;
+        }
+        for (Photo *photo in post.photos){
+            NSString *photoKey = [NSString stringWithFormat:@"%@/%@.png", post.remoteID, photo.uuid];
+            
+            S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:photoKey inBucket:S3BUCKET_NAME];
+            por.contentType = @"image/png";
+            por.data = photo.image;
+            S3PutObjectResponse *response = [[ClientManager s3] putObject:por];
+            if (response.error != nil) {
+                NSLog(@"Error while uploading photos");
+            } else {
+                [photo setDirty:@NO];
+                MSDebug(@"Photo %@ loaded!", photo.uuid);
+            }
+        }
+        
+        // then we can save all the stuff to database
+        NSError *SavingErr = nil;
+        if ([[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
+             saveToPersistentStore:&SavingErr]) {
+            MSDebug(@"Successfully saved the post!");
+        } else {
+            NSLog(@"Failed to save the managed object context.");
+        }
+
+}
+
+- (void)uploadPostAndRelatedObjects {
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
                                               inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
 
     if (post != nil) {
-        
         post.content = _textView.text;
         
         //set up relationship with entities
         [post setEntities:[NSSet setWithArray:_entities]];
         
         // this is for the server!
+        //TODO: use remoteID instead
         [post setEntitiesUUIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"uuid"]]];
         
-        NSLog(@"%@", post.entitiesUUIDs);
-        [post setDirty:@YES];
+        MSDebug(@"The entities uuids of the post to be sent: %@", post.entitiesUUIDs);
+        [post setDirty:@NO];
         [post setDeleted:@NO];
+        [post setIsYours:@YES];
+        [post setFollowing:@NO];
         [post setUuid:[Utility getUUID]];
                 
         //add photos to post
@@ -342,7 +380,9 @@
             
             // This will save NSData typed image to an external binary storage
             photo.image = UIImagePNGRepresentation(image);
-            [photo setDirty:@YES];// dirty is a NSNumber so @YES is a literal in Obj C that is created for this purpose. [NSNumber numberWithBool:] works too.
+            // dirty is a NSNumber so @YES is a literal in Obj C that is created for this purpose.
+            //[NSNumber numberWithBool:] works too.
+            [photo setDirty:@NO];
             [photo setDeleted:@NO];
             [photo setUuid:[Utility getUUID]];
             
@@ -350,10 +390,6 @@
             
             [post addPhotosObject:photo];
         }
-
-        // send the institutions, entities and the post to the server!
-        RKObjectManager *objectManager = [RKObjectManager sharedManager];
-        
 
         // send institutition first, then entity
         // As said in posting a comment, even if we connect the relationship,
@@ -375,164 +411,48 @@
             }
         }
         
-        NSMutableArray *operations = [[NSMutableArray alloc] init];
-        
-        RKManagedObjectRequestOperation *institutionsPOSTOperation = nil;
-        RKManagedObjectRequestOperation *entitiesPOSTOperation = nil;
-        if ([institutionsObjects count] > 0) {
-            institutionsPOSTOperation = [objectManager appropriateObjectRequestOperationWithObject:institutionsObjects
-                                                                                            method:RKRequestMethodPOST
-                                                                                              path:@"institutions"
-                                                                                        parameters:nil];
-            //institutionsPOSTOperation.managedObjectCache = managedObjectStore.managedObjectCache;
-            [operations addObject:institutionsPOSTOperation];
+        // send the institutions, entities and the post to the server!
+        RKObjectManager *objectManager = [RKObjectManager sharedManager];
+
+        // check if seesion token is valid
+        if (![KeyChainWrapper isSessionTokenValid]) {
+            NSLog(@"At PopularPostsViewController: user session token is not valid. Stop uploading post.");
+            return;
         }
         
-        if ([entitiesObjects count] > 0) {
-            entitiesPOSTOperation = [objectManager appropriateObjectRequestOperationWithObject:entitiesObjects
-                                                                                        method:RKRequestMethodPOST
-                                                                                          path:@"entities"
-                                                                                    parameters:nil];
-            if (institutionsPOSTOperation != nil) [entitiesPOSTOperation addDependency:institutionsPOSTOperation];
-            //entitiesPOSTOperation.managedObjectCache = managedObjectStore.managedObjectCache;
-            [operations addObject:entitiesPOSTOperation];
-        }
+        NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
         
-        RKManagedObjectRequestOperation *postPOSTOperation =
-        [objectManager appropriateObjectRequestOperationWithObject:post
+        NSDictionary *params =
+        [NSDictionary dictionaryWithObjects:@[sessionToken]
+                                    forKeys:@[@"auth_token"]];
+        
+        NSMutableArray *objectsToPush = [NSMutableArray arrayWithArray:institutionsObjects];
+        [objectsToPush addObjectsFromArray:entitiesObjects];
+        [objectsToPush addObject:post];
+        
+        RKManagedObjectRequestOperation *operation =
+        [objectManager appropriateObjectRequestOperationWithObject:objectsToPush
                                                             method:RKRequestMethodPOST
-                                                              path:nil // determined by RKRouter
-                                                        parameters:nil];
+                                                              path:@"posts"
+                                                        parameters:params];
         
-        if (entitiesPOSTOperation != nil) [postPOSTOperation addDependency:entitiesPOSTOperation];
-        //postPOSTOperation.managedObjectCache = managedObjectStore.managedObjectCache;
-        [operations addObject:postPOSTOperation];
+        [operation setCompletionBlockWithSuccess:
+         [Utility successBlockWithDebugMessage:@"Uploaded posts and stuff to server, except for photos."
+                                         block:^{[self uploadPhotosToS3ForPost:post];}]
+                                         failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!"]];
         
-        /* A block object for updoading image to S3 server*/
-        void (^uploadPhotosToS3)(void) = ^(void) {
-            if (![ClientManager validateCredentials]){
-                NSLog(@"Abort uploading photos to S3");
-                return;
-            }
-            for (Photo *photo in post.photos){
-                NSString *photoKey = [NSString stringWithFormat:@"%@/%@.png", post.remoteID, photo.uuid];
-                
-                S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:photoKey inBucket:S3BUCKET_NAME];
-                por.contentType = @"image/png";
-                por.data = photo.image;
-                S3PutObjectResponse *response = [[ClientManager s3] putObject:por];
-                if (response.error != nil) {
-                    NSLog(@"Error while uploading photos");
-                } else {
-                    [photo setDirty:@NO];
-                }
-            }
-            
-            // then we can save all the stuff to database
-            NSError *SavingErr = nil;
-            if ([managedObjectStore.mainQueueManagedObjectContext saveToPersistentStore:&SavingErr]) {
-                NSLog(@"Successfully saved the post!");
-            } else {
-                NSLog(@"Failed to save the managed object context.");
-            }
-        };
-        
-        [objectManager enqueueBatchOfObjectRequestOperations:operations
-                                                    progress:nil
-                                                  completion:^(NSArray *operations) {
-            
-            // Yeahhh, they are clean again!
-            [institutionsObjects setValue:@NO forKey:@"dirty"];
-            [entitiesObjects setValue:@NO forKey:@"dirty"];
-            [post setDirty:@NO]; // you are clean, post!
-            
-            // let's update the image to server asynchronously
-            if (![post.remoteID isEqual:@0]) // make sure we got legitmate remote ID from server
-                uploadPhotosToS3();
-        
+        [operation.HTTPRequestOperation setUploadProgressBlock:
+         ^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
+             [_progressView setProgress:(double)totalBytesWritten/(double)totalBytesExpectedToWrite
+                               animated:YES];
         }];
         
-        [_masterViewController finishCreatingPostBackToHomePage];
+        _progressView.progress = 0.0;
+        _progressView.hidden = false;
+        [objectManager enqueueObjectRequestOperation:operation];
+        
     }
 }
-
-- (IBAction)goBack:(id)sender {
-    [_entities removeAllObjects];
-    [_masterViewController cancelCreatingPost];
-}
-
-- (IBAction)addPhoto:(id)sender {
-    _picker = [[UIImagePickerController alloc] init];
-    _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
-    _picker.delegate = self;
-    _picker.allowsEditing = NO;
-    [self presentViewController:_picker animated:YES completion:nil];
-}
-
-
--(void) addEntityForStoryBoard:(Entity *)en{
-    if(_entities == nil){
-        _entities = [[NSMutableArray alloc] init];
-    }
-    
-    [_entities addObject:en];
-    
-    _entityNames = [NSMutableString string];
-    
-    for (Entity *ent in _entities) {
-        [_entityNames appendString:ent.name];
-        if (ent != [_entities lastObject])
-            [_entityNames appendString:@", "];
-    }
-    
-    self.entitiesTextField.text = (NSString *)_entityNames;
-}
-
-
-- (void) finishAddingEntity {
-    Entity *entity = _addEntityController.selectedEntity;
-    
-    if(_entities == nil){
-        _entities = [[NSMutableArray alloc] init];
-    }
-    
-    [_entities addObject:entity];
-    
-    _entityNames = [NSMutableString string];
-    
-    for (Entity *ent in _entities) {
-        [_entityNames appendString:ent.name];
-        if (ent != [_entities lastObject])
-            [_entityNames appendString:@", "];
-    }
-    
-    self.entitiesTextField.text = (NSString *)_entityNames;
-    
-    self.view.frame = CGRectMake(0,
-                                 self.view.frame.size.height,
-                                 self.view.frame.size.width,
-                                 self.view.frame.size.height);
-    
-    
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         self.view.frame = CGRectMake(0,
-                                                      0,
-                                                      self.view.frame.size.width,
-                                                      self.view.frame.size.height);
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    
-    [_addEntityController.view removeFromSuperview];
-    
-    //    [self.view addSubview:createPostController.view];
-}
-
-
 
 #pragma mark -
 #pragma mark Image Picker Controller Methods
@@ -559,122 +479,6 @@
     */
 }
 
-
-
-
-#pragma mark -
-#pragma mark Gesture Controller Method
-
-// TODO: change this to provide better user experience - the moving image should follow the swipe closely
-/*
-- (void)swipeImage:(UISwipeGestureRecognizer *)gesture
-{
-    if (gesture.direction == UISwipeGestureRecognizerDirectionRight) {
-        NSLog(@"Get the right swipe");
-        if (photoIndex > 0) {
-            photoIndex = photoIndex - 1;
-            
-            UIImageView *iv =
-            [[UIImageView alloc]
-                initWithFrame:CGRectMake(
-                                        -(_superImageView.frame.size.width),
-                                        _superImageView.frame.origin.y,
-                                        _superImageView.frame.size.width,
-                                        _superImageView.frame.size.height)];
-            
-            [iv setImage:[_photos objectAtIndex:photoIndex]];
-            [self.view addSubview:iv];
-            
-            [UIView animateWithDuration:ANIMATION_DURATION
-                                  delay:ANIMATION_DELAY
-                                options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                             animations:^{
-                                 iv.frame =
-                                 CGRectMake(0,
-                                            _superImageView.frame.origin.y,
-                                            _superImageView.frame.size.width,
-                                            _superImageView.frame.size.height);
-                                 
-                                 currImageView.frame =
-                                 CGRectMake(_superImageView.frame.size.width,
-                                            _superImageView.frame.origin.y,
-                                            _superImageView.frame.size.width,
-                                            _superImageView.frame.size.height);
-                             }
-                             completion:^(BOOL finished){
-                                 [currImageView removeFromSuperview];
-                                 currImageView = iv;
-                             }
-             ];
-        }
-    } else if (gesture.direction == UISwipeGestureRecognizerDirectionLeft) {
-        
-        // You cannot compare NSInteger with int directly!!!
-        if (photoIndex < (int)([_photos count] - 1)) {
-            photoIndex = photoIndex + 1;
-
-            UIImageView *iv =
-            [[UIImageView alloc]
-             initWithFrame:CGRectMake(
-                                      _superImageView.frame.size.width,
-                                      _superImageView.frame.origin.y,
-                                      _superImageView.frame.size.width,
-                                      _superImageView.frame.size.height)];
-            
-            [iv setImage:[_photos objectAtIndex:photoIndex]];
-            [self.view addSubview:iv];
-            
-            [UIView animateWithDuration:ANIMATION_DURATION
-                                  delay:ANIMATION_DELAY
-                                options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                             animations:^{
-                                 iv.frame =
-                                 CGRectMake(0,
-                                            _superImageView.frame.origin.y,
-                                            _superImageView.frame.size.width,
-                                            _superImageView.frame.size.height);
-                                 
-                                 currImageView.frame =
-                                 CGRectMake(-_superImageView.frame.size.width,
-                                            _superImageView.frame.origin.y,
-                                            _superImageView.frame.size.width,
-                                            _superImageView.frame.size.height);
-                             }
-                             completion:^(BOOL finished){
-                                 [currImageView removeFromSuperview];
-                                 currImageView = iv;
-                             }
-             ];
-        }
-    }
-}
- */
-
-# pragma mark -
-# pragma mark RestKit Methods
-- (BOOL) updatePost:(Post *)post {
-    
-    
-    [[RKObjectManager sharedManager] postObject:@[post] path:@"/posts" parameters:nil
-                                        success:[Utility successBlockWithDebugMessage:@"update succeeded." block:nil]
-                                        failure:[Utility failureBlockWithAlertMessage:@"Can't upload post!"]];
-    return YES;
-}
-/*
-- (IBAction)swiped:(id)sender {
-    [_masterViewController finishCreatingPostBackToHomePage];
-}
-*/
-
-
-//#pragma mark -
-//#pragma mark TextField Delegate
-
-//-(BOOL) textFieldShouldReturn:(UITextField*) textField {
-//    [textField resignFirstResponder];
-//    return YES;
-//}
-
 # pragma mark -
 #pragma mark - Navigation
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
@@ -688,6 +492,7 @@
 # pragma mark -
 #pragma mark - done Creating Post
 - (IBAction)doneCreatingPost:(id)sender {
+    [self uploadPostAndRelatedObjects];
     [self.navigationController popViewControllerAnimated:true];
 }
 

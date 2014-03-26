@@ -19,6 +19,7 @@
 #import "Post.h"
 #import "Entity.h"
 #import "Comment.h"
+#import "S3RequestResponder.h"
 
 #import "ClientManager.h"
 
@@ -30,6 +31,8 @@
 @interface MultiPostsTableViewController ()
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+
+@property (strong, nonatomic) NSMutableArray *S3RequestResponders;
 
 @end
 
@@ -60,6 +63,8 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     [self setup];
+    _S3RequestResponders = [[NSMutableArray alloc] init];
+    MSDebug(@"Array init'd");
 }
 
 - (void)setup
@@ -143,22 +148,6 @@
 
 #pragma mark -
 #pragma mark Client Methods
-// we are sure that the photo of the same uuid does not exist in core data
-- (void) createPhotoEntityForPost:(Post *)post
-                     andImageData:(NSData *)imageData
-                          andUUID:(NSString *)uuid
-           inManagedObjectContext:(NSManagedObjectContext *)context{
-    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo"
-                                                 inManagedObjectContext:context];
-    
-    // This will save NSData typed image to an external binary storage
-    photo.image = imageData;
-    [photo setDirty:@NO];// dirty is a NSNumber so @NO is a literal in Obj C that is created for this purpose. [NSNumber numberWithBool:] works too.
-    [photo setDeleted:@NO];
-    [photo setUuid:uuid];
-    
-    [post addPhotosObject:photo];
-}
 
 
 //TODO: here we can make it much more efficient by asking photos of all posts at once
@@ -229,28 +218,24 @@
             S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
             [request setContentType:@"image/png"];
             
-            S3GetObjectResponse *response = [[ClientManager s3] getObject:request];
+            S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post uuid:uuid];
             
-            if(response.error != nil){
-                NSLog(@"Error while downloading photos: %@", response.error);
-            }
+            delegate.delegate = self;
+            request.delegate = delegate;
+            [self.S3RequestResponders addObject:delegate];
             
-            [self createPhotoEntityForPost:post
-                                 andImageData:response.body
-                                   andUUID:uuid
-                    inManagedObjectContext:context];
-        }
-        
-        //let's save all the photos we just created!
-        if ([context saveToPersistentStore:&error]) {
-            NSLog(@"Successfully saved the photos!");
-        } else {
-            NSLog(@"Failed to save the managed object context.");
+            [[ClientManager s3] getObject:request];
         }
     }
     
 }
 
+#pragma mark -
+#pragma mark S3 Delegate Delegate Methods
+// this will remove the S3 delegate that completed its task
+- (void) removeS3RequestResponder:(id)delegate{
+    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegate];
+}
 
 #pragma mark -
 #pragma mark Fetched Results Controller Delegate Methods

@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Post.h"
+#import "S3RequestResponder.h"
 
-@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate>
+@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate, S3RequestResponderDelegate>
 
 @property (strong, nonatomic)ViewMultiPostsViewController *masterController;
 
@@ -20,6 +22,10 @@
 - (void)startRefreshingUp;
 
 - (void)startRefreshingDown;
+
+- (void) loadPhotosForPost:(Post *)post;
+
+- (void) deleteDelegate:(S3RequestResponder *)delegate;
 
 - (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number;
 
