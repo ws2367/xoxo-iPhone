@@ -10,12 +10,13 @@
 #import "Post.h"
 #import "S3RequestResponder.h"
 
-@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate, S3RequestResponderDelegate>
+@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate, S3RequestResponderDelegate>{
+    
+    // put this variable here so that the child class can inherit it but it cannot be seen by other classes who import this class.
+    NSFetchedResultsController *fetchedResultsController;
+}
 
 @property (strong, nonatomic)ViewMultiPostsViewController *masterController;
-
-// this will be depreciated after we use Core Data
-@property (strong, nonatomic) NSMutableArray *posts;
 
 - (void)setup;
 
@@ -24,8 +25,6 @@
 - (void)startRefreshingDown;
 
 - (void) loadPhotosForPost:(Post *)post;
-
-- (void) deleteDelegate:(S3RequestResponder *)delegate;
 
 - (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number;
 

@@ -30,7 +30,7 @@
 // TODO: comment out depreciated codes!
 @interface MultiPostsTableViewController ()
 
-@property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
+
 
 @property (strong, nonatomic) NSMutableArray *S3RequestResponders;
 
@@ -62,21 +62,6 @@
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
-    [self setup];
-    _S3RequestResponders = [[NSMutableArray alloc] init];
-}
-
-- (void)setup
-{
-    self.posts = [[NSMutableArray alloc] init];
-    
-    /* old codes before storyboarding
-    self.tableView.rowHeight = ROW_HEIGHT;
-    UINib *nib = [UINib nibWithNibName:@"BigPostTableViewCell"
-                                    bundle:nil];
-    [self.tableView registerNib:nib forCellReuseIdentifier:CellTableIdentifier];
-    */
-    
     // set up swipe gesture recognizer
     UISwipeGestureRecognizer * recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
     [recognizerRight setDirection:UISwipeGestureRecognizerDirectionRight];
@@ -84,38 +69,9 @@
     [recognizerLeft setDirection:UISwipeGestureRecognizerDirectionLeft];
     [self.tableView addGestureRecognizer:recognizerRight];
     [self.tableView addGestureRecognizer:recognizerLeft];
-    
-    //set up fetched results controller
-    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
-    NSSortDescriptor *sort = [[NSSortDescriptor alloc] initWithKey:@"popularity" ascending:NO];
-    request.sortDescriptors = @[sort];
-    
-    _fetchedResultsController =
-    [[NSFetchedResultsController alloc]
-     initWithFetchRequest:request
-     managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
-     sectionNameKeyPath:nil
-     cacheName:nil];
-    
-    _fetchedResultsController.delegate = self;
-    
-    // Let's perform one fetch here
-    NSError *fetchingErr = nil;
-    if ([self.fetchedResultsController performFetch:&fetchingErr]){
-        NSLog(@"Successfully fetched.");
-    } else {
-        NSLog(@"Failed to fetch");
-    }
 
-    // set up and fire off refresh control
-    self.refreshControl = [UIRefreshControl new];
-    [self.refreshControl addTarget:self action:@selector(startRefreshingUp) forControlEvents:UIControlEventValueChanged];
-
-    // these two have to be called together or it only shows refreshing but not actually pulling any data
-    [self startRefreshingUp];
-    [self.refreshControl beginRefreshing];
+    _S3RequestResponders = [[NSMutableArray alloc] init];
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -271,7 +227,7 @@
 - (void) followPost:(id)sender{
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
     
     UIButton *followButton = (UIButton *)sender;
     bool toFollow = [[followButton titleForState:UIControlStateNormal] isEqualToString:@"follow"];
@@ -310,10 +266,8 @@
  numberOfRowsInSection:(NSInteger)section
 {
     // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
-    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+    id <NSFetchedResultsSectionInfo> sectionInfo = fetchedResultsController.sections[section];
     return sectionInfo.numberOfObjects;
-
-    //return [self.posts count];
 }
 
 // This is where cells got data and set up
@@ -324,7 +278,7 @@
     
     //TODO: check if the model is empty then this will raise exception
 
-    Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
 
     cell.content = post.content;
     [cell setDateToShow:[Utility getDateToShow:post.updateDate]];
@@ -386,7 +340,7 @@
 #pragma mark TableView Delegate Methods
 // This has to call parent controller
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
+    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
     [_masterController startViewingPostForPost:post];
 }
 
@@ -417,7 +371,7 @@
 -(void)entityButtonPressed:(UIButton *)sender{
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
 
     // TODO: get it right! not just send the first entity of that post...
     //we don't know which one is clicked... send the first one for now
@@ -492,7 +446,7 @@
         
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-        Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+        Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
         
         // TODO: get it right! not just send the first entity of that post...
         //we don't know which one is clicked... send the first one for now
@@ -504,7 +458,7 @@
         
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-        Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+        Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
         
         [nextController setPost:post];
     }

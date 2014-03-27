@@ -73,7 +73,7 @@
     // set up entity
     // TODO: make sure that Core Data makes every name attribute is filled
     [self setNameAndInstitutionAndLocation];
-   
+
     //TODO: prepare post ids and entity ids too
     
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
