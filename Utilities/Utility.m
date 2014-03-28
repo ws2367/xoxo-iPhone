@@ -140,6 +140,11 @@
         NSString *monthString = [NSString stringWithFormat: @"%d", monthCnt];
         return [monthString stringByAppendingString:@"mo ago"];
     }
+    int weekCnt = floor(timedifference/WEEK_SECOND);
+    if(weekCnt > 0){
+        NSString *weekString = [NSString stringWithFormat: @"%d", weekCnt];
+        return [weekString stringByAppendingString:@"w ago"];
+    }
     int dayCnt = floor(timedifference/DAY_SECOND);
     if(dayCnt > 0){
         NSString *dayString = [NSString stringWithFormat: @"%d", dayCnt];
@@ -190,6 +195,11 @@
         default:
             return @"Dec";
     }
+}
+
++ (NSDictionary *)getTabBarItemFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, nil];
 
 }
+
 @end

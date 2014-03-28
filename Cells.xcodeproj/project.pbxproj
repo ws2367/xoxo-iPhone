@@ -93,6 +93,18 @@
 		7A33F90F18DFE3C300CEE1A7 /* FriendsPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F90E18DFE3C300CEE1A7 /* FriendsPostsViewController.m */; };
 		7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */; };
 		7A33F91518DFE3F600CEE1A7 /* MyPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */; };
+		7A37FA2E18E4AF2D003E5BFF /* UIColor+MSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A37FA2D18E4AF2D003E5BFF /* UIColor+MSColor.m */; };
+		7A37FA3A18E4B4B6003E5BFF /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA2F18E4B4B6003E5BFF /* fire.png */; };
+		7A37FA3B18E4B4B6003E5BFF /* icon-comment@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3018E4B4B6003E5BFF /* icon-comment@2x.png */; };
+		7A37FA3C18E4B4B6003E5BFF /* icon-follow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3118E4B4B6003E5BFF /* icon-follow@2x.png */; };
+		7A37FA3D18E4B4B6003E5BFF /* icon-report@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3218E4B4B6003E5BFF /* icon-report@2x.png */; };
+		7A37FA3E18E4B4B6003E5BFF /* icon-share@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3318E4B4B6003E5BFF /* icon-share@2x.png */; };
+		7A37FA3F18E4B4B6003E5BFF /* menu-addpost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3418E4B4B6003E5BFF /* menu-addpost@2x.png */; };
+		7A37FA4018E4B4B6003E5BFF /* menu-favorites@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3518E4B4B6003E5BFF /* menu-favorites@2x.png */; };
+		7A37FA4118E4B4B6003E5BFF /* menu-friends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3618E4B4B6003E5BFF /* menu-friends@2x.png */; };
+		7A37FA4218E4B4B6003E5BFF /* menu-my@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3718E4B4B6003E5BFF /* menu-my@2x.png */; };
+		7A37FA4318E4B4B6003E5BFF /* menu-popular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */; };
+		7A37FA4418E4B4B6003E5BFF /* time@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3918E4B4B6003E5BFF /* time@2x.png */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 /* End PBXBuildFile section */
@@ -235,6 +247,19 @@
 		7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PopularPostsViewController.m; sourceTree = "<group>"; };
 		7A33F91318DFE3F600CEE1A7 /* MyPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyPostsViewController.h; sourceTree = "<group>"; };
 		7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPostsViewController.m; sourceTree = "<group>"; };
+		7A37FA2C18E4AF2D003E5BFF /* UIColor+MSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MSColor.h"; sourceTree = "<group>"; };
+		7A37FA2D18E4AF2D003E5BFF /* UIColor+MSColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MSColor.m"; sourceTree = "<group>"; };
+		7A37FA2F18E4B4B6003E5BFF /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
+		7A37FA3018E4B4B6003E5BFF /* icon-comment@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-comment@2x.png"; sourceTree = "<group>"; };
+		7A37FA3118E4B4B6003E5BFF /* icon-follow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-follow@2x.png"; sourceTree = "<group>"; };
+		7A37FA3218E4B4B6003E5BFF /* icon-report@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-report@2x.png"; sourceTree = "<group>"; };
+		7A37FA3318E4B4B6003E5BFF /* icon-share@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-share@2x.png"; sourceTree = "<group>"; };
+		7A37FA3418E4B4B6003E5BFF /* menu-addpost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-addpost@2x.png"; sourceTree = "<group>"; };
+		7A37FA3518E4B4B6003E5BFF /* menu-favorites@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-favorites@2x.png"; sourceTree = "<group>"; };
+		7A37FA3618E4B4B6003E5BFF /* menu-friends@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-friends@2x.png"; sourceTree = "<group>"; };
+		7A37FA3718E4B4B6003E5BFF /* menu-my@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-my@2x.png"; sourceTree = "<group>"; };
+		7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-popular@2x.png"; sourceTree = "<group>"; };
+		7A37FA3918E4B4B6003E5BFF /* time@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time@2x.png"; sourceTree = "<group>"; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
@@ -341,6 +366,17 @@
 		512422A318B2B196008BEF86 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7A37FA2F18E4B4B6003E5BFF /* fire.png */,
+				7A37FA3018E4B4B6003E5BFF /* icon-comment@2x.png */,
+				7A37FA3118E4B4B6003E5BFF /* icon-follow@2x.png */,
+				7A37FA3218E4B4B6003E5BFF /* icon-report@2x.png */,
+				7A37FA3318E4B4B6003E5BFF /* icon-share@2x.png */,
+				7A37FA3418E4B4B6003E5BFF /* menu-addpost@2x.png */,
+				7A37FA3518E4B4B6003E5BFF /* menu-favorites@2x.png */,
+				7A37FA3618E4B4B6003E5BFF /* menu-friends@2x.png */,
+				7A37FA3718E4B4B6003E5BFF /* menu-my@2x.png */,
+				7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */,
+				7A37FA3918E4B4B6003E5BFF /* time@2x.png */,
 				5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */,
 				5168110118B6868400B4AE0B /* launchOrangeC@2x.png */,
 				512422A518B2B2AD008BEF86 /* AppIcon40x40@2x.png */,
@@ -356,6 +392,8 @@
 				516FB2EA18B6F40700088AF6 /* Constants.m */,
 				516FB2E618B6EFF100088AF6 /* Utility.h */,
 				516FB2E718B6EFF100088AF6 /* Utility.m */,
+				7A37FA2C18E4AF2D003E5BFF /* UIColor+MSColor.h */,
+				7A37FA2D18E4AF2D003E5BFF /* UIColor+MSColor.m */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -569,22 +607,31 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A37FA4118E4B4B6003E5BFF /* menu-friends@2x.png in Resources */,
 				75CCCF4917FC03DF000BF0F4 /* InfoPlist.strings in Resources */,
 				75721FD2181107D600298ACF /* EntityTableViewCell.xib in Resources */,
+				7A37FA3A18E4B4B6003E5BFF /* fire.png in Resources */,
 				5168110218B6868400B4AE0B /* launchOrangeC-568h@2x.png in Resources */,
+				7A37FA4218E4B4B6003E5BFF /* menu-my@2x.png in Resources */,
 				5124229A18B2967B008BEF86 /* ViewMultiPostsViewController.xib in Resources */,
 				512422A618B2B2AD008BEF86 /* AppIcon40x40@2x.png in Resources */,
 				752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */,
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
+				7A37FA3B18E4B4B6003E5BFF /* icon-comment@2x.png in Resources */,
 				7584D1B818DED1FC00981E2E /* camera_button_take.png in Resources */,
 				75C086B017FE30B800023200 /* pic2.png in Resources */,
 				75C086B117FE30B800023200 /* pic3.png in Resources */,
+				7A37FA4418E4B4B6003E5BFF /* time@2x.png in Resources */,
 				752B5CD61854506100C0AE76 /* moose.png in Resources */,
+				7A37FA3C18E4B4B6003E5BFF /* icon-follow@2x.png in Resources */,
+				7A37FA4318E4B4B6003E5BFF /* menu-popular@2x.png in Resources */,
 				75C086B217FE30B800023200 /* pic4.png in Resources */,
 				753B4FD31842F91F00863B9F /* CommentTableViewCell.xib in Resources */,
 				75C086B317FE30B800023200 /* pic5.png in Resources */,
 				75C0BDCD1829785E00B34113 /* UserMenuViewController.xib in Resources */,
+				7A37FA3E18E4B4B6003E5BFF /* icon-share@2x.png in Resources */,
 				75073FC71814BF1A009177C7 /* ViewEntityViewController.xib in Resources */,
+				7A37FA3F18E4B4B6003E5BFF /* menu-addpost@2x.png in Resources */,
 				75073FCC1814C056009177C7 /* SmallPostTableViewCell.xib in Resources */,
 				75C086ED17FE9B2C00023200 /* hateoff.png in Resources */,
 				516791E118D26A9C007C0843 /* Main.storyboard in Resources */,
@@ -592,7 +639,9 @@
 				75C086EF17FE9B2C00023200 /* likeon.png in Resources */,
 				5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */,
 				75C086F017FE9B2C00023200 /* likeoff.png in Resources */,
+				7A37FA3D18E4B4B6003E5BFF /* icon-report@2x.png in Resources */,
 				75D1DA291804837400B431FF /* CreateEntityViewController.xib in Resources */,
+				7A37FA4018E4B4B6003E5BFF /* menu-favorites@2x.png in Resources */,
 				75D1DAA21804CDF600B431FF /* CreatePostViewController.xib in Resources */,
 				75073FA918120314009177C7 /* ViewPostViewController.xib in Resources */,
 			);
@@ -655,6 +704,7 @@
 				514B732A18CA7B4A00EEAC66 /* Institution.m in Sources */,
 				75073FA818120314009177C7 /* ViewPostViewController.m in Sources */,
 				516FB2EB18B6F40700088AF6 /* Constants.m in Sources */,
+				7A37FA2E18E4AF2D003E5BFF /* UIColor+MSColor.m in Sources */,
 				75C0BDCE1829785E00B34113 /* UserMenuViewController.m in Sources */,
 				7584D1B418DED07600981E2E /* MultiPostsTabBarController.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,

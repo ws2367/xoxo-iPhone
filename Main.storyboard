@@ -13,7 +13,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Ezl-5Z-e73"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Bfz-1J-b6i">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="My setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="thY-NY-mnp">
@@ -211,8 +211,8 @@
                 <tabBarController automaticallyAdjustsScrollViewInsets="NO" id="fp0-ag-Q8x" customClass="MultiPostsTabBarController" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationItem key="navigationItem" id="AP6-rD-JzY"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <tabBar key="tabBar" contentMode="scaleToFill" translucent="NO" id="VAL-49-4zb">
+                    <simulatedTabBarMetrics key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="VAL-49-4zb">
                         <rect key="frame" x="0.0" y="0.0" width="0.0" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -221,10 +221,11 @@
                         <segue destination="bs7-2m-2iS" kind="push" identifier="createPostSegue" id="RNz-9H-R8S"/>
                         <segue destination="4o8-5A-P8n" kind="relationship" relationship="viewControllers" id="uaX-vr-f9s"/>
                         <segue destination="GyV-8z-QUK" kind="relationship" relationship="viewControllers" id="SmY-cV-Uev"/>
-                        <segue destination="lWb-zS-cZi" kind="relationship" relationship="viewControllers" id="Lw1-SK-Y4T"/>
-                        <segue destination="Y0h-ma-CBO" kind="relationship" relationship="viewControllers" id="3dQ-av-UVP"/>
                         <segue destination="xvr-rN-5oX" kind="push" identifier="viewMySettingSegue" id="sbZ-41-PmR"/>
                         <segue destination="OYH-Te-k9x" kind="push" identifier="searchSegue" id="hdU-KL-hjb"/>
+                        <segue destination="o8P-f7-3KN" kind="relationship" relationship="viewControllers" id="KbG-rw-zqU"/>
+                        <segue destination="lWb-zS-cZi" kind="relationship" relationship="viewControllers" id="Onu-1i-t3z"/>
+                        <segue destination="Y0h-ma-CBO" kind="relationship" relationship="viewControllers" id="LKj-fK-l1R"/>
                     </connections>
                 </tabBarController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qtr-ez-ZFv" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -236,7 +237,7 @@
             <objects>
                 <tableViewController id="4o8-5A-P8n" customClass="PopularPostsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="TEe-04-CYc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -315,7 +316,7 @@
                             <outlet property="delegate" destination="4o8-5A-P8n" id="RvS-PG-TeT"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Popular" id="TgA-1L-jB0"/>
+                    <tabBarItem key="tabBarItem" title="Popular" image="menu-popular.png" id="TgA-1L-jB0"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WIb-W6-ZqV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -447,7 +448,7 @@
                         <viewControllerLayoutGuide type="bottom" id="DuO-Tw-0V5"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Whm-DE-hdY">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tpu-Un-AMY" userLabel="superImageView" customClass="SuperImageView">
@@ -532,7 +533,7 @@
             <objects>
                 <tableViewController id="GyV-8z-QUK" customClass="FriendsPostsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="4Ns-5a-N12">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -611,7 +612,7 @@
                             <outlet property="delegate" destination="GyV-8z-QUK" id="Frj-AL-8Qq"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Friends" id="hOq-Bl-X9B"/>
+                    <tabBarItem key="tabBarItem" title="Friends" image="menu-friends.png" id="hOq-Bl-X9B"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0TT-IM-4Wx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -622,7 +623,7 @@
             <objects>
                 <tableViewController id="lWb-zS-cZi" customClass="FavoritesPostsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="fny-lG-KsC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -701,7 +702,7 @@
                             <outlet property="delegate" destination="lWb-zS-cZi" id="lSV-av-EiN"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Favorites" id="g1y-mP-VoF"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" image="menu-favorites.png" id="g1y-mP-VoF"/>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zz0-Tr-xbB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -712,7 +713,7 @@
             <objects>
                 <tableViewController id="Y0h-ma-CBO" customClass="MyPostsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="FdM-ML-3Uk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -791,7 +792,7 @@
                             <outlet property="delegate" destination="Y0h-ma-CBO" id="DCq-ev-KsI"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="My" id="lUa-Eb-8wd"/>
+                    <tabBarItem key="tabBarItem" title="My" image="menu-my.png" id="lUa-Eb-8wd"/>
                     <connections>
                         <segue destination="5uP-uA-pZw" kind="push" identifier="viewMySettingSegue" id="xDr-Qy-CdK"/>
                     </connections>
@@ -809,7 +810,7 @@
                         <viewControllerLayoutGuide type="bottom" id="Qqs-3E-LBm"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="GUa-y9-5aF">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="h5s-0t-HKr">
@@ -825,7 +826,7 @@
                                 </connections>
                             </button>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="bzJ-dg-0bX">
-                                <rect key="frame" x="0.0" y="176" width="320" height="304"/>
+                                <rect key="frame" x="0.0" y="176" width="320" height="353"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -908,7 +909,7 @@
                         <viewControllerLayoutGuide type="bottom" id="inG-mQ-iwq"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="Zfp-ki-dlh">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="O7d-9E-ORK">
@@ -949,7 +950,7 @@
                         <viewControllerLayoutGuide type="bottom" id="FAw-gJ-axs"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="gro-5r-QZc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="519"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Search" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="iGd-Gn-ABh">
@@ -967,14 +968,49 @@
             </objects>
             <point key="canvasLocation" x="1071" y="2659"/>
         </scene>
+        <!--View Controller - Item-->
+        <scene sceneID="AYc-G6-BCd">
+            <objects>
+                <viewController id="o8P-f7-3KN" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="1DO-gE-f0X"/>
+                        <viewControllerLayoutGuide type="bottom" id="lKR-Zu-GZL"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="ghx-92-jpj">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Just for a empty view controller" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LAR-yL-nXN">
+                                <rect key="frame" x="28" y="117" width="276" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="Item" id="Xem-4P-N6A"/>
+                    <navigationItem key="navigationItem" id="Zam-uu-ThP"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="kVw-7X-xqL" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="543" y="371"/>
+        </scene>
     </scenes>
+    <resources>
+        <image name="menu-favorites.png" width="27" height="27"/>
+        <image name="menu-friends.png" width="27" height="27"/>
+        <image name="menu-my.png" width="27" height="27"/>
+        <image name="menu-popular.png" width="27" height="27"/>
+    </resources>
+    <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Kxe-No-J1p"/>
-        <segue reference="t97-Ex-rYS"/>
+        <segue reference="xG9-8X-c9V"/>
+        <segue reference="Ofo-Wv-zxB"/>
     </inferredMetricsTieBreakers>
 </document>
