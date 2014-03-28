@@ -8,11 +8,16 @@
 
 #import "MultiPostsTabBarController.h"
 #import "MyPostsViewController.h"
+#import "UIColor+MSColor.h"
+
+
 
 @interface MultiPostsTabBarController ()
 @property(strong,nonatomic) UIBarButtonItem * settingBtn;
 @property(strong,nonatomic) UIBarButtonItem * searchBtn;
 @end
+
+
 
 
 @implementation MultiPostsTabBarController
@@ -33,7 +38,30 @@
     _settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
     _searchBtn = [[UIBarButtonItem alloc] initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:self action:@selector(searchButtonPressed:)];
     self.navigationItem.leftBarButtonItem = _searchBtn;
+    [_searchBtn setTintColor:[UIColor colorForTabBar]];
+    
+    
+    //set tabbar background color
+    CGRect frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, TABBAR_HEIGHT );
+    UIView *v = [[UIView alloc] initWithFrame:frame];
+    [v setBackgroundColor:[UIColor colorForTabBar]];
+    [v setAlpha:1];
+    [[self tabBar] insertSubview:v atIndex:0];
+
+    //set tabbar frame
+    self.tabBar.frame = CGRectMake(0, HEIGHT - TABBAR_HEIGHT, WIDTH, TABBAR_HEIGHT);
+    
+    // delete the shadow line on top of tabbar
+    [self.tabBar setShadowImage:[[UIImage alloc] init]];
+    [self.tabBar setBackgroundImage:[[UIImage alloc] init]];
+//    [self.tabBar setTintColor:[UIColor colorForTabBar]];
+//    [self.customizableViewControllers
 	// Do any additional setup after loading the view.
+    
+    // set tabbaritem font
+    for(UIViewController *v in self.customizableViewControllers){
+        [v.tabBarItem setTitleTextAttributes:[Utility getTabBarItemFontDictionary] forState:UIControlStateNormal];
+    }
 }
 
 
@@ -44,7 +72,8 @@
 #pragma mark - add center button
 -(void)willAppearIn:(UINavigationController *)navigationController
 {
-    [self addCenterButtonWithImage:[UIImage imageNamed:@"camera_button_take.png"] highlightImage:nil];
+    [self addCenterButtonWithImage:[UIImage imageNamed:@"menu-addpost.png"] highlightImage:nil];
+
 }
 // Create a custom UIButton and add it to the center of our tab bar
 -(void) addCenterButtonWithImage:(UIImage*)buttonImage highlightImage:(UIImage*)highlightImage
