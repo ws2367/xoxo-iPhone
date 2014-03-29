@@ -337,7 +337,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
+    CommentTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:commentCellIdentifier];
  
     // TODO: check if the model is empty then this will raise exception
     Comment *comment = [self.fetchedResultsController objectAtIndexPath:indexPath];

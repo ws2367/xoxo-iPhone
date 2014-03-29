@@ -168,6 +168,8 @@
                                                       @"following":       @"following"}];
     postMapping.identificationAttributes = @[@"uuid"];
     
+    
+    
     // Define the relationship mapping
     [postMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"entities"
                                                                                 toKeyPath:@"entities"
@@ -388,15 +390,9 @@
                                        success:[Utility successBlockWithDebugMessage:@"Successfully loaded locations (states)" block:nil]
                                        failure:[Utility failureBlockWithAlertMessage:@"Can't download states!"]];
     
-    /* Set up view controller
-     *
-     */
-    /*
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.viewController = [[ViewMultiPostsViewController alloc] initWithNibName:@"ViewMultiPostsViewController" bundle:nil];
-    self.window.rootViewController = self.viewController;
-    //__managedObjectContext = managedObjectStore.mainQueueManagedObjectContext;
-    [self.window makeKeyAndVisible];*/
+    /*Remove redundent data*/
+    //TODO: remove objects in Core Data except for the first 5 in friends and following
+    
     return YES;
 }
 

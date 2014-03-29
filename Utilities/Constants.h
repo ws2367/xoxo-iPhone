@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 #define MSDebug NSLog
+#define MSError NSLog
 
 // initialized in .m file
 // extern can be put inside interface as well
@@ -26,8 +27,9 @@ extern NSString *const TOKEN_VENDING_MACHINE_URL;
 extern NSString *const BASE_URL;
 
 
-extern NSString *const CellTableIdentifier;
-
+extern NSString *const bigPostCellIdentifier;
+extern NSString *const commentCellIdentifier;
+extern NSString *const entityCellIdentifier;
 
 @interface Constants : NSObject
 @end

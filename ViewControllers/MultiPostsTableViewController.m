@@ -55,7 +55,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
+    isLoadingMore = false;
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
  
@@ -78,6 +78,11 @@
     [self.tableView addGestureRecognizer:recognizerLeft];
 
     _S3RequestResponders = [[NSMutableArray alloc] init];
+    
+    
+    // set up and fire off refresh control
+    self.refreshControl = [UIRefreshControl new];
+    [self.refreshControl addTarget:self action:@selector(startRefreshingUp) forControlEvents:UIControlEventValueChanged];
 }
 
 - (void)didReceiveMemoryWarning
@@ -85,6 +90,31 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+#pragma mark -
+#pragma mark UIScrollView Delegate Methods
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentSize.height < scrollView.frame.size.height) return;
+    
+    if(!isLoadingMore) {
+        
+        CGFloat height = scrollView.frame.size.height;
+        
+        CGFloat contentYoffset = scrollView.contentOffset.y;
+        
+        CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
+        
+        //TODO: grab more data from server
+        if(distanceFromBottom < height)
+        {
+            [self startLoadingMore];
+            //[self.tableView reloadData];
+        }
+    }
+}
+
 
 
 #pragma mark -
@@ -94,7 +124,7 @@
 
 }
 
-- (void) startRefreshingDown
+- (void) startLoadingMore
 {
     
 }
@@ -161,7 +191,7 @@
         if (!matches || error || [matches count] > 1) {
             // handle error here
             NSLog(@"Errors in fetching photos");
-            MSDebug(@"match count %d", [matches count]);
+//            MSDebug(@"match count %d", [matches count]);
         } else if ([matches count]) {
             // found the thing
             MSDebug(@"The photo exists! uuid = %@", uuid);
@@ -258,8 +288,10 @@
     }
     RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-            [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
+        [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
                           forState:UIControlStateNormal];
+        
+        [post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:error];
     }];
@@ -281,7 +313,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
+    BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:bigPostCellIdentifier];
     
     //TODO: check if the model is empty then this will raise exception
 
@@ -289,7 +321,11 @@
 
     cell.content = post.content;
     [cell setDateToShow:[Utility getDateToShow:post.updateDate]];
-    [cell.followButton setTitle:(post.following ? @"unfollow" : @"follow")
+    
+    /*CAUTION! following is a NSNumber (though declared as bool in Core Data) 
+     so you have to get its bool value
+     */
+    [cell.followButton setTitle:([post.following boolValue] ? @"unfollow" : @"follow")
                        forState:UIControlStateNormal];
     
     [cell.followButton addTarget:self action:@selector(followPost:)
@@ -387,24 +423,6 @@
 }
 
 
-#pragma mark -
-#pragma mark UIScrollView Delegate Methods
-
--(void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    CGFloat height = scrollView.frame.size.height;
-    
-    CGFloat contentYoffset = scrollView.contentOffset.y;
-    
-    CGFloat distanceFromBottom = scrollView.contentSize.height - contentYoffset;
-    
-    //TODO: grab more data from server
-    if(distanceFromBottom < height)
-    {
-        //[self.tableView reloadData];
-    }
-}
-
 /*
 // Override to support conditional editing of the table view.
 - (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath
@@ -495,6 +513,81 @@
     }
     return ids;
 }
+
+- (void) setFetchedResultsControllerWithEntityName:(NSString *)entityName
+                                         predicate:(NSPredicate *)predicate
+                                    sortDescriptor:(NSSortDescriptor *)sort{
+    
+    //set up fetched results controller
+    NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Post"];
+    if (predicate) request.predicate = predicate;
+    
+    request.sortDescriptors = @[sort];
+    
+    fetchedResultsController =
+    [[NSFetchedResultsController alloc]
+     initWithFetchRequest:request
+     managedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
+     sectionNameKeyPath:nil
+     cacheName:nil];
+    
+    fetchedResultsController.delegate = self;
+    
+    // Let's perform one fetch here
+    NSError *fetchingErr = nil;
+    if ([fetchedResultsController performFetch:&fetchingErr]){
+        NSLog(@"Successfully fetched.");
+    } else {
+        NSLog(@"Failed to fetch");
+    }
+    
+}
+
+
+- (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number predicate:(NSPredicate *)predicate{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
+    NSSortDescriptor *sortByPopularity = [NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO];
+    NSSortDescriptor *sortByUpdateDate = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
+    NSSortDescriptor *sortByRemoteID = [NSSortDescriptor sortDescriptorWithKey:@"remoteID" ascending:YES];
+    [request setSortDescriptors:[NSArray arrayWithObjects:sortByPopularity, sortByUpdateDate, sortByRemoteID,nil]];
+    [request setFetchLimit:number];
+    if (predicate) [request setPredicate:predicate];
+    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+    NSMutableArray *ids = [[NSMutableArray alloc] init];
+    if ([match count] > number) {
+        NSLog(@"Fetched more than fetch limit!");
+    } else if ([match count] == 0){
+        // an empty array
+        // do nothing
+    } else {
+        [match enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            [ids addObject:[(Post *)obj remoteID]];
+        }];
+    }
+    return ids;
+}
+
+- (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate{
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
+    NSSortDescriptor *sortByPopularity = [NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:YES];
+    NSSortDescriptor *sortByUpdateDate = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:YES];
+    NSSortDescriptor *sortByRemoteID = [NSSortDescriptor sortDescriptorWithKey:@"remoteID" ascending:NO];
+    [request setFetchLimit:1];
+    if (predicate) [request setPredicate:predicate];
+    [request setSortDescriptors:[NSArray arrayWithObjects:sortByPopularity, sortByUpdateDate, sortByRemoteID,nil]];
+    
+    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+    
+    if (match == nil) {
+        MSError(@"error");
+        return nil;
+    } else if ([match count] == 0 || [match count] > 1) {
+        MSError(@"error");
+        return nil;
+    }
+    return [[match firstObject] remoteID];
+}
+
 
 
 @end

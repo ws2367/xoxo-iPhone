@@ -11,21 +11,27 @@
 #import "S3RequestResponder.h"
 
 @interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate, S3RequestResponderDelegate>{
-    
+    bool isLoadingMore;
     // put this variable here so that the child class can inherit it but it cannot be seen by other classes who import this class.
     NSFetchedResultsController *fetchedResultsController;
 }
 
 @property (strong, nonatomic)ViewMultiPostsViewController *masterController;
 
-- (void)setup;
-
 - (void)startRefreshingUp;
 
-- (void)startRefreshingDown;
+- (void)startLoadingMore;
 
 - (void) loadPhotosForPost:(Post *)post;
 
 - (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number;
+
+- (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate;
+
+- (void) setFetchedResultsControllerWithEntityName:(NSString *)entityName
+                                         predicate:(NSPredicate *)predicate
+                                    sortDescriptor:(NSSortDescriptor *)sort;
+
+- (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number predicate:(NSPredicate *)predicate;
 
 @end

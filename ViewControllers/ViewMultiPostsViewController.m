@@ -38,7 +38,6 @@
 // segmented controller
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
 
-// try adding a table view controller and UIRefreshControl
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) MultiPostsTableViewController *tableViewController;
 
@@ -128,7 +127,6 @@
     _tableViewController.tableView = _tableView;
     _tableViewController.masterController = self;
     _tableView.delegate = _tableViewController;
-    [_tableViewController setup];
     
     
     //S3ListObjectsRequest  *listObjectRequest = [[S3ListObjectsRequest alloc] initWithName:@"xoxo_img"];

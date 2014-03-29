@@ -73,11 +73,12 @@
     //UITableView *tableView = (id)[self.view viewWithTag:1];
     
     // TODO: change this hard-coded number to the actual height of xib
+    
     _tableView.rowHeight = 60;
-    UINib *nib = [UINib nibWithNibName:@"EntityTableViewCell"
+    UINib *nib = [UINib nibWithNibName:entityCellIdentifier
                                 bundle:nil];
     [_tableView registerNib:nib
-       forCellReuseIdentifier:CellTableIdentifier];
+       forCellReuseIdentifier:entityCellIdentifier];
     
     // set up table view controller
     _tableViewController = [[UITableViewController alloc] init];
@@ -275,7 +276,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    EntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellTableIdentifier];
+    EntityTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:entityCellIdentifier];
     
     // TODO: check if the model is empty then this will raise exception
     // TODO: apply predicate to fetch only matching results

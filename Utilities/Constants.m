@@ -26,7 +26,9 @@ NSString *const BASE_URL = @"http://localhost:3000/v1/";
 
 NSString *const S3BUCKET_NAME = @"moose-photos";
 
-NSString *const CellTableIdentifier = @"CellTableIdentifier";
+NSString *const bigPostCellIdentifier = @"bigPostCell";
+NSString *const commentCellIdentifier = @"commentCell";
+NSString *const entityCellIdentifier  = @"entityCell";
 
 @implementation Constants
 @end

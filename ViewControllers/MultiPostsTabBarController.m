@@ -112,7 +112,6 @@
 #pragma mark - detect which viewcontroller is selected right now
 - (void)tabBarController:(UITabBarController *)tabBarController
  didSelectViewController:(UIViewController *)viewController{
-    NSLog(@"everexecuted?");
     if([viewController isKindOfClass:MyPostsViewController.class]){
         self.navigationItem.rightBarButtonItem = _settingBtn;
         [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, WIDTH, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
