@@ -47,6 +47,13 @@
     [v setBackgroundColor:[UIColor colorForTabBar]];
     [v setAlpha:1];
     [[self tabBar] insertSubview:v atIndex:0];
+    
+    //set upper orange area
+    CGRect upperframe = CGRectMake(0.0, 0.0, self.view.bounds.size.width, UPPER_AREA_HEIGHT);
+    UIView *up = [[UIView alloc] initWithFrame:upperframe];
+    [up setBackgroundColor:[UIColor colorForTabBar]];
+    [up setAlpha:1];
+    [self.view addSubview:up];
 
     //set tabbar frame
     self.tabBar.frame = CGRectMake(0, HEIGHT - TABBAR_HEIGHT, WIDTH, TABBAR_HEIGHT);
