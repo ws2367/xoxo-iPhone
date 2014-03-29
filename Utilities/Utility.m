@@ -198,7 +198,7 @@
 }
 
 + (NSDictionary *)getTabBarItemFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
 
 }
 
