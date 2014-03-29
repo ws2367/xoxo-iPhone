@@ -8,6 +8,7 @@
 
 #import "BigPostTableViewCell.h"
 #import <QuartzCore/QuartzCore.h> //for gradient color
+#import "UIColor+MSColor.h"
 
 @interface BigPostTableViewCell()
 
@@ -51,6 +52,12 @@
         //[self createGradient];
     }
     return self;
+}
+
+-(void) updateConstraints{
+    [super updateConstraints];
+    //apply our background color for cells
+    [self.contentView setBackgroundColor:[UIColor colorForBackground]];
 }
 
 
@@ -213,6 +220,9 @@
 // This is where we make the gradient mask on pictures
 -(void) createGradient{
     // Flag tells whether it is a new start or a refreshing
+    
+    //dont create a gradient
+    /*
     if(_gradientFlag == FALSE){
         CAGradientLayer *gradientBelow = [CAGradientLayer layer];
         gradientBelow.frame = CGRectMake(0 , 150, self.frame.size.width, self.frame.size.height - 150);
@@ -228,5 +238,6 @@
         [_postImageView.layer addSublayer:gradientBelow];
         _gradientFlag = TRUE;
     }
+     */
 }
 @end

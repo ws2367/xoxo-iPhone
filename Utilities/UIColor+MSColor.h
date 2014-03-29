@@ -11,6 +11,6 @@
 @interface UIColor (MSColor)
 
 +(UIColor *) colorForTabBar;
-+(UIColor *) colorForBackGround;
++(UIColor *) colorForBackground;
 
 @end
