@@ -62,6 +62,7 @@ static TVMClient *tvm = nil;
     return ([KeyChainWrapper getSessionTokenForUser] != nil);
 }
 
+
 +(BOOL)login:(NSString *)FBAccessToken
 {
     return [[ClientManager tvm] login:FBAccessToken];

@@ -9,9 +9,13 @@
 #import "TVMClient.h"
 #import "KeyChainWrapper.h"
 
-@interface TVMClient ()
+@interface TVMClient (){
+    NSInteger tryAgainButtonIndex;
+}
 
 @property (retain, nonatomic) AFHTTPClient *httpClient;
+@property (strong, nonatomic) NSString *FBAccessToken;
+
 @end
 
 
@@ -52,20 +56,6 @@
     if (!success) {
         return false;
     }
-/*
-    NSURLResponse *response = nil;
-    NSError *error = nil;
-    
-    NSMutableURLRequest *request = [_httpClient requestWithMethod:@"GET"
-                                                             path:@"S3Credentials"
-                                                       parameters:params];
-    
-    NSData *data = [NSURLConnection sendSynchronousRequest:request returningResponse:&response error:&error];
-    
-    jsonFromData = (NSDictionary*)[NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingMutableContainers error:nil];
-    
-    NSLog(@"JSON: %@", jsonFromData);
-    */
     
     
     [KeyChainWrapper storeCredentialsInKeyChain:jsonFromData[@"ACCESS_KEY_ID"]
@@ -78,19 +68,43 @@
     return true;
     
 }
+
+#pragma mark -
+#pragma mark UIAlertView Delegate Methods
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == tryAgainButtonIndex) {
+        MSDebug(@"Try to log in again!");
+        [self login:_FBAccessToken];
+    }
+}
+
+
 -(BOOL)login:(NSString *)FBAccessToken{
+    _FBAccessToken = [NSString stringWithString:FBAccessToken];
+    
     NSDictionary *params = [NSDictionary dictionaryWithObject:FBAccessToken forKey:@"fb_access_token"];
     
     NSLog(@"Before login: %@", params);
     NSDictionary* jsonFromData = nil;
     
-    [self sendSynchronousRequestWithClient:_httpClient
-                                    method:@"POST"
-                                      path:@"users/sign_in"
-                                parameters:params
-                                  response:&jsonFromData
-                                  errorLog:@"Can't log in!"];
+    bool success = [self sendSynchronousRequestWithClient:_httpClient
+                                                   method:@"POST"
+                                                     path:@"users/sign_in"
+                                               parameters:params
+                                                 response:&jsonFromData
+                                                 errorLog:@"Can't log in!"];
     
+    if (!success) {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection"
+                                                        message:@"Failed to log in"
+                                                       delegate:self
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        tryAgainButtonIndex = [alert addButtonWithTitle:@"Try again!"];
+        [alert show];
+    }
+        
        
     NSLog(@"After login: %@", jsonFromData);
     
@@ -98,6 +112,7 @@
         [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
     } else {
         NSLog(@"Log in failed");
+        return NO;
     }
 
     return YES;
@@ -148,8 +163,5 @@
     }
     return true;
 }
-
-//-(Response *)processRequest:(Request *)request responseHandler:(ResponseHandler *)handler{}
-//-(NSString *)getEndpointDomain:(NSString *)originalEndpoint{}
 
 @end
