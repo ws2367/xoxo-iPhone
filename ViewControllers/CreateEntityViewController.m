@@ -75,7 +75,7 @@
     // TODO: change this hard-coded number to the actual height of xib
     
     _tableView.rowHeight = 60;
-    UINib *nib = [UINib nibWithNibName:entityCellIdentifier
+    UINib *nib = [UINib nibWithNibName:@"EntityTableViewCell"
                                 bundle:nil];
     [_tableView registerNib:nib
        forCellReuseIdentifier:entityCellIdentifier];
