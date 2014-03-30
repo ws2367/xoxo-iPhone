@@ -250,7 +250,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AnE-Eu-YY0">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="196"/>
+                                            <rect key="frame" x="0.0" y="-1" width="320" height="188"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         </imageView>
                                         <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="1 hour ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZqN-VF-co1">
@@ -1011,7 +1011,7 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="Ofo-Wv-zxB"/>
-        <segue reference="xG9-8X-c9V"/>
+        <segue reference="XjB-PO-Ge8"/>
+        <segue reference="mRO-sd-lnh"/>
     </inferredMetricsTieBreakers>
 </document>
