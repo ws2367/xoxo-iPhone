@@ -42,6 +42,7 @@
 		51B0E2F418C48BE900EDFD95 /* User.m in Sources */ = {isa = PBXBuildFile; fileRef = 51B0E2F318C48BE900EDFD95 /* User.m */; };
 		51BA54B718D2730200B85BAF /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BA54B618D2730200B85BAF /* NavigationController.m */; };
 		51CCDF1118E9508100491CB4 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CCDF1018E9508100491CB4 /* Post.m */; };
+		51CCDF1418E9E48F00491CB4 /* RestKitInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CCDF1318E9E48F00491CB4 /* RestKitInitializer.m */; };
 		51E9FEDA18DCF93A00E60232 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9FED818DCF93A00E60232 /* AWSRuntime.framework */; };
 		51E9FEDB18DCF93A00E60232 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9FED918DCF93A00E60232 /* AWSS3.framework */; };
 		51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */; };
@@ -174,6 +175,8 @@
 		51C34ED818B5735E004CABBE /* Model 3.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = "Model 3.xcdatamodel"; sourceTree = "<group>"; };
 		51CCDF0F18E9508100491CB4 /* Post.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Post.h; sourceTree = "<group>"; };
 		51CCDF1018E9508100491CB4 /* Post.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Post.m; sourceTree = "<group>"; };
+		51CCDF1218E9E48F00491CB4 /* RestKitInitializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestKitInitializer.h; sourceTree = "<group>"; };
+		51CCDF1318E9E48F00491CB4 /* RestKitInitializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestKitInitializer.m; sourceTree = "<group>"; };
 		51E9FED818DCF93A00E60232 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = "Libraries/aws-ios-sdk-1.7.1/AWSRuntime.framework"; sourceTree = "<group>"; };
 		51E9FED918DCF93A00E60232 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "Libraries/aws-ios-sdk-1.7.1/AWSS3.framework"; sourceTree = "<group>"; };
 		51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBorderTextField.h; sourceTree = "<group>"; };
@@ -404,6 +407,8 @@
 				5147AA9218E296CC00771E53 /* S3RequestResponder.h */,
 				5147AA9318E296CC00771E53 /* S3RequestResponder.m */,
 				5186F09618CEE43D00B27C71 /* ClientManager.h */,
+				51CCDF1218E9E48F00491CB4 /* RestKitInitializer.h */,
+				51CCDF1318E9E48F00491CB4 /* RestKitInitializer.m */,
 				5186F09718CEE43D00B27C71 /* ClientManager.m */,
 				5186F09918CEE58800B27C71 /* KeyChainWrapper.h */,
 				5186F09A18CEE58800B27C71 /* KeyChainWrapper.m */,
@@ -712,6 +717,7 @@
 				7A33F90F18DFE3C300CEE1A7 /* FriendsPostsViewController.m in Sources */,
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
 				51B0E2F418C48BE900EDFD95 /* User.m in Sources */,
+				51CCDF1418E9E48F00491CB4 /* RestKitInitializer.m in Sources */,
 				7A33F90C18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m in Sources */,
 				7A33F91518DFE3F600CEE1A7 /* MyPostsViewController.m in Sources */,
 				5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */,
