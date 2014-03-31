@@ -55,6 +55,7 @@
         <attribute name="content" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="deleted" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="dirty" optional="YES" attributeType="Boolean" defaultValueString="NO" syncable="YES"/>
+        <attribute name="entitiesFBUserIDs" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="ArrayToDataTransformer" syncable="YES"/>
         <attribute name="entitiesUUIDs" optional="YES" transient="YES" attributeType="Transformable" valueTransformerName="ArrayToDataTransformer" syncable="YES"/>
         <attribute name="following" optional="YES" attributeType="Boolean" syncable="YES"/>
         <attribute name="isYours" optional="YES" attributeType="Boolean" syncable="YES"/>
@@ -79,7 +80,7 @@
         <element name="Institution" positionX="0" positionY="0" width="128" height="180"/>
         <element name="Location" positionX="0" positionY="0" width="128" height="105"/>
         <element name="Photo" positionX="0" positionY="0" width="128" height="165"/>
-        <element name="Post" positionX="0" positionY="0" width="128" height="255"/>
+        <element name="Post" positionX="0" positionY="0" width="128" height="270"/>
         <element name="User" positionX="0" positionY="0" width="128" height="105"/>
     </elements>
 </model>

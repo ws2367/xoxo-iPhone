@@ -24,10 +24,6 @@
 @implementation AppDelegate
 
 @synthesize window = _window;
-//@synthesize managedObjectContext = __managedObjectContext;
-//@synthesize managedObjectModel = __managedObjectModel;
-//@synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
-
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
@@ -125,6 +121,9 @@
     
     // entity mapping
     RKEntityMapping *entityMapping = [RKEntityMapping mappingForEntityForName:@"Entity" inManagedObjectStore:managedObjectStore];
+
+    // 'fb' in fbUserID is not capitalized is because Core Data attributes have to start with small cases
+    //
     [entityMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
                                                         @"name":            @"name",
                                                         @"uuid":            @"uuid",
@@ -133,7 +132,12 @@
                                                         //meta attributes
                                                         @"is_your_friend":  @"isYourFriend",
                                                         @"fb_user_id":      @"fbUserID"}];
-    entityMapping.identificationAttributes = @[@"uuid"];
+
+    /* If fbUserID is null, that means it is not on FB. Therefore, we map the objects by its UUIDs.
+     * If fbUserID is not null, we map the objects by its fbUserID and we rewrite uuid in order to
+     * maintain consistency.
+     */
+    entityMapping.identificationAttributes = @[@"fbUserID", @"uuid"];
 
     [entityMapping addPropertyMapping:[RKRelationshipMapping relationshipMappingFromKeyPath:@"institution"
                                                                                   toKeyPath:@"institution"
@@ -343,7 +347,8 @@
     [postSerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID":        @"id",
                                                                    @"content":         @"content",
                                                                    @"uuid":            @"uuid",
-                                                                   @"entitiesUUIDs":   @"entities_uuids"}];
+                                                                   @"entitiesUUIDs":   @"entities_uuids",
+                                                                   @"entitiesFBUserIDs":   @"entities_fb_user_ids"}];
 
     RKRequestDescriptor *postRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:postSerializationMapping

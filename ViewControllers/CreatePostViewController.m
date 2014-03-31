@@ -359,7 +359,7 @@
         // this is for the server!
         //TODO: use remoteID instead
         [post setEntitiesUUIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"uuid"]]];
-        
+        [post setEntitiesFBUserIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"fbUserID"]]];
         MSDebug(@"The entities uuids of the post to be sent: %@", post.entitiesUUIDs);
         [post setDirty:@NO];
         [post setDeleted:@NO];
