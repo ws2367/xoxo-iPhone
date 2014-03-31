@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FacebookSDK/FacebookSDK.h"
 
 @class ViewMultiPostsViewController;
 @class Entity;
 
-@interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate, UITextViewDelegate>
+@interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate, UITextViewDelegate, FBFriendPickerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *entities;
 

@@ -455,6 +455,13 @@
                             <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tpu-Un-AMY" userLabel="superImageView" customClass="SuperImageView">
                                 <rect key="frame" x="0.0" y="64" width="320" height="197"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dNX-Ic-V6h" customClass="UIImageView">
+                                        <rect key="frame" x="54" y="6" width="201" height="185"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                 <gestureRecognizers/>
                             </view>
@@ -483,7 +490,7 @@
                                     <color key="titleColor" red="0.93725496529999996" green="0.32941177490000001" blue="0.1411764771" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="tsX-iZ-oDh" kind="push" identifier="createEntitySegue" id="GZA-EJ-tct"/>
+                                    <segue destination="tsX-iZ-oDh" kind="push" id="QbC-GF-uk7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FC8-hA-wU7">
@@ -512,6 +519,17 @@
                                 <rect key="frame" x="20" y="43" width="280" height="2"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             </progressView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7b6-rj-NhX">
+                                <rect key="frame" x="163" y="282" width="71" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="+ fb friend">
+                                    <color key="titleColor" red="1" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="fbFriendButtonPressed:" destination="bs7-2m-2iS" eventType="touchUpInside" id="KA5-Ud-RQx"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
@@ -520,6 +538,7 @@
                     <navigationItem key="navigationItem" id="a8x-tc-rx3"/>
                     <connections>
                         <outlet property="entitiesTextField" destination="eDy-7H-j3h" id="33p-uT-83h"/>
+                        <outlet property="profileImageView" destination="dNX-Ic-V6h" id="UrW-eR-ffN"/>
                         <outlet property="progressView" destination="25b-BI-y9R" id="Pqu-RK-xO3"/>
                         <outlet property="superImageView" destination="tpu-Un-AMY" id="ca4-GK-F10"/>
                         <outlet property="textView" destination="P6e-aX-XL6" id="vl6-no-Lo3"/>

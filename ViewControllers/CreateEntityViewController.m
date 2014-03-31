@@ -12,6 +12,7 @@
 #import "EntityTableViewCell.h"
 #import "Institution.h"
 #import "Location.h"
+#import "Entity+MSEntity.h"
 
 @interface CreateEntityViewController ()
 
@@ -161,67 +162,75 @@
     [self allocateBlackMask];
     
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
-
-    // TODO: you might want to check if the entity is really not in the database
-    _selectedEntity =
-        [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
-                                      inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
-
-    // set UUID
-    [_selectedEntity setUuid:[Utility getUUID]];
-    [_selectedEntity setDirty:@YES];
-
-    _selectedEntity.name = _nameTextField.text;
-    
-    // TODO: Consider to add setters of properties of Institution through catergories and class extension
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Institution"];
-    request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _institutionTextField.text];
-    
-    NSError *error = nil;
-    NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext
-                        executeFetchRequest:request error:&error];
-    
-    // there should be only unique institutions
-    if (!matches || error || [matches count] > 1) {
-        // handle error here
-        NSLog(@"Errors in fetching institutions");
-    } else if ([matches count]) {
-        // found the thing
-        _selectedEntity.institution = [matches firstObject];
-    } else {
-        // found nothing, create it!
-        _selectedEntity.institution =
-        [NSEntityDescription insertNewObjectForEntityForName:@"Institution"
-                                      inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
-        
-        [_selectedEntity.institution setName:_institutionTextField.text];
-        [_selectedEntity.institution setDirty:@YES];
-        [_selectedEntity.institution setDeleted:@NO];
-        [_selectedEntity.institution setUuid:[Utility getUUID]];
-        MSDebug(@"Created an institution with name %@", _selectedEntity.institution.name);
-    }
-    
-    request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
-    request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _locationTextField.text];
-    matches = [managedObjectStore.mainQueueManagedObjectContext executeFetchRequest:request error:&error];
-    
-    // there should be only unique locations
-    if (!matches || error || [matches count] > 1) {
-        // handle error here
-        NSLog(@"Errors in fetching locations");
-    } else if ([matches count]) {
-        // found the thing, then set up relationship
-        _selectedEntity.institution.location = [matches firstObject];
-        MSDebug(@"Found location %@", _selectedEntity.institution.location.name);
+    Entity *newEntity;
+    [Entity findOrCreateEntityForYoursUserName:_nameTextField.text withInstitution:_institutionTextField.text atLocationName:_locationTextField.text returnAsInstitution:&newEntity inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+    if (newEntity) {
+        _selectedEntity = newEntity;
         [_delegate addEntity:_selectedEntity];
         [self.navigationController popViewControllerAnimated:YES];
-    } else {
-        // found nothing, and we don't create Location!!
-        NSLog(@"Can't find this location in database, %@", _locationTextField.text);
-        [Utility generateAlertWithMessage:@"No such state in America!" error:error];
-        
-        [self dismissBlackMask];
+    }else{
+        MSDebug(@"User should try again");
     }
+    // TODO: you might want to check if the entity is really not in the database
+//    _selectedEntity =
+//        [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
+//                                      inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+//
+//    // set UUID
+//    [_selectedEntity setUuid:[Utility getUUID]];
+//    [_selectedEntity setDirty:@YES];
+//
+//    _selectedEntity.name = _nameTextField.text;
+//    
+//    // TODO: Consider to add setters of properties of Institution through catergories and class extension
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Institution"];
+//    request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _institutionTextField.text];
+//    
+//    NSError *error = nil;
+//    NSArray *matches = [managedObjectStore.mainQueueManagedObjectContext
+//                        executeFetchRequest:request error:&error];
+//    
+//    // there should be only unique institutions
+//    if (!matches || error || [matches count] > 1) {
+//        // handle error here
+//        NSLog(@"Errors in fetching institutions");
+//    } else if ([matches count]) {
+//        // found the thing
+//        _selectedEntity.institution = [matches firstObject];
+//    } else {
+//        // found nothing, create it!
+//        _selectedEntity.institution =
+//        [NSEntityDescription insertNewObjectForEntityForName:@"Institution"
+//                                      inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+//        
+//        [_selectedEntity.institution setName:_institutionTextField.text];
+//        [_selectedEntity.institution setDirty:@YES];
+//        [_selectedEntity.institution setDeleted:@NO];
+//        [_selectedEntity.institution setUuid:[Utility getUUID]];
+//        MSDebug(@"Created an institution with name %@", _selectedEntity.institution.name);
+//    }
+//    
+//    request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
+//    request.predicate = [NSPredicate predicateWithFormat:@"name = %@", _locationTextField.text];
+//    matches = [managedObjectStore.mainQueueManagedObjectContext executeFetchRequest:request error:&error];
+//    
+//    // there should be only unique locations
+//    if (!matches || error || [matches count] > 1) {
+//        // handle error here
+//        NSLog(@"Errors in fetching locations");
+//    } else if ([matches count]) {
+//        // found the thing, then set up relationship
+//        _selectedEntity.institution.location = [matches firstObject];
+//        MSDebug(@"Found location %@", _selectedEntity.institution.location.name);
+//        [_delegate addEntity:_selectedEntity];
+//        [self.navigationController popViewControllerAnimated:YES];
+//    } else {
+//        // found nothing, and we don't create Location!!
+//        NSLog(@"Can't find this location in database, %@", _locationTextField.text);
+//        [Utility generateAlertWithMessage:@"No such state in America!" error:error];
+//        
+//        [self dismissBlackMask];
+//    }
 
 }
 

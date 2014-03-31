@@ -106,6 +106,9 @@
 		7A37FA4218E4B4B6003E5BFF /* menu-my@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3718E4B4B6003E5BFF /* menu-my@2x.png */; };
 		7A37FA4318E4B4B6003E5BFF /* menu-popular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */; };
 		7A37FA4418E4B4B6003E5BFF /* time@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3918E4B4B6003E5BFF /* time@2x.png */; };
+		7A99E87418E8C95E001F9927 /* Location+MSLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A99E87318E8C95E001F9927 /* Location+MSLocation.m */; };
+		7A99E87718E8CE0B001F9927 /* Institution+MSInstitution.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A99E87618E8CE0B001F9927 /* Institution+MSInstitution.m */; };
+		7A99E87A18E8E3BD001F9927 /* Entity+MSEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A99E87918E8E3BD001F9927 /* Entity+MSEntity.m */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 /* End PBXBuildFile section */
@@ -263,6 +266,12 @@
 		7A37FA3718E4B4B6003E5BFF /* menu-my@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-my@2x.png"; sourceTree = "<group>"; };
 		7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-popular@2x.png"; sourceTree = "<group>"; };
 		7A37FA3918E4B4B6003E5BFF /* time@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "time@2x.png"; sourceTree = "<group>"; };
+		7A99E87218E8C95E001F9927 /* Location+MSLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Location+MSLocation.h"; sourceTree = "<group>"; };
+		7A99E87318E8C95E001F9927 /* Location+MSLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Location+MSLocation.m"; sourceTree = "<group>"; };
+		7A99E87518E8CE0B001F9927 /* Institution+MSInstitution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Institution+MSInstitution.h"; sourceTree = "<group>"; };
+		7A99E87618E8CE0B001F9927 /* Institution+MSInstitution.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Institution+MSInstitution.m"; sourceTree = "<group>"; };
+		7A99E87818E8E3BD001F9927 /* Entity+MSEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Entity+MSEntity.h"; sourceTree = "<group>"; };
+		7A99E87918E8E3BD001F9927 /* Entity+MSEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Entity+MSEntity.m"; sourceTree = "<group>"; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
@@ -362,6 +371,12 @@
 				5148477E18C69A7800280874 /* ArrayToDataTransformer.m */,
 				51A4057F18BC4FB400C61438 /* ImageToDataTransformer.h */,
 				51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */,
+				7A99E87218E8C95E001F9927 /* Location+MSLocation.h */,
+				7A99E87318E8C95E001F9927 /* Location+MSLocation.m */,
+				7A99E87518E8CE0B001F9927 /* Institution+MSInstitution.h */,
+				7A99E87618E8CE0B001F9927 /* Institution+MSInstitution.m */,
+				7A99E87818E8E3BD001F9927 /* Entity+MSEntity.h */,
+				7A99E87918E8E3BD001F9927 /* Entity+MSEntity.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -705,6 +720,7 @@
 				7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */,
 				75073FCA1814C024009177C7 /* SmallPostTableViewCell.m in Sources */,
 				516609EF181F4A8E0059F8BB /* ServerConnector.m in Sources */,
+				7A99E87718E8CE0B001F9927 /* Institution+MSInstitution.m in Sources */,
 				75CCCF4F17FC03DF000BF0F4 /* AppDelegate.m in Sources */,
 				51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */,
 				514B732A18CA7B4A00EEAC66 /* Institution.m in Sources */,
@@ -718,10 +734,12 @@
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
 				51B0E2F418C48BE900EDFD95 /* User.m in Sources */,
 				51CCDF1418E9E48F00491CB4 /* RestKitInitializer.m in Sources */,
+				7A99E87A18E8E3BD001F9927 /* Entity+MSEntity.m in Sources */,
 				7A33F90C18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m in Sources */,
 				7A33F91518DFE3F600CEE1A7 /* MyPostsViewController.m in Sources */,
 				5180E32F18B81A0400115C14 /* TopBorderView.m in Sources */,
 				5186F09818CEE43D00B27C71 /* ClientManager.m in Sources */,
+				7A99E87418E8C95E001F9927 /* Location+MSLocation.m in Sources */,
 				75C086E817FE695900023200 /* BIDCellView.m in Sources */,
 				51BA54B718D2730200B85BAF /* NavigationController.m in Sources */,
 				514B731E18CA79BC00EEAC66 /* Entity.m in Sources */,

@@ -16,7 +16,8 @@
 #import "SuperImageView.h"
 #import "KeyChainWrapper.h"
 #import "ClientManager.h"
-
+#import "Institution+MSInstitution.h"
+#import "Entity+MSEntity.h"
 
 #define VIEW_OFFSET_KEYBOARD 70
 #define ANIMATION_CUTDOWN 0.05
@@ -49,6 +50,20 @@
 
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *postButton;
+
+//for friend picker
+@property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
+@property (weak, nonatomic) IBOutlet FBProfilePictureView *profilePicView;
+
+//for fb request concurrency
+@property (atomic) int32_t requestsToWait;
+@property (strong, nonatomic)NSLock *requestsToWaitLock;
+@property (strong, nonatomic)NSLock *toPostLock;
+@property (strong, nonatomic) NSMutableString *nameList;
+
+//for grabbing facebook profile image
+@property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+
 
 @end
 
@@ -120,6 +135,9 @@
     if(_photos == nil){
         _photos = [[NSMutableArray alloc] init];
     }
+    
+    _toPostLock = [[NSLock alloc] init];
+    _requestsToWaitLock = [[NSLock alloc] init];
 }
 
 #pragma mark -
@@ -284,7 +302,9 @@
 #pragma mark -
 #pragma mark Button Methods
 - (IBAction)doneCreatingPost:(id)sender {
-    [self uploadPostAndRelatedObjects];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [self uploadPostAndRelatedObjects];
+    });
     [self.navigationController popViewControllerAnimated:true];
 }
 
@@ -345,6 +365,7 @@
 }
 
 - (void)uploadPostAndRelatedObjects {
+    [_toPostLock lock];
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
@@ -369,6 +390,7 @@
                 
         //add photos to post
         // In _photos are UIImage objects
+        [_photos addObject:[_profileImageView image]];
         for (UIImage *image in _photos){
             Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo"
                                                          inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
@@ -486,6 +508,134 @@
     [self.view addSubview:currImageView];
     */
 }
+
+
+#pragma mark -
+#pragma mark FacebookFriendPicker initiation
+- (IBAction)fbFriendButtonPressed:(id)sender {
+    
+    // FBSample logic
+    // if the session is open, then load the data for our view controller
+    if (!FBSession.activeSession.isOpen) {
+        MSDebug(@"no session");
+        // if the session is closed, then we open it here, and establish a handler for state changes
+        NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                @"user_birthday",@"friends_hometown", @"friends_birthday",@"friends_location",@"friends_education_history",@"friends_work_history",                              nil];
+        [FBSession openActiveSessionWithReadPermissions:permissions
+                                           allowLoginUI:YES
+                                      completionHandler:^(FBSession *session,
+                                                          FBSessionState state,
+                                                          NSError *error) {
+                                          if (error) {
+                                              UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                  message:error.localizedDescription
+                                                                                                 delegate:nil
+                                                                                        cancelButtonTitle:@"OK"
+                                                                                        otherButtonTitles:nil];
+                                              [alertView show];
+                                          } else if (session.isOpen) {
+                                              [self fbFriendButtonPressed:sender];
+                                          }
+                                      }];
+        return;
+    }
+    
+    if (self.friendPickerController == nil) {
+        // Create friend picker, and get data loaded into it.
+        self.friendPickerController = [[FBFriendPickerViewController alloc] init];
+        self.friendPickerController.title = @"Pick Friends";
+        self.friendPickerController.delegate = self;
+    }
+    
+    [self.friendPickerController loadData];
+    [self.friendPickerController clearSelection];
+    
+    
+    
+    [self presentViewController:self.friendPickerController animated:YES completion:nil];
+}
+
+# pragma mark -
+#pragma mark - FBFriendPickerDelegate method
+- (void)facebookViewControllerDoneWasPressed:(id)sender {
+    [_toPostLock tryLock];
+    id<FBGraphUser> firstFrd = [self.friendPickerController.selection firstObject];
+    _profilePicView.profileID = firstFrd.id;
+    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", firstFrd.id];
+    [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
+    _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
+    for (id<FBGraphUser> frd in self.friendPickerController.selection) {
+        _profilePicView.profileID = frd.id;
+        [self processFBUser:frd];
+    }
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)facebookViewControllerCancelWasPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+
+# pragma mark -
+#pragma mark - process every fb friend picked
+- (void) processFBUser:(id<FBGraphUser>) frd{
+    if(!_nameList){
+        _nameList = [[NSMutableString alloc] init];
+    }
+    [_nameList appendString:frd.name];
+    _entitiesTextField.text = _nameList;
+
+    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
+    Entity *newFBEntity;
+    BOOL hasFoundExistingEntity = [Entity findOrCreateEntityForFBUserName:frd.name withFBid:frd.id withInstitution:nil atLocationName:nil returnAsInstitution:&newFBEntity inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+    if(_entities == nil){
+        _entities = [[NSMutableArray alloc] init];
+    }
+    [_entities addObject:newFBEntity];
+    
+
+    if(!hasFoundExistingEntity){
+        [_requestsToWaitLock lock];
+        _requestsToWait++;
+        [_requestsToWaitLock unlock];
+        FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
+                                                      graphPath:frd.id];
+        [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            
+            //get its state
+            NSDictionary *location = [result objectForKey:@"location"];
+            NSString *locationName = [location objectForKey:@"name"];
+            NSArray *cityAndState = [locationName componentsSeparatedByString:@", "];
+            NSString *state = [cityAndState objectAtIndex:1];
+            MSDebug(@"its state %@ what?", state);
+
+            //get its institution
+            NSArray *education = [result objectForKey:@"education"];
+            NSString *schoolName;
+            for (id ed in education){
+                if([[ed objectForKey:@"type"] isEqualToString:@"College"]){
+                    id school = [ed objectForKey:@"school"];
+                    schoolName = [[NSString alloc] initWithString:[school objectForKey:@"name"]];
+                }
+            }
+            MSDebug(@"its school %@ what?", schoolName);
+            
+            Institution *insForFBUser;
+            [Institution findOrCreateInstitutionForFBUser:schoolName atLocationName:state returnAsInstitution:&insForFBUser inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+            [newFBEntity setInstitution:insForFBUser];
+            
+            [_requestsToWaitLock lock];
+            _requestsToWait--;
+            if(_requestsToWait == 0){
+                [_toPostLock unlock];
+            }
+            [_requestsToWaitLock unlock];
+        }];
+
+    }
+}
+
+
 
 # pragma mark -
 #pragma mark - Navigation
