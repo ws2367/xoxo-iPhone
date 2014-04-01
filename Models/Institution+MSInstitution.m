@@ -79,7 +79,7 @@
         return FALSE;
     } else if(!hasFoundLocation){
         // found nothing, and we don't create Location!!
-        MSDebug(@"Can't find this location in database, %@", locationName);
+        MSDebug(@"Can't find this institution in database, %@", locationName);
         [Utility generateAlertWithMessage:@"No such state in America!" error:error];
         *institutionToReturn = nil;
         return FALSE;

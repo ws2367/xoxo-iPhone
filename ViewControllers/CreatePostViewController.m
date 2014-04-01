@@ -395,7 +395,11 @@
                 
         //add photos to post
         // In _photos are UIImage objects
-        [_photos addObject:[_profileImageView image]];
+        
+        //add profile pic if there exist one
+        if([_profileImageView image]){
+            [_photos addObject:[_profileImageView image]];
+        }
         for (UIImage *image in _photos){
             Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo"
                                                          inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
@@ -487,7 +491,7 @@
         [objectManager enqueueObjectRequestOperation:operation];
         
     }
-    
+    MSDebug(@"toPost unlock!!!");
     [_toPostLock unlock];
 }
 
@@ -586,6 +590,10 @@
 # pragma mark -
 #pragma mark - process every fb friend picked
 - (void) processFBUser:(id<FBGraphUser>) frd{
+    [_requestsToWaitLock lock];
+    _requestsToWait++;
+    MSDebug(@"Plus request to %d", _requestsToWait);
+    [_requestsToWaitLock unlock];
     if(!_nameList){
         _nameList = [[NSMutableString alloc] init];
     }
@@ -594,17 +602,25 @@
 
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Entity *newFBEntity;
+    MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %d", frd.name, frd.id, [frd.id integerValue]);
     BOOL hasFoundExistingEntity = [Entity findOrCreateEntityForFBUserName:frd.name withFBid:frd.id withInstitution:nil atLocationName:nil returnAsInstitution:&newFBEntity inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
     [_entities addObject:newFBEntity];
     
-
-    if(!hasFoundExistingEntity){
+    MSDebug(@"has found existing entity? %d", hasFoundExistingEntity);
+    if(hasFoundExistingEntity){
         [_requestsToWaitLock lock];
-        _requestsToWait++;
+        _requestsToWait--;
+        MSDebug(@"Minus request to %d", _requestsToWait);
+        if(_requestsToWait == 0){
+            [_toPostLock unlock];
+             MSDebug(@"toPost unlock!!!");
+        }
         [_requestsToWaitLock unlock];
+        MSDebug(@"Has Found existing entity %@ with fbid: %@", newFBEntity.name, newFBEntity.fbUserID);
+    } else {
         FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
                                                       graphPath:frd.id];
         [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
@@ -633,8 +649,11 @@
             
             [_requestsToWaitLock lock];
             _requestsToWait--;
+            MSDebug(@"Minus request to %d, is it true? %d", _requestsToWait, _requestsToWait == 0);
             if(_requestsToWait == 0){
+                
                 [_toPostLock unlock];
+                MSDebug(@"toPost unlock!!!");
             }
             [_requestsToWaitLock unlock];
         }];
@@ -650,7 +669,7 @@
     if ([segue.identifier isEqualToString:@"createEntitySegue"]){
         CreateEntityViewController *nextController = segue.destinationViewController;
         nextController.delegate = self;
-    }
+    } else
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 @end

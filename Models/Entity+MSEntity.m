@@ -15,9 +15,11 @@
     NSError *error = nil;
     
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
-    request.predicate = [NSPredicate predicateWithFormat:@"fbUserID = %d", [fbid integerValue]];
+    request.predicate = [NSPredicate predicateWithFormat:@"fbUserID = %@", fbid];
     NSArray *matches = [context
                         executeFetchRequest:request error:&error];
+    
+    MSDebug(@"Let's compare %@ and %@", fbid, [[matches firstObject] fbUserID]);
     
     Institution *thisIns;
     [Institution findOrCreateInstitutionForFBUser:institutionName atLocationName:locationName returnAsInstitution:&thisIns inManagedObjectContext:context];
@@ -82,7 +84,7 @@
     
     // set UUID
     [en setUuid:[Utility getUUID]];
-    [en setFbUserID:[NSNumber numberWithInt:[fbid integerValue]]];
+    [en setFbUserID:fbid];
     [en setIsYourFriend:@YES];
     [en setDirty:@YES];
     [en setName:entityName];
