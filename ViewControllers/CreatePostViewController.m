@@ -138,6 +138,9 @@
     
     _toPostLock = [[NSLock alloc] init];
     _requestsToWaitLock = [[NSLock alloc] init];
+    _requestsToWait = 0;
+    
+//    [FBSession.activeSession close];
 }
 
 #pragma mark -
@@ -365,7 +368,9 @@
 }
 
 - (void)uploadPostAndRelatedObjects {
+    MSDebug(@"wanna lock");
     [_toPostLock lock];
+    MSDebug(@"got lock");
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
@@ -482,6 +487,8 @@
         [objectManager enqueueObjectRequestOperation:operation];
         
     }
+    
+    [_toPostLock unlock];
 }
 
 #pragma mark -
