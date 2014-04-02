@@ -12,5 +12,9 @@
 
 +(UIColor *) colorForTabBar;
 +(UIColor *) colorForBackground;
-
++(UIColor *) colorForYoursBlue;
++(UIColor *) colorForYoursCyan;
++(UIColor *) colorForYoursGreen;
++(UIColor *) colorForYoursOrange;
++(UIColor *) colorForYoursRed;
 @end

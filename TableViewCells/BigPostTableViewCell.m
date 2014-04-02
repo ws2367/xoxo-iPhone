@@ -10,6 +10,9 @@
 #import <QuartzCore/QuartzCore.h> //for gradient color
 #import "UIColor+MSColor.h"
 
+#define BUTTON_ORIGIN_Y 205
+#define POST_IMAGE_HEIGHT 196
+
 @interface BigPostTableViewCell()
 
 @property (strong,nonatomic)  UIImageView *mooseView;
@@ -20,10 +23,25 @@
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UIButton *entityButton;
 
-@property (strong, nonatomic) IBOutlet UIImageView *postImageView;
+@property (strong, nonatomic)UIImageView *postImageView;
 
 @property (weak, nonatomic) IBOutlet UILabel *dateLabel;
 @property (copy, nonatomic) NSString *dateToShow;
+@property (strong, nonatomic) UIButton *shareButton;
+@property (strong, nonatomic) UIButton *commentButton;
+@property (strong, nonatomic) UIButton *reportButton;
+@property (strong, nonatomic) UIButton *whatButton;
+
+
+@property (strong,nonatomic) UILabel *commentLabel;
+@property (strong,nonatomic) UILabel *followLabel;
+@property (strong, nonatomic) NSAttributedString *commentNumber;
+@property (strong, nonatomic) NSAttributedString *followNumber;
+@property (nonatomic) CGFloat imageWidth;
+
+@property (strong, nonatomic) CAGradientLayer *blackLayer;
+@property (strong, nonatomic) CAGradientLayer *gradientLeft;
+
 
 /*
 @property (strong, nonatomic) IBOutlet UIButton *likeButton;
@@ -58,7 +76,10 @@
     [super updateConstraints];
     //apply our background color for cells
     [self.contentView setBackgroundColor:[UIColor colorForBackground]];
+    [self addLowerButtons];
 }
+
+
 
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
@@ -118,13 +139,6 @@
 }
 
 
-- (void)setImage:(UIImage *)image
-{
-    _postImageView.image = image;
-    [self createGradient];
-}
-
-
 -(void) setDateToShow:(NSString *)dateToShow{
     _dateToShow = [dateToShow copy];
     _dateLabel.text = _dateToShow;
@@ -164,6 +178,32 @@
     }
 }
  */
+
+-(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentNum:(NSInteger *)commentNum FollowNum:(NSInteger *)followNum atDate:(NSDate *)date{
+    //first process photo
+    if(!_postImageView){
+        _postImageView = [[UIImageView alloc] init];
+    }
+    _imageWidth = photo.size.width*POST_IMAGE_HEIGHT/photo.size.height;
+    [_postImageView setFrame:CGRectMake(WIDTH - _imageWidth, 0, _imageWidth, POST_IMAGE_HEIGHT)];
+    [_postImageView setImage:photo];
+    [self.contentView addSubview:_postImageView];
+    [self createGradient];
+    
+    //then process entities
+    [self generateNameLabels:entities];
+
+    //then content
+    [self generateContentLabel:content];
+    
+    //then comment and follow Number
+    [self addCommentAndFollowNumbersWithCommentNum:commentNum FollowNum:followNum];
+    
+    //then display date
+    [self displayDate:date];
+    
+}
+
 
 
 #pragma mark -
@@ -216,27 +256,108 @@
                      }];
 }
 
+
+#pragma mark -
+#pragma mark UI Helper Methods
+
+-(void)displayDate:(NSDate *)date{
+    UIImage *timeIcon =[UIImage imageNamed:@"icon-time.png"];
+    UIImageView *timeIconView = [[UIImageView alloc] initWithImage:timeIcon];
+    [timeIconView setFrame:CGRectMake(275, 8, timeIcon.size.width, timeIcon.size.height)];
+    [self.contentView addSubview:timeIconView];
+    NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:[Utility getDateToShow:date] attributes:[Utility getMultiPostsDateFontDictionary]];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(290, -10, 50, 50)];
+    [dateLabel setAttributedText:dateString];
+    [dateLabel setShadowColor:[UIColor colorWithWhite:0 alpha:0.3]];
+    [dateLabel setShadowOffset:CGSizeMake(0.5,0.5)];
+    [self.contentView addSubview:dateLabel];
+}
+-(void)generateContentLabel:(NSString *)content{
+    NSAttributedString *contentString = [[NSAttributedString alloc] initWithString:content attributes:[Utility getMultiPostsContentFontDictionary]];
+    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, WIDTH/2, 50)];
+    [contentLabel setAttributedText:contentString];
+    [self.contentView addSubview:contentLabel];
+}
+
+-(void)generateNameLabels:(NSArray *)entities{
+    if([entities count] >= 1){
+         NSDictionary *firstEntity = [entities firstObject];
+        [self generateNameLabel:firstEntity[@"name"] atX:0 Y:100];
+    }
+    if([entities count] >= 2){
+         NSDictionary *secondEntity = [entities objectAtIndex:1];
+        [self generateNameLabel:secondEntity[@"name"] atX:0 Y:50];
+    }
+}
+
+-(void) generateNameLabel:(NSString *)name atX:(CGFloat)originX Y:(CGFloat)originY{
+    NSAttributedString *nameString = [[NSAttributedString alloc] initWithString:name attributes:[Utility getMultiPostsNameFontDictionary]];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY, WIDTH/2, 50)];
+    [nameLabel setAttributedText:nameString];
+    [self.contentView addSubview:nameLabel];
+}
+
+-(void) addCommentAndFollowNumbersWithCommentNum:(NSInteger *)commentNum FollowNum:(NSInteger *)followNum{
+    _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(102, BUTTON_ORIGIN_Y+3, 50, 18)];
+    _followLabel = [[UILabel alloc] initWithFrame:CGRectMake(184, BUTTON_ORIGIN_Y+3, 50, 18)];
+    _commentNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)commentNum] attributes:[Utility getCommentNumberFontDictionary]];
+    _followNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)followNum] attributes:[Utility getFollowNumberFontDictionary]];
+    [_commentLabel setAttributedText:_commentNumber];
+    [_followLabel setAttributedText:_followNumber];
+    [self.contentView addSubview:_commentLabel];
+    [self.contentView addSubview:_followLabel];
+}
+
+- (void)addLowerButtons{
+    _shareButton = [self createLowerButtonAtOriginX:15 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newshare.png"]];
+    _commentButton = [self createLowerButtonAtOriginX:64 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-comment.png"]];
+    _whatButton = [self createLowerButtonAtOriginX:150 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-follow.png"]];
+    _reportButton = [self createLowerButtonAtOriginX:285 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newreport.png"]];
+    [self createVerticalLineAtOriginX:98 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursBlue]];
+    [self createVerticalLineAtOriginX:180 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursOrange]];
+    
+}
+
+-(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
+    button.frame = CGRectMake(originX, originY, buttonImage.size.width, buttonImage.size.height);
+    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    [self.contentView addSubview:button];
+    return button;
+}
+
+-(void) createVerticalLineAtOriginX:(int)originX andY:(int)originY withColor:(UIColor *)lineColor{
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(originX, originY, 1, 18)];
+    lineView.backgroundColor = lineColor;
+    [self.contentView addSubview:lineView];
+}
+
 // This is where we make the gradient mask on pictures
 -(void) createGradient{
     // Flag tells whether it is a new start or a refreshing
     
-    //dont create a gradient
-    /*
-    if(_gradientFlag == FALSE){
-        CAGradientLayer *gradientBelow = [CAGradientLayer layer];
-        gradientBelow.frame = CGRectMake(0 , 150, self.frame.size.width, self.frame.size.height - 150);
-        gradientBelow.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor],
-                           (id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], nil];
-        CAGradientLayer *gradientRight = [CAGradientLayer layer];
-        gradientRight.frame = CGRectMake(0 , 0, self.frame.size.width, self.frame.size.height - 150);
-        gradientRight.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor],
-                                (id)[[UIColor colorWithWhite:0 alpha:0.5] CGColor], nil];
-        gradientRight.startPoint = CGPointMake(0.5, 0.5);
-        gradientRight.endPoint =CGPointMake(1, 0);
-        //[_postImageView.layer addSublayer:gradientRight]; //TODO: decide whether to leave gradient right on or off
-        [_postImageView.layer addSublayer:gradientBelow];
-        _gradientFlag = TRUE;
+    //remove it and then add them back
+    [_blackLayer removeFromSuperlayer];
+    [_gradientLeft removeFromSuperlayer];
+    
+    
+    _blackLayer = [CAGradientLayer layer];
+    _gradientLeft = [CAGradientLayer layer];
+    if(_imageWidth > (3*WIDTH)/4){
+        [_blackLayer setFrame:CGRectMake(0 , 0, WIDTH/4, POST_IMAGE_HEIGHT)];
+        [_gradientLeft setFrame:CGRectMake(WIDTH/4,0 , WIDTH/2, POST_IMAGE_HEIGHT)];
+    } else{
+        [_blackLayer setFrame:CGRectMake(0 , 0, WIDTH - _imageWidth, POST_IMAGE_HEIGHT)];
+        [_gradientLeft setFrame:CGRectMake(WIDTH - _imageWidth, 0 ,  _imageWidth/2, POST_IMAGE_HEIGHT)];
     }
-     */
+        
+    _blackLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:1] CGColor],(id)[[UIColor colorWithWhite:0 alpha:1] CGColor], nil];
+    _gradientLeft.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:0] CGColor],(id)[[UIColor colorWithWhite:0 alpha:1] CGColor], nil];
+    _gradientLeft.endPoint = CGPointMake(0, 0.5);
+    _gradientLeft.startPoint = CGPointMake(1, 0.5);
+
+    [self.contentView.layer addSublayer:_blackLayer];
+    [self.contentView.layer addSublayer:_gradientLeft];
 }
 @end

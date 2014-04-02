@@ -318,9 +318,12 @@
     //TODO: check if the model is empty then this will raise exception
 
     Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
+    
+    
 
-    cell.content = post.content;
-    [cell setDateToShow:[Utility getDateToShow:post.updateDate]];
+
+//    cell.content = post.content;
+    //[cell setDateToShow:[Utility getDateToShow:post.updateDate]];
     
     /*CAUTION! following is a NSNumber (though declared as bool in Core Data) 
      so you have to get its bool value
@@ -341,17 +344,21 @@
         [entitiesArray addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
     }];
     
-    cell.entities = entitiesArray;
+//    cell.entities = entitiesArray;
     
     //TODO: should present all images, not just the first one
+    
+    UIImage *imagephoto;
     if ([post.photos count] > 0) {
         Photo *photo = [[post.photos allObjects] firstObject];
-        cell.image = [[UIImage alloc] initWithData:photo.image];
+        imagephoto= [[UIImage alloc] initWithData:photo.image];
     }
     
     
     
-
+    if ([post.photos count] > 0) {
+        [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
+    }
 
     /*
     // We want the cell to know which row it is, so we store that in button.tag

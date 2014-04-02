@@ -103,6 +103,13 @@
 			<string>{320, 480}</string>
 		</dict>
 	</array>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>helveticaneueltstd-roman-webfont.ttf</string>
+		<string>HelveticaNeueLTStd-UltLtCn.otf</string>
+	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>

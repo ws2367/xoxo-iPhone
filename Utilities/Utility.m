@@ -7,6 +7,7 @@
 //
 
 #import "Utility.h"
+#import "UIColor+MSColor.h"
 
 #define YEAR_SECOND 31556926
 #define MONTH_SECOND 2629743
@@ -138,31 +139,31 @@
     int monthCnt = floor(timedifference/MONTH_SECOND);
     if(monthCnt > 0){
         NSString *monthString = [NSString stringWithFormat: @"%d", monthCnt];
-        return [monthString stringByAppendingString:@"mo ago"];
+        return [monthString stringByAppendingString:@"mo"];
     }
     int weekCnt = floor(timedifference/WEEK_SECOND);
     if(weekCnt > 0){
         NSString *weekString = [NSString stringWithFormat: @"%d", weekCnt];
-        return [weekString stringByAppendingString:@"w ago"];
+        return [weekString stringByAppendingString:@"w"];
     }
     int dayCnt = floor(timedifference/DAY_SECOND);
     if(dayCnt > 0){
         NSString *dayString = [NSString stringWithFormat: @"%d", dayCnt];
-        return [dayString stringByAppendingString:@"d ago"];
+        return [dayString stringByAppendingString:@"d"];
     }
     int hourCnt = floor(timedifference/HOUR_SECOND);
     if(hourCnt > 0){
         NSString *hourString = [NSString stringWithFormat: @"%d", hourCnt];
-        return [hourString stringByAppendingString:@"h ago"];
+        return [hourString stringByAppendingString:@"h"];
     }
     int minCnt = floor(timedifference/MIN_SECOND);
     if(minCnt > 0){
         NSString *minString = [NSString stringWithFormat: @"%d", minCnt];
-        return [minString stringByAppendingString:@"m ago"];
+        return [minString stringByAppendingString:@"m"];
     }
     
     NSString *secString = [NSString stringWithFormat: @"%d", (int)timedifference];
-    return [secString stringByAppendingString:@"s ago"];
+    return [secString stringByAppendingString:@"s"];
     
 }
 
@@ -199,7 +200,28 @@
 
 + (NSDictionary *)getTabBarItemFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getCommentNumberFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, [UIColor colorForYoursBlue] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getFollowNumberFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, [UIColor colorForYoursOrange] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getMultiPostsNameFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-UltLtCn" size:40],NSFontAttributeName, [UIColor colorForYoursCyan] ,NSForegroundColorAttributeName,nil];
 
 }
++ (NSDictionary *)getMultiPostsContentFontDictionary{
+//    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"helveticaneueltstd-roman-webfont" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+}
++ (NSDictionary *)getMultiPostsDateFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+}
+
+
 
 @end

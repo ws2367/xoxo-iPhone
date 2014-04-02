@@ -138,9 +138,15 @@
         _photos = [[NSMutableArray alloc] init];
     }
     
+    //initialize locks
+    if(!_toPostLock){
     _toPostLock = [[NSLock alloc] init];
+    }
+    if(!_requestsToWaitLock){
     _requestsToWaitLock = [[NSLock alloc] init];
+    }
     _requestsToWait = 0;
+    
     
 //    [FBSession.activeSession close];
 }
@@ -149,7 +155,6 @@
 #pragma mark View Will Appear
 - (void) viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    
     // hide the progress view first
     _progressView.hidden = true;
 }

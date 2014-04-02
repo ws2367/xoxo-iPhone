@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="2dw-Jg-arN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
         <!--View Controller-->
@@ -249,67 +249,20 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AnE-Eu-YY0">
-                                            <rect key="frame" x="0.0" y="-1" width="320" height="188"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="1 hour ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZqN-VF-co1">
-                                            <rect key="frame" x="249" y="7" width="69" height="16"/>
+                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eiX-ka-3lQ">
+                                            <rect key="frame" x="137" y="40" width="59" height="30"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                            <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="content goes here" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="N9t-9i-6WZ">
-                                            <rect key="frame" x="0.0" y="141" width="270" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        </textView>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f99-MH-HC3">
-                                            <rect key="frame" x="279" y="186" width="30" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                            <state key="normal" title=">">
-                                                <color key="titleColor" red="0.91372555489999996" green="0.92941182850000004" blue="0.95294123890000004" alpha="1" colorSpace="deviceRGB"/>
+                                            <state key="normal" title="see post">
+                                                <color key="titleColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="cL5-ka-YOO"/>
+                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="Ufg-8n-QaF"/>
                                             </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="t2l-Pq-Doa">
-                                            <rect key="frame" x="20" y="105" width="252" height="39"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                            <state key="normal" title="Name">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="t97-Ex-rYS"/>
-                                            </connections>
-                                        </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="szz-qY-9AA">
-                                            <rect key="frame" x="221" y="20" width="94" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="follow">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
                                         </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.85124885948905105" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="contentTextView" destination="N9t-9i-6WZ" id="3ew-x5-tBO"/>
-                                    <outlet property="dateLabel" destination="ZqN-VF-co1" id="VJJ-oJ-H4K"/>
-                                    <outlet property="entityButton" destination="t2l-Pq-Doa" id="uiX-pU-AwC"/>
-                                    <outlet property="followButton" destination="szz-qY-9AA" id="5Fs-tA-Klq"/>
-                                    <outlet property="postImageView" destination="AnE-Eu-YY0" id="jch-ee-Zng"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -366,58 +319,8 @@
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9gt-EG-dRl" id="UMY-B8-vGN">
                                             <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fCT-wY-0rO">
-                                                    <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                </imageView>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OJc-ZA-QkB">
-                                                    <rect key="frame" x="171" y="148" width="131" height="39"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                                    <state key="normal" title="Name">
-                                                        <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="LAB-UI-cDH" kind="push" identifier="toSelfSegue" id="kmK-OW-bct"/>
-                                                    </connections>
-                                                </button>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="content goes here" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="UE8-M7-Shr">
-                                                    <rect key="frame" x="0.0" y="195" width="270" height="54"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                                    <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                                </textView>
-                                                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4tg-QV-Nr3">
-                                                    <rect key="frame" x="283" y="182" width="30" height="54"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                                    <state key="normal" title=">">
-                                                        <color key="titleColor" red="0.91372555489999996" green="0.92941182850000004" blue="0.95294123890000004" alpha="1" colorSpace="deviceRGB"/>
-                                                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                                    </state>
-                                                    <connections>
-                                                        <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="Kxe-No-J1p"/>
-                                                    </connections>
-                                                </button>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="1 hour ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="6fd-aa-aGc">
-                                                    <rect key="frame" x="250" y="2" width="69" height="16"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.76804858576642332" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <outlet property="contentTextView" destination="UE8-M7-Shr" id="ukg-aF-ZEb"/>
-                                            <outlet property="dateLabel" destination="6fd-aa-aGc" id="wrA-8j-URa"/>
-                                            <outlet property="entityButton" destination="OJc-ZA-QkB" id="fhA-zY-fxx"/>
-                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -564,33 +467,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="liA-7B-dY3">
-                                            <rect key="frame" x="0.0" y="-1" width="320" height="250"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eJq-0B-j3i">
-                                            <rect key="frame" x="221" y="20" width="88" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="follow">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="1 hour ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9ag-bV-jg0">
-                                            <rect key="frame" x="249" y="7" width="69" height="16"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                            <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="content goes here" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="vPr-qs-AKN">
-                                            <rect key="frame" x="1" y="195" width="270" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        </textView>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vAK-GL-Fv8">
                                             <rect key="frame" x="279" y="186" width="30" height="54"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -603,28 +479,9 @@
                                                 <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="xG9-8X-c9V"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="R9c-8h-fHB">
-                                            <rect key="frame" x="57" y="148" width="252" height="39"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                            <state key="normal" title="Name">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="Ofo-Wv-zxB"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="contentTextView" destination="vPr-qs-AKN" id="t0k-BE-Yco"/>
-                                    <outlet property="dateLabel" destination="9ag-bV-jg0" id="57S-4v-WLn"/>
-                                    <outlet property="entityButton" destination="R9c-8h-fHB" id="NbI-T1-XBQ"/>
-                                    <outlet property="followButton" destination="eJq-0B-j3i" id="igT-HQ-nTj"/>
-                                    <outlet property="postImageView" destination="liA-7B-dY3" id="Z5o-ie-cRK"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -654,33 +511,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MV3-0O-e49">
-                                            <rect key="frame" x="0.0" y="-1" width="320" height="250"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f3Q-Zw-nSD">
-                                            <rect key="frame" x="224" y="26" width="91" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="follow">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="1 hour ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YGs-mI-FKL">
-                                            <rect key="frame" x="249" y="7" width="69" height="16"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                            <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="content goes here" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="Nqh-Lf-cmC">
-                                            <rect key="frame" x="1" y="195" width="270" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        </textView>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Ub-QK-qzp">
                                             <rect key="frame" x="279" y="186" width="30" height="54"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -693,28 +523,9 @@
                                                 <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="7Fc-R9-neg"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gdE-Ob-PuR">
-                                            <rect key="frame" x="60" y="148" width="249" height="39"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                            <state key="normal" title="Name">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="VUp-Cz-zVB"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="contentTextView" destination="Nqh-Lf-cmC" id="4Il-7g-SeP"/>
-                                    <outlet property="dateLabel" destination="YGs-mI-FKL" id="i6C-m9-Otu"/>
-                                    <outlet property="entityButton" destination="gdE-Ob-PuR" id="z5g-GL-CB4"/>
-                                    <outlet property="followButton" destination="f3Q-Zw-nSD" id="HBR-TD-9lv"/>
-                                    <outlet property="postImageView" destination="MV3-0O-e49" id="Hg3-7O-133"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -744,33 +555,6 @@
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
-                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Spo-jB-7nW">
-                                            <rect key="frame" x="0.0" y="-1" width="320" height="250"/>
-                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                        </imageView>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ZxK-fY-NZt">
-                                            <rect key="frame" x="219" y="20" width="97" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="follow">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                        </button>
-                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" fixedFrame="YES" text="1 hour ago" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="XIB-Qb-jsJ">
-                                            <rect key="frame" x="249" y="7" width="69" height="16"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="boldSystem" pointSize="13"/>
-                                            <color key="textColor" cocoaTouchSystemColor="lightTextColor"/>
-                                            <nil key="highlightedColor"/>
-                                        </label>
-                                        <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" editable="NO" text="content goes here" textAlignment="right" translatesAutoresizingMaskIntoConstraints="NO" id="6o9-tJ-BBt">
-                                            <rect key="frame" x="1" y="195" width="270" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
-                                            <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                            <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
-                                        </textView>
                                         <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WqH-9C-IuE">
                                             <rect key="frame" x="279" y="186" width="30" height="54"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -783,28 +567,9 @@
                                                 <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="XjB-PO-Ge8"/>
                                             </connections>
                                         </button>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="right" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YjV-HT-W8T">
-                                            <rect key="frame" x="57" y="148" width="252" height="39"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
-                                            <state key="normal" title="Name">
-                                                <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="mRO-sd-lnh"/>
-                                            </connections>
-                                        </button>
                                     </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="contentTextView" destination="6o9-tJ-BBt" id="DYu-gR-4US"/>
-                                    <outlet property="dateLabel" destination="XIB-Qb-jsJ" id="gZS-FJ-3Z2"/>
-                                    <outlet property="entityButton" destination="YjV-HT-W8T" id="E79-hD-26Z"/>
-                                    <outlet property="followButton" destination="ZxK-fY-NZt" id="2Q8-nI-mCe"/>
-                                    <outlet property="postImageView" destination="Spo-jB-7nW" id="xHu-F3-WPH"/>
-                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -1030,7 +795,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="t97-Ex-rYS"/>
-        <segue reference="cL5-ka-YOO"/>
+        <segue reference="XjB-PO-Ge8"/>
     </inferredMetricsTieBreakers>
 </document>
