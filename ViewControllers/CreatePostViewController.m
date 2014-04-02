@@ -6,6 +6,8 @@
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
+
+
 #import "CreatePostViewController.h"
 #import "CreateEntityViewController.h"
 #import "ViewMultiPostsViewController.h"
@@ -341,6 +343,86 @@
 
 #pragma mark -
 #pragma mark Server Communication Methods
+- (void)mergeGhostEntity:(Entity *)entity InManagedObjectContext:(NSManagedObjectContext *)context{
+    
+    NSFetchRequest *requestDuplicate = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
+    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fbUserID = %@", entity.fbUserID];
+    [requestDuplicate setPredicate:predicate];
+    
+    NSError *error;
+    NSArray *fetchedObjects = [context executeFetchRequest:requestDuplicate error:&error];
+    if (fetchedObjects == nil) {
+        MSError(@"Failed to fetch duplicate entities");
+        return;
+    }
+    
+    NSString *uuid = entity.uuid;
+    NSNumber *remoteID = entity.remoteID;
+    NSDate *updateDate = entity.updateDate;
+    Entity *entityToDelete = entity;
+
+    for(Entity *entity in fetchedObjects) {
+        if (entity.name != nil || entity.remoteID == 0) {
+            entity.updateDate = updateDate;
+            entity.remoteID = remoteID;
+            entity.uuid = uuid;
+        }
+    }
+    [Utility saveToPersistenceStore:context failureMessage:@"Failed to save context when merging ghost entities"];
+    if (entityToDelete) [context deleteObject:entityToDelete];
+}
+
+- (void)mergeGhostEntitiesInManagedObjectContext:(NSManagedObjectContext *)context {
+    // for every pairs of entities who have the same FB User ID
+    // we merge them
+    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
+    [request setResultType:NSDictionaryResultType];
+    [request setReturnsDistinctResults:YES];
+    [request setPropertiesToFetch:@[@"fbUserID"]];
+    
+    // Execute the fetch.
+    NSError *error;
+    NSArray *objects = [context executeFetchRequest:request error:&error];
+    if (objects == nil) {
+        MSError(@"Failed to fetch fbUserID so as to merge ghost entities: %@", error);
+    }
+    
+    for (NSString *fbUserID in objects){
+        NSFetchRequest *requestDuplicate = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
+        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fbUserID = %@", fbUserID];
+        [requestDuplicate setPredicate:predicate];
+        
+        NSArray *fetchedObjects = [context executeFetchRequest:requestDuplicate error:&error];
+        if (fetchedObjects == nil) {
+            MSError(@"Failed to fetch duplicate entities");
+        }
+        
+        NSString *uuid = nil;
+        NSNumber *remoteID = nil;
+        NSDate *updateDate = nil;
+        Entity *entityToDelete = nil;
+        for(Entity *entity in fetchedObjects) {
+            if (entity.remoteID != 0) {
+                uuid = entity.uuid;
+                remoteID = entity.remoteID;
+                updateDate = entity.updateDate;
+            }
+            entityToDelete = entity;
+        }
+        for(Entity *entity in fetchedObjects) {
+            if (entity.name != nil || entity.remoteID == 0) {
+                entity.updateDate = updateDate;
+                entity.remoteID = remoteID;
+                entity.uuid = uuid;
+            }
+        }
+        [Utility saveToPersistenceStore:context failureMessage:@"Failed to save context when merging ghost entities"];
+        [context deleteObject:entityToDelete];
+        
+    }
+
+}
+
 - (void)uploadPhotosToS3ForPost:(Post *)post {
         if (![ClientManager validateCredentials]){
             NSLog(@"Abort uploading photos to S3");
@@ -468,11 +550,29 @@
                                                               path:@"posts"
                                                         parameters:params];
         
-        [operation setCompletionBlockWithSuccess:
-         [Utility successBlockWithDebugMessage:@"Uploaded posts and stuff to server, except for photos."
-                                         block:^{[self uploadPhotosToS3ForPost:post];}]
-                                         failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!" block:^{
+        [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+            MSDebug(@"Uploaded posts and stuff to server, except for photos.");
+            for (NSString *key in [[mappingResult dictionary] allKeys]) {
+                MSDebug(@"key: %@", key);
+            }
             
+            
+            // Note that here the class of the value returned could be either NSMutableArray or Entity
+            // We need to deal with them separtely
+            id value = [[mappingResult dictionary] valueForKey:@"Entity"];
+            NSArray *entities = nil;
+            if ([value isKindOfClass:[Entity class]]) {
+                entities = [NSArray arrayWithObject:value];
+            } else {
+                entities = [NSArray arrayWithArray:value];
+            }
+                
+            for (Entity *entity in entities) {
+                MSDebug(@"Entity to merge has remoteID: %@", entity.remoteID);
+                [self mergeGhostEntity:entity InManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+            }
+            [self uploadPhotosToS3ForPost:post];
+        } failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!" block:^{
             for (NSManagedObject *managedObject in objectsToPush) {
                 [managedObjectStore.mainQueueManagedObjectContext deleteObject:managedObject];
             }
