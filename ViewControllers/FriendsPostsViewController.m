@@ -79,6 +79,7 @@
                                     parameters:params
                                        success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                            MSDebug(@"Successfully loadded posts from server");
+                                           //TODO: I am not sure if the returned objects are all of Post class
                                            NSArray *posts = [mappingResult array];
                                            for (Post *post in posts) {
                                                [super loadPhotosForPost:post];

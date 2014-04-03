@@ -67,13 +67,13 @@
     if ([[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext saveToPersistentStore:&error]) {
         MSDebug(@"Successfully saved the photos!");
     } else {
-        NSLog(@"Failed to save the managed object context.");
+        MSError(@"Failed to save the managed object context.");
     }
     
     if (self.delegate && [self.delegate respondsToSelector:@selector(removeS3RequestResponder:)]) {
         [self.delegate removeS3RequestResponder:self];
     } else {
-        NSLog(@"S3 delegate's delegation is not set!");
+        MSError(@"S3 delegate's delegation is not set!");
     }
     
 }

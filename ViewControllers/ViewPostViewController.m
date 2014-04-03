@@ -382,7 +382,9 @@
     NSMutableArray *ids = [[NSMutableArray alloc] init];
     for (Entity *entity in post.entities){
         if (entity.institution.uuid == nil) {
-            [ids addObject:entity.institution.remoteID];
+            if (entity.institution.remoteID) {
+                [ids addObject:entity.institution.remoteID];
+            }
         }
     }
     return ids;

@@ -28,6 +28,6 @@
 
 @required
 
-- (void) removeS3RequestResponder:(id)delegate;
+- (void) removeS3RequestResponder:(id)delegatee;
 
 @end
