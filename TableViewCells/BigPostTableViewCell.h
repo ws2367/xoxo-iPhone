@@ -8,8 +8,12 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol BigPostTableViewCellDelegate;
+
 @interface BigPostTableViewCell : UITableViewCell
 
+
+@property (nonatomic, weak) id<BigPostTableViewCellDelegate> delegate;
 @property (strong, nonatomic) NSArray *entities;
 @property (copy, nonatomic) NSString *content;
 @property (weak, nonatomic) IBOutlet UIButton *followButton;
@@ -23,3 +27,11 @@
 
 @end
 
+
+@protocol BigPostTableViewCellDelegate <NSObject>
+
+@required
+
+- (void) CellPerformViewPost:(id)sender;
+
+@end

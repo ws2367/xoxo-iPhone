@@ -248,19 +248,6 @@
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b9c-mI-XGl" id="2hd-aR-SjS">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eiX-ka-3lQ">
-                                            <rect key="frame" x="137" y="40" width="59" height="30"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <state key="normal" title="see post">
-                                                <color key="titleColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="Ufg-8n-QaF"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.85124885948905105" alpha="1" colorSpace="calibratedWhite"/>
                             </tableViewCell>
@@ -271,6 +258,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Popular" image="menu-popular.png" id="TgA-1L-jB0"/>
+                    <connections>
+                        <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="zbB-nn-Wgf"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WIb-W6-ZqV" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -795,6 +785,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="XjB-PO-Ge8"/>
+        <segue reference="zbB-nn-Wgf"/>
     </inferredMetricsTieBreakers>
 </document>

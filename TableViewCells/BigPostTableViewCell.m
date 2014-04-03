@@ -202,9 +202,24 @@
     //then display date
     [self displayDate:date];
     
+    //add mask to let user to click into post
+    [self addClickAreaToViewPost];
+    
 }
 
+-(void) addClickAreaToViewPost{
+    UIButton *clickArea = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, WIDTH, POST_IMAGE_HEIGHT)];
+    [self.contentView addSubview:clickArea];
+    [clickArea addTarget:self action:@selector(viewPostClicked:) forControlEvents:UIControlEventTouchUpInside];
+}
 
+-(void) viewPostClicked:(id)sender{
+    MSDebug(@"view post clicked!");
+    if(_delegate && [_delegate respondsToSelector:@selector(CellPerformViewPost:)]){
+        [_delegate CellPerformViewPost: sender];
+        MSDebug(@"called delegate");
+    }
+}
 
 #pragma mark -
 #pragma mark Swipe Methods

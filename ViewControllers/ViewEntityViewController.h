@@ -9,11 +9,12 @@
 #import <UIKit/UIKit.h>
 #import <MapKit/MapKit.h>
 #import "Entity.h"
+#import "BigPostTableViewCell.h"
 
 @class ViewMultiPostsViewController;
 
 @interface ViewEntityViewController : UIViewController
-                                        <MKMapViewDelegate, NSFetchedResultsControllerDelegate>
+                                        <MKMapViewDelegate, NSFetchedResultsControllerDelegate, BigPostTableViewCellDelegate>
 
 @property (strong, nonatomic) Entity *entity;
 

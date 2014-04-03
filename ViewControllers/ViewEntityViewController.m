@@ -192,15 +192,29 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    
     BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:bigPostCellIdentifier];
     
     //TODO: check if the model is empty then this will raise exception
+    
     Post *post = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
-    cell.content = post.content;
-    [cell setDateToShow:[Utility getDateToShow:post.updateDate]];
     
-
+    
+    
+    //    cell.content = post.content;
+    //[cell setDateToShow:[Utility getDateToShow:post.updateDate]];
+    
+    /*CAUTION! following is a NSNumber (though declared as bool in Core Data)
+     so you have to get its bool value
+     */
+    [cell.followButton setTitle:([post.following boolValue] ? @"unfollow" : @"follow")
+                       forState:UIControlStateNormal];
+    
+    [cell.followButton addTarget:self action:@selector(followPost:)
+                forControlEvents:UIControlEventTouchUpInside];
+    
+    //    cell.dateToShow = getDateToShow(post.updateDate);
     //post.entities is a NSSet but cell.entities is a NSArray
     // actually, here we should do more work than just sending a NSArray of Entity to cell
     // because table view cell should be model-agnostic. So we pass a NSArray of NSDictionary to it
@@ -210,18 +224,42 @@
         [entitiesArray addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
     }];
     
-    cell.entities = entitiesArray;
+    //    cell.entities = entitiesArray;
     
     //TODO: should present all images, not just the first one
+    
+    UIImage *imagephoto;
     if ([post.photos count] > 0) {
         Photo *photo = [[post.photos allObjects] firstObject];
-        cell.image = [[UIImage alloc] initWithData:photo.image];
+        imagephoto= [[UIImage alloc] initWithData:photo.image];
     }
+    
+    
+    
+    if ([post.photos count] > 0) {
+        [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
+    }
+    
+    /*
+     // We want the cell to know which row it is, so we store that in button.tag
+     // However, here shareButton is depreciated
+     cell.shareButton.tag = indexPath.row;
+     */
+    
+    // Here is where we register any target of buttons in cells if the target is not the cell itself
+    //[cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+    //cell.entityButton.tag = indexPath.row;
+    //[cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
+    cell.delegate = self;
+    
     
     return cell;
+
+    
+
 }
 
 #pragma mark -

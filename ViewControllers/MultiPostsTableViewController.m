@@ -382,6 +382,8 @@
      NSLog(@"adding gradient");
      */
     
+    cell.delegate = self;
+    
     
     return cell;
 }
@@ -468,6 +470,13 @@
     return YES;
 }
 */
+
+# pragma mark -
+#pragma mark BigPostTableViewCell delegate method
+- (void) CellPerformViewPost:(id)sender{
+    [self performSegueWithIdentifier:@"viewPostSegue" sender:sender];
+}
+
 
 
 # pragma mark -
