@@ -28,12 +28,14 @@
     return self;
 }
 
-
+//not going to use
+/*
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     _startPoint = [touch locationInView:self];
-}
-
+}*/
+//not going to use
+/*
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	UITouch *touch = [touches anyObject];
     CGFloat touchX =[touch locationInView:self].x;
@@ -53,9 +55,10 @@
             [rightImageView setHidden:NO];
         }
     }
-}
+}*/
 
-
+//not going to use
+/*
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
     UITouch *touch = [touches anyObject];
     CGFloat touchX =[touch locationInView:self].x;
@@ -94,8 +97,10 @@
         
     }
     [_currentImageView setHidden:NO];
-}
+}*/
 
+//not going to use
+/*
 -(void)animationToCenter:(UIImageView *)toCenterImageView pushaway:(UIImageView *)toPushImageView right:(BOOL)toright{
     [UIView animateWithDuration:ANIMATION_DURATION
                           delay:ANIMATION_DELAY
@@ -114,7 +119,7 @@
                      completion:^(BOOL finished){
                      }];
 
-}
+}*/
 
 - (void)addPhoto:(UIImage *)newImage{
     if(_photosImageViews == nil){

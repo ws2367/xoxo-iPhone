@@ -121,7 +121,7 @@
                         <outlet property="commentTextField" destination="6uu-Qi-E5V" id="Rqn-ld-AlV"/>
                         <outlet property="postImage" destination="xGU-1Q-YEX" id="ujF-1p-QNU"/>
                         <outlet property="tableView" destination="6b4-rw-rTx" id="LJ5-s6-vuy"/>
-                        <segue destination="LAB-UI-cDH" kind="push" identifier="viewEntitySegue" id="3Vc-NU-qSJ"/>
+                        <segue destination="LAB-UI-cDH" kind="modal" identifier="viewEntitySegue" id="3Vc-NU-qSJ"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VZh-lx-A8b" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -259,7 +259,7 @@
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Popular" image="menu-popular.png" id="TgA-1L-jB0"/>
                     <connections>
-                        <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="zbB-nn-Wgf"/>
+                        <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="zbB-nn-Wgf"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="WIb-W6-ZqV" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -311,6 +311,9 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="0.76804858576642332" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" trigger="accessoryAction" id="bg9-pG-jYC"/>
+                                        </connections>
                                     </tableViewCell>
                                 </prototypes>
                                 <connections>
@@ -383,7 +386,7 @@
                                     <color key="titleColor" red="0.93725496529999996" green="0.32941177490000001" blue="0.1411764771" alpha="1" colorSpace="deviceRGB"/>
                                 </state>
                                 <connections>
-                                    <segue destination="tsX-iZ-oDh" kind="push" id="QbC-GF-uk7"/>
+                                    <segue destination="tsX-iZ-oDh" kind="push" identifier="createEntitySegue" id="QbC-GF-uk7"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FC8-hA-wU7">
@@ -466,7 +469,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="xG9-8X-c9V"/>
+                                                <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="xG9-8X-c9V"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -510,7 +513,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="7Fc-R9-neg"/>
+                                                <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="7Fc-R9-neg"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -554,7 +557,7 @@
                                                 <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                             </state>
                                             <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="push" identifier="viewPostSegue" id="XjB-PO-Ge8"/>
+                                                <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="XjB-PO-Ge8"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -785,6 +788,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="zbB-nn-Wgf"/>
+        <segue reference="bg9-pG-jYC"/>
     </inferredMetricsTieBreakers>
 </document>

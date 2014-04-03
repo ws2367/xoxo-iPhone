@@ -165,6 +165,7 @@
     Entity *newEntity;
     [Entity findOrCreateEntityForYoursUserName:_nameTextField.text withInstitution:_institutionTextField.text atLocationName:_locationTextField.text returnAsInstitution:&newEntity inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
     if (newEntity) {
+        MSDebug(@"got this new entity");
         _selectedEntity = newEntity;
         [_delegate addEntity:_selectedEntity];
         [self.navigationController popViewControllerAnimated:YES];
@@ -316,7 +317,7 @@
     [self allocateBlackMask];
     
     _selectedEntity = [self.fetchedResultsController objectAtIndexPath:indexPath];
-    
+    MSDebug(@"add this entity");
     [_delegate addEntity:_selectedEntity];
     [self.navigationController popViewControllerAnimated:YES];
     

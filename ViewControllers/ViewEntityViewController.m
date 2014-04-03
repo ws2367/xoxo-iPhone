@@ -120,7 +120,12 @@
     } else {
         NSLog(@"Failed to fetch posts for entity");
     }
+    
+    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = exitButton;
 }
+
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -128,7 +133,9 @@
     // Dispose of any resources that can be recreated.
 }
 
-
+-(void) exitButtonPressed:(id)sender{
+    MSDebug(@"exitpressed");
+}
 #pragma mark -
 #pragma mark Fetched Results Controller Delegate Methods
 
@@ -372,6 +379,13 @@
      [_myMap setRegion:adjustedRegion animated:YES];
      */
     
+}
+
+
+# pragma mark -
+#pragma mark BigPostTableViewCell delegate method
+- (void) CellPerformViewPost:(id)sender{
+    [self performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
 
 # pragma mark -

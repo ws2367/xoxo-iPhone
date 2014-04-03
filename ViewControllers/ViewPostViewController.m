@@ -161,6 +161,9 @@
     // remove separators of the table view
     _tableView.separatorColor = [UIColor clearColor];
     
+    //add navigation controller button
+    
+    
 }
 
 - (void)didReceiveMemoryWarning

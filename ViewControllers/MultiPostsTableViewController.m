@@ -23,6 +23,8 @@
 
 #import "ClientManager.h"
 
+#import "UIColor+MSColor.h"
+
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
@@ -63,9 +65,14 @@
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
     
     
-    //to let it cut off at tabbar edge
+    //to let it cut off at tabbar edge and status bar edge
     self.edgesForExtendedLayout = UIRectEdgeAll;
-    self.tableView.contentInset = UIEdgeInsetsMake(0., 0., CGRectGetHeight(self.tabBarController.tabBar.frame), 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(20, 0., CGRectGetHeight(self.tabBarController.tabBar.frame), 0);
+    
+    //set background color
+    [self.view setBackgroundColor:[UIColor colorForBackground]];
+
+    
     
     [self.tabBarItem setTitleTextAttributes:[Utility getTabBarItemFontDictionary] forState:UIControlStateNormal];
     
@@ -83,6 +90,10 @@
     // set up and fire off refresh control
     self.refreshControl = [UIRefreshControl new];
     [self.refreshControl addTarget:self action:@selector(startRefreshingUp) forControlEvents:UIControlEventValueChanged];
+    
+    //hide scrollbar & clear separator
+    [self.tableView setShowsVerticalScrollIndicator:NO];
+    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
 }
 
 - (void)didReceiveMemoryWarning

@@ -134,9 +134,6 @@
     
     self.entitiesTextField.text = (NSString *)_entityNames;
     
-    if(_photos == nil){
-        _photos = [[NSMutableArray alloc] init];
-    }
     
     //initialize locks
     if(!_toPostLock){
@@ -334,6 +331,10 @@
     
     [_entities addObject:en];
     
+    if(!_nameList){
+        _nameList = [[NSMutableString alloc] init];
+    }
+    [_nameList appendString:[en name]];
     _entityNames = [NSMutableString string];
     
     for (Entity *ent in _entities) {
@@ -342,7 +343,7 @@
             [_entityNames appendString:@", "];
     }
     
-    self.entitiesTextField.text = (NSString *)_entityNames;
+    self.entitiesTextField.text = _nameList;
 }
 
 
@@ -484,7 +485,7 @@
         // In _photos are UIImage objects
         
         //add profile pic if there exist one
-        if([_profileImageView image]){
+        if(!_photos && [_profileImageView image]){
             [_photos addObject:[_profileImageView image]];
         }
         for (UIImage *image in _photos){
@@ -606,6 +607,9 @@
 -(void)imagePickerController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
     [[picked presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     [_superImageView addPhoto:[info objectForKey:UIImagePickerControllerOriginalImage]];
+    _photos = nil;
+    _photos = [[NSMutableArray alloc] init];
+    [_photos addObject:[info objectForKey:UIImagePickerControllerOriginalImage]];
     /*
     [_photos addObject:[info objectForKey:UIImagePickerControllerOriginalImage]];
     photoIndex = (int)[_photos count] - 1;
