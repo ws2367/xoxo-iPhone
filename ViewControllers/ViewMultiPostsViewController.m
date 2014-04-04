@@ -14,7 +14,7 @@
 #import "CreatePostViewController.h"
 #import "ViewPostViewController.h"
 #import "ViewEntityViewController.h"
-#import "UserMenuViewController.h"
+
 #import "MultiPostsTableViewController.h"
 #import "Post.h"
 
@@ -33,7 +33,6 @@
 @property (strong, nonatomic) CreatePostViewController *createPostController;
 @property (strong, nonatomic) ViewPostViewController *viewPostViewController;
 @property (strong, nonatomic) ViewEntityViewController *viewEntityViewController;
-@property (strong, nonatomic) UserMenuViewController *userMenuViewController;
 
 // segmented controller
 @property (weak, nonatomic) IBOutlet UISegmentedControl *segmentedControl;
@@ -297,37 +296,6 @@
 }
 
 
-- (void)finishCreatingEntityStartCreatingPost{
-    Entity *entity = _createEntityController.selectedEntity;
-    
-    if(_entities == nil){
-        _entities = [[NSMutableArray alloc] init];
-    }
-    
-    [_entities addObject:entity];
-    
-    //_toCreatePostToolbar = [self createPostToolbarForEntity:false];
-    _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsViewController:self];
-    self.createPostController.entities = _entities;
-    _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
-    
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _createPostController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
-                         //_toCreatePostToolbar.frame = CGRectMake(0, 22, WIDTH, 44);
-                         //[self.myTableView setAlpha:0];
-                         //self.view.backgroundColor = [UIColor whiteColor];
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    [self.view addSubview:self.createPostController.view];
-    //[self.view addSubview:_toCreatePostToolbar];
-
-}
-
 // TODO: The viewPostViewController should handle a Post object passed by the sender
 - (void)startViewingPostForPost:(Post *)post {
     [self allocateBlackMask];
@@ -352,62 +320,6 @@
     
 }
 
-- (IBAction)startCreatingEntity:(id)sender {
-    
-    [self allocateBlackMask];
-    
-    if(_createEntityController == nil){
-        _createEntityController =[[CreateEntityViewController alloc] initWithViewMultiPostsViewController:self];
-    }
-    
-
-    
-    //UIBarButtonItem *space = [[UIBarButtonItem alloc] ini
-
-    //_toCreateEntityToolbar = [self createPostToolbarForEntity:true];
-    //_notHereButton = [self createNotHereButton];
-     _createEntityController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
-    
-    [self.view addSubview:_createEntityController.view];
-
-    /*
-    [UIView setAnimationTransition:
-    UIViewAnimationTransitionCurlDown forView:self.view cache:YES];
-    */
-     
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _createEntityController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
-
-                         }
-                     completion:^(BOOL finished){
-                     }];
-
-    //[self.view insertSubview:self.postController.view atIndex:1];
-
-
-
-}
-
-- (void)cancelUserMenu{
-    [_userMenuViewController.view endEditing:YES];
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _userMenuViewController.view.frame = CGRectMake(-WIDTH, 0, WIDTH, HEIGHT);
-                         [_blackMaskOnTopOfView setAlpha:0];
-                         
-                     }
-                     completion:^(BOOL finished){
-                         [_blackMaskOnTopOfView removeFromSuperview];
-
-                     }];
-    
-    
-}
 
 -(void)sharePost{
     ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
@@ -467,88 +379,14 @@
 }
 
 // this is a test function only
-// TODO: remove it after testing is done
-- (IBAction) createPost:(id)sender{
-    
-    _createPostController = [[CreatePostViewController alloc] initWithViewMultiPostsViewController:self];
-    self.createPostController.entities = [[NSMutableArray alloc] init];
-    _createPostController.view.frame = CGRectMake(0, HEIGHT, WIDTH, HEIGHT);
-    
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _createPostController.view.frame = CGRectMake(0, 0, WIDTH, HEIGHT);
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    [self.view addSubview:self.createPostController.view];
-
-}
-
 
 #pragma mark -
 #pragma mark Button Methods
-- (IBAction)userMenuButtonPressed:(id)sender {
-    
-    [self allocateBlackMask];
-    UITapGestureRecognizer *tapBIDView = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(cancelUserMenu)];
-    [_blackMaskOnTopOfView addGestureRecognizer:tapBIDView];
-    
-    
-    
-    _userMenuViewController = [[UserMenuViewController alloc] initWithViewMultiPostsViewController:self];
-    
-    _userMenuViewController.view.frame = CGRectMake( -WIDTH, 0, WIDTH, HEIGHT);
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/2, 0, WIDTH, HEIGHT);
-                         [_blackMaskOnTopOfView setAlpha:0.6];
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
-    
-    
-    //[self.view insertSubview:self.postController.view atIndex:1];
-    [self.view addSubview:_userMenuViewController.view];
-    
-    
-}
 
 
 
 #pragma mark -
 #pragma mark Rearrange View Methods
-
-- (void)beginSearchTakeOverWindow{
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _userMenuViewController.view.frame = self.view.bounds;
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
-}
-
-- (void)endSearchTakeOverWindow{
-    [UIView animateWithDuration:ANIMATION_DURATION
-                          delay:ANIMATION_DELAY
-                        options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-                     animations:^{
-                         _userMenuViewController.view.frame = CGRectMake(-WIDTH/2, 0, WIDTH, HEIGHT);;
-                         
-                     }
-                     completion:^(BOOL finished){
-                     }];
-}
-
-
 
 #pragma mark -
 #pragma mark PeoplePicker Custom Methods

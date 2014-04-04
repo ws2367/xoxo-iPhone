@@ -6,22 +6,18 @@
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
-#import "ViewMultiPostsViewController.h"
 #import "MultiPostsTableViewController.h"
 #import "BigPostTableViewCell.h"
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
-#import "KeyChainWrapper.h"
 
-#import "Photo.h"
-#import "Location.h"
-#import "Institution.h"
+#import "KeyChainWrapper.h"
+#import "ClientManager.h"
+#import "S3RequestResponder.h"
+
 #import "Post.h"
 #import "Entity.h"
 #import "Comment.h"
-#import "S3RequestResponder.h"
-
-#import "ClientManager.h"
 
 #import "UIColor+MSColor.h"
 
@@ -52,8 +48,6 @@
 }
 
 
-// This will never get called because this table view controller is used for controlling tableview that
-// is already loaded in ViewMultiPostsViewController
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -177,50 +171,29 @@
 
 // let's validate AWS credentials before going further
 - (void) loadPhotosForPost:(Post *)post {
-    if (![ClientManager validateCredentials]){
-        NSLog(@"Abort loading photos for post %@", post.remoteID);
-        return;
-    }
-    
-    NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
-    
-    NSManagedObjectContext *context = [RKManagedObjectStore defaultStore].mainQueueManagedObjectContext;
-    NSError *error = nil;
-
-    MSDebug(@"Number of photo to download for post %@: %d",post.remoteID, [photoKeys count]);
-    
-    for (NSString *photoKey in photoKeys){
-        // file name is the uuid of the photo...
-        NSString* uuid = [[photoKey lastPathComponent] stringByDeletingPathExtension];
-
-        NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Photo"];
-        request.predicate = [NSPredicate predicateWithFormat:@"uuid = %@",uuid];
+    if (post.image == nil) {
         
-        NSArray *matches = [context executeFetchRequest:request error:&error];
-        
-        // there should be only unique institutions
-        if (!matches || error || [matches count] > 1) {
-            // handle error here
-            NSLog(@"Errors in fetching photos");
-//            MSDebug(@"match count %d", [matches count]);
-        } else if ([matches count]) {
-            // found the thing
-            MSDebug(@"The photo exists! uuid = %@", uuid);
-        } else {
-            MSDebug(@"Photos with uuid %@ does not exist. Let's create one!", uuid);
-            S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
-            [request setContentType:@"image/png"];
-            
-            S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post uuid:uuid];
-            
-            delegate.delegate = self;
-            request.delegate = delegate;
-            [self.S3RequestResponders addObject:delegate];
-            
-            [[ClientManager s3] getObject:request];
+        if (![ClientManager validateCredentials]){
+            NSLog(@"Abort loading photos for post %@", post.remoteID);
+            return;
         }
+        
+        NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
+        
+        NSString *photoKey = [photoKeys firstObject];
+        
+        MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
+        S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
+        [request setContentType:@"image/png"];
+        
+        S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post];
+        
+        delegate.delegate = self;
+        request.delegate = delegate;
+        [self.S3RequestResponders addObject:delegate];
+        
+        [[ClientManager s3] getObject:request];
     }
-    
 }
 
 #pragma mark -
@@ -331,9 +304,6 @@
     Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
     
     
-
-
-//    cell.content = post.content;
     //[cell setDateToShow:[Utility getDateToShow:post.updateDate]];
     
     /*CAUTION! following is a NSNumber (though declared as bool in Core Data) 
@@ -359,28 +329,16 @@
     
     //TODO: should present all images, not just the first one
     
-    UIImage *imagephoto;
-    if ([post.photos count] > 0) {
-        Photo *photo = [[post.photos allObjects] firstObject];
-        imagephoto= [[UIImage alloc] initWithData:photo.image];
-    }
-    
-    
-    
-    if ([post.photos count] > 0) {
+    if (post.image != nil) {
+        UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];
         [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
+        
     }
-
     /*
     // We want the cell to know which row it is, so we store that in button.tag
     // However, here shareButton is depreciated
     cell.shareButton.tag = indexPath.row;
     */
-    
-    // Here is where we register any target of buttons in cells if the target is not the cell itself
-    //[cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    //cell.entityButton.tag = indexPath.row;
-    //[cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -402,10 +360,11 @@
 #pragma mark -
 #pragma mark TableView Delegate Methods
 // This has to call parent controller
+/*
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
     [_masterController startViewingPostForPost:post];
-}
+}*/
 
 
 #pragma mark -
@@ -421,7 +380,7 @@
             NSLog(@"swipeRight at %d",indexPath.row);
         }
         else if(aSwipeGestureRecognizer.direction == UISwipeGestureRecognizerDirectionLeft){
-            [_masterController sharePost];
+            //[_masterController sharePost];
             NSLog(@"swipeLeft at %d",indexPath.row);
         }
     }
@@ -430,18 +389,6 @@
 
 #pragma mark -
 #pragma mark In-cell Button Methods
-
--(void)entityButtonPressed:(UIButton *)sender{
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
-
-    // TODO: get it right! not just send the first entity of that post...
-    //we don't know which one is clicked... send the first one for now
-    Entity *entity = [[post.entities allObjects] firstObject];
-    [_masterController startViewingEntityForEntity:entity];
-}
-
 
 /*
 // Override to support conditional editing of the table view.

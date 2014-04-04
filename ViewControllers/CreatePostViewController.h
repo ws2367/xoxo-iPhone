@@ -16,8 +16,6 @@
 
 @property (strong, nonatomic) NSMutableArray *entities;
 
-- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
-
 -(void) addEntity:(Entity *)en;
 
 @end

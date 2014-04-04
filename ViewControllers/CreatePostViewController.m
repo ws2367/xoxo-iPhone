@@ -11,14 +11,12 @@
 #import "CreatePostViewController.h"
 #import "CreateEntityViewController.h"
 #import "ViewMultiPostsViewController.h"
-#import "ServerConnector.h"
-#import "Photo.h"
-#import "Institution.h"
-#import "Location.h"
+
 #import "SuperImageView.h"
 #import "KeyChainWrapper.h"
 #import "ClientManager.h"
-#import "Institution+MSInstitution.h"
+
+#import "Post+MSS3Client.h"
 #import "Entity+MSEntity.h"
 
 #define VIEW_OFFSET_KEYBOARD 70
@@ -29,9 +27,8 @@
 {
     int photoIndex;
     UIImageView *currImageView;
-    UIImageView *leftImageView; //not used
-    UIImageView *rightImageView; //not used
 }
+
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
@@ -46,13 +43,6 @@
 @property (strong, nonatomic) NSMutableArray *photos;
 @property (strong, nonatomic) NSMutableString *content;
 @property (strong, nonatomic) NSMutableString *entityNames;
-
-@property (weak, nonatomic) ViewMultiPostsViewController *masterViewController;
-@property (strong, nonatomic) CreateEntityViewController *addEntityController;
-
-@property (weak, nonatomic) IBOutlet UIButton *backButton;
-@property (weak, nonatomic) IBOutlet UIButton *postButton;
-
 //for friend picker
 @property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
 @property (weak, nonatomic) IBOutlet FBProfilePictureView *profilePicView;
@@ -70,21 +60,7 @@
 @end
 
 
-
-
 @implementation CreatePostViewController
-
-
-- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
-    self = [super init];
-    if (self) {
-        _masterViewController = viewController;// Custom initialization
-        _entities = [[NSMutableArray alloc] init];
-//        _textView.inputAccessoryView = self.uiViewforKeyboardAttachment;
-    }
-    
-    return self;
-}
 
 
 -(void)viewDidLoad
@@ -261,17 +237,7 @@
 
 - (void)doneEditing {
     [_textView resignFirstResponder];
-    
-    /*
-     [_backButton setTitle:@"Back" forState:UIControlStateNormal];
-     [_backButton removeTarget:self action:@selector(doneEditing:)
-     forControlEvents:UIControlEventTouchUpInside];
-     [_backButton addTarget:self action:@selector(backButtonPressed:)
-     forControlEvents:UIControlEventTouchUpInside];
-     
-     _postButton.hidden = false;
-     */
-}
+    }
 
 
 
@@ -285,17 +251,6 @@
         [textView setText:@""];
         [textView setTextColor:[UIColor blackColor]];
     }
-    
-    
-    /*
-    [_backButton removeTarget:self action:@selector(backButtonPressed:) forControlEvents:UIControlEventAllEvents];
-
-    [_backButton setTitle:@"Done" forState:UIControlStateNormal];
-    [_backButton addTarget:self
-                   action:@selector(doneEditing)
-         forControlEvents:UIControlEventTouchUpInside];
-    
-    _postButton.hidden = true;*/
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -328,7 +283,6 @@
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
-    
     [_entities addObject:en];
     
     if(!_nameList){
@@ -349,111 +303,6 @@
 
 #pragma mark -
 #pragma mark Server Communication Methods
-- (void)mergeGhostEntity:(Entity *)entity InManagedObjectContext:(NSManagedObjectContext *)context{
-    
-    NSFetchRequest *requestDuplicate = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
-    NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fbUserID = %@", entity.fbUserID];
-    [requestDuplicate setPredicate:predicate];
-    
-    NSError *error;
-    NSArray *fetchedObjects = [context executeFetchRequest:requestDuplicate error:&error];
-    if (fetchedObjects == nil) {
-        MSError(@"Failed to fetch duplicate entities");
-        return;
-    }
-    
-    NSString *uuid = entity.uuid;
-    NSNumber *remoteID = entity.remoteID;
-    NSDate *updateDate = entity.updateDate;
-    Entity *entityToDelete = entity;
-
-    for(Entity *entity in fetchedObjects) {
-        if (entity.name != nil || entity.remoteID == 0) {
-            entity.updateDate = updateDate;
-            entity.remoteID = remoteID;
-            entity.uuid = uuid;
-        }
-    }
-    [Utility saveToPersistenceStore:context failureMessage:@"Failed to save context when merging ghost entities"];
-    if (entityToDelete) [context deleteObject:entityToDelete];
-}
-
-- (void)mergeGhostEntitiesInManagedObjectContext:(NSManagedObjectContext *)context {
-    // for every pairs of entities who have the same FB User ID
-    // we merge them
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
-    [request setResultType:NSDictionaryResultType];
-    [request setReturnsDistinctResults:YES];
-    [request setPropertiesToFetch:@[@"fbUserID"]];
-    
-    // Execute the fetch.
-    NSError *error;
-    NSArray *objects = [context executeFetchRequest:request error:&error];
-    if (objects == nil) {
-        MSError(@"Failed to fetch fbUserID so as to merge ghost entities: %@", error);
-    }
-    
-    for (NSString *fbUserID in objects){
-        NSFetchRequest *requestDuplicate = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
-        NSPredicate *predicate = [NSPredicate predicateWithFormat:@"fbUserID = %@", fbUserID];
-        [requestDuplicate setPredicate:predicate];
-        
-        NSArray *fetchedObjects = [context executeFetchRequest:requestDuplicate error:&error];
-        if (fetchedObjects == nil) {
-            MSError(@"Failed to fetch duplicate entities");
-        }
-        
-        NSString *uuid = nil;
-        NSNumber *remoteID = nil;
-        NSDate *updateDate = nil;
-        Entity *entityToDelete = nil;
-        for(Entity *entity in fetchedObjects) {
-            if (entity.remoteID != 0) {
-                uuid = entity.uuid;
-                remoteID = entity.remoteID;
-                updateDate = entity.updateDate;
-            }
-            entityToDelete = entity;
-        }
-        for(Entity *entity in fetchedObjects) {
-            if (entity.name != nil || entity.remoteID == 0) {
-                entity.updateDate = updateDate;
-                entity.remoteID = remoteID;
-                entity.uuid = uuid;
-            }
-        }
-        [Utility saveToPersistenceStore:context failureMessage:@"Failed to save context when merging ghost entities"];
-        [context deleteObject:entityToDelete];
-        
-    }
-
-}
-
-- (void)uploadPhotosToS3ForPost:(Post *)post {
-        if (![ClientManager validateCredentials]){
-            NSLog(@"Abort uploading photos to S3");
-            return;
-        }
-        for (Photo *photo in post.photos){
-            NSString *photoKey = [NSString stringWithFormat:@"%@/%@.png", post.remoteID, photo.uuid];
-            
-            S3PutObjectRequest *por = [[S3PutObjectRequest alloc] initWithKey:photoKey inBucket:S3BUCKET_NAME];
-            por.contentType = @"image/png";
-            por.data = photo.image;
-            S3PutObjectResponse *response = [[ClientManager s3] putObject:por];
-            if (response.error != nil) {
-                NSLog(@"Error while uploading photos");
-            } else {
-                [photo setDirty:@NO];
-                MSDebug(@"Photo %@ loaded!", photo.uuid);
-            }
-        }
-        
-        // then we can save all the stuff to database
-        [Utility saveToPersistenceStore:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext
-                         failureMessage:@"Failed to save the managed object context."];
-
-}
 
 - (void)uploadPostAndRelatedObjects {
     MSDebug(@"wanna lock");
@@ -470,13 +319,8 @@
         //set up relationship with entities
         [post setEntities:[NSSet setWithArray:_entities]];
         
-        // this is for the server!
-        //TODO: use remoteID instead
-        [post setEntitiesUUIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"uuid"]]];
-        [post setEntitiesFBUserIDs:[NSArray arrayWithArray:[[post.entities allObjects] valueForKey:@"fbUserID"]]];
-        MSDebug(@"The entities uuids of the post to be sent: %@", post.entitiesUUIDs);
+        // dirty is a NSNumber so @YES is a literal in Obj C that is created for this purpose.
         [post setDirty:@NO];
-        [post setDeleted:@NO];
         [post setIsYours:@YES];
         [post setFollowing:@NO];
         [post setUuid:[Utility getUUID]];
@@ -488,48 +332,25 @@
         if(!_photos && [_profileImageView image]){
             [_photos addObject:[_profileImageView image]];
         }
+        
         for (UIImage *image in _photos){
-            Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo"
-                                                         inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
-            
             // This will save NSData typed image to an external binary storage
-            photo.image = UIImagePNGRepresentation(image);
-            // dirty is a NSNumber so @YES is a literal in Obj C that is created for this purpose.
-            //[NSNumber numberWithBool:] works too.
-            [photo setDirty:@NO];
-            [photo setDeleted:@NO];
-            [photo setUuid:[Utility getUUID]];
+            post.image = UIImagePNGRepresentation(image);
             
-            [photo setUpdateDate:[NSDate dateWithTimeIntervalSince1970:TIMESTAMP_MAX]];
-            
-            [post addPhotosObject:photo];
         }
 
-        // send institutition first, then entity
-        // As said in posting a comment, even if we connect the relationship,
-        // we still need to set locationID in order to let the server know the relationship.
-        NSMutableArray *institutionsObjects = [[NSMutableArray alloc] init];
-        for (Entity *entity in post.entities) {
-            if ([entity.institution.dirty boolValue]) { // we only send those dirt ones :)
-                entity.institution.locationID = entity.institution.location.remoteID;
-                [institutionsObjects addObject:entity.institution];
-            }
-        }
-        
         // Let's find those dirty ones!
         NSMutableArray *entitiesObjects = [[NSMutableArray alloc] init];
         for (Entity *entity in post.entities) {
-            if ([entity.dirty boolValue]) {
-                entity.institutionUUID = entity.institution.uuid;
+            //if ([entity.dirty boolValue]) {
                 [entitiesObjects addObject:entity];
-            }
+            //}
         }
         
-        // send the institutions, entities and the post to the server!
+        // send the entities and the post to the server!
         RKObjectManager *objectManager = [RKObjectManager sharedManager];
     
-        NSMutableArray *objectsToPush = [NSMutableArray arrayWithArray:institutionsObjects];
-        [objectsToPush addObjectsFromArray:entitiesObjects];
+        NSMutableArray *objectsToPush = [NSMutableArray arrayWithArray:entitiesObjects];
         [objectsToPush addObject:post];
         
         // check if seesion token is valid
@@ -546,9 +367,7 @@
         
         NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
         
-        NSDictionary *params =
-        [NSDictionary dictionaryWithObjects:@[sessionToken]
-                                    forKeys:@[@"auth_token"]];
+        NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken] forKeys:@[@"auth_token"]];
         
         RKManagedObjectRequestOperation *operation =
         [objectManager appropriateObjectRequestOperationWithObject:objectsToPush
@@ -558,10 +377,6 @@
         
         [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             MSDebug(@"Uploaded posts and stuff to server, except for photos.");
-            for (NSString *key in [[mappingResult dictionary] allKeys]) {
-                MSDebug(@"key: %@", key);
-            }
-            
             
             // Note that here the class of the value returned could be either NSMutableArray or Entity
             // We need to deal with them separtely
@@ -575,9 +390,10 @@
                 
             for (Entity *entity in entities) {
                 MSDebug(@"Entity to merge has remoteID: %@", entity.remoteID);
-                [self mergeGhostEntity:entity InManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+                [entity updateUUIDinManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
             }
-            [self uploadPhotosToS3ForPost:post];
+            [post uploadImageToS3];
+            
         } failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!" block:^{
             for (NSManagedObject *managedObject in objectsToPush) {
                 [managedObjectStore.mainQueueManagedObjectContext deleteObject:managedObject];
@@ -586,6 +402,8 @@
                              failureMessage:@"Failed to delete posts and related objects persistenly."];
         }]];
         
+        /* Show progress bar
+         *
         [operation.HTTPRequestOperation setUploadProgressBlock:
          ^(NSUInteger bytesWritten, long long totalBytesWritten, long long totalBytesExpectedToWrite) {
              [_progressView setProgress:(double)totalBytesWritten/(double)totalBytesExpectedToWrite
@@ -595,6 +413,7 @@
         _progressView.progress = 0.0;
         _progressView.hidden = false;
         [objectManager enqueueObjectRequestOperation:operation];
+         */
         
     }
     MSDebug(@"toPost unlock!!!");
@@ -711,8 +530,15 @@
 
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Entity *newFBEntity;
-    MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %d", frd.name, frd.id, [frd.id integerValue]);
-    BOOL hasFoundExistingEntity = [Entity findOrCreateEntityForFBUserName:frd.name withFBid:frd.id withInstitution:nil atLocationName:nil returnAsInstitution:&newFBEntity inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+    MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %lu", frd.name, frd.id, [frd.id integerValue]);
+    BOOL hasFoundExistingEntity = [Entity
+                                   findOrCreateEntityForFBUserName:frd.name
+                                   withFBid:frd.id
+                                   withInstitution:nil
+                                   atLocation:nil
+                                   returnAsEntity:&newFBEntity
+                                   inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+                                   
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
@@ -735,32 +561,39 @@
         [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             
             //get its state
+            NSString *state = nil;
             NSDictionary *location = [result objectForKey:@"location"];
-            NSString *locationName = [location objectForKey:@"name"];
-            NSArray *cityAndState = [locationName componentsSeparatedByString:@", "];
-            NSString *state = [cityAndState objectAtIndex:1];
-            MSDebug(@"its state %@ what?", state);
-
-            //get its institution
-            NSArray *education = [result objectForKey:@"education"];
-            NSString *schoolName;
-            for (id ed in education){
-                if([[ed objectForKey:@"type"] isEqualToString:@"College"]){
-                    id school = [ed objectForKey:@"school"];
-                    schoolName = [[NSString alloc] initWithString:[school objectForKey:@"name"]];
+            if (location) {
+                NSString *locationName = [location objectForKey:@"name"];
+                if (locationName) {
+                    NSArray *cityAndState = [locationName componentsSeparatedByString:@", "];
+                    if (cityAndState) {
+                        state = [cityAndState objectAtIndex:1];
+                        [newFBEntity setLocation:state];
+                    }
                 }
             }
-            MSDebug(@"its school %@ what?", schoolName);
             
-            Institution *insForFBUser;
-            [Institution findOrCreateInstitutionForFBUser:schoolName atLocationName:state returnAsInstitution:&insForFBUser inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
-            [newFBEntity setInstitution:insForFBUser];
+            //get its institution
+            NSString *schoolName = nil;
+            NSArray *education = [result objectForKey:@"education"];
+            if (education) {
+                for (id ed in education){
+                    if([[ed objectForKey:@"type"] isEqualToString:@"College"]){
+                        id school = [ed objectForKey:@"school"];
+                        schoolName = [[NSString alloc] initWithString:[school objectForKey:@"name"]];
+                        [newFBEntity setInstitution:schoolName];
+                    }
+                }
+            }
+            
+            MSDebug(@"its state %@ what?", state);
+            MSDebug(@"its school %@ what?", schoolName);
             
             [_requestsToWaitLock lock];
             _requestsToWait--;
             MSDebug(@"Minus request to %d, is it true? %d", _requestsToWait, _requestsToWait == 0);
             if(_requestsToWait == 0){
-                
                 [_toPostLock unlock];
                 MSDebug(@"toPost unlock!!!");
             }

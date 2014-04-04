@@ -9,16 +9,17 @@
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
 #import "BigPostTableViewCell.h"
+<<<<<<< HEAD
 #import "ViewMultiPostsViewController.h"
 #import "NavigationController.h"
 #import <MapKit/MapKit.h>
 #import "MapPinAnnotation.h"
+=======
+>>>>>>> Redo models
 
 #import "KeyChainWrapper.h"
-#import "Institution.h"
-#import "Location.h"
 #import "Entity.h"
-#import "Photo.h"
+
 
 #import "CircleViewForImage.h"
 #import "UIColor+MSColor.h"
@@ -43,21 +44,10 @@
 
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 
-@property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
-
 @end
 
 @implementation ViewEntityViewController
 
-#define METERS_PER_MILE 1609.344
-
-- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
-    self = [super init];
-    if (self) {
-        _viewMultiPostsViewController = viewController;// Custom initialization
-    }
-    return self;
-}
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,11 +72,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjects:@[sessionToken]
                                                                      forKeys:@[@"auth_token"]];
     
-    // return null if not missing
-    NSNumber *institutionID = [self fetchMissingInstitutionIDForEntity:_entity];
-    if (institutionID) {
-        [params setValue:institutionID forKey:@"Institution"];
-    }
     
     // Let's ask the server for the posts of this entity!
     [[RKObjectManager sharedManager]
@@ -117,7 +102,7 @@
     // Let's perform one fetch here
     NSError *fetchingErr = nil;
     if ([self.fetchedResultsController performFetch:&fetchingErr]){
-        MSDebug(@"Number of fetched posts %d", [[self.fetchedResultsController fetchedObjects] count]);
+        MSDebug(@"Number of fetched posts %lu", [[self.fetchedResultsController fetchedObjects] count]);
         MSDebug(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch posts for entity");
@@ -191,27 +176,27 @@
        newIndexPath:(NSIndexPath *)newIndexPath{
     
     if (type == NSFetchedResultsChangeDelete) {
-        MSDebug(@"we got an delete here! new %d, old %d",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got an delete here! new %lu, old %lu",newIndexPath.row, indexPath.row);
         
         [self.tableView
          deleteRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeInsert) {
-        MSDebug(@"we got an insert here! new %d, old %d",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got an insert here! new %lu, old %lu",newIndexPath.row, indexPath.row);
         
         [self.tableView
          insertRowsAtIndexPaths:@[newIndexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeUpdate) {
-        MSDebug(@"we got an update here! new %d, old %d",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got an update here! new %lu, old %lu",newIndexPath.row, indexPath.row);
         
         [self.tableView
          reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     } else if (type == NSFetchedResultsChangeMove) {
-        MSDebug(@"we got a move here! new %d, old %d",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got a move here! new %lu, old %lu",newIndexPath.row, indexPath.row);
         
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -263,20 +248,12 @@
         [entitiesArray addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
     }];
     
-    //    cell.entities = entitiesArray;
     
-    //TODO: should present all images, not just the first one
-    
-    UIImage *imagephoto;
-    if ([post.photos count] > 0) {
-        Photo *photo = [[post.photos allObjects] firstObject];
-        imagephoto= [[UIImage alloc] initWithData:photo.image];
-    }
-    
-    
-    
-    if ([post.photos count] > 0) {
+
+    if (post.image != nil) {
+        UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];
         [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
+
     }
     
     /*
@@ -284,11 +261,6 @@
      // However, here shareButton is depreciated
      cell.shareButton.tag = indexPath.row;
      */
-    
-    // Here is where we register any target of buttons in cells if the target is not the cell itself
-    //[cell.shareButton addTarget:self action:@selector(shareButtonPressed) forControlEvents:UIControlEventTouchUpInside];
-    //cell.entityButton.tag = indexPath.row;
-    //[cell.entityButton addTarget:self action:@selector(entityButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
@@ -303,116 +275,23 @@
 
 #pragma mark -
 #pragma mark Miscellaneous Methods
-- (NSNumber *)fetchMissingInstitutionIDForEntity:(Entity *)entity{
-    if (entity.institution.name == nil) {
-        return entity.institution.remoteID;
-    } else {
-        return NULL;
-    }
-}
-
 - (void) setNameAndInstitutionAndLocation{
     if (_entity) {
         _name = [[NSString alloc] initWithString:_entity.name];
         _nameLabel.text = _name;
         MSDebug(@"Entity name: %@", _name);
         if (_entity.institution) {
-            if (_entity.institution.name) {
-                _institution = [[NSString alloc] initWithString:_entity.institution.name];
+                _institution = [[NSString alloc] initWithString:_entity.institution];
                 _institutionLabel.text = _institution;
                 MSDebug(@"Entity institution: %@", _institution);
-            }
-            if (_entity.institution.location) {
-                _location = [[NSString alloc] initWithString:_entity.institution.location.name];
-                _locationLabel.text = _location;
-                MSDebug(@"Entity location: %@", _location);
-            }
+        }
+        if (_entity.location) {
+            _location = [[NSString alloc] initWithString:_entity.location];
+            _locationLabel.text = _location;
+            MSDebug(@"Entity location: %@", _location);
         }
     }
-
 }
-
-
-//TODO: remove following methods since they are depreciated
-
-#pragma mark -
-#pragma mark Map View Delegate Methods
-- (void)locationManager:(CLLocationManager *)manager didUpdateToLocation:(CLLocation *)newLocation fromLocation:(CLLocation *)oldLocation  {
-    CLLocationCoordinate2D loc = [newLocation coordinate];
-    [_myMap setCenterCoordinate:loc];
-}
-
-- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
-{
-    
-    //if ([annotation isKindOfClass:[MKUserLocation class]])
-    //    return nil;
-    //if (annotation == _myMap.userLocation) {
-    //    return nil;
-    //}
-    MKPinAnnotationView*pinView=nil;
-    if(annotation!=_myMap.userLocation)
-    {
-        static NSString*defaultPin=@"com.invasivecode.pin";
-        pinView=(MKPinAnnotationView*)[_myMap dequeueReusableAnnotationViewWithIdentifier:defaultPin];
-        if(pinView==nil)
-            pinView=[[MKPinAnnotationView alloc]initWithAnnotation:annotation reuseIdentifier:defaultPin];
-        pinView.pinColor=MKPinAnnotationColorPurple;
-        pinView.canShowCallout=YES;
-        pinView.animatesDrop=YES;
-    }
-    else
-    {
-        [_myMap.userLocation setTitle:@"You are Here!"];
-    }
-    return pinView;
-}
-
-- (void)mapView:(MKMapView *)theMapView didUpdateUserLocation:(MKUserLocation *)userLocation
-{
-    [theMapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
-}
-
-
-
-#pragma mark -
-#pragma mark Button Methods
-
-- (IBAction)meButtonPressed:(id)sender {
-    
-    _myMap.showsUserLocation = TRUE;
-    CLLocationCoordinate2D loc = [_myMap.userLocation coordinate];
-    
-    MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(loc, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
-    MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
-    
-    _myMap.autoresizingMask =
-    (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-    
-    [_myMap setRegion:adjustedRegion animated:YES];
-    
-}
-
-- (IBAction)backButtonPressed:(id)sender {
-    [_viewMultiPostsViewController cancelViewingEntity];
-}
-
-- (IBAction)dropPinPressed:(id)sender {
-    
-    
-    //adjust View Region
-    /*
-     MKCoordinateRegion viewRegion = MKCoordinateRegionMakeWithDistance(myCoordinate, 1900*METERS_PER_MILE, 1900*METERS_PER_MILE);
-     MKCoordinateRegion adjustedRegion = [_myMap regionThatFits:viewRegion];
-     
-     _myMap.autoresizingMask =
-     (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-     
-     [_myMap setRegion:adjustedRegion animated:YES];
-     */
-    
-}
-
 
 # pragma mark -
 #pragma mark BigPostTableViewCell delegate method

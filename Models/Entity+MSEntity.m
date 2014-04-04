@@ -7,10 +7,14 @@
 //
 
 #import "Entity+MSEntity.h"
-#import "Institution+MSInstitution.h"
 
 @implementation Entity (MSEntity)
-+ (BOOL)findOrCreateEntityForFBUserName:(NSString *)entityName withFBid:(NSString *)fbid withInstitution:(NSString *)institutionName atLocationName:(NSString *) locationName returnAsInstitution:(Entity **) entityToReturn inManagedObjectContext:(NSManagedObjectContext *)context{
++ (BOOL)findOrCreateEntityForFBUserName:(NSString *)entityName
+                               withFBid:(NSString *)fbid
+                        withInstitution:(NSString *)institutionName
+                             atLocation:(NSString *)locationName
+                         returnAsEntity:(Entity **)entityToReturn
+                 inManagedObjectContext:(NSManagedObjectContext *)context{
     
     NSError *error = nil;
     
@@ -21,9 +25,6 @@
     
     MSDebug(@"Let's compare %@ and %@", fbid, [[matches firstObject] fbUserID]);
     
-    Institution *thisIns;
-    [Institution findOrCreateInstitutionForFBUser:institutionName atLocationName:locationName returnAsInstitution:&thisIns inManagedObjectContext:context];
-    
     if(!matches || error){
         MSError(@"Errors in fetching entity");
         *entityToReturn = nil;
@@ -32,12 +33,12 @@
         *entityToReturn = [matches firstObject];
         return TRUE;
     } else {
-        *entityToReturn = [Entity createNewFBUserEntity:fbid withEntityName:entityName institution:thisIns inManagedObjectContext:context];
+        *entityToReturn = [Entity createNewFBUserEntity:fbid withEntityName:entityName withInstitution:institutionName atLocation:locationName inManagedObjectContext:context];
         return FALSE;
     }
     
 }
-
+/*
 //for yours user to find or create institution
 + (BOOL)findOrCreateEntityForYoursUserName:(NSString *)entityName withInstitution:(NSString *)institutionName atLocationName:(NSString *) locationName returnAsInstitution:(Entity **) entityToReturn inManagedObjectContext:(NSManagedObjectContext *)context{
     
@@ -74,9 +75,13 @@
         *entityToReturn = [Entity createNewYoursEntity:entityName institution:thisIns inManagedObjectContext:context];
         return TRUE;
     }
-}
+}*/
 
-+(Entity *)createNewFBUserEntity:(NSString *)fbid withEntityName:(NSString *)entityName institution:(Institution *)institution inManagedObjectContext:(NSManagedObjectContext *)context{
++(Entity *)createNewFBUserEntity:(NSString *)fbid
+                  withEntityName:(NSString *)entityName
+                 withInstitution:(NSString *)institutionName
+                      atLocation:(NSString *)locationName
+          inManagedObjectContext:(NSManagedObjectContext *)context{
     
     // found nothing, create it!
     Entity *en = [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
@@ -86,15 +91,15 @@
     [en setUuid:[Utility getUUID]];
     [en setFbUserID:fbid];
     [en setIsYourFriend:@YES];
-    [en setDirty:@YES];
+    [en setDirty:@NO];
     [en setName:entityName];
-    if(institution){
-        [en setInstitution:institution];
-    }
+    if (institutionName) [en setInstitution:institutionName];
+    if (locationName) [en setLocation:locationName];
+
     MSDebug(@"Created an entity with name %@", entityName);
     return en;
 }
-
+/*
 +(Entity *)createNewYoursEntity:(NSString *)entityName institution:(Institution *)institution inManagedObjectContext:(NSManagedObjectContext *)context{
     
     // found nothing, create it!
@@ -103,7 +108,7 @@
     
     // set UUID
     [en setUuid:[Utility getUUID]];
-    [en setDirty:@YES];
+    [en setDirty:@NO];
     [en setIsYourFriend:@YES];
     [en setName:entityName];
     if(institution){
@@ -111,6 +116,11 @@
     }
     MSDebug(@"Created an entity with name %@", entityName);
     return en;
+}*/
+
+- (BOOL)updateUUIDinManagedObjectContext:(NSManagedObjectContext *)context{
+    //TODO: implement this
+    return YES;
 }
 
 @end

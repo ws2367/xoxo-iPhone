@@ -2,7 +2,7 @@
 //  Comment.h
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 3/23/14.
+//  Created by Wen-Hsiang Shaw on 4/4/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
@@ -15,7 +15,6 @@
 
 @property (nonatomic, retain) NSNumber * anonymizedUserID;
 @property (nonatomic, retain) NSString * content;
-@property (nonatomic, retain) NSNumber * deleted;
 @property (nonatomic, retain) NSNumber * dirty;
 @property (nonatomic, retain) NSNumber * isYours;
 @property (nonatomic, retain) NSString * postUUID;

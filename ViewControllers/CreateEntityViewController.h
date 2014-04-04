@@ -18,9 +18,6 @@
 @property(strong, nonatomic) Entity *selectedEntity;
 @property(weak,nonatomic) CreatePostViewController *delegate;
 
-- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
-
-- (id)initWithCreatePostViewController:(CreatePostViewController *)viewController;
 - (void)dismissBlackMask;
 
 @end

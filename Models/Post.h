@@ -2,32 +2,28 @@
 //  Post.h
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 3/31/14.
+//  Created by Wen-Hsiang Shaw on 4/4/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <CoreData/CoreData.h>
 
-@class Comment, Entity, Photo, User;
+@class Comment, Entity;
 
 @interface Post : NSManagedObject
 
 @property (nonatomic, retain) NSString * content;
-@property (nonatomic, retain) NSNumber * deleted;
 @property (nonatomic, retain) NSNumber * dirty;
-@property (nonatomic, retain) id entitiesUUIDs;
 @property (nonatomic, retain) NSNumber * following;
+@property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) NSNumber * isYours;
 @property (nonatomic, retain) NSNumber * popularity;
 @property (nonatomic, retain) NSNumber * remoteID;
 @property (nonatomic, retain) NSDate * updateDate;
 @property (nonatomic, retain) NSString * uuid;
-@property (nonatomic, retain) id entitiesFBUserIDs;
 @property (nonatomic, retain) NSSet *comments;
 @property (nonatomic, retain) NSSet *entities;
-@property (nonatomic, retain) NSSet *photos;
-@property (nonatomic, retain) User *user;
 @end
 
 @interface Post (CoreDataGeneratedAccessors)
@@ -41,10 +37,5 @@
 - (void)removeEntitiesObject:(Entity *)value;
 - (void)addEntities:(NSSet *)values;
 - (void)removeEntities:(NSSet *)values;
-
-- (void)addPhotosObject:(Photo *)value;
-- (void)removePhotosObject:(Photo *)value;
-- (void)addPhotos:(NSSet *)values;
-- (void)removePhotos:(NSSet *)values;
 
 @end

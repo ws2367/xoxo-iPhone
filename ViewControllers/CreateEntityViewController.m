@@ -6,12 +6,10 @@
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
-#import "CreateEntityViewController.h"
 #import "CreatePostViewController.h"
-#import "ViewMultiPostsViewController.h"
+#import "CreateEntityViewController.h"
+
 #import "EntityTableViewCell.h"
-#import "Institution.h"
-#import "Location.h"
 #import "Entity+MSEntity.h"
 
 @interface CreateEntityViewController ()
@@ -21,9 +19,6 @@
 @property (weak, nonatomic) IBOutlet UITextField *locationTextField;
 
 @property (strong, nonatomic) UIView *blackMaskOnTopOfView;
-
-@property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
-@property (weak, nonatomic) CreatePostViewController *createPostViewController;
 
 // table view
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
@@ -38,23 +33,6 @@
 @end
 
 @implementation CreateEntityViewController
-
-- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController{
-    self = [super init];
-    if (self) {
-        _viewMultiPostsViewController = viewController;// Custom initialization
-    }
-    return self;
-}
-
-
-- (id)initWithCreatePostViewController:(CreatePostViewController *)viewController{
-    self = [super init];
-    if (self) {
-        _createPostViewController = viewController;// Custom initialization
-    }
-    return self;
-}
 
 
 //- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
@@ -157,7 +135,7 @@
 
 #pragma mark -
 #pragma mark Button Pressed Functions
-
+/*
 - (IBAction)addPersonPressed:(id)sender {
     [self allocateBlackMask];
     
@@ -233,7 +211,7 @@
 //        [self dismissBlackMask];
 //    }
 
-}
+}*/
 
 #pragma mark -
 #pragma mark TextField Delegate methods
@@ -293,8 +271,8 @@
     Entity *entity = [self.fetchedResultsController objectAtIndexPath:indexPath];
     
     cell.name = entity.name;
-    cell.location = entity.institution.location.name;
-    cell.institution = entity.institution.name;
+    if (entity.location) cell.location = entity.location;
+    if (entity.institution) cell.institution = entity.institution;
     
     // dummy random pictures for now
     // picture array has no insufficient pictures
@@ -311,8 +289,6 @@
 #pragma mark -
 #pragma mark Table Delegate Methods
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    
     
     [self allocateBlackMask];
     

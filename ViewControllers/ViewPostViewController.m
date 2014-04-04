@@ -15,6 +15,7 @@
 
 #import "Post.h"
 #import "Comment.h"
+<<<<<<< HEAD
 #import "Photo.h"
 #import "Institution.h"
 #import "Location.h"
@@ -23,10 +24,11 @@
 #import "ViewPostDisplayImageTableViewCell.h"
 #import "ViewPostDisplayEntityTableViewCell.h"
 #import "ViewPostDisplayCommentTableViewCell.h"
+=======
+>>>>>>> Redo models
 
 @interface ViewPostViewController ()
 
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (strong, nonatomic) NSString *content;
 
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
@@ -107,19 +109,15 @@
     [_tableView registerNib:nib
        forCellReuseIdentifier:CellTableIdentifier];
     */
-    // set the content
-//    _content = [[NSString alloc] initWithString:_post.content];
-//    _contentTextView.text = _content;
+
     
     // set entities' names
     [self setAllContentForPost:_post];
     
-    NSArray *missingInstitutionIDs = [self fetchMissingInstitutionIDsForPost:_post];
-    MSDebug(@"Missing institution IDs: %@", missingInstitutionIDs);
     
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[missingInstitutionIDs, sessionToken]
-                                                       forKeys:@[@"Institution", @"auth_token"]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken]
+                                                       forKeys:@[@"auth_token"]];
     
     // Let's ask the server for the comments of this post!
     [[RKObjectManager sharedManager]
@@ -153,7 +151,7 @@
     // Let's perform one fetch here
     NSError *fetchingErr = nil;
     if ([self.fetchedResultsController performFetch:&fetchingErr]){
-        NSLog(@"Number of fetched comments %d", [[self.fetchedResultsController fetchedObjects] count]);
+        NSLog(@"Number of fetched comments %lu", [[self.fetchedResultsController fetchedObjects] count]);
         NSLog(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch");
@@ -162,11 +160,8 @@
 
     MSDebug(@"Post has comments: %@", _post.comments);
     
-    //TODO: we might want to use @"photos.@count" in the predicate, check Key Value Coding and Advanced Query
-    //TODO: we should show all images, not just the first one
-    Photo *photo = [[self.post.photos allObjects] firstObject];
-    self.postImage.image = [[UIImage alloc] initWithData:photo.image];
-    
+
+    self.postImage.image = [[UIImage alloc] initWithData:_post.image];
     
     // remove separators of the table view
     _tableView.separatorColor = [UIColor clearColor];
@@ -300,9 +295,6 @@
 
 #pragma mark -
 #pragma mark Button Methods
-- (IBAction)backButtonPressed:(id)sender {
-    [_viewMultiPostsViewController cancelViewingPost];
-}
 
 - (IBAction)postComment:(id)sender {
 
@@ -421,17 +413,6 @@
 
 #pragma mark -
 #pragma mark Miscellaneous
-- (NSArray *)fetchMissingInstitutionIDsForPost:(Post *)post{
-    NSMutableArray *ids = [[NSMutableArray alloc] init];
-    for (Entity *entity in post.entities){
-        if (entity.institution.uuid == nil) {
-            if (entity.institution.remoteID) {
-                [ids addObject:entity.institution.remoteID];
-            }
-        }
-    }
-    return ids;
-}
 
 - (void) setAllContentForPost:(Post *)post{
     CGFloat currentY = START_ENTITIES_Y;
@@ -439,10 +420,10 @@
     NSUInteger cnt = 0;
     for (Entity *en in _entities){
         NSMutableString *name = [NSMutableString stringWithString:en.name];
-        if (en.institution.name)
-            [name appendFormat:@", %@", en.institution.name];
-        if (en.institution.location)
-            [name appendFormat:@", %@", en.institution.location.name];
+        if (en.institution)
+            [name appendFormat:@", %@", en.institution];
+        if (en.location)
+            [name appendFormat:@", %@", en.location];
         UIButton *enButton = [[UIButton alloc] initWithFrame:CGRectMake(LEFT_OFFSET, currentY, WIDTH, ENTITY_HEIGHT)];
         enButton.tag = cnt;
         [enButton setTitle:name forState:UIControlStateNormal];

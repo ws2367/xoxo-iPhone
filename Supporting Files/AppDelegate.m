@@ -15,8 +15,6 @@
 #import "ClientManager.h"
 #import "RestKitInitializer.h"
 
-//Entity classes
-#import "Location.h"
 
 @implementation AppDelegate
 
@@ -64,19 +62,6 @@
     
     // make sure that the FBLoginView class is loaded before the login view is shown.
     [FBLoginView class];
-    
-    
-    /* Fetch location */
-    NSString *timestamp = [self fetchLatestTimestampOfLocation];
-    MSDebug(@"Location timestamp: %@", timestamp);
-    
-    NSDictionary *params = [NSDictionary dictionaryWithObject:timestamp forKey:@"timestamp"];
-
-    [[RKObjectManager sharedManager] getObject:[Location alloc]
-                                          path:nil
-                                    parameters:params
-                                       success:[Utility successBlockWithDebugMessage:@"Successfully loaded locations (states)" block:nil]
-                                       failure:[Utility failureBlockWithAlertMessage:@"Can't download states!"]];
     
     /*Remove redundent data*/
     //TODO: remove objects in Core Data except for the first 5 in friends and following
@@ -253,28 +238,6 @@
     // You can add your app-specific url handling code here if needed
     
     return wasHandled;
-}
-
-
-#pragma mark - Miscellaneous Methods
-- (NSString *) fetchLatestTimestampOfLocation{
-    // get the latest updateDate
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Location"];
-    NSSortDescriptor *sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
-    [request setSortDescriptors:[NSArray arrayWithObject:sortDescriptor]];
-    [request setFetchLimit:1];
-    
-    
-    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
-    NSString *timestamp = nil;
-    if ([match count] > 0) {
-        Location *location = [match objectAtIndex:0];
-        NSNumber *number = [NSNumber numberWithDouble:[location.updateDate timeIntervalSince1970]];
-        timestamp = [number stringValue];
-    } else {
-        timestamp = [NSString stringWithFormat:@"0"];
-    }
-    return timestamp;
 }
 
 

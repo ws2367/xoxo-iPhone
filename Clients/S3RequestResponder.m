@@ -7,45 +7,34 @@
 //
 
 #import "S3RequestResponder.h"
-#import "Photo.h"
 
 @interface S3RequestResponder ()
 
 @property (strong, nonatomic) Post *post;
-@property (strong, nonatomic) NSString *uuid;
     
 @end
 
 @implementation S3RequestResponder
 
-+ (S3RequestResponder *) S3RequestResponderForPost:(Post *)post uuid:(NSString *)uuid{
-    return [[S3RequestResponder alloc] initWithPost:post uuid:uuid];
++ (S3RequestResponder *) S3RequestResponderForPost:(Post *)post{
+    return [[S3RequestResponder alloc] initWithPost:post];
 }
 
-- (id)initWithPost:(Post *)post uuid:(NSString *)uuid{
+- (id)initWithPost:(Post *)post{
     self = [super init];
     if (self) {
         _post = post;
-        _uuid = uuid;
     }
     return self;
 }
 
 // we are sure that the photo of the same uuid does not exist in core data
-- (void) createPhotoEntityForPost:(Post *)post
-                     andImageData:(NSData *)imageData
-                          andUUID:(NSString *)uuid
-           inManagedObjectContext:(NSManagedObjectContext *)context{
-    Photo *photo = [NSEntityDescription insertNewObjectForEntityForName:@"Photo"
-                                                 inManagedObjectContext:context];
+- (void) saveImageData:(NSData *)imageData
+                toPost:(Post *)post
+inManagedObjectContext:(NSManagedObjectContext *)context{
     
     // This will save NSData typed image to an external binary storage
-    photo.image = imageData;
-    [photo setDirty:@NO];// dirty is a NSNumber so @NO is a literal in Obj C that is created for this purpose. [NSNumber numberWithBool:] works too.
-    [photo setDeleted:@NO];
-    [photo setUuid:uuid];
-    
-    [post addPhotosObject:photo];
+    post.image = imageData;
 }
 
 #pragma mark -
@@ -57,10 +46,9 @@
         [Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
     }
     
-    [self createPhotoEntityForPost:_post
-                      andImageData:response.body
-                           andUUID:_uuid
-            inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+    [self saveImageData:response.body
+                 toPost:_post
+ inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
     
     //let's save all the photos we just created!
     NSError *error;

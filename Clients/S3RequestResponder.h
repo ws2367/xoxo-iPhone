@@ -16,9 +16,7 @@
 
 @property (nonatomic, weak) id<S3RequestResponderDelegate> delegate;
 
-+ (S3RequestResponder *) S3RequestResponderForPost:(Post *)post uuid:(NSString *)uuid;
-
-- (id)initWithPost:(Post *)post uuid:(NSString *)uuid;
++ (S3RequestResponder *) S3RequestResponderForPost:(Post *)post;
 
 @end
 
