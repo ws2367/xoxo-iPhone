@@ -113,6 +113,15 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ebo-NS-ff6">
+                                <rect key="frame" x="0.0" y="59" width="320" height="465"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="dataSource" destination="M7g-9K-4Ou" id="o7d-hy-BWh"/>
+                                    <outlet property="delegate" destination="M7g-9K-4Ou" id="dEB-NP-LUl"/>
+                                </connections>
+                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -121,6 +130,7 @@
                         <outlet property="commentTextField" destination="6uu-Qi-E5V" id="Rqn-ld-AlV"/>
                         <outlet property="postImage" destination="xGU-1Q-YEX" id="ujF-1p-QNU"/>
                         <outlet property="tableView" destination="6b4-rw-rTx" id="LJ5-s6-vuy"/>
+                        <outlet property="viewPostTableView" destination="ebo-NS-ff6" id="dlX-ze-Vzg"/>
                         <segue destination="LAB-UI-cDH" kind="modal" identifier="viewEntitySegue" id="3Vc-NU-qSJ"/>
                     </connections>
                 </viewController>
@@ -788,6 +798,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="bg9-pG-jYC"/>
+        <segue reference="zbB-nn-Wgf"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -22,6 +22,11 @@ extern const int TABBAR_HEIGHT;
 extern const int UPPER_AREA_HEIGHT;
 extern const float TIMESTAMP_MAX;
 extern const int NAVIGATION_BAR_CUT_DOWN_HEIGHT;
+extern const int VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
+extern const int VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT;
+extern const int VIEW_POST_NAVIGATION_BAR_HEIGHT;
+
+
 extern NSString *const S3BUCKET_NAME;
 
 extern NSString *const TOKEN_VENDING_MACHINE_URL;

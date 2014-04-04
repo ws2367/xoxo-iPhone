@@ -505,6 +505,7 @@
         Entity *entity = [[post.entities allObjects] firstObject];
 
         [nextController setEntity:entity];
+
     } else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
         ViewPostViewController *nextController = segue.destinationViewController;
         
@@ -513,6 +514,8 @@
         Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
         
         [nextController setPost:post];
+        
+
     }
 }
 

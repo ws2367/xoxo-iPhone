@@ -211,7 +211,7 @@
 }
 
 + (NSDictionary *)getMultiPostsNameFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-UltLtCn" size:40],NSFontAttributeName, [UIColor colorForYoursCyan] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-UltLtCn" size:37],NSFontAttributeName, [UIColor colorForYoursCyan] ,NSForegroundColorAttributeName,nil];
 
 }
 + (NSDictionary *)getMultiPostsContentFontDictionary{

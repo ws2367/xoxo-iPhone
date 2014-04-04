@@ -115,6 +115,9 @@
 		7AFAFC7018EB8C7700696C30 /* icon-newshare@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AFAFC6E18EB8C7600696C30 /* icon-newshare@2x.png */; };
 		7AFAFC7218EC81F400696C30 /* HelveticaNeueLTStd-UltLtCn.otf in Resources */ = {isa = PBXBuildFile; fileRef = 7AFAFC7118EC7D4C00696C30 /* HelveticaNeueLTStd-UltLtCn.otf */; };
 		7AFAFC7318EC81FE00696C30 /* helveticaneueltstd-roman-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7AFAFC6C18EB760500696C30 /* helveticaneueltstd-roman-webfont.ttf */; };
+		7AFAFC7618EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFAFC7518EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.m */; };
+		7AFAFC7918EDE36800696C30 /* ViewPostDisplayEntityTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFAFC7818EDE36800696C30 /* ViewPostDisplayEntityTableViewCell.m */; };
+		7AFAFC7C18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AFAFC7B18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -284,6 +287,12 @@
 		7AFAFC6D18EB8C7600696C30 /* icon-newreport@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-newreport@2x.png"; sourceTree = "<group>"; };
 		7AFAFC6E18EB8C7600696C30 /* icon-newshare@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-newshare@2x.png"; sourceTree = "<group>"; };
 		7AFAFC7118EC7D4C00696C30 /* HelveticaNeueLTStd-UltLtCn.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "HelveticaNeueLTStd-UltLtCn.otf"; sourceTree = "<group>"; };
+		7AFAFC7418EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostDisplayImageTableViewCell.h; sourceTree = "<group>"; };
+		7AFAFC7518EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostDisplayImageTableViewCell.m; sourceTree = "<group>"; };
+		7AFAFC7718EDE36800696C30 /* ViewPostDisplayEntityTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostDisplayEntityTableViewCell.h; sourceTree = "<group>"; };
+		7AFAFC7818EDE36800696C30 /* ViewPostDisplayEntityTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostDisplayEntityTableViewCell.m; sourceTree = "<group>"; };
+		7AFAFC7A18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewPostDisplayCommentTableViewCell.h; sourceTree = "<group>"; };
+		7AFAFC7B18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewPostDisplayCommentTableViewCell.m; sourceTree = "<group>"; };
 		F75D3B90DF4C4E4C8683B2BF /* Pods-Cells.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Cells.xcconfig"; path = "Pods/Pods-Cells.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -343,8 +352,8 @@
 				5124229918B2967B008BEF86 /* ViewMultiPostsViewController.xib */,
 				7584D1B218DED07600981E2E /* MultiPostsTabBarController.h */,
 				7584D1B318DED07600981E2E /* MultiPostsTabBarController.m */,
-				7A33F90A18DFE3AF00CEE1A7 /* FavoritesPostsViewController.h */,
 				7A33F90B18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m */,
+				7A33F90A18DFE3AF00CEE1A7 /* FavoritesPostsViewController.h */,
 				7A33F90D18DFE3C300CEE1A7 /* FriendsPostsViewController.h */,
 				7A33F90E18DFE3C300CEE1A7 /* FriendsPostsViewController.m */,
 				7A33F91018DFE3E600CEE1A7 /* PopularPostsViewController.h */,
@@ -562,6 +571,12 @@
 				753B4FCF1842F86D00863B9F /* CommentTableViewCell.h */,
 				753B4FD01842F86D00863B9F /* CommentTableViewCell.m */,
 				753B4FD21842F91F00863B9F /* CommentTableViewCell.xib */,
+				7AFAFC7418EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.h */,
+				7AFAFC7518EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.m */,
+				7AFAFC7718EDE36800696C30 /* ViewPostDisplayEntityTableViewCell.h */,
+				7AFAFC7818EDE36800696C30 /* ViewPostDisplayEntityTableViewCell.m */,
+				7AFAFC7A18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.h */,
+				7AFAFC7B18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.m */,
 			);
 			path = TableViewCells;
 			sourceTree = "<group>";
@@ -737,8 +752,10 @@
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
 				5186F09B18CEE58800B27C71 /* KeyChainWrapper.m in Sources */,
+				7AFAFC7618EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.m in Sources */,
 				514B732718CA79BC00EEAC66 /* Location.m in Sources */,
 				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
+				7AFAFC7C18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.m in Sources */,
 				51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */,
 				5147AA9418E296CC00771E53 /* S3RequestResponder.m in Sources */,
 				7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */,
@@ -752,6 +769,7 @@
 				516FB2EB18B6F40700088AF6 /* Constants.m in Sources */,
 				7A37FA2E18E4AF2D003E5BFF /* UIColor+MSColor.m in Sources */,
 				75C0BDCE1829785E00B34113 /* UserMenuViewController.m in Sources */,
+				7AFAFC7918EDE36800696C30 /* ViewPostDisplayEntityTableViewCell.m in Sources */,
 				7584D1B418DED07600981E2E /* MultiPostsTabBarController.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
 				7A33F90F18DFE3C300CEE1A7 /* FriendsPostsViewController.m in Sources */,

@@ -11,12 +11,18 @@
 #import "ViewMultiPostsViewController.h"
 #import "CommentTableViewCell.h"
 #import "KeyChainWrapper.h"
+#import "NavigationController.h"
 
 #import "Post.h"
 #import "Comment.h"
 #import "Photo.h"
 #import "Institution.h"
 #import "Location.h"
+#import "UIColor+MSColor.h"
+
+#import "ViewPostDisplayImageTableViewCell.h"
+#import "ViewPostDisplayEntityTableViewCell.h"
+#import "ViewPostDisplayCommentTableViewCell.h"
 
 @interface ViewPostViewController ()
 
@@ -35,6 +41,7 @@
 
 @property (strong, nonatomic) NSArray *comments; //store comment pointers
 @property (strong, nonatomic) NSMutableArray *entities;
+@property (weak, nonatomic) IBOutlet UITableView *viewPostTableView;
 @end
 
 #define ROW_HEIGHT 46
@@ -77,6 +84,9 @@
      selector:@selector(handleKeyboardWillHide:)
      name:UIKeyboardWillHideNotification
      object:nil];
+    
+    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
+    self.navigationItem.rightBarButtonItem = exitButton;
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -161,9 +171,25 @@
     // remove separators of the table view
     _tableView.separatorColor = [UIColor clearColor];
     
-    //add navigation controller button
+    //add top controller bar
+    UINavigationBar *topNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, VIEW_POST_NAVIGATION_BAR_HEIGHT)];
+    [topNavigationBar setBarTintColor:[UIColor colorForYoursOrange]];
+    [topNavigationBar setTranslucent:NO];
+    [topNavigationBar setTintColor:[UIColor whiteColor]];
+    [topNavigationBar setTitleTextAttributes:[Utility getMultiPostsContentFontDictionary]];
+    [self.view addSubview:topNavigationBar];
     
+    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
+    [exitButton setTintColor:[UIColor whiteColor]];
+    UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu-popular.png"] style:UIBarButtonItemStylePlain target:self action:@selector(homeButtonPressed:)];
+
+    [exitButton setTintColor:[UIColor whiteColor]];
     
+    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:@"Yours"];
+    
+    topNavigationItem.rightBarButtonItem = exitButton;
+    topNavigationItem.leftBarButtonItem = homeButton;
+    topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -172,6 +198,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
+#pragma mark Navigation Bar Button Methods
+- (void)exitButtonPressed:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)homeButtonPressed:(id)sender{
+    UIViewController *thisViewController = self;
+    while (![thisViewController isKindOfClass:[NavigationController class]]) {
+        thisViewController = [thisViewController presentingViewController];
+    }
+    [thisViewController dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 #pragma mark -
@@ -337,6 +376,7 @@
     return sectionInfo.numberOfObjects;
 }
 
+/*
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -350,7 +390,7 @@
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
 
     return cell;
-}
+}*/
 
 
 #pragma mark -
@@ -426,6 +466,58 @@
 - (void) entityClicked:(UIButton *)button {
     [self performSegueWithIdentifier:@"viewEntitySegue" sender:button];
 }
+
+
+#pragma mark -
+#pragma mark Table Data Source Methods
+/*
+- (NSInteger)tableView:(UITableView *)tableView
+ numberOfRowsInSection:(NSInteger)section
+{
+    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
+    id <NSFetchedResultsSectionInfo> sectionInfo = fetchedResultsController.sections[section];
+    return sectionInfo.numberOfObjects;
+}*/
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.row == 0){
+        return VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
+;
+    } else if(indexPath.row <= [_post.entities count]){
+        return VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT;
+    }
+    return 71;
+}
+
+// This is where cells got data and set up
+- (UITableViewCell *)tableView:(UITableView *)tableView
+         cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.row == 0){
+        ViewPostDisplayImageTableViewCell *cell = [[ViewPostDisplayImageTableViewCell alloc] init];
+        Photo *photo = [[_post.photos allObjects] firstObject];
+        [cell setPostImage:[[UIImage alloc] initWithData:photo.image]];
+        return cell;
+    } else if(indexPath.row <= [_post.entities count]){
+        ViewPostDisplayEntityTableViewCell *cell = [[ViewPostDisplayEntityTableViewCell alloc] init];
+        
+        return cell;
+    } else{
+        ViewPostDisplayCommentTableViewCell *cell = [[ViewPostDisplayCommentTableViewCell alloc] init];
+        
+        return cell;
+    }
+    
+}
+
+#pragma mark -
+#pragma mark TableView Delegate Methods
+// This has to call parent controller
+/*
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
+    [_masterController startViewingPostForPost:post];
+}*/
 
 
 # pragma mark -

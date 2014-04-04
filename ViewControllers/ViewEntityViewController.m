@@ -10,6 +10,7 @@
 #import "ViewPostViewController.h"
 #import "BigPostTableViewCell.h"
 #import "ViewMultiPostsViewController.h"
+#import "NavigationController.h"
 #import <MapKit/MapKit.h>
 #import "MapPinAnnotation.h"
 
@@ -20,6 +21,7 @@
 #import "Photo.h"
 
 #import "CircleViewForImage.h"
+#import "UIColor+MSColor.h"
 
 @interface ViewEntityViewController ()
 
@@ -121,8 +123,25 @@
         NSLog(@"Failed to fetch posts for entity");
     }
     
+    //add top controller bar
+    UINavigationBar *topNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, VIEW_POST_NAVIGATION_BAR_HEIGHT)];
+    [topNavigationBar setBarTintColor:[UIColor colorForYoursOrange]];
+    [topNavigationBar setTranslucent:NO];
+    [topNavigationBar setTintColor:[UIColor whiteColor]];
+    [topNavigationBar setTitleTextAttributes:[Utility getMultiPostsContentFontDictionary]];
+    [self.view addSubview:topNavigationBar];
+    
     UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = exitButton;
+    [exitButton setTintColor:[UIColor whiteColor]];
+    UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu-popular.png"] style:UIBarButtonItemStylePlain target:self action:@selector(homeButtonPressed:)];
+    
+    [exitButton setTintColor:[UIColor whiteColor]];
+    
+    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:@"Yours"];
+    
+    topNavigationItem.rightBarButtonItem = exitButton;
+    topNavigationItem.leftBarButtonItem = homeButton;
+    topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
 }
 
 
@@ -133,9 +152,22 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void) exitButtonPressed:(id)sender{
-    MSDebug(@"exitpressed");
+
+#pragma mark -
+#pragma mark Navigation Bar Button Methods
+- (void)exitButtonPressed:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
+
+-(void)homeButtonPressed:(id)sender{
+    UIViewController *thisViewController = self;
+    while (![thisViewController isKindOfClass:[NavigationController class]]) {
+        thisViewController = [thisViewController presentingViewController];
+    }
+    [thisViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+
 #pragma mark -
 #pragma mark Fetched Results Controller Delegate Methods
 

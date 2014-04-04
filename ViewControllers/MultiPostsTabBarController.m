@@ -40,7 +40,6 @@
     self.navigationItem.leftBarButtonItem = _searchBtn;
     [_searchBtn setTintColor:[UIColor colorForTabBar]];
     
-    
     //set tabbar background color
     CGRect frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, TABBAR_HEIGHT );
     UIView *v = [[UIView alloc] initWithFrame:frame];
