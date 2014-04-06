@@ -24,11 +24,22 @@
 #import "ViewPostDisplayImageTableViewCell.h"
 #import "ViewPostDisplayEntityTableViewCell.h"
 #import "ViewPostDisplayCommentTableViewCell.h"
+<<<<<<< HEAD
 =======
 >>>>>>> Redo models
 
 @interface ViewPostViewController ()
 
+=======
+#import "ViewPostDisplayButtonBarTableViewCell.h"
+#import "ViewPostDisplayContentTableViewCell.h"
+
+@interface ViewPostViewController ()
+
+@property (strong, nonatomic) Post *post;
+
+@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+>>>>>>> Add ViewPost UI, half createPost UI, change launch image
 @property (strong, nonatomic) NSString *content;
 
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
@@ -111,8 +122,8 @@
     */
 
     
-    // set entities' names
-    [self setAllContentForPost:_post];
+    //use tableview to display all content
+    //[self setAllContentForPost:_post];
     
     
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
@@ -125,7 +136,7 @@
      ofObject:self.post
      parameters:params
      success:[Utility successBlockWithDebugMessage:@"Successfully pulled comments for the post!"
-                                                     block:^{[self setAllContentForPost:_post];}]
+                                                     block:^{[self setPost:_post];}]
      failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server!"]];
     
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
@@ -174,7 +185,7 @@
     [topNavigationBar setTitleTextAttributes:[Utility getMultiPostsContentFontDictionary]];
     [self.view addSubview:topNavigationBar];
     
-    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
+    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-cancel.png"] style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
     [exitButton setTintColor:[UIColor whiteColor]];
     UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu-popular.png"] style:UIBarButtonItemStylePlain target:self action:@selector(homeButtonPressed:)];
 
@@ -185,7 +196,13 @@
     topNavigationItem.rightBarButtonItem = exitButton;
     topNavigationItem.leftBarButtonItem = homeButton;
     topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
+    
+    //hide scrollbar & clear separator
+    [_viewPostTableView setShowsVerticalScrollIndicator:NO];
+    [_viewPostTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+
 }
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -205,6 +222,15 @@
         thisViewController = [thisViewController presentingViewController];
     }
     [thisViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+#pragma mark -
+#pragma mark Whoever presented this view controller should call this methods
+- (void) setPost:(Post *)post{
+    _post = post;
+    _entities = [[NSMutableArray alloc] initWithArray:[_post.entities allObjects]];
+    _comments = [[NSArray alloc] initWithArray:[_post.comments allObjects]];
+    [_viewPostTableView reloadData];
 }
 
 
@@ -358,14 +384,17 @@
 
 }
 
+
 #pragma mark -
 #pragma mark Table Data Source Methods
 - (NSInteger)tableView:(UITableView *)tableView
  numberOfRowsInSection:(NSInteger)section
 {
-    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
-    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
-    return sectionInfo.numberOfObjects;
+    MSDebug(@"there are %d entities, %d comments", [_entities count], [_comments count]);
+    return ([_entities count] + [_comments count] + 3);
+//    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
+//    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
+//    return sectionInfo.numberOfObjects;
 }
 
 /*
@@ -463,29 +492,63 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row == 0){
         return VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
-;
-    } else if(indexPath.row <= [_post.entities count]){
+    } else if(indexPath.row <= [_entities count]){
         return VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT;
+    } else if(indexPath.row == ([_entities count] + 1)){
+        return VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT;
+    } else if(indexPath.row == ([_entities count] + 2)){
+        CGRect rectSize = [_post.content boundingRectWithSize:(CGSize){WIDTH, CGFLOAT_MAX}
+                                                options:NSStringDrawingUsesLineFragmentOrigin
+                                             attributes:[Utility getViewPostDisplayContentFontDictionary] context:nil];
+
+        return ceilf(rectSize.size.height)+30;
+    } else{
+        return VIEW_POST_DISPLAY_COMMENT_HEIGHT;
     }
-    return 71;
 }
 
 // This is where cells got data and set up
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    MSDebug(@"why isn't showing multiple entities? %d entities count %d",indexPath.row, [_entities count]);
     if(indexPath.row == 0){
-        ViewPostDisplayImageTableViewCell *cell = [[ViewPostDisplayImageTableViewCell alloc] init];
+        ViewPostDisplayImageTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayImageCellIdentifier];
+        if (!cell){
+            cell = [[ViewPostDisplayImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayImageCellIdentifier];
+        }
         Photo *photo = [[_post.photos allObjects] firstObject];
         [cell setPostImage:[[UIImage alloc] initWithData:photo.image]];
         return cell;
-    } else if(indexPath.row <= [_post.entities count]){
-        ViewPostDisplayEntityTableViewCell *cell = [[ViewPostDisplayEntityTableViewCell alloc] init];
-        
+    } else if(indexPath.row <= [_entities count]){
+        MSDebug(@"in here!");
+        ViewPostDisplayEntityTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayEntityCellIdentifier];
+        if (!cell){
+            cell = [[ViewPostDisplayEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayEntityCellIdentifier];
+        }
+        [cell setEntity:[_entities objectAtIndex:(indexPath.row - 1)]];
         return cell;
-    } else{
-        ViewPostDisplayCommentTableViewCell *cell = [[ViewPostDisplayCommentTableViewCell alloc] init];
-        
+    } else if(indexPath.row == ([_entities count] + 1)){
+        ViewPostDisplayButtonBarTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayButtonBarCellIdentifier];
+        if (!cell){
+            cell = [[ViewPostDisplayButtonBarTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayButtonBarCellIdentifier];
+        }
+        return cell;
+
+    }else if(indexPath.row == ([_entities count] + 2)){
+        ViewPostDisplayContentTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayContentCellIdentifier];
+        if (!cell){
+            cell = [[ViewPostDisplayContentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayContentCellIdentifier];
+        }
+        [cell setContent:_post.content andDate:_post.updateDate];
+        return cell;
+    }else{
+        ViewPostDisplayCommentTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayCommentCellIdentifier];
+        if (!cell){
+            cell = [[ViewPostDisplayCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayCommentCellIdentifier];
+        }
+        NSString *commentContent =[[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )] content];
+        [cell setComment:commentContent];
         return cell;
     }
     
@@ -500,6 +563,12 @@
     [_masterController startViewingPostForPost:post];
 }*/
 
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    if(indexPath.row <= [_entities count] && indexPath.row != 0){
+        [self performSegueWithIdentifier:@"viewEntitySegue" sender:indexPath];
+    }
+    [_viewPostTableView deselectRowAtIndexPath:indexPath animated:YES];
+}
 
 # pragma mark -
 #pragma mark Prepare Segue
@@ -507,8 +576,9 @@
     if ([segue.identifier isEqualToString:@"viewEntitySegue"]){
         ViewEntityViewController *nextController = segue.destinationViewController;
         
-        Entity *entity = [_entities objectAtIndex:[(UIButton *)sender tag]];
-        
+//        Entity *entity = [_entities objectAtIndex:[(UIButton *)sender tag]];
+        NSIndexPath *thisIndexPath = (NSIndexPath *)sender;
+        Entity *entity = [_entities objectAtIndex:(thisIndexPath.row - 1)];
         [nextController setEntity:entity];
     }
     else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
@@ -521,6 +591,9 @@
         [nextController setPost:post];
     }
 }
+
+
+
 
 
 @end

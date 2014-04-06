@@ -56,7 +56,7 @@
 			<key>UILaunchImageMinimumOSVersion</key>
 			<string>7.0</string>
 			<key>UILaunchImageName</key>
-			<string>launchOrangeC</string>
+			<string>YoursLaunchPage</string>
 			<key>UILaunchImageOrientation</key>
 			<string>Portrait</string>
 			<key>UILaunchImageSize</key>
@@ -66,7 +66,7 @@
 			<key>UILaunchImageMinimumOSVersion</key>
 			<string>7.0</string>
 			<key>UILaunchImageName</key>
-			<string>launchOrangeC</string>
+			<string>YoursLaunchPage</string>
 			<key>UILaunchImageOrientation</key>
 			<string>Portrait</string>
 			<key>UILaunchImageSize</key>
@@ -76,7 +76,7 @@
 			<key>UILaunchImageMinimumOSVersion</key>
 			<string>7.0</string>
 			<key>UILaunchImageName</key>
-			<string>launchOrangeG</string>
+			<string>YoursLaunchPage</string>
 			<key>UILaunchImageOrientation</key>
 			<string>Portrait</string>
 			<key>UILaunchImageSize</key>
@@ -86,7 +86,7 @@
 			<key>UILaunchImageMinimumOSVersion</key>
 			<string>7.0</string>
 			<key>UILaunchImageName</key>
-			<string>launchOrangeG</string>
+			<string>YoursLaunchPage</string>
 			<key>UILaunchImageOrientation</key>
 			<string>Portrait</string>
 			<key>UILaunchImageSize</key>
@@ -96,7 +96,7 @@
 			<key>UILaunchImageMinimumOSVersion</key>
 			<string>7.0</string>
 			<key>UILaunchImageName</key>
-			<string>launchOrangeG</string>
+			<string>YoursLaunchPage</string>
 			<key>UILaunchImageOrientation</key>
 			<string>Portrait</string>
 			<key>UILaunchImageSize</key>
@@ -107,7 +107,10 @@
 	<string></string>
 	<key>UIAppFonts</key>
 	<array>
-		<string>helveticaneueltstd-roman-webfont.ttf</string>
+		<string>HelveticaNeueLTStd-Cn.otf</string>
+		<string>HelveticaNeueLTStd-UltLt.otf</string>
+		<string>HelveticaNeueLTStd-Lt.otf</string>
+		<string>HelveticaNeueLTStd-Roman.otf</string>
 		<string>HelveticaNeueLTStd-UltLtCn.otf</string>
 	</array>
 	<key>UIMainStoryboardFile</key>

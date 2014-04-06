@@ -18,6 +18,7 @@
 
 #import "Post+MSS3Client.h"
 #import "Entity+MSEntity.h"
+#import "UIColor+MSColor.h"
 
 #define VIEW_OFFSET_KEYBOARD 70
 #define ANIMATION_CUTDOWN 0.05
@@ -120,8 +121,32 @@
     }
     _requestsToWait = 0;
     
+    //add top controller bar
+    UINavigationBar *topNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, VIEW_POST_NAVIGATION_BAR_HEIGHT)];
+    [topNavigationBar setBarTintColor:[UIColor colorForYoursOrange]];
+    [topNavigationBar setTranslucent:NO];
+    [topNavigationBar setTintColor:[UIColor whiteColor]];
+    [topNavigationBar setTitleTextAttributes:[Utility getMultiPostsContentFontDictionary]];
+    [self.view addSubview:topNavigationBar];
     
-//    [FBSession.activeSession close];
+    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-cancel.png"] style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
+    [exitButton setTintColor:[UIColor whiteColor]];
+    
+    [exitButton setTintColor:[UIColor whiteColor]];
+    
+    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:@"Create Post"];
+    
+    topNavigationItem.rightBarButtonItem = exitButton;
+    topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
+    
+    [self addAddPhotoButton];
+    [self addDoneCreatingPostButton];
+
+}
+#pragma mark -
+#pragma mark Navigation Bar Button Methods
+- (void)exitButtonPressed:(id)sender{
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 #pragma mark -
@@ -154,6 +179,23 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
+#pragma mark Create Button Methods
+- (void) addAddPhotoButton{
+    UIImage *addPhotoButtonImage = [UIImage imageNamed:@"icon-add_photo.png"];
+    UIButton *addPhotoButton =[[UIButton alloc] initWithFrame:CGRectMake(120, 140, addPhotoButtonImage.size.width, addPhotoButtonImage.size.height)];
+    [addPhotoButton setImage:addPhotoButtonImage forState:UIControlStateNormal];
+    [addPhotoButton addTarget:self action:@selector(addPhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:addPhotoButton];
+}
+
+-(void)addDoneCreatingPostButton{
+    UIImage *doneCreatingButtonImage = [UIImage imageNamed:@"icon-check.png"];
+    UIButton *doneCreatingButton =[[UIButton alloc] initWithFrame:CGRectMake(130, 500, doneCreatingButtonImage.size.width, doneCreatingButtonImage.size.height)];
+    [doneCreatingButton setImage:doneCreatingButtonImage forState:UIControlStateNormal];
+    [doneCreatingButton addTarget:self action:@selector(doneCreatingPost:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:doneCreatingButton];
+}
 
 #pragma mark -
 #pragma mark Keyboard Notifification Methods
@@ -264,6 +306,7 @@
 #pragma mark -
 #pragma mark Button Methods
 - (IBAction)doneCreatingPost:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self uploadPostAndRelatedObjects];
     });

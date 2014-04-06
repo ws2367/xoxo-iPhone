@@ -10,4 +10,6 @@
 
 @interface ViewPostDisplayCommentTableViewCell : UITableViewCell
 
+
+-(void) setComment:(NSString *)comment;
 @end

@@ -116,13 +116,13 @@
     [topNavigationBar setTitleTextAttributes:[Utility getMultiPostsContentFontDictionary]];
     [self.view addSubview:topNavigationBar];
     
-    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
+    UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-cancel.png"] style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
     [exitButton setTintColor:[UIColor whiteColor]];
     UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu-popular.png"] style:UIBarButtonItemStylePlain target:self action:@selector(homeButtonPressed:)];
     
     [exitButton setTintColor:[UIColor whiteColor]];
     
-    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:@"Yours"];
+    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:[_entity name]];
     
     topNavigationItem.rightBarButtonItem = exitButton;
     topNavigationItem.leftBarButtonItem = homeButton;

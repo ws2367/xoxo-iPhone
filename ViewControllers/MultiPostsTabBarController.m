@@ -68,6 +68,9 @@
     for(UIViewController *v in self.customizableViewControllers){
         [v.tabBarItem setTitleTextAttributes:[Utility getTabBarItemFontDictionary] forState:UIControlStateNormal];
     }
+    self.tabBarItem = [self.tabBarController.tabBar.items objectAtIndex:0];
+    [self.tabBarItem setImage:[UIImage imageNamed:@"menu-popular-unselected.png"]];
+    self.tabBarItem.selectedImage = [UIImage imageNamed:@"menu-popular.png"];
 }
 
 

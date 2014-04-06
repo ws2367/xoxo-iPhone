@@ -17,4 +17,8 @@
 +(UIColor *) colorForYoursGreen;
 +(UIColor *) colorForYoursOrange;
 +(UIColor *) colorForYoursRed;
++(UIColor *) colorForYoursGrey;
++(UIColor *) colorForYoursWhite;
++(UIColor *) colorForYoursDashLine;
++(UIColor *) colorForYoursDarkBlue;
 @end

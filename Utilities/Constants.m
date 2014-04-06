@@ -19,7 +19,9 @@ const int UPPER_AREA_HEIGHT = 20;
 const float TIMESTAMP_MAX = 2147483647.000;
 const int NAVIGATION_BAR_CUT_DOWN_HEIGHT = 64;
 const int VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT = 300;
-const int VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT = 80;
+const int VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT = 39;
+const int VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT = 45;
+const int VIEW_POST_DISPLAY_COMMENT_HEIGHT = 50;
 const int VIEW_POST_NAVIGATION_BAR_HEIGHT = 70;
 
 //NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
@@ -35,6 +37,13 @@ NSString *const S3BUCKET_NAME = @"moose-photos";
 NSString *const bigPostCellIdentifier = @"bigPostCell";
 NSString *const commentCellIdentifier = @"commentCell";
 NSString *const entityCellIdentifier  = @"entityCell";
+NSString *const viewPostDisplayImageCellIdentifier = @"viewPostDisplayImageCell";
+NSString *const viewPostDisplayEntityCellIdentifier = @"viewPostDisplayEntityCell";
+NSString *const viewPostDisplayCommentCellIdentifier = @"viewPostDisplayCommentCell";
+NSString *const viewPostDisplayButtonBarCellIdentifier = @"viewPostDisplayButtonBarCell";
+NSString *const viewPostDisplayContentCellIdentifier = @"viewPostDisplayContentCell";
+
+
 
 @implementation Constants
 @end

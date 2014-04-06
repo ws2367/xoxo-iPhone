@@ -14,8 +14,8 @@
 @interface ViewPostViewController : UIViewController
                                 <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSFetchedResultsControllerDelegate>
 
-@property (strong, nonatomic) Post *post;
+
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
-
+- (void) setPost:(Post *)post;
 @end

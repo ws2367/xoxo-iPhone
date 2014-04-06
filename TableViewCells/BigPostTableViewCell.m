@@ -297,17 +297,21 @@
 -(void)generateNameLabels:(NSArray *)entities{
     if([entities count] >= 1){
          NSDictionary *firstEntity = [entities firstObject];
-        [self generateNameLabel:firstEntity[@"name"] atX:0 Y:100];
+        [self generateNameLabel:firstEntity[@"name"] atX:8 Y:115];
     }
     if([entities count] >= 2){
          NSDictionary *secondEntity = [entities objectAtIndex:1];
-        [self generateNameLabel:secondEntity[@"name"] atX:0 Y:50];
+        [self generateNameLabel:secondEntity[@"name"] atX:8 Y:80];
     }
 }
 
 -(void) generateNameLabel:(NSString *)name atX:(CGFloat)originX Y:(CGFloat)originY{
+    UIImage *nameIconImage =[UIImage imageNamed:@"icon-name.png"];
+    UIImageView *nameIconImageView = [[UIImageView alloc] initWithImage:nameIconImage];
+    [nameIconImageView setFrame:CGRectMake(originX, originY +8, nameIconImage.size.width, nameIconImage.size.height)];
+    [self.contentView addSubview:nameIconImageView];
     NSAttributedString *nameString = [[NSAttributedString alloc] initWithString:name attributes:[Utility getMultiPostsNameFontDictionary]];
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY, WIDTH/2, 50)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX + 28, originY, WIDTH/2, 50)];
     [nameLabel setAttributedText:nameString];
     [self.contentView addSubview:nameLabel];
 }
@@ -325,7 +329,7 @@
 
 - (void)addLowerButtons{
     _shareButton = [self createLowerButtonAtOriginX:15 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newshare.png"]];
-    _commentButton = [self createLowerButtonAtOriginX:64 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-comment.png"]];
+    _commentButton = [self createLowerButtonAtOriginX:64 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newcomment.png"]];
     _whatButton = [self createLowerButtonAtOriginX:150 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-follow.png"]];
     _reportButton = [self createLowerButtonAtOriginX:285 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newreport.png"]];
     [self createVerticalLineAtOriginX:98 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursBlue]];

@@ -24,6 +24,8 @@ extern const float TIMESTAMP_MAX;
 extern const int NAVIGATION_BAR_CUT_DOWN_HEIGHT;
 extern const int VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
 extern const int VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT;
+extern const int VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT;
+extern const int VIEW_POST_DISPLAY_COMMENT_HEIGHT;
 extern const int VIEW_POST_NAVIGATION_BAR_HEIGHT;
 
 
@@ -36,6 +38,11 @@ extern NSString *const BASE_URL;
 extern NSString *const bigPostCellIdentifier;
 extern NSString *const commentCellIdentifier;
 extern NSString *const entityCellIdentifier;
+extern NSString *const viewPostDisplayImageCellIdentifier;
+extern NSString *const viewPostDisplayEntityCellIdentifier;
+extern NSString *const viewPostDisplayCommentCellIdentifier;
+extern NSString *const viewPostDisplayButtonBarCellIdentifier;
+extern NSString *const viewPostDisplayContentCellIdentifier;
 
 @interface Constants : NSObject
 @end

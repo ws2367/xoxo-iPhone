@@ -37,4 +37,9 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 + (NSDictionary *)getMultiPostsNameFontDictionary;
 + (NSDictionary *)getMultiPostsContentFontDictionary;
 + (NSDictionary *)getMultiPostsDateFontDictionary;
++ (NSDictionary *)getViewPostDisplayEntityFontDictionary;
++ (NSDictionary *)getViewPostDisplayInstitutionFontDictionary;
++ (NSDictionary *)getViewPostDisplayContentFontDictionary;
++ (NSDictionary *)getViewPostDisplayCommentFontDictionary;
+
 @end

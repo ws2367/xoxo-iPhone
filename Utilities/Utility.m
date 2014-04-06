@@ -199,27 +199,40 @@
 }
 
 + (NSDictionary *)getTabBarItemFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
 }
 
 + (NSDictionary *)getCommentNumberFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, [UIColor colorForYoursBlue] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:12],NSFontAttributeName, [UIColor colorForYoursBlue] ,NSForegroundColorAttributeName,nil];
 }
 
 + (NSDictionary *)getFollowNumberFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:12],NSFontAttributeName, [UIColor colorForYoursOrange] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:12],NSFontAttributeName, [UIColor colorForYoursOrange] ,NSForegroundColorAttributeName,nil];
 }
 
 + (NSDictionary *)getMultiPostsNameFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-UltLtCn" size:37],NSFontAttributeName, [UIColor colorForYoursCyan] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-UltLtCn" size:35],NSFontAttributeName, [UIColor colorForYoursCyan] ,NSForegroundColorAttributeName,nil];
 
 }
 + (NSDictionary *)getMultiPostsContentFontDictionary{
-//    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"helveticaneueltstd-roman-webfont" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getMultiPostsDateFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getViewPostDisplayEntityFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:17],NSFontAttributeName, [UIColor blackColor] ,NSForegroundColorAttributeName,nil];
+}
++ (NSDictionary *)getViewPostDisplayInstitutionFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:12],NSFontAttributeName, [UIColor colorForYoursGrey] ,NSForegroundColorAttributeName,nil];
+}
++ (NSDictionary *)getViewPostDisplayContentFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor colorForYoursGrey] ,NSForegroundColorAttributeName,nil];
+}
++ (NSDictionary *)getViewPostDisplayCommentFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor colorForYoursDarkBlue] ,NSForegroundColorAttributeName,nil];
+
 }
 
 
