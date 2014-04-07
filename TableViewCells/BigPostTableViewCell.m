@@ -271,6 +271,15 @@
                      }];
 }
 
+#pragma mark -
+#pragma mark Button Methods
+-(void) shareButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(sharePost)]){
+        [_delegate sharePost];
+        MSDebug(@"called delegate");
+    }
+}
+
 
 #pragma mark -
 #pragma mark UI Helper Methods
@@ -329,6 +338,7 @@
 
 - (void)addLowerButtons{
     _shareButton = [self createLowerButtonAtOriginX:15 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newshare.png"]];
+    [_shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _commentButton = [self createLowerButtonAtOriginX:64 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newcomment.png"]];
     _whatButton = [self createLowerButtonAtOriginX:150 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-follow.png"]];
     _reportButton = [self createLowerButtonAtOriginX:285 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newreport.png"]];
@@ -379,4 +389,7 @@
     [self.contentView.layer addSublayer:_blackLayer];
     [self.contentView.layer addSublayer:_gradientLeft];
 }
+
+
+
 @end

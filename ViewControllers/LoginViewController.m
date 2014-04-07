@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "ClientManager.h"
 #import "NavigationController.h"
+#import "UIColor+MSColor.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -16,6 +17,9 @@
 @property (strong, nonatomic) IBOutlet FBLoginView *loginView;
 @property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
+@property (strong, nonatomic) UILabel *youAreLoggedInLabel;
+@property (strong, nonatomic) UILabel *youAreLoggedOutLabel;
+@property (strong, nonatomic) UILabel *displayNameLabel;
 
 @end
 
@@ -26,6 +30,7 @@
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
         // Custom initialization
+        [self.view setBackgroundColor:[UIColor colorForYoursOrange]];
     }
     return self;
 }
@@ -37,6 +42,11 @@
     
     _loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_birthday", @"friends_education_history",@"friends_work_history"]];
     _loginView.delegate = self;
+    [self.view setBackgroundColor:[UIColor colorForYoursOrange]];
+    [self addLogo];
+    [self addDescriptionsWithString:@"Welcome to Yours" atX:90 andY:300 withDictionary:[Utility getLoginViewTitleDescriptionFontDictionary]];
+    [self addDescriptionsWithString:@"A place to say your true opinions" atX:60 andY:330 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    [self addDescriptionsWithString:@"You will always be anonymous on Yours" atX:30 andY:350 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -46,12 +56,12 @@
 }
 
 - (void) loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
-    [self.nameLabel setText:user.name];
+    _displayNameLabel = [self addDescriptionsWithString:user.name atX:120 andY:410 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
 }
 
 - (void) loginViewShowingLoggedInUser:(FBLoginView *)loginView {
-    self.statusLabel.text = @"You'are logged in as";
-    
+    [_youAreLoggedOutLabel removeFromSuperview];
+    _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" atX:88 andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     FBAccessTokenData *accessTokenData = FBSession.activeSession.accessTokenData;
     NSString *accessToken = accessTokenData.accessToken;
 
@@ -63,8 +73,9 @@
 }
 
 - (void) loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
-    self.statusLabel.text = @"You're logged out!";
-    [self.nameLabel setText:@""];
+    [_youAreLoggedInLabel removeFromSuperview];
+    [_displayNameLabel removeFromSuperview];
+    _youAreLoggedOutLabel = [self addDescriptionsWithString:@"You're logged out!" atX:88 andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     
     [ClientManager logout];
 }
@@ -122,6 +133,7 @@
 
 #pragma mark - log out user method
 -(void) logoutUser{
+    [_displayNameLabel removeFromSuperview];
     [FBSession.activeSession closeAndClearTokenInformation];
 }
 
@@ -137,6 +149,23 @@
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+}
+
+#pragma mark --
+#pragma mark - UI Method
+-(void) addLogo{
+    UIImage *logoImage = [UIImage imageNamed:@"logo_white.png"];
+    UIImageView *logoImageView = [[UIImageView alloc] initWithImage:logoImage];
+    [logoImageView setFrame:CGRectMake(24, 113, logoImage.size.width, logoImage.size.height)];
+    [self.view addSubview:logoImageView];
+}
+
+-(UILabel *) addDescriptionsWithString:(NSString *)stringToDisplay atX:(CGFloat)originX andY:(CGFloat)originY withDictionary:(NSDictionary *)dictionary{
+    NSAttributedString *text = [[NSAttributedString alloc] initWithString:stringToDisplay attributes:dictionary];
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY, WIDTH, 20)];
+    [textLabel setAttributedText:text];
+    [self.view addSubview:textLabel];
+    return textLabel;
 }
 
 

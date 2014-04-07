@@ -52,7 +52,7 @@
 
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 
-@property (strong, nonatomic) NSArray *comments; //store comment pointers
+@property (strong, nonatomic) NSMutableArray *comments; //store comment pointers
 @property (strong, nonatomic) NSMutableArray *entities;
 @property (weak, nonatomic) IBOutlet UITableView *viewPostTableView;
 @end
@@ -229,7 +229,7 @@
 - (void) setPost:(Post *)post{
     _post = post;
     _entities = [[NSMutableArray alloc] initWithArray:[_post.entities allObjects]];
-    _comments = [[NSArray alloc] initWithArray:[_post.comments allObjects]];
+    _comments = [[NSMutableArray alloc] initWithArray:[_post.comments allObjects]];
     [_viewPostTableView reloadData];
 }
 
@@ -337,7 +337,13 @@
     comment.uuid = [Utility getUUID];
     comment.isYours = @YES;
     [comment setPost:_post];
-    
+    if(!_comments){
+        _comments = [[NSMutableArray alloc] initWithObjects:comment, nil];
+    } else{
+        [_comments addObject:comment];
+    }
+    [_viewPostTableView reloadData];
+    [self scrollTableViewToBottom];
     // Note that here, even if we connect the relationship to Post for the comment,
     // we still need to set postUUID in order to let the server know the relationship.
     //TODO: change to using remoteID instead of uuid
@@ -590,6 +596,20 @@
         
         [nextController setPost:post];
     }
+}
+
+
+# pragma mark -
+#pragma mark TableView helper method
+- (void)scrollTableViewToBottom
+{
+    CGFloat yOffset = 0;
+    
+    if (_viewPostTableView.contentSize.height > _viewPostTableView.bounds.size.height) {
+        yOffset = _viewPostTableView.contentSize.height - _viewPostTableView.bounds.size.height;
+    }
+    
+    [_viewPostTableView setContentOffset:CGPointMake(0, yOffset) animated:NO];
 }
 
 

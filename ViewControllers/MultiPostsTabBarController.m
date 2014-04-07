@@ -37,7 +37,7 @@
     self.delegate = self;
     _settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
     _searchBtn = [[UIBarButtonItem alloc] initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:self action:@selector(searchButtonPressed:)];
-    self.navigationItem.leftBarButtonItem = _searchBtn;
+//    self.navigationItem.leftBarButtonItem = _searchBtn;
     [_searchBtn setTintColor:[UIColor colorForTabBar]];
     
     //set tabbar background color

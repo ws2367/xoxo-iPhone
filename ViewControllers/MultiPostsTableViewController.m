@@ -467,6 +467,79 @@
 }
 
 #pragma mark -
+#pragma mark PeoplePicker Delegate Methods
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    /*[UIView animateWithDuration:ANIMATION_DURATION
+     delay:ANIMATION_DELAY
+     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+     animations:^{
+     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+     
+     }
+     completion:^(BOOL finished){
+     [peoplePicker.view removeFromSuperview];
+     }];*/
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    [self displayPerson:person];
+    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please type in message you want to send"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Send",nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+
+    /*[UIView animateWithDuration:ANIMATION_DURATION
+     delay:ANIMATION_DELAY
+     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+     animations:^{
+     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+     
+     }
+     completion:^(BOOL finished){
+     [peoplePicker.view removeFromSuperview];
+     }];*/
+    return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property  identifier:(ABMultiValueIdentifier)identifier{
+    return NO;
+}
+
+#pragma alertView delegate method
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            break;
+        case 1:
+            break;
+        default:
+            break;
+    }
+    
+}
+
+
+#pragma mark -
+#pragma mark PeoplePicker Custom Methods
+
+- (void)displayPerson:(ABRecordRef)person{
+    CFStringRef a = ABRecordCopyCompositeName(person);
+    NSLog(@"%@", a);
+    ABMultiValueRef phoneNumbers = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonPhoneProperty);
+    CFRelease(phoneNumbers);
+    NSString* phoneNumber = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+    NSLog(@"%@", phoneNumber);
+}
+
+
+#pragma mark -
 #pragma mark Miscellaneous Methods
 - (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number{
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
@@ -564,6 +637,42 @@
     }
     return [[match firstObject] remoteID];
 }
+
+
+
+-(void)sharePost{
+    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    
+    /*picker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+     [self.view addSubview:picker.view];
+     [UIView animateWithDuration:ANIMATION_DURATION
+     delay:ANIMATION_DELAY
+     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+     animations:^{
+     picker.view.frame = CGRectMake( 0, 0, WIDTH, HEIGHT);
+     
+     }
+     completion:^(BOOL finished){
+     }];*/
+    
+    
+    [self presentViewController:picker animated:YES completion:nil];
+    
+    
+    
+    //CFErrorRef error = nil;
+    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
+    //if (!addressBook) // test the result, not the error
+    //{
+    //    NSLog(@"ERROR!!!");
+    //    return; // bail
+    //}
+    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    
+    //NSLog(@"%@", arrayOfPeople);
+}
+
 
 
 

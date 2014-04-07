@@ -44,8 +44,8 @@
                                          attributes:[Utility getViewPostDisplayCommentFontDictionary] context:nil];
     NSAttributedString *commentText = [[NSAttributedString alloc]
                                        initWithString:_comment attributes:[Utility getViewPostDisplayCommentFontDictionary]];
-    CGFloat textViewEnd = (rectSize.size.height+5);
-    UITextView *commentTextView =[[UITextView alloc] initWithFrame:CGRectMake(70, 10, ceilf(rectSize.size.width), textViewEnd)];
+    CGFloat textViewEnd = (rectSize.size.height+10);
+    UITextView *commentTextView =[[UITextView alloc] initWithFrame:CGRectMake(70, 10, WIDTH, textViewEnd)];
     [commentTextView setAttributedText:commentText];
     [commentTextView setEditable:NO];
     [commentTextView setSelectable:NO];

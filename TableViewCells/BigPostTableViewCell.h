@@ -33,5 +33,6 @@
 @required
 
 - (void) CellPerformViewPost:(id)sender;
+- (void) sharePost;
 
 @end

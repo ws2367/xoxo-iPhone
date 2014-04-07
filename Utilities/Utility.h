@@ -41,5 +41,7 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 + (NSDictionary *)getViewPostDisplayInstitutionFontDictionary;
 + (NSDictionary *)getViewPostDisplayContentFontDictionary;
 + (NSDictionary *)getViewPostDisplayCommentFontDictionary;
++ (NSDictionary *)getLoginViewTitleDescriptionFontDictionary;
++ (NSDictionary *)getLoginViewContentDescriptionFontDictionary;
 
 @end

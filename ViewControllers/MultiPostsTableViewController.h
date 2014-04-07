@@ -10,8 +10,10 @@
 #import "Post.h"
 #import "S3RequestResponder.h"
 #import "BigPostTableViewCell.h"
+#import <AddressBookUI/AddressBookUI.h>
 
-@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate, S3RequestResponderDelegate, BigPostTableViewCellDelegate>{
+
+@interface MultiPostsTableViewController : UITableViewController <UIScrollViewDelegate, NSFetchedResultsControllerDelegate, ABPeoplePickerNavigationControllerDelegate, S3RequestResponderDelegate, BigPostTableViewCellDelegate>{
     bool isLoadingMore;
     // put this variable here so that the child class can inherit it but it cannot be seen by other classes who import this class.
     NSFetchedResultsController *fetchedResultsController;
