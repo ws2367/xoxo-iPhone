@@ -68,16 +68,19 @@
         //_lowerMask.opaque = FALSE;
         //_gradientFlag = FALSE;
         //[self createGradient];
+        [self.contentView setBackgroundColor:[UIColor colorForBackground]];
+        [self addLowerButtons];
     }
     return self;
 }
 
+/*
 -(void) updateConstraints{
     [super updateConstraints];
     //apply our background color for cells
     [self.contentView setBackgroundColor:[UIColor colorForBackground]];
     [self addLowerButtons];
-}
+}*/
 
 
 
@@ -208,9 +211,7 @@
     
     //add mask to let user to click into post
     [self addClickAreaToViewPost];
-    
-    //update menu UI
-    [self updateConstraints];
+
     
 }
 
@@ -344,19 +345,18 @@
 }
 
 - (void)addLowerButtons{
+    [self createVerticalLineAtOriginX:98 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursBlue]];
+    [self createVerticalLineAtOriginX:180 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursOrange]];
     _shareButton = [self createLowerButtonAtOriginX:15 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newshare.png"]];
     [_shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _commentButton = [self createLowerButtonAtOriginX:64 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newcomment.png"]];
     _whatButton = [self createLowerButtonAtOriginX:150 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-follow.png"]];
     _reportButton = [self createLowerButtonAtOriginX:285 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newreport.png"]];
-    [self createVerticalLineAtOriginX:98 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursBlue]];
-    [self createVerticalLineAtOriginX:180 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursOrange]];
-    
 }
 
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
+//    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
     button.frame = CGRectMake(originX, originY, buttonImage.size.width, buttonImage.size.height);
     [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
     [self.contentView addSubview:button];

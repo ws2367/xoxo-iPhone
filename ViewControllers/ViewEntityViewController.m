@@ -214,6 +214,9 @@
 {
     
     BigPostTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:bigPostCellIdentifier];
+    if (!cell){
+        cell = [[BigPostTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:bigPostCellIdentifier];
+    }
     
     //TODO: check if the model is empty then this will raise exception
     
