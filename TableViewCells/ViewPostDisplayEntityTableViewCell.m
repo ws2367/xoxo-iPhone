@@ -7,7 +7,6 @@
 //
 
 #import "ViewPostDisplayEntityTableViewCell.h"
-#import "Institution.h"
 #import "UIColor+MSColor.h"
 
 @interface ViewPostDisplayEntityTableViewCell()
@@ -43,13 +42,11 @@
     [nameLabel setAttributedText:nameWithFont];
     [self.contentView addSubview:nameLabel];
     
-        if(_entity.institution){
-        if(_entity.institution.name){
-            UILabel *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 18, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
-            NSAttributedString *instiWithFont = [[NSAttributedString alloc] initWithString:_entity.institution.name attributes:[Utility getViewPostDisplayInstitutionFontDictionary]];
-            [instiLabel setAttributedText:instiWithFont];
-            [self.contentView addSubview:instiLabel];
-        }
+    if(_entity.institution){
+        UILabel *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 18, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
+        NSAttributedString *instiWithFont = [[NSAttributedString alloc] initWithString:_entity.institution attributes:[Utility getViewPostDisplayInstitutionFontDictionary]];
+        [instiLabel setAttributedText:instiWithFont];
+        [self.contentView addSubview:instiLabel];
     }
     [self addDashLine];
 }

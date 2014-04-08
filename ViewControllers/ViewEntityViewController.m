@@ -9,17 +9,9 @@
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
 #import "BigPostTableViewCell.h"
-<<<<<<< HEAD
-#import "ViewMultiPostsViewController.h"
-#import "NavigationController.h"
-#import <MapKit/MapKit.h>
-#import "MapPinAnnotation.h"
-=======
->>>>>>> Redo models
-
 #import "KeyChainWrapper.h"
 #import "Entity.h"
-
+#import "NavigationController.h"
 
 #import "CircleViewForImage.h"
 #import "UIColor+MSColor.h"

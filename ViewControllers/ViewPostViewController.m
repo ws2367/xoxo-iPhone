@@ -15,22 +15,12 @@
 
 #import "Post.h"
 #import "Comment.h"
-<<<<<<< HEAD
-#import "Photo.h"
-#import "Institution.h"
-#import "Location.h"
+
 #import "UIColor+MSColor.h"
 
 #import "ViewPostDisplayImageTableViewCell.h"
 #import "ViewPostDisplayEntityTableViewCell.h"
 #import "ViewPostDisplayCommentTableViewCell.h"
-<<<<<<< HEAD
-=======
->>>>>>> Redo models
-
-@interface ViewPostViewController ()
-
-=======
 #import "ViewPostDisplayButtonBarTableViewCell.h"
 #import "ViewPostDisplayContentTableViewCell.h"
 
@@ -39,7 +29,6 @@
 @property (strong, nonatomic) Post *post;
 
 @property (weak, nonatomic) IBOutlet UITextView *contentTextView;
->>>>>>> Add ViewPost UI, half createPost UI, change launch image
 @property (strong, nonatomic) NSString *content;
 
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
@@ -523,8 +512,7 @@
         if (!cell){
             cell = [[ViewPostDisplayImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayImageCellIdentifier];
         }
-        Photo *photo = [[_post.photos allObjects] firstObject];
-        [cell setPostImage:[[UIImage alloc] initWithData:photo.image]];
+        [cell setPostImage:[[UIImage alloc] initWithData:_post.image]];
         return cell;
     } else if(indexPath.row <= [_entities count]){
         MSDebug(@"in here!");
