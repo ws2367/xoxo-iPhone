@@ -184,6 +184,10 @@
     if(!_postImageView){
         _postImageView = [[UIImageView alloc] init];
     }
+    
+    if(!photo){
+        return;
+    }
     _imageWidth = photo.size.width*POST_IMAGE_HEIGHT/photo.size.height;
     [_postImageView setFrame:CGRectMake(WIDTH - _imageWidth, 0, _imageWidth, POST_IMAGE_HEIGHT)];
     [_postImageView setImage:photo];
