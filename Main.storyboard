@@ -257,6 +257,7 @@
                         <outlet property="locationLabel" destination="WBm-xn-8c6" id="nFd-De-G6b"/>
                         <outlet property="nameLabel" destination="v5j-X8-Rc3" id="q3O-aO-BP5"/>
                         <outlet property="tableView" destination="T84-WV-wdp" id="dVZ-ea-cvZ"/>
+                        <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="8aj-h6-ff8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mRh-Vp-7mZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -363,6 +364,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Friends" image="menu-friends.png" id="hOq-Bl-X9B"/>
+                    <connections>
+                        <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="3kc-Vj-N2l"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0TT-IM-4Wx" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -382,6 +386,9 @@
                         </connections>
                     </tableView>
                     <tabBarItem key="tabBarItem" title="Favorites" image="menu-favorites.png" id="g1y-mP-VoF"/>
+                    <connections>
+                        <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="4h5-QD-dnB"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zz0-Tr-xbB" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -403,6 +410,7 @@
                     <tabBarItem key="tabBarItem" title="My" image="menu-my-unselected.png" id="lUa-Eb-8wd"/>
                     <connections>
                         <segue destination="5uP-uA-pZw" kind="push" identifier="viewMySettingSegue" id="xDr-Qy-CdK"/>
+                        <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="hcm-Ek-oke"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pBO-WU-1i4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -617,4 +625,7 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
+    <inferredMetricsTieBreakers>
+        <segue reference="8aj-h6-ff8"/>
+    </inferredMetricsTieBreakers>
 </document>
