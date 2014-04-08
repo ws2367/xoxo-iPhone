@@ -211,9 +211,7 @@
     
     //add mask to let user to click into post
     [self addClickAreaToViewPost];
-    
-    //update menu UI
-    [self updateConstraints];
+
     
 }
 
