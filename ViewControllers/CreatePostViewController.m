@@ -142,7 +142,8 @@
     
     [self addAddPhotoButton];
     [self addDoneCreatingPostButton];
-    //_photos = [[NSMutableArray alloc] init];
+    
+    
     
 }
 #pragma mark -
@@ -375,6 +376,7 @@
         
         //add profile pic if there exist one
         if( (!_photos || [_photos count] == 0)&& [_profileImageView image]){
+            _photos = [[NSMutableArray alloc] init];
             [_photos addObject:[_profileImageView image]];
         }
         
@@ -577,7 +579,7 @@
 
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Entity *newFBEntity;
-    MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %lu", frd.name, frd.id, [frd.id integerValue]);
+    MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %u", frd.name, frd.id, [frd.id integerValue]);
     BOOL hasFoundExistingEntity = [Entity
                                    findOrCreateEntityForFBUserName:frd.name
                                    withFBid:frd.id

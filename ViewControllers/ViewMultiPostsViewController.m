@@ -175,7 +175,6 @@
 #pragma mark Segmented Control Methods
 
 - (IBAction)changeSegment:(id)sender {
-    NSInteger selectedIdx = [sender selectedSegmentIndex];
 
 }
 
@@ -358,7 +357,6 @@
 - (void) startViewingEntityForEntity:(Entity *)entity
 {
     [self allocateBlackMask];
-    _viewEntityViewController = [[ViewEntityViewController alloc] initWithViewMultiPostsViewController:self];
 
     [_viewEntityViewController setEntity:entity]; // this has to be set before making the frame
     _viewEntityViewController.view.frame = CGRectMake(WIDTH, 0, WIDTH, HEIGHT);

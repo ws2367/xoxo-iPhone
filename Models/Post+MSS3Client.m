@@ -11,7 +11,7 @@
 
 @implementation Post (MSS3Client)
 
-- (BOOL) uploadImageToS3{
+- (bool) uploadImageToS3{
     if (![ClientManager validateCredentials]){
         NSLog(@"Abort uploading photos to S3");
         return NO;

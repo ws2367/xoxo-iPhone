@@ -23,16 +23,14 @@
 @property (strong, nonatomic) NSMutableArray *entities;
 
 //These are all user actions that involves switching view controllers
-- (void)finishCreatingEntityStartCreatingPost;
-- (void)finishCreatingPostBackToHomePage;
+
+
 - (void)cancelCreatingEntity;
 - (void)cancelCreatingPost;
 - (void)cancelViewingPost;
 - (void)cancelViewingEntity;
 - (void)startViewingPostForPost:(Post *)post;
 - (void)startViewingEntityForEntity:(Entity *)entity;
-- (void)beginSearchTakeOverWindow;
-- (void)endSearchTakeOverWindow;
 
 -(void)sharePost;
 @end

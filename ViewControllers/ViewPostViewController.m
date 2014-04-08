@@ -151,7 +151,7 @@
     // Let's perform one fetch here
     NSError *fetchingErr = nil;
     if ([self.fetchedResultsController performFetch:&fetchingErr]){
-        NSLog(@"Number of fetched comments %lu", [[self.fetchedResultsController fetchedObjects] count]);
+        NSLog(@"Number of fetched comments %u", [[self.fetchedResultsController fetchedObjects] count]);
         NSLog(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch");
