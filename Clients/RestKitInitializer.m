@@ -29,26 +29,17 @@
     //
     [entityMapping addAttributeMappingsFromDictionary:@{@"id":              @"remoteID",
                                                         @"name":            @"name",
-                                                        @"uuid":            @"uuid",
-                                                        @"uuid_s":          @"uuidS",
                                                         @"updated_at":      @"updateDate",
-                                                        
-                                                        //meta attributes
-                                                        @"is_your_friend":  @"isYourFriend",
                                                         @"institution":     @"institution",
                                                         @"location":        @"location",
-                                                        @"fb_user_id":      @"fbUserID"}];
+                                                        @"fb_user_id":      @"fbUserID",
+                                                        
+                                                        //meta attributes
+                                                        @"is_your_friend":  @"isYourFriend"}];
     
     /* We map the entity by uuid. If it is an existing entity on the server side, we updateUUID after object mapping
      */
-    entityMapping.identificationAttributes = @[@"uuid"];
-    
-    RKResponseDescriptor *entityResponseDescriptor =
-    [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
-                                                 method:RKRequestMethodGET
-                                            pathPattern:@"entities"
-                                                keyPath:nil
-                                            statusCodes:successCode];
+    entityMapping.identificationAttributes = @[@"fbUserID"];
     
     RKResponseDescriptor *entityWithPostPostResponseDescriptor =
     [RKResponseDescriptor responseDescriptorWithMapping:entityMapping
@@ -65,6 +56,7 @@
                                                       @"content":         @"content",
                                                       @"uuid":            @"uuid",
                                                       @"updated_at":      @"updateDate",
+                                                      
                                                       //meta attributes
                                                       @"is_yours":        @"isYours",
                                                       @"popularity":      @"popularity",
@@ -140,10 +132,8 @@
     // it's alright if you mapp attributes that will not be included in JSON response because mapping engine only updates
     // attributes included in JSON response. But again, DON'T ADD RELATIONSHIP CONNECTION if you are sure it's not included!
     [commentPOSTMapping addAttributeMappingsFromDictionary:@{@"id":                 @"remoteID",
-                                                             @"content":            @"content",
                                                              @"uuid":               @"uuid",
                                                              @"anonymized_user_id": @"anonymizedUserID",
-                                                             @"deleted":            @"deleted",
                                                              @"updated_at":         @"updateDate"}];
     commentPOSTMapping.identificationAttributes = @[@"uuid"];
     
@@ -155,7 +145,7 @@
                                             statusCodes:successCode];
     
     
-    // When the modificationKey is non-nil, the mapper will compare the value returned for the key on an existing object instance with
+    // When the modificationKey is non-nil, the mapper will compare the value returned for x`the key on an existing object instance with
     // the value in the representation being mapped. If they are exactly equal, then the mapper will skip all remaining property mappings
     // and proceed to the next object.
     //postMapping.modificationAttribute = [[NSEntityDescription entityForName:@"Post"
@@ -163,7 +153,6 @@
     
     // add response descriptors to object manager
     [objectManager addResponseDescriptorsFromArray:@[entityWithPostPostResponseDescriptor,
-                                                     entityResponseDescriptor,
                                                      postPostResponseDescriptor,
                                                      postResponseDescriptor, postOfEntityResponseDescriptor,
                                                      commentResponseDescriptor, commentPOSTResponseDescriptor,
@@ -205,13 +194,13 @@
      */
     
     RKObjectMapping *entitySerializationMapping = [RKObjectMapping requestMapping];
-    [entitySerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID":        @"id",
-                                                                     @"name":            @"name",
-                                                                     @"uuid":            @"uuid",
-                                                                     //meta attributes
-                                                                     @"isYourFriend":    @"is_your_friend",
+    [entitySerializationMapping addAttributeMappingsFromDictionary:@{@"name":            @"name",
+                                                                     @"institution":     @"institution",
+                                                                     @"location":        @"location",
                                                                      @"fbUserID":        @"fb_user_id",
-                                                                     @"institutionUUID":  @"institution_uuid"}];
+                                                                     
+                                                                     //meta attributes
+                                                                     @"isYourFriend":    @"is_your_friend"}];
     
     RKRequestDescriptor *entityRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:entitySerializationMapping
@@ -220,11 +209,8 @@
                                                method:RKRequestMethodPOST];
     
     RKObjectMapping *postSerializationMapping = [RKObjectMapping requestMapping];
-    [postSerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID":        @"id",
-                                                                   @"content":         @"content",
-                                                                   @"uuid":            @"uuid",
-                                                                   @"entitiesUUIDs":   @"entities_uuids",
-                                                                   @"entitiesFBUserIDs":   @"entities_fb_user_ids"}];
+    [postSerializationMapping addAttributeMappingsFromDictionary:@{@"content":         @"content",
+                                                                   @"uuid":            @"uuid"}];
     
     RKRequestDescriptor *postRequestDescriptor =
     [RKRequestDescriptor requestDescriptorWithMapping:postSerializationMapping
@@ -234,8 +220,7 @@
     
     RKObjectMapping *commentSerializationMapping = [RKObjectMapping requestMapping];
     
-    [commentSerializationMapping addAttributeMappingsFromDictionary:@{@"remoteID":   @"id",
-                                                                      @"content":    @"content",
+    [commentSerializationMapping addAttributeMappingsFromDictionary:@{@"content":    @"content",
                                                                       @"uuid":       @"uuid",
                                                                       @"postUUID":   @"post_uuid"}];
     

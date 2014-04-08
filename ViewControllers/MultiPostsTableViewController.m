@@ -183,6 +183,7 @@
         NSString *photoKey = [photoKeys firstObject];
         
         MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
+        MSDebug(@"Photo keypath: %@", photoKey);
         S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
         [request setContentType:@"image/png"];
         
@@ -327,7 +328,6 @@
     
 //    cell.entities = entitiesArray;
     
-    //TODO: should present all images, not just the first one
     
     if (post.image != nil) {
         UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];

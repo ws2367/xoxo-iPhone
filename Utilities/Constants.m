@@ -24,13 +24,13 @@ const int VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT = 45;
 const int VIEW_POST_DISPLAY_COMMENT_HEIGHT = 50;
 const int VIEW_POST_NAVIGATION_BAR_HEIGHT = 70;
 
-NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
-//NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
+//NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
+NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
 
 // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
 // Remeber, evaluation of path patterns against base URL could be surprising.
-NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
-//NSString *const BASE_URL = @"http://localhost:3000/v1/";
+//NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
+NSString *const BASE_URL = @"http://localhost:3000/v1/";
 
 NSString *const S3BUCKET_NAME = @"moose-photos";
 

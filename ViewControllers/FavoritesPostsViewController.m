@@ -54,9 +54,11 @@
     [super startRefreshingUp];
     
     // fetch ten most popular posts ids
-    NSArray *localPostIDs = [super fetchMostPopularPostIDsOfNumber:10 predicate:self.predicate];
-    NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
-    
+//    NSArray *localPostIDs = [super fetchMostPopularPostIDsOfNumber:10 predicate:self.predicate];
+//    NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
+//    MSDebug(@"post IDs to be pushed to server: %@", localPostIDs);
+//    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
+
     // check if seesion token is valid
     if (![KeyChainWrapper isSessionTokenValid]) {
         NSLog(@"At PopularPostsViewController: user session token is not valid. Stop refreshing up");
@@ -66,11 +68,11 @@
     
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
     
-    MSDebug(@"post IDs to be pushed to server: %@", localPostIDs);
-    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
     
-    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localPostIDs, localEntityIDs, sessionToken, @"following"]
-                                                       forKeys:@[@"Post", @"Entity", @"auth_token", @"type"]];
+//    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localPostIDs, localEntityIDs, sessionToken, @"following"]
+//                                                       forKeys:@[@"Post", @"Entity", @"auth_token", @"type"]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken, @"following"]
+                                                       forKeys:@[@"auth_token", @"type"]];
     
     [[RKObjectManager sharedManager] getObject:[Post alloc]
                                           path:nil
@@ -100,8 +102,8 @@
     NSNumber *lastOfPreviousPostsIDs = [super fetchLastOfPreviousPostsIDsWithPredicate:self.predicate];
     if (lastOfPreviousPostsIDs == nil) return;
     
-    NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
-    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
+//    NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
+//    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
     
     // check if seesion token is valid
     if (![KeyChainWrapper isSessionTokenValid]) {
@@ -112,8 +114,10 @@
     
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
     
-    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localEntityIDs, sessionToken, @"following", lastOfPreviousPostsIDs]
-                                                       forKeys:@[@"Entity", @"auth_token", @"type", @"last_of_previous_post_ids"]];
+//    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localEntityIDs, sessionToken, @"following", lastOfPreviousPostsIDs]
+//                                                       forKeys:@[@"Entity", @"auth_token", @"type", @"last_of_previous_post_ids"]];
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken, @"following", lastOfPreviousPostsIDs]
+                                                       forKeys:@[@"auth_token", @"type", @"last_of_previous_post_ids"]];
     
     [[RKObjectManager sharedManager] getObject:[Post alloc]
                                           path:nil

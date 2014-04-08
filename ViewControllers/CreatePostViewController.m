@@ -121,6 +121,7 @@
     }
     _requestsToWait = 0;
     
+
     //add top controller bar
     UINavigationBar *topNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, VIEW_POST_NAVIGATION_BAR_HEIGHT)];
     [topNavigationBar setBarTintColor:[UIColor colorForYoursOrange]];
@@ -141,7 +142,8 @@
     
     [self addAddPhotoButton];
     [self addDoneCreatingPostButton];
-
+    //_photos = [[NSMutableArray alloc] init];
+    
 }
 #pragma mark -
 #pragma mark Navigation Bar Button Methods
@@ -372,13 +374,14 @@
         // In _photos are UIImage objects
         
         //add profile pic if there exist one
-        if(!_photos && [_profileImageView image]){
+        if( (!_photos || [_photos count] == 0)&& [_profileImageView image]){
             [_photos addObject:[_profileImageView image]];
         }
         
         for (UIImage *image in _photos){
             // This will save NSData typed image to an external binary storage
-            post.image = UIImagePNGRepresentation(image);
+            post.image = [NSData dataWithData:UIImagePNGRepresentation(image)];
+            MSDebug(@"Set post's image!");
             
         }
 
@@ -419,22 +422,22 @@
                                                         parameters:params];
         
         [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-            MSDebug(@"Uploaded posts and stuff to server, except for photos.");
+            MSDebug(@"Uploaded posts and stuff to server. Next upload the photo.");
             
             // Note that here the class of the value returned could be either NSMutableArray or Entity
             // We need to deal with them separtely
-            id value = [[mappingResult dictionary] valueForKey:@"Entity"];
-            NSArray *entities = nil;
-            if ([value isKindOfClass:[Entity class]]) {
-                entities = [NSArray arrayWithObject:value];
-            } else {
-                entities = [NSArray arrayWithArray:value];
-            }
-                
-            for (Entity *entity in entities) {
-                MSDebug(@"Entity to merge has remoteID: %@", entity.remoteID);
-                [entity updateUUIDinManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
-            }
+//            id value = [[mappingResult dictionary] valueForKey:@"Entity"];
+//            NSArray *entities = nil;
+//            if ([value isKindOfClass:[Entity class]]) {
+//                entities = [NSArray arrayWithObject:value];
+//            } else {
+//                entities = [NSArray arrayWithArray:value];
+//            }
+//                
+//            for (Entity *entity in entities) {
+//                MSDebug(@"Entity to merge has remoteID: %@", entity.remoteID);
+//                [entity updateUUIDinManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+//            }
             [post uploadImageToS3];
             
         } failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!" block:^{
@@ -455,8 +458,9 @@
         
         _progressView.progress = 0.0;
         _progressView.hidden = false;
-        [objectManager enqueueObjectRequestOperation:operation];
          */
+        [objectManager enqueueObjectRequestOperation:operation];
+         
         
     }
     MSDebug(@"toPost unlock!!!");
