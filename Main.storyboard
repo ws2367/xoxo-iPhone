@@ -193,17 +193,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="bigPostCell" rowHeight="250" id="b9c-mI-XGl" customClass="BigPostTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="250"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="b9c-mI-XGl" id="2hd-aR-SjS">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.85124885948905105" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="4o8-5A-P8n" id="w7Z-Ci-c2r"/>
                             <outlet property="delegate" destination="4o8-5A-P8n" id="RvS-PG-TeT"/>
@@ -254,20 +243,6 @@
                                 <rect key="frame" x="0.0" y="67" width="320" height="554"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="bigPostCell" id="9gt-EG-dRl" customClass="BigPostTableViewCell">
-                                        <rect key="frame" x="0.0" y="22" width="320" height="250"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="9gt-EG-dRl" id="UMY-B8-vGN">
-                                            <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                        <color key="backgroundColor" white="0.76804858576642332" alpha="1" colorSpace="calibratedWhite"/>
-                                        <connections>
-                                            <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" trigger="accessoryAction" id="bg9-pG-jYC"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
                                 <connections>
                                     <outlet property="dataSource" destination="LAB-UI-cDH" id="mKV-DU-l0y"/>
                                     <outlet property="delegate" destination="LAB-UI-cDH" id="zqM-5n-bsa"/>
@@ -382,31 +357,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="bigPostCell" rowHeight="250" id="hwN-PX-Nr0" customClass="BigPostTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="250"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hwN-PX-Nr0" id="6Ba-uJ-Hl3">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vAK-GL-Fv8">
-                                            <rect key="frame" x="279" y="186" width="30" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                            <state key="normal" title=">">
-                                                <color key="titleColor" red="0.91372555489999996" green="0.92941182850000004" blue="0.95294123890000004" alpha="1" colorSpace="deviceRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="xG9-8X-c9V"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="GyV-8z-QUK" id="a9q-kS-uAt"/>
                             <outlet property="delegate" destination="GyV-8z-QUK" id="Frj-AL-8Qq"/>
@@ -426,31 +376,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="bigPostCell" rowHeight="250" id="Upc-Wy-c7X" customClass="BigPostTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="250"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Upc-Wy-c7X" id="rK6-bj-oEg">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Ub-QK-qzp">
-                                            <rect key="frame" x="279" y="186" width="30" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                            <state key="normal" title=">">
-                                                <color key="titleColor" red="0.91372555489999996" green="0.92941182850000004" blue="0.95294123890000004" alpha="1" colorSpace="deviceRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="7Fc-R9-neg"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="lWb-zS-cZi" id="wyJ-sV-cLg"/>
                             <outlet property="delegate" destination="lWb-zS-cZi" id="lSV-av-EiN"/>
@@ -470,31 +395,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <prototypes>
-                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="bigPostCell" rowHeight="250" id="8sB-in-BBP" customClass="BigPostTableViewCell">
-                                <rect key="frame" x="0.0" y="86" width="320" height="250"/>
-                                <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8sB-in-BBP" id="VxL-QJ-hQL">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="249"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <subviews>
-                                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="WqH-9C-IuE">
-                                            <rect key="frame" x="279" y="186" width="30" height="54"/>
-                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                            <fontDescription key="fontDescription" type="system" pointSize="33"/>
-                                            <state key="normal" title=">">
-                                                <color key="titleColor" red="0.91372555489999996" green="0.92941182850000004" blue="0.95294123890000004" alpha="1" colorSpace="deviceRGB"/>
-                                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                            </state>
-                                            <connections>
-                                                <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="XjB-PO-Ge8"/>
-                                            </connections>
-                                        </button>
-                                    </subviews>
-                                </tableViewCellContentView>
-                                <color key="backgroundColor" white="0.85124885949999995" alpha="1" colorSpace="calibratedWhite"/>
-                            </tableViewCell>
-                        </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="Y0h-ma-CBO" id="q61-fe-2Ld"/>
                             <outlet property="delegate" destination="Y0h-ma-CBO" id="DCq-ev-KsI"/>
@@ -717,7 +617,4 @@
         <simulatedOrientationMetrics key="orientation"/>
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
-    <inferredMetricsTieBreakers>
-        <segue reference="XjB-PO-Ge8"/>
-    </inferredMetricsTieBreakers>
 </document>

@@ -27,6 +27,7 @@ extern const int VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT;
 extern const int VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT;
 extern const int VIEW_POST_DISPLAY_COMMENT_HEIGHT;
 extern const int VIEW_POST_NAVIGATION_BAR_HEIGHT;
+extern const int BIG_POSTS_CELL_HEIGHT;
 
 
 extern NSString *const S3BUCKET_NAME;
