@@ -94,7 +94,7 @@
     // Let's perform one fetch here
     NSError *fetchingErr = nil;
     if ([self.fetchedResultsController performFetch:&fetchingErr]){
-        MSDebug(@"Number of fetched posts %lu", [[self.fetchedResultsController fetchedObjects] count]);
+        MSDebug(@"Number of fetched posts %lu", (unsigned long)[[self.fetchedResultsController fetchedObjects] count]);
         MSDebug(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch posts for entity");
@@ -168,31 +168,35 @@
        newIndexPath:(NSIndexPath *)newIndexPath{
     
     if (type == NSFetchedResultsChangeDelete) {
-        MSDebug(@"we got an delete here! new %lu, old %lu",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got an delete here! new %u, old %u",newIndexPath.row, indexPath.row);
         
         [self.tableView
          deleteRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeInsert) {
-        MSDebug(@"we got an insert here! new %lu, old %lu",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got an insert here! new %u, old %u",newIndexPath.row, indexPath.row);
         
         [self.tableView
          insertRowsAtIndexPaths:@[newIndexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeUpdate) {
-        MSDebug(@"we got an update here! new %lu, old %lu",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got an update here! new %u, old %u",newIndexPath.row, indexPath.row);
         
         [self.tableView
          reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
     } else if (type == NSFetchedResultsChangeMove) {
-        MSDebug(@"we got a move here! new %lu, old %lu",newIndexPath.row, indexPath.row);
+        MSDebug(@"we got a move here! new %u, old %u",newIndexPath.row, indexPath.row);
         
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
     }
+}
+
+-(void)sharePost{
+    
 }
 
 #pragma mark -

@@ -18,6 +18,5 @@
 
 @property (strong, nonatomic) Entity *entity;
 
-- (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 
 @end
