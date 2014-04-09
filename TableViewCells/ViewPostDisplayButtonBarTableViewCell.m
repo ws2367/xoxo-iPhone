@@ -125,6 +125,7 @@
 }
 
 -(void) addOrangeLine{
+    UIGraphicsBeginImageContextWithOptions(self.contentView.bounds.size, NO, 0.0f);
     CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
     CGPoint startPoint = CGPointMake(0, VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT);
     CGPoint endPoint = CGPointMake(WIDTH, VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT);

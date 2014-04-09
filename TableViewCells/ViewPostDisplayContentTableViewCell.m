@@ -54,6 +54,7 @@
 }
 
 -(void) addOrangeLineStartAtY:(CGFloat)offsetY{
+    UIGraphicsBeginImageContextWithOptions(self.contentView.bounds.size, NO, 0.0f);
     CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
     CGPoint startPoint = CGPointMake(70, offsetY);
     CGPoint endPoint = CGPointMake(WIDTH, offsetY);

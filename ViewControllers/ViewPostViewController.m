@@ -408,8 +408,10 @@
  numberOfRowsInSection:(NSInteger)section
 {
     MSDebug(@"there are %d entities, %d comments", [_entities count], [_comments count]);
+
     return ([_entities count] + [_comments count] + 3);
-//    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
+
+    //    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
 //    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
 //    return sectionInfo.numberOfObjects;
 }
@@ -542,7 +544,8 @@
         if (!cell){
             cell = [[ViewPostDisplayEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayEntityCellIdentifier];
         }
-        [cell setEntity:[_entities objectAtIndex:(indexPath.row - 1)]];
+        Entity *en =[_entities objectAtIndex:(indexPath.row - 1)];
+        [cell setEntity:en];
         return cell;
     } else if(indexPath.row == ([_entities count] + 1)){
         ViewPostDisplayButtonBarTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayButtonBarCellIdentifier];
