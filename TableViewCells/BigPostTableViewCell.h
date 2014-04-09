@@ -33,6 +33,9 @@
 @required
 
 - (void) CellPerformViewPost:(id)sender;
-- (void) sharePost;
+- (void) sharePost:(id)sender;
+- (void) reportPost:(id)sender;
+- (void) followPost:(id)sender;
+- (void) commentPost:(id)sender;
 
 @end

@@ -37,6 +37,7 @@
 
 -(void) setEntity:(Entity *)en{
     _entity = en;
+    
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
     NSAttributedString *nameWithFont = [[NSAttributedString alloc] initWithString:[_entity name] attributes:[Utility getViewPostDisplayEntityFontDictionary]];
     [nameLabel setAttributedText:nameWithFont];
@@ -48,6 +49,8 @@
         [instiLabel setAttributedText:instiWithFont];
         [self.contentView addSubview:instiLabel];
     }
+    
+    
     [self addDashLine];
 }
 
@@ -55,7 +58,13 @@
     CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
     CGPoint startPoint = CGPointMake(0, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT);
     CGPoint endPoint = CGPointMake(WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT);
+    
+    UIGraphicsBeginImageContextWithOptions(self.contentView.bounds.size, NO, 0.0f);
+    //CGContextRef context = UIGraphicsGetCurrentContext();
+    //CGContextBeginPath (context);
+    //CGContextMoveToPoint(context, 0, 0);
     UIBezierPath *path = [UIBezierPath bezierPath];
+    
     //draw a line
     [path moveToPoint:startPoint]; //add yourStartPoint here
     [path addLineToPoint:endPoint];// add yourEndPoint here

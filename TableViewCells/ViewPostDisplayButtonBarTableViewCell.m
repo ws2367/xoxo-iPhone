@@ -48,6 +48,30 @@
 }
 
 
+#pragma mark -
+#pragma mark Button Methods
+-(void) shareButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(sharePost:)]){
+        [_delegate sharePost:sender];
+    }
+}
+-(void) commentButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(commentPost:)]){
+        [_delegate commentPost:sender];
+    }
+}
+-(void) followButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(followPost:)]){
+        [_delegate followPost:sender];
+    }
+}
+-(void) reportButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(reportPost:)]){
+        [_delegate reportPost:sender];
+    }
+}
+
+
 # pragma mark -
 #pragma mark Add UI Buttons
 - (void)addLowerButtons{
@@ -57,6 +81,10 @@
     _reportButton = [self createLowerButtonAtOriginX:285 andY:BUTTON_BAR_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newreport.png"]];
     [self createVerticalLineAtOriginX:98 andY:BUTTON_BAR_ORIGIN_Y+5 withColor:[UIColor colorForYoursBlue]];
     [self createVerticalLineAtOriginX:180 andY:BUTTON_BAR_ORIGIN_Y+5 withColor:[UIColor colorForYoursOrange]];
+    [_shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_commentButton addTarget:self action:@selector(commentButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_whatButton addTarget:self action:@selector(followButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_reportButton addTarget:self action:@selector(reportButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
@@ -97,6 +125,7 @@
 }
 
 -(void) addOrangeLine{
+    UIGraphicsBeginImageContextWithOptions(self.contentView.bounds.size, NO, 0.0f);
     CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
     CGPoint startPoint = CGPointMake(0, VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT);
     CGPoint endPoint = CGPointMake(WIDTH, VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT);

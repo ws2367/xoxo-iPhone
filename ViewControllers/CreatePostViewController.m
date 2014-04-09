@@ -22,7 +22,11 @@
 
 #define VIEW_OFFSET_KEYBOARD 70
 #define ANIMATION_CUTDOWN 0.05
-
+#define OFFSET_X_FOR_DISPLAY_ENTITIES 20
+#define OFFSET_Y_FOR_DISPLAY_ENTITIES 5
+#define HEIGHT_FOR_EACH_ENTITY_ROW 38
+#define START_DISPLAYING_ENTITIES 308
+#define DELETE_BUTTON_OFFSET_X 100
 
 @interface CreatePostViewController ()
 {
@@ -30,13 +34,14 @@
     UIImageView *currImageView;
 }
 
-@property (weak, nonatomic) IBOutlet UITextView *textView;
+@property (weak, nonatomic)IBOutlet UITextView *textView;
 
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 
 // for image picker controller
 @property (weak, nonatomic) IBOutlet SuperImageView *superImageView;
 @property (nonatomic, retain) UIImagePickerController *picker;
+
 
 @property (weak, nonatomic) IBOutlet UITextField *entitiesTextField;
 
@@ -48,14 +53,41 @@
 @property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
 @property (weak, nonatomic) IBOutlet FBProfilePictureView *profilePicView;
 
-//for fb request concurrency
-@property (atomic) int32_t requestsToWait;
-@property (strong, nonatomic)NSLock *requestsToWaitLock;
-@property (strong, nonatomic)NSLock *toPostLock;
+
 @property (strong, nonatomic) NSMutableString *nameList;
 
 //for grabbing facebook profile image
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
+@property (strong, nonatomic) NSString *currentDisplayFBID;
+
+@property (strong, nonatomic) UIView *whiteBackgroundRow1;
+@property (strong, nonatomic) UIView *whiteBackgroundRow2;
+@property (strong, nonatomic) UIView *whiteBackgroundRow3;
+@property (strong, nonatomic) CAShapeLayer *verticalLineRow1;
+@property (strong, nonatomic) CAShapeLayer *verticalLineRow2;
+@property (strong, nonatomic) CAShapeLayer *verticalLineRow3;
+@property (strong, nonatomic) CAShapeLayer *horizontalLineRow1;
+@property (strong, nonatomic) CAShapeLayer *horizontalLineRow2;
+@property (strong, nonatomic) CAShapeLayer *horizontalLineRow3;
+@property (strong, nonatomic) UIButton *nameButton1;
+@property (strong, nonatomic) UIButton *nameButton2;
+@property (strong, nonatomic) UIButton *nameButton3;
+@property (strong, nonatomic) UIButton *nameButton4;
+@property (strong, nonatomic) UIButton *nameButton5;
+@property (strong, nonatomic) UIButton *nameButton6;
+@property (strong, nonatomic) UILabel *instiLabel1;
+@property (strong, nonatomic) UILabel *instiLabel2;
+@property (strong, nonatomic) UILabel *instiLabel3;
+@property (strong, nonatomic) UILabel *instiLabel4;
+@property (strong, nonatomic) UILabel *instiLabel5;
+@property (strong, nonatomic) UILabel *instiLabel6;
+
+@property (strong, nonatomic) UIButton *deleteButton1;
+@property (strong, nonatomic) UIButton *deleteButton2;
+@property (strong, nonatomic) UIButton *deleteButton3;
+@property (strong, nonatomic) UIButton *deleteButton4;
+@property (strong, nonatomic) UIButton *deleteButton5;
+@property (strong, nonatomic) UIButton *deleteButton6;
 
 
 @end
@@ -68,7 +100,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorForYoursWhite];
     
     //To make the border look very close to a UITextField
     [_textView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
@@ -112,14 +144,6 @@
     self.entitiesTextField.text = (NSString *)_entityNames;
     
     
-    //initialize locks
-    if(!_toPostLock){
-    _toPostLock = [[NSLock alloc] init];
-    }
-    if(!_requestsToWaitLock){
-    _requestsToWaitLock = [[NSLock alloc] init];
-    }
-    _requestsToWait = 0;
     
 
     //add top controller bar
@@ -140,8 +164,10 @@
     topNavigationItem.rightBarButtonItem = exitButton;
     topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
     
+//    [self addContentTextView];
     [self addAddPhotoButton];
     [self addDoneCreatingPostButton];
+    [self addAddFBFriendButton];
     
     
     
@@ -186,7 +212,7 @@
 #pragma mark Create Button Methods
 - (void) addAddPhotoButton{
     UIImage *addPhotoButtonImage = [UIImage imageNamed:@"icon-add_photo.png"];
-    UIButton *addPhotoButton =[[UIButton alloc] initWithFrame:CGRectMake(120, 140, addPhotoButtonImage.size.width, addPhotoButtonImage.size.height)];
+    UIButton *addPhotoButton =[[UIButton alloc] initWithFrame:CGRectMake(120, 130, addPhotoButtonImage.size.width, addPhotoButtonImage.size.height)];
     [addPhotoButton setImage:addPhotoButtonImage forState:UIControlStateNormal];
     [addPhotoButton addTarget:self action:@selector(addPhoto:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addPhotoButton];
@@ -199,6 +225,20 @@
     [doneCreatingButton addTarget:self action:@selector(doneCreatingPost:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:doneCreatingButton];
 }
+-(void)addAddFBFriendButton{
+    UIButton *addFBFriendButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 263, WIDTH, 45)];
+    [addFBFriendButton setBackgroundColor:[UIColor colorForYoursFacebookBlue]];
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"+ Facebook Friends" attributes:[Utility getCreatePostViewAddFriendButtonFontDictionary]];
+    [addFBFriendButton setAttributedTitle:title forState:UIControlStateNormal];
+    [addFBFriendButton addTarget:self action:@selector(fbFriendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:addFBFriendButton];
+}
+
+//-(void)addContentTextView{
+//    _textView = [[UITextView alloc] initWithFrame:CGRectMake(15, 315, WIDTH - 30, 200)];
+//    _textView.delegate = self;
+//    [self.view addSubview:_textView];
+//}
 
 #pragma mark -
 #pragma mark Keyboard Notifification Methods
@@ -308,6 +348,30 @@
 
 #pragma mark -
 #pragma mark Button Methods
+
+-(void)deleteButtonPressed:(id)sender{
+    Entity *entity = [_entities objectAtIndex:[sender tag] - 1];
+    NSString *thisEntityID = entity.fbUserID;
+    [_entities removeObjectAtIndex:[sender tag] - 1];
+    if([thisEntityID isEqualToString:_currentDisplayFBID]){
+        if([_entities count]){
+            Entity *firstEn = [_entities firstObject];
+            NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", firstEn.fbUserID];
+            _currentDisplayFBID = firstEn.fbUserID;
+            [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
+            _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
+        }
+    }
+    [self reloadSelectedEntitiesSection];
+}
+-(void)nameButtonPressed:(id)sender{
+    Entity *pressedEntity = [_entities objectAtIndex:[sender tag] - 1];
+    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", pressedEntity.fbUserID];
+    _currentDisplayFBID = pressedEntity.fbUserID;
+    [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
+    _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
+}
+
 - (IBAction)doneCreatingPost:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -351,9 +415,7 @@
 #pragma mark Server Communication Methods
 
 - (void)uploadPostAndRelatedObjects {
-    MSDebug(@"wanna lock");
-    [_toPostLock lock];
-    MSDebug(@"got lock");
+
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     
     Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
@@ -465,8 +527,6 @@
          
         
     }
-    MSDebug(@"toPost unlock!!!");
-    [_toPostLock unlock];
 }
 
 #pragma mark -
@@ -500,7 +560,7 @@
 
 #pragma mark -
 #pragma mark FacebookFriendPicker initiation
-- (IBAction)fbFriendButtonPressed:(id)sender {
+-(void) fbFriendButtonPressed:(id)sender {
     
     // FBSample logic
     // if the session is open, then load the data for our view controller
@@ -508,7 +568,8 @@
         MSDebug(@"no session");
         // if the session is closed, then we open it here, and establish a handler for state changes
         NSArray *permissions = [[NSArray alloc] initWithObjects:
-                                @"user_birthday",@"friends_hometown", @"friends_birthday",@"friends_location",@"friends_education_history",@"friends_work_history",                              nil];
+                                @"user_birthday",@"friends_hometown",
+                            @"friends_birthday",@"friends_location",@"friends_education_history",@"friends_work_history",                              nil];
         [FBSession openActiveSessionWithReadPermissions:permissions
                                            allowLoginUI:YES
                                       completionHandler:^(FBSession *session,
@@ -546,10 +607,10 @@
 # pragma mark -
 #pragma mark - FBFriendPickerDelegate method
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
-    [_toPostLock tryLock];
     id<FBGraphUser> firstFrd = [self.friendPickerController.selection firstObject];
     _profilePicView.profileID = firstFrd.id;
     NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", firstFrd.id];
+    _currentDisplayFBID = firstFrd.id;
     [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
     _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
     for (id<FBGraphUser> frd in self.friendPickerController.selection) {
@@ -567,16 +628,16 @@
 # pragma mark -
 #pragma mark - process every fb friend picked
 - (void) processFBUser:(id<FBGraphUser>) frd{
-    [_requestsToWaitLock lock];
-    _requestsToWait++;
-    MSDebug(@"Plus request to %d", _requestsToWait);
-    [_requestsToWaitLock unlock];
+    
+    //we are not going to use _nameList anymore
+    /*
     if(!_nameList){
         _nameList = [[NSMutableString alloc] init];
     }
     [_nameList appendString:frd.name];
     _entitiesTextField.text = _nameList;
-
+*/
+    
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Entity *newFBEntity;
     MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %u", frd.name, frd.id, [frd.id integerValue]);
@@ -593,17 +654,11 @@
     }
     [_entities addObject:newFBEntity];
     
+    [self reloadSelectedEntitiesSection];
+    
     MSDebug(@"has found existing entity? %d", hasFoundExistingEntity);
     if(hasFoundExistingEntity){
-        [_requestsToWaitLock lock];
-        _requestsToWait--;
-        MSDebug(@"Minus request to %d", _requestsToWait);
-        if(_requestsToWait == 0){
-            [_toPostLock unlock];
-             MSDebug(@"toPost unlock!!!");
-        }
-        [_requestsToWaitLock unlock];
-        MSDebug(@"Has Found existing entity %@ with fbid: %@", newFBEntity.name, newFBEntity.fbUserID);
+        return;
     } else {
         FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
                                                       graphPath:frd.id];
@@ -616,7 +671,7 @@
                 NSString *locationName = [location objectForKey:@"name"];
                 if (locationName) {
                     NSArray *cityAndState = [locationName componentsSeparatedByString:@", "];
-                    if (cityAndState) {
+                    if ([cityAndState count] > 1) {
                         state = [cityAndState objectAtIndex:1];
                         [newFBEntity setLocation:state];
                     }
@@ -636,23 +691,252 @@
                 }
             }
             
-            MSDebug(@"its state %@ what?", state);
-            MSDebug(@"its school %@ what?", schoolName);
-            
-            [_requestsToWaitLock lock];
-            _requestsToWait--;
-            MSDebug(@"Minus request to %d, is it true? %d", _requestsToWait, _requestsToWait == 0);
-            if(_requestsToWait == 0){
-                [_toPostLock unlock];
-                MSDebug(@"toPost unlock!!!");
-            }
-            [_requestsToWaitLock unlock];
+            [self reloadSelectedEntitiesSection];
         }];
 
     }
 }
 
 
+# pragma mark -
+#pragma mark - Handle selected entities
+-(void)reloadSelectedEntitiesSection{
+    NSUInteger entitiesCnt =[_entities count];
+    if(entitiesCnt > 0){
+        [self displayFirstRowEntities];
+    } else{
+        [self removeFirstRowEntities];
+    }
+    if(entitiesCnt > 2){
+        [self displaySecondRowEntities];
+    }else{
+        [self removeSecondRowEntities];
+    }
+    if(entitiesCnt > 4){
+        [self displayThirdRowEntities];
+    } else{
+        [self removeThirdRowEntities];
+    }
+    
+    if(entitiesCnt > 0 && entitiesCnt <= 2){
+        CGFloat originalX = _textView.bounds.origin.x;
+        CGFloat width = _textView.bounds.size.width;
+        [_textView setFrame:CGRectMake(originalX+20, START_DISPLAYING_ENTITIES + HEIGHT_FOR_EACH_ENTITY_ROW + 20, width, 100)];
+        MSDebug(@"here!");
+    } else if(entitiesCnt > 2 && entitiesCnt <= 4){
+        CGFloat originalX = _textView.bounds.origin.x;
+        CGFloat width = _textView.bounds.size.width;
+        [_textView setFrame:CGRectMake(originalX+20, START_DISPLAYING_ENTITIES + 2*HEIGHT_FOR_EACH_ENTITY_ROW + 20, width, 100)];
+    } else {
+        CGFloat originalX = _textView.bounds.origin.x;
+        CGFloat width = _textView.bounds.size.width;
+        [_textView setFrame:CGRectMake(originalX+20, START_DISPLAYING_ENTITIES + 3*HEIGHT_FOR_EACH_ENTITY_ROW + 20, width, 100)];
+    }
+}
+-(void) displayFirstRowEntities{
+    if(!_whiteBackgroundRow1){
+        _whiteBackgroundRow1 = [[UIView alloc] initWithFrame:CGRectMake(0, START_DISPLAYING_ENTITIES, WIDTH, HEIGHT_FOR_EACH_ENTITY_ROW)];
+        [_whiteBackgroundRow1 setBackgroundColor:[UIColor whiteColor]];
+    }
+    [self.view addSubview:_whiteBackgroundRow1];
+    
+    if(!_verticalLineRow1){
+        _verticalLineRow1 = [self drawLineFromPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES) toEndPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursLightPink]];
+    }
+    [self.view.layer addSublayer:_verticalLineRow1];
+    
+    if(!_horizontalLineRow1){
+        _horizontalLineRow1 = [self drawLineFromPoint:CGPointMake(0, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursDarkPink]];
+    }
+    [self.view.layer addSublayer:_horizontalLineRow1];
+    
+    UILabel *tempInstiLabel;
+    [_nameButton1 removeFromSuperview];
+    [_instiLabel1 removeFromSuperview];
+    _nameButton1 = [self getEntityNameAndInstitutionForEntity:[_entities objectAtIndex:0] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES andY:START_DISPLAYING_ENTITIES+OFFSET_Y_FOR_DISPLAY_ENTITIES returnInstiLabel:&tempInstiLabel];
+    _instiLabel1 = tempInstiLabel;
+    [_nameButton1 setTag:1];
+    [_nameButton1 addTarget:self action:@selector(nameButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_nameButton1];
+    [self.view addSubview:_instiLabel1];
+    
+    if(!_deleteButton1){
+        _deleteButton1 = [self createDeleteButtonAtX:OFFSET_X_FOR_DISPLAY_ENTITIES + DELETE_BUTTON_OFFSET_X andY:START_DISPLAYING_ENTITIES+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+        _deleteButton1.tag = 1;
+        [_deleteButton1 addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [self.view addSubview:_deleteButton1];
+    
+    if ([_entities count] > 1) {
+        UILabel *tempInstiLabel;
+        [_nameButton2 removeFromSuperview];
+        [_instiLabel2 removeFromSuperview];
+        _nameButton2 = [self getEntityNameAndInstitutionForEntity:[_entities objectAtIndex:1] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 andY:START_DISPLAYING_ENTITIES+OFFSET_Y_FOR_DISPLAY_ENTITIES returnInstiLabel:&tempInstiLabel];
+        _instiLabel2 = tempInstiLabel;
+        [_nameButton2 setTag:2];
+        [_nameButton2 addTarget:self action:@selector(nameButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_nameButton2];
+        [self.view addSubview:_instiLabel2];
+        if(!_deleteButton2){
+            _deleteButton2 = [self createDeleteButtonAtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 + DELETE_BUTTON_OFFSET_X andY:START_DISPLAYING_ENTITIES+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+            _deleteButton2.tag = 2;
+            [_deleteButton2 addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+
+        }
+        [self.view addSubview:_deleteButton2];
+    }
+}
+-(void) displaySecondRowEntities{
+    if(!_whiteBackgroundRow2){
+        _whiteBackgroundRow2 = [[UIView alloc] initWithFrame:CGRectMake(0, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW, WIDTH, HEIGHT_FOR_EACH_ENTITY_ROW)];
+        [_whiteBackgroundRow2 setBackgroundColor:[UIColor whiteColor]];
+    }
+    [self.view addSubview:_whiteBackgroundRow2];
+    
+    if(!_verticalLineRow2){
+        _verticalLineRow2 = [self drawLineFromPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursLightPink]];
+    }
+    [self.view.layer addSublayer:_verticalLineRow2];
+    
+    if(!_horizontalLineRow2){
+        _horizontalLineRow2 = [self drawLineFromPoint:CGPointMake(0, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW*2) toEndPoint:CGPointMake(WIDTH, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursDarkPink]];
+    }
+    [self.view.layer addSublayer:_horizontalLineRow2];
+    
+    UILabel *tempInstiLabel;
+    [_nameButton3 removeFromSuperview];
+    [_instiLabel3 removeFromSuperview];
+    _nameButton3 = [self getEntityNameAndInstitutionForEntity:[_entities objectAtIndex:2] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES andY:START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW+OFFSET_Y_FOR_DISPLAY_ENTITIES returnInstiLabel:&tempInstiLabel];
+    _instiLabel3 = tempInstiLabel;
+    [_nameButton3 setTag:3];
+    [_nameButton3 addTarget:self action:@selector(nameButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_nameButton3];
+    [self.view addSubview:_instiLabel3];
+    if(!_deleteButton3){
+        _deleteButton3 = [self createDeleteButtonAtX:OFFSET_X_FOR_DISPLAY_ENTITIES + DELETE_BUTTON_OFFSET_X andY:START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+        _deleteButton3.tag = 3;
+        [_deleteButton3 addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [self.view addSubview:_deleteButton3];
+    
+    if ([_entities count] > 3) {
+        UILabel *tempInstiLabel;
+        [_nameButton4 removeFromSuperview];
+        [_instiLabel4 removeFromSuperview];
+        _nameButton4 = [self getEntityNameAndInstitutionForEntity:[_entities objectAtIndex:3] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 andY:START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW+OFFSET_Y_FOR_DISPLAY_ENTITIES returnInstiLabel:&tempInstiLabel];
+        _instiLabel4 = tempInstiLabel;
+        [_nameButton4 setTag:4];
+        [_nameButton4 addTarget:self action:@selector(nameButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_nameButton4];
+        [self.view addSubview:_instiLabel4];
+        if(!_deleteButton4){
+            _deleteButton4 = [self createDeleteButtonAtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 + DELETE_BUTTON_OFFSET_X andY:START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+            _deleteButton4.tag = 4;
+            [_deleteButton4 addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        [self.view addSubview:_deleteButton4];
+    }
+}
+-(void) displayThirdRowEntities{
+    if(!_whiteBackgroundRow3){
+        _whiteBackgroundRow3 = [[UIView alloc] initWithFrame:CGRectMake(0, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW, WIDTH, HEIGHT_FOR_EACH_ENTITY_ROW)];
+        [_whiteBackgroundRow3 setBackgroundColor:[UIColor whiteColor]];
+    }
+    [self.view addSubview:_whiteBackgroundRow3];
+
+    
+    if(!_verticalLineRow3){
+        _verticalLineRow3 = [self drawLineFromPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+3*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursLightPink]];
+    }
+    [self.view.layer addSublayer:_verticalLineRow3];
+    
+    if(!_horizontalLineRow3){
+        _horizontalLineRow3 = [self drawLineFromPoint:CGPointMake(0, START_DISPLAYING_ENTITIES+3*HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH, START_DISPLAYING_ENTITIES+3*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursDarkPink]];
+    }
+    [self.view.layer addSublayer:_horizontalLineRow3];
+    
+    UILabel *tempInstiLabel;
+    [_nameButton5 removeFromSuperview];
+    [_instiLabel5 removeFromSuperview];
+    _nameButton5 = [self getEntityNameAndInstitutionForEntity:[_entities objectAtIndex:4] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES andY:START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW +OFFSET_Y_FOR_DISPLAY_ENTITIES returnInstiLabel:&tempInstiLabel];
+    _instiLabel5 = tempInstiLabel;
+    [_nameButton5 setTag:5];
+    [_nameButton5 addTarget:self action:@selector(nameButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_nameButton5];
+    [self.view addSubview:_instiLabel5];
+    if(!_deleteButton5){
+        _deleteButton5 = [self createDeleteButtonAtX:OFFSET_X_FOR_DISPLAY_ENTITIES + DELETE_BUTTON_OFFSET_X andY:START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW +OFFSET_Y_FOR_DISPLAY_ENTITIES];
+        _deleteButton5.tag = 5;
+        [_deleteButton5 addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    }
+    [self.view addSubview:_deleteButton5];
+    if ([_entities count] > 5) {
+        [_nameButton6 removeFromSuperview];
+        [_instiLabel6 removeFromSuperview];
+        UILabel *tempInstiLabel;
+        _nameButton6 = [self getEntityNameAndInstitutionForEntity:[_entities objectAtIndex:5] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 andY:START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW +OFFSET_Y_FOR_DISPLAY_ENTITIES returnInstiLabel:&tempInstiLabel];
+        _instiLabel6 = tempInstiLabel;
+        [_nameButton6 setTag:6];
+        [_nameButton6 addTarget:self action:@selector(nameButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        [self.view addSubview:_nameButton6];
+        [self.view addSubview:_instiLabel6];
+        if(!_deleteButton6){
+            _deleteButton6 = [self createDeleteButtonAtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 + DELETE_BUTTON_OFFSET_X andY:START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW +OFFSET_Y_FOR_DISPLAY_ENTITIES];
+            _deleteButton6.tag = 6;
+            [_deleteButton6 addTarget:self action:@selector(deleteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+        }
+        [self.view addSubview:_deleteButton6];
+
+    }
+}
+
+-(void) removeFirstRowEntities{
+    [_horizontalLineRow1 removeFromSuperlayer];
+    [_verticalLineRow1 removeFromSuperlayer];
+    [_nameButton1 removeFromSuperview];
+    [_nameButton2 removeFromSuperview];
+    [_instiLabel1 removeFromSuperview];
+    [_instiLabel2 removeFromSuperview];
+    [_whiteBackgroundRow1 removeFromSuperview];
+    [_deleteButton1 removeFromSuperview];
+    [_deleteButton2 removeFromSuperview];
+}
+-(void) removeSecondRowEntities{
+    [_horizontalLineRow2 removeFromSuperlayer];
+    [_verticalLineRow2 removeFromSuperlayer];
+    [_nameButton3 removeFromSuperview];
+    [_nameButton4 removeFromSuperview];
+    [_instiLabel3 removeFromSuperview];
+    [_instiLabel4 removeFromSuperview];
+    [_whiteBackgroundRow2 removeFromSuperview];
+    [_deleteButton3 removeFromSuperview];
+    [_deleteButton4 removeFromSuperview];
+}
+-(void) removeThirdRowEntities{
+    [_horizontalLineRow3 removeFromSuperlayer];
+    [_verticalLineRow3 removeFromSuperlayer];
+    [_nameButton5 removeFromSuperview];
+    [_nameButton6 removeFromSuperview];
+    [_instiLabel5 removeFromSuperview];
+    [_instiLabel6 removeFromSuperview];
+    [_whiteBackgroundRow3 removeFromSuperview];
+    [_deleteButton5 removeFromSuperview];
+    [_deleteButton6 removeFromSuperview];
+}
+
+-(UIButton *) getEntityNameAndInstitutionForEntity:(Entity *)entity AtX:(CGFloat)originX andY:(CGFloat)originY returnInstiLabel:(UILabel **)instiLabel{
+    UIButton *nameButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, originY, WIDTH/2, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
+    NSAttributedString *nameWithFont = [[NSAttributedString alloc] initWithString:[entity name] attributes:[Utility getCreatePostDisplayEntityFontDictionary]];
+    [nameButton setAttributedTitle:nameWithFont forState:UIControlStateNormal];
+    nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+    if(entity.institution){
+        *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY+13, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
+        NSAttributedString *instiWithFont = [[NSAttributedString alloc] initWithString:entity.institution attributes:[Utility getCreatePostDisplayInstitutionFontDictionary]];
+        [*instiLabel setAttributedText:instiWithFont];
+        
+    }
+    return nameButton;
+}
 
 # pragma mark -
 #pragma mark - Navigation
@@ -663,4 +947,34 @@
     } else
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+# pragma mark -
+#pragma mark - Draw Line
+-(CAShapeLayer *) drawLineFromPoint:(CGPoint)startPoint toEndPoint:(CGPoint)endPoint withColor:(UIColor *)color{
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0.0f);
+    CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    //draw a line
+    [path moveToPoint:startPoint]; //add yourStartPoint here
+    [path addLineToPoint:endPoint];// add yourEndPoint here
+    [path stroke];
+    
+    dashLineLayer.strokeStart = 0.0;
+    dashLineLayer.strokeColor = color.CGColor;
+    dashLineLayer.lineWidth = 1.0;
+    dashLineLayer.lineJoin = kCALineJoinMiter;
+    dashLineLayer.path = path.CGPath;
+    return dashLineLayer;
+}
+
+# pragma mark -
+#pragma mark - create Button
+-(UIButton *) createDeleteButtonAtX:(CGFloat)originX andY:(CGFloat)originY{
+    UIImage *btnImage = [UIImage imageNamed:@"icon-name_delete.png"];
+    UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(originX, originY, btnImage.size.width, btnImage.size.height)];
+    [button setImage:btnImage forState:UIControlStateNormal];
+    return button;
+}
+
+
 @end

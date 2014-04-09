@@ -8,14 +8,17 @@
 
 #import <UIKit/UIKit.h>
 #import "Post.h"
+#import <AddressBookUI/AddressBookUI.h>
+#import "ViewPostDisplayButtonBarTableViewCell.h"
 
 @class ViewMultiPostsViewController;
 
 @interface ViewPostViewController : UIViewController
-                                <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSFetchedResultsControllerDelegate>
+                                <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSFetchedResultsControllerDelegate, ABPeoplePickerNavigationControllerDelegate,ViewPostDisplayButtonBarTableViewCellDelegate,UIActionSheetDelegate>
 
 
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 - (void) setPost:(Post *)post;
+- (void) setStartEditingComment:(BOOL)shouldStartEdit;
 @end

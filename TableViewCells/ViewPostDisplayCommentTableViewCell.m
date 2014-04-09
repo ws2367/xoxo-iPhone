@@ -55,6 +55,7 @@
 }
 
 -(void) addDarkBlueLine{
+    UIGraphicsBeginImageContextWithOptions(self.contentView.bounds.size, NO, 0.0f);
     CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
     CGPoint startPoint = CGPointMake(70, VIEW_POST_DISPLAY_COMMENT_HEIGHT);
     CGPoint endPoint = CGPointMake(WIDTH, VIEW_POST_DISPLAY_COMMENT_HEIGHT);

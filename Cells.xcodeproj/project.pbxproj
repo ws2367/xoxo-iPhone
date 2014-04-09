@@ -89,7 +89,9 @@
 		7A37FA4218E4B4B6003E5BFF /* menu-my@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3718E4B4B6003E5BFF /* menu-my@2x.png */; };
 		7A37FA4318E4B4B6003E5BFF /* menu-popular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */; };
 		7A37FA4418E4B4B6003E5BFF /* icon-time@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3918E4B4B6003E5BFF /* icon-time@2x.png */; };
+		7A398C8A18F5D19C001E84E4 /* icon-name_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A398C8918F5D19C001E84E4 /* icon-name_delete@2x.png */; };
 		7A99E87A18E8E3BD001F9927 /* Entity+MSEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A99E87918E8E3BD001F9927 /* Entity+MSEntity.m */; };
+		7AA9221F18F4CD0C00794751 /* Loading-Gif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7AA9221E18F4CD0C00794751 /* Loading-Gif.gif */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 		7ABFAA1B18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFAA1A18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m */; };
@@ -249,8 +251,10 @@
 		7A37FA3718E4B4B6003E5BFF /* menu-my@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-my@2x.png"; sourceTree = "<group>"; };
 		7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-popular@2x.png"; sourceTree = "<group>"; };
 		7A37FA3918E4B4B6003E5BFF /* icon-time@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-time@2x.png"; sourceTree = "<group>"; };
+		7A398C8918F5D19C001E84E4 /* icon-name_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-name_delete@2x.png"; sourceTree = "<group>"; };
 		7A99E87818E8E3BD001F9927 /* Entity+MSEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Entity+MSEntity.h"; sourceTree = "<group>"; };
 		7A99E87918E8E3BD001F9927 /* Entity+MSEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Entity+MSEntity.m"; sourceTree = "<group>"; };
+		7AA9221E18F4CD0C00794751 /* Loading-Gif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Loading-Gif.gif"; sourceTree = "<group>"; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
@@ -381,6 +385,8 @@
 		512422A318B2B196008BEF86 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7AA9221E18F4CD0C00794751 /* Loading-Gif.gif */,
+				7A398C8918F5D19C001E84E4 /* icon-name_delete@2x.png */,
 				7AD1F25818F2183700592D23 /* YoursIcon40x40@2x.png */,
 				7AD1F25918F2183700592D23 /* YoursIcon57x57@2x.png */,
 				7AD1F25A18F2183700592D23 /* YoursIcon60x60@2x.png */,
@@ -666,7 +672,9 @@
 				7AD1F25518F1487B00592D23 /* YoursLaunchPage@2x.png in Resources */,
 				7584D1B818DED1FC00981E2E /* camera_button_take.png in Resources */,
 				75C086B017FE30B800023200 /* pic2.png in Resources */,
+				7A398C8A18F5D19C001E84E4 /* icon-name_delete@2x.png in Resources */,
 				7AFAFC6F18EB8C7600696C30 /* icon-newreport@2x.png in Resources */,
+				7AA9221F18F4CD0C00794751 /* Loading-Gif.gif in Resources */,
 				7AFAFC7018EB8C7700696C30 /* icon-newshare@2x.png in Resources */,
 				75C086B117FE30B800023200 /* pic3.png in Resources */,
 				7AD1F24018EFC76400592D23 /* icon-newcomment@2x.png in Resources */,

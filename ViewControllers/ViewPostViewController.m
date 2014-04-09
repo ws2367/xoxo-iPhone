@@ -44,6 +44,10 @@
 @property (strong, nonatomic) NSMutableArray *comments; //store comment pointers
 @property (strong, nonatomic) NSMutableArray *entities;
 @property (weak, nonatomic) IBOutlet UITableView *viewPostTableView;
+@property (weak, nonatomic) IBOutlet UIView *viewThatContainsTableAndTextField;
+
+
+@property (nonatomic) BOOL startEditingComment;
 @end
 
 #define ROW_HEIGHT 46
@@ -89,6 +93,17 @@
     
     UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
     self.navigationItem.rightBarButtonItem = exitButton;
+
+
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    [_commentTextField setTextColor:[UIColor lightGrayColor]];
+    [_commentTextField setText:@"Leave a comment..."];
+    if(_startEditingComment){
+        [_commentTextField becomeFirstResponder];
+        
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -100,7 +115,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+    [self.view setBackgroundColor:[UIColor colorForYoursOrange]];
+    [_viewThatContainsTableAndTextField setBackgroundColor:[UIColor colorForYoursOrange]];
     // set up table view
     /*
     _tableView.rowHeight = ROW_HEIGHT;
@@ -214,12 +230,16 @@
 }
 
 #pragma mark -
-#pragma mark Whoever presented this view controller should call this methods
+#pragma mark Global methods Whoever presented this view controller should call these methods
 - (void) setPost:(Post *)post{
     _post = post;
     _entities = [[NSMutableArray alloc] initWithArray:[_post.entities allObjects]];
     _comments = [[NSMutableArray alloc] initWithArray:[_post.comments allObjects]];
     [_viewPostTableView reloadData];
+}
+
+- (void) setStartEditingComment:(BOOL)shouldStartEdit{
+    _startEditingComment = shouldStartEdit;
 }
 
 
@@ -269,6 +289,8 @@
     // place it in a CGRect
     CGRect keyboardRect = CGRectZero;
     
+
+    
     // I know this all looks winding and turning, keyboardRecAsObject is set type of NSValue
     // because collections like NSDictionary which is returned by [paramNotification userInfo]
     // can only store objects, not CGRect which is a C struct
@@ -279,8 +301,8 @@
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.view.frame =
-                         CGRectMake(self.view.frame.origin.x,
+                         _viewThatContainsTableAndTextField.frame =
+                         CGRectMake(_viewThatContainsTableAndTextField.frame.origin.x,
                                     keyboardRect.origin.y - HEIGHT,
                                     WIDTH,
                                     HEIGHT);
@@ -297,7 +319,7 @@
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         self.view.frame =
+                         _viewThatContainsTableAndTextField.frame =
                          CGRectMake(0,
                                     0,
                                     WIDTH,
@@ -375,7 +397,7 @@
     
     // set it back to original
     [_commentTextField setTextColor:[UIColor lightGrayColor]];
-    [_commentTextField setText:@"Write a comment..."];
+    [_commentTextField setText:@"Leave a comment..."];
 
 }
 
@@ -386,8 +408,10 @@
  numberOfRowsInSection:(NSInteger)section
 {
     MSDebug(@"there are %d entities, %d comments", [_entities count], [_comments count]);
+
     return ([_entities count] + [_comments count] + 3);
-//    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
+
+    //    // Maybe it is ok to declare NSFetchedResultsSectionInfo instead of an id?
 //    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
 //    return sectionInfo.numberOfObjects;
 }
@@ -431,7 +455,7 @@
 {
     if ([[textField text] isEqualToString:@""]) {
         [textField setTextColor:[UIColor lightGrayColor]];
-        [textField setText:@"Write a comment..."];
+        [textField setText:@"Leave a comment..."];
     }
 }
 
@@ -520,13 +544,15 @@
         if (!cell){
             cell = [[ViewPostDisplayEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayEntityCellIdentifier];
         }
-        [cell setEntity:[_entities objectAtIndex:(indexPath.row - 1)]];
+        Entity *en =[_entities objectAtIndex:(indexPath.row - 1)];
+        [cell setEntity:en];
         return cell;
     } else if(indexPath.row == ([_entities count] + 1)){
         ViewPostDisplayButtonBarTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayButtonBarCellIdentifier];
         if (!cell){
             cell = [[ViewPostDisplayButtonBarTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayButtonBarCellIdentifier];
         }
+        cell.delegate = self;
         return cell;
 
     }else if(indexPath.row == ([_entities count] + 2)){
@@ -599,6 +625,170 @@
     
     [_viewPostTableView setContentOffset:CGPointMake(0, yOffset) animated:NO];
 }
+# pragma mark -
+#pragma mark BigPostTableViewCell delegate method
+
+-(void)sharePost:(id)sender{
+    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    
+    /*picker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+     [self.view addSubview:picker.view];
+     [UIView animateWithDuration:ANIMATION_DURATION
+     delay:ANIMATION_DELAY
+     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+     animations:^{
+     picker.view.frame = CGRectMake( 0, 0, WIDTH, HEIGHT);
+     
+     }
+     completion:^(BOOL finished){
+     }];*/
+    
+    
+    [self presentViewController:picker animated:YES completion:nil];
+    
+    
+    
+    //CFErrorRef error = nil;
+    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
+    //if (!addressBook) // test the result, not the error
+    //{
+    //    NSLog(@"ERROR!!!");
+    //    return; // bail
+    //}
+    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    
+    //NSLog(@"%@", arrayOfPeople);
+}
+
+-(void)commentPost:(id)sender{
+    //indicate we want to comment
+    [_commentTextField becomeFirstResponder];
+}
+- (void) followPost:(id)sender{
+    
+    UIButton *followButton = (UIButton *)sender;
+    bool toFollow = [[followButton titleForState:UIControlStateNormal] isEqualToString:@"follow"];
+    
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+        return;
+    }
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    NSMutableURLRequest *request = nil;
+    if (toFollow) {
+        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"follow_post"
+                                                                         object:_post
+                                                                     parameters:@{@"auth_token": sessionToken}];
+        
+        
+    } else {
+        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"unfollow_post"
+                                                                         object:_post
+                                                                     parameters:@{@"auth_token": sessionToken}];
+    }
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
+                      forState:UIControlStateNormal];
+        
+        [_post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:error];
+    }];
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
+}
+
+
+-(void)reportPost:(id)sender{
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to report this post?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                         destructiveButtonTitle:@"Report It"
+                                              otherButtonTitles:nil];
+    [sheet setTag:indexPath.row];
+    [sheet showInView:self.view];
+}
+
+
+#pragma mark -
+#pragma mark PeoplePicker Delegate Methods
+
+- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    /*[UIView animateWithDuration:ANIMATION_DURATION
+     delay:ANIMATION_DELAY
+     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+     animations:^{
+     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+     
+     }
+     completion:^(BOOL finished){
+     [peoplePicker.view removeFromSuperview];
+     }];*/
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+    [self dismissViewControllerAnimated:YES completion:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please type in message you want to send"
+                                                        message:nil
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                              otherButtonTitles:@"Send",nil];
+    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
+    [alertView show];
+    
+    /*[UIView animateWithDuration:ANIMATION_DURATION
+     delay:ANIMATION_DELAY
+     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+     animations:^{
+     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+     
+     }
+     completion:^(BOOL finished){
+     [peoplePicker.view removeFromSuperview];
+     }];*/
+    return NO;
+}
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property  identifier:(ABMultiValueIdentifier)identifier{
+    return NO;
+}
+
+
+#pragma mark -
+#pragma mark alertView delegate method
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    
+    switch (buttonIndex) {
+        case 0:
+            break;
+        case 1:
+            break;
+        default:
+            break;
+    }
+    
+}
+
+#pragma mark UIActionSheet delegate method
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSLog(@"Button %d", buttonIndex);
+}
+-(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
+    //    [actionSheet.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+    //        if ([obj isKindOfClass:[UIButton class]]) {
+    //            UIButton *button = (UIButton *)obj;
+    //            button.titleLabel.font = [UIFont systemFontOfSize:30];
+    //        }
+    //    }];
+    
+}
+
 
 
 
