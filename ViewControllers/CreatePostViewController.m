@@ -22,7 +22,10 @@
 
 #define VIEW_OFFSET_KEYBOARD 70
 #define ANIMATION_CUTDOWN 0.05
-
+#define OFFSET_X_FOR_DISPLAY_ENTITIES 20
+#define OFFSET_Y_FOR_DISPLAY_ENTITIES 5
+#define HEIGHT_FOR_EACH_ENTITY_ROW 42
+#define START_DISPLAYING_ENTITIES 308
 
 @interface CreatePostViewController ()
 {
@@ -37,6 +40,7 @@
 // for image picker controller
 @property (weak, nonatomic) IBOutlet SuperImageView *superImageView;
 @property (nonatomic, retain) UIImagePickerController *picker;
+@property (weak, nonatomic) IBOutlet UITextView *editContentTextView;
 
 @property (weak, nonatomic) IBOutlet UITextField *entitiesTextField;
 
@@ -68,7 +72,7 @@
 {
     [super viewDidLoad];
     
-    self.view.backgroundColor = [UIColor whiteColor];
+    self.view.backgroundColor = [UIColor colorForYoursWhite];
     
     //To make the border look very close to a UITextField
     [_textView.layer setBorderColor:[[[UIColor grayColor] colorWithAlphaComponent:0.5] CGColor]];
@@ -142,7 +146,7 @@
     
     [self addAddPhotoButton];
     [self addDoneCreatingPostButton];
-    
+    [self addAddFBFriendButton];
     
     
 }
@@ -186,7 +190,7 @@
 #pragma mark Create Button Methods
 - (void) addAddPhotoButton{
     UIImage *addPhotoButtonImage = [UIImage imageNamed:@"icon-add_photo.png"];
-    UIButton *addPhotoButton =[[UIButton alloc] initWithFrame:CGRectMake(120, 140, addPhotoButtonImage.size.width, addPhotoButtonImage.size.height)];
+    UIButton *addPhotoButton =[[UIButton alloc] initWithFrame:CGRectMake(120, 130, addPhotoButtonImage.size.width, addPhotoButtonImage.size.height)];
     [addPhotoButton setImage:addPhotoButtonImage forState:UIControlStateNormal];
     [addPhotoButton addTarget:self action:@selector(addPhoto:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addPhotoButton];
@@ -198,6 +202,14 @@
     [doneCreatingButton setImage:doneCreatingButtonImage forState:UIControlStateNormal];
     [doneCreatingButton addTarget:self action:@selector(doneCreatingPost:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:doneCreatingButton];
+}
+-(void)addAddFBFriendButton{
+    UIButton *addFBFriendButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 263, WIDTH, 45)];
+    [addFBFriendButton setBackgroundColor:[UIColor colorForYoursFacebookBlue]];
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"+ Facebook Friends" attributes:[Utility getCreatePostViewAddFriendButtonFontDictionary]];
+    [addFBFriendButton setAttributedTitle:title forState:UIControlStateNormal];
+    [addFBFriendButton addTarget:self action:@selector(fbFriendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:addFBFriendButton];
 }
 
 #pragma mark -
@@ -500,7 +512,7 @@
 
 #pragma mark -
 #pragma mark FacebookFriendPicker initiation
-- (IBAction)fbFriendButtonPressed:(id)sender {
+-(void) fbFriendButtonPressed:(id)sender {
     
     // FBSample logic
     // if the session is open, then load the data for our view controller
@@ -508,7 +520,8 @@
         MSDebug(@"no session");
         // if the session is closed, then we open it here, and establish a handler for state changes
         NSArray *permissions = [[NSArray alloc] initWithObjects:
-                                @"user_birthday",@"friends_hometown", @"friends_birthday",@"friends_location",@"friends_education_history",@"friends_work_history",                              nil];
+                                @"user_birthday",@"friends_hometown",
+                            @"friends_birthday",@"friends_location",@"friends_education_history",@"friends_work_history",                              nil];
         [FBSession openActiveSessionWithReadPermissions:permissions
                                            allowLoginUI:YES
                                       completionHandler:^(FBSession *session,
@@ -570,13 +583,16 @@
     [_requestsToWaitLock lock];
     _requestsToWait++;
     MSDebug(@"Plus request to %d", _requestsToWait);
-    [_requestsToWaitLock unlock];
+    
+    //we are not going to use _nameList anymore
+    /*
     if(!_nameList){
         _nameList = [[NSMutableString alloc] init];
     }
     [_nameList appendString:frd.name];
     _entitiesTextField.text = _nameList;
-
+*/
+    
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Entity *newFBEntity;
     MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %u", frd.name, frd.id, [frd.id integerValue]);
@@ -592,6 +608,9 @@
         _entities = [[NSMutableArray alloc] init];
     }
     [_entities addObject:newFBEntity];
+    
+    [self reloadSelectedEntitiesSection];
+    [_requestsToWaitLock unlock];
     
     MSDebug(@"has found existing entity? %d", hasFoundExistingEntity);
     if(hasFoundExistingEntity){
@@ -647,12 +666,91 @@
                 MSDebug(@"toPost unlock!!!");
             }
             [_requestsToWaitLock unlock];
+            [self reloadSelectedEntitiesSection];
         }];
 
     }
 }
 
 
+# pragma mark -
+#pragma mark - Handle selected entities
+-(void)reloadSelectedEntitiesSection{
+    NSUInteger entitiesCnt =[_entities count];
+    if(entitiesCnt > 0){
+        [self displayFirstRowEntities];
+    }
+    if(entitiesCnt > 2){
+        [self displaySecondRowEntities];
+    }
+    if(entitiesCnt > 4){
+        [self displayThirdRowEntities];
+    }
+    if(entitiesCnt > 0 && entitiesCnt <= 2){
+        CGFloat originalX = _editContentTextView.bounds.origin.x;
+        CGFloat width = _editContentTextView.bounds.size.width;
+//        [_editContentTextView setFrame:CGRectMake(originalX, START_DISPLAYING_ENTITIES + HEIGHT_FOR_EACH_ENTITY_ROW + 20, width, 200)];
+        [_editContentTextView setFrame:CGRectMake(0, 400, width, 200)];
+        [_editContentTextView setFrame:CGRectMake(0, 400, width, 200)];
+        MSDebug(@"here!");
+    } else if(entitiesCnt > 2 && entitiesCnt <= 4){
+        CGFloat originalX = _editContentTextView.bounds.origin.x;
+        CGFloat width = _editContentTextView.bounds.size.width;
+        [_editContentTextView setFrame:CGRectMake(originalX, START_DISPLAYING_ENTITIES + 2*HEIGHT_FOR_EACH_ENTITY_ROW + 20, width, 200)];
+    } else {
+        CGFloat originalX = _editContentTextView.bounds.origin.x;
+        CGFloat width = _editContentTextView.bounds.size.width;
+        [_editContentTextView setFrame:CGRectMake(originalX, START_DISPLAYING_ENTITIES + 3*HEIGHT_FOR_EACH_ENTITY_ROW + 20, width, 200)];
+    }
+}
+-(void) displayFirstRowEntities{
+    UIView *whiteBackGround = [[UIView alloc] initWithFrame:CGRectMake(0, START_DISPLAYING_ENTITIES, WIDTH, HEIGHT_FOR_EACH_ENTITY_ROW)];
+    [whiteBackGround setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:whiteBackGround];
+    [self drawLineFromPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES) toEndPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursLightPink]];
+    [self drawLineFromPoint:CGPointMake(0, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursDarkPink]];
+    [self displayEntityNameAndInstitutionForEntity:[_entities objectAtIndex:0] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES andY:START_DISPLAYING_ENTITIES+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+    if ([_entities count] > 1) {
+        [self displayEntityNameAndInstitutionForEntity:[_entities objectAtIndex:1] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 andY:START_DISPLAYING_ENTITIES+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+    }
+}
+-(void) displaySecondRowEntities{
+    UIView *whiteBackGround = [[UIView alloc] initWithFrame:CGRectMake(0, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW, WIDTH, HEIGHT_FOR_EACH_ENTITY_ROW)];
+    [whiteBackGround setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:whiteBackGround];
+    [self drawLineFromPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursLightPink]];
+    [self drawLineFromPoint:CGPointMake(0, START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW*2) toEndPoint:CGPointMake(WIDTH, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursDarkPink]];
+    [self displayEntityNameAndInstitutionForEntity:[_entities objectAtIndex:2] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES andY:START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+    if ([_entities count] > 3) {
+        [self displayEntityNameAndInstitutionForEntity:[_entities objectAtIndex:3] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES + WIDTH/2 andY:START_DISPLAYING_ENTITIES+HEIGHT_FOR_EACH_ENTITY_ROW+OFFSET_Y_FOR_DISPLAY_ENTITIES];
+    }
+}
+-(void) displayThirdRowEntities{
+    UIView *whiteBackGround = [[UIView alloc] initWithFrame:CGRectMake(0, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW, WIDTH/2, HEIGHT_FOR_EACH_ENTITY_ROW)];
+    [whiteBackGround setBackgroundColor:[UIColor whiteColor]];
+    [self.view addSubview:whiteBackGround];
+    
+    UIView *grayBackGround = [[UIView alloc] initWithFrame:CGRectMake(WIDTH/2, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW, WIDTH/2, HEIGHT_FOR_EACH_ENTITY_ROW)];
+    [grayBackGround setBackgroundColor:[UIColor lightGrayColor]];
+    [self.view addSubview:grayBackGround];
+    [self drawLineFromPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH/2, START_DISPLAYING_ENTITIES+3*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursLightPink]];
+    [self drawLineFromPoint:CGPointMake(0, START_DISPLAYING_ENTITIES+3*HEIGHT_FOR_EACH_ENTITY_ROW) toEndPoint:CGPointMake(WIDTH, START_DISPLAYING_ENTITIES+3*HEIGHT_FOR_EACH_ENTITY_ROW) withColor:[UIColor colorForYoursDarkPink]];
+    [self displayEntityNameAndInstitutionForEntity:[_entities objectAtIndex:4] AtX:OFFSET_X_FOR_DISPLAY_ENTITIES andY:START_DISPLAYING_ENTITIES+2*HEIGHT_FOR_EACH_ENTITY_ROW +OFFSET_Y_FOR_DISPLAY_ENTITIES];
+}
+
+-(void) displayEntityNameAndInstitutionForEntity:(Entity *)entity AtX:(CGFloat)originX andY:(CGFloat)originY{
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
+    NSAttributedString *nameWithFont = [[NSAttributedString alloc] initWithString:[entity name] attributes:[Utility getCreatePostDisplayEntityFontDictionary]];
+    [nameLabel setAttributedText:nameWithFont];
+    [self.view addSubview:nameLabel];
+
+    if(entity.institution){
+        UILabel *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY+13, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
+        NSAttributedString *instiWithFont = [[NSAttributedString alloc] initWithString:entity.institution attributes:[Utility getCreatePostDisplayInstitutionFontDictionary]];
+        [instiLabel setAttributedText:instiWithFont];
+        [self.view addSubview:instiLabel];
+    }
+}
 
 # pragma mark -
 #pragma mark - Navigation
@@ -663,4 +761,24 @@
     } else
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
+
+# pragma mark -
+#pragma mark - Draw Line
+-(void) drawLineFromPoint:(CGPoint)startPoint toEndPoint:(CGPoint)endPoint withColor:(UIColor *)color{
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0.0f);
+    CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    //draw a line
+    [path moveToPoint:startPoint]; //add yourStartPoint here
+    [path addLineToPoint:endPoint];// add yourEndPoint here
+    [path stroke];
+    
+    dashLineLayer.strokeStart = 0.0;
+    dashLineLayer.strokeColor = color.CGColor;
+    dashLineLayer.lineWidth = 1.0;
+    dashLineLayer.lineJoin = kCALineJoinMiter;
+    dashLineLayer.path = path.CGPath;
+    [self.view.layer addSublayer:dashLineLayer];
+}
+
 @end

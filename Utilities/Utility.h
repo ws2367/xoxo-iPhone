@@ -43,5 +43,8 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 + (NSDictionary *)getViewPostDisplayCommentFontDictionary;
 + (NSDictionary *)getLoginViewTitleDescriptionFontDictionary;
 + (NSDictionary *)getLoginViewContentDescriptionFontDictionary;
++ (NSDictionary *)getCreatePostViewAddFriendButtonFontDictionary;
++ (NSDictionary *)getCreatePostDisplayEntityFontDictionary;
++ (NSDictionary *)getCreatePostDisplayInstitutionFontDictionary;
 
 @end
