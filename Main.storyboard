@@ -44,14 +44,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ug6-xb-d5p" customClass="TopBorderView">
-                                <rect key="frame" x="0.0" y="523" width="316" height="38"/>
+                            <view contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="be9-9P-QIH">
+                                <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
+                                    <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ebo-NS-ff6">
+                                        <rect key="frame" x="0.0" y="53" width="320" height="473"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <outlet property="dataSource" destination="M7g-9K-4Ou" id="o7d-hy-BWh"/>
+                                            <outlet property="delegate" destination="M7g-9K-4Ou" id="dEB-NP-LUl"/>
+                                        </connections>
+                                    </tableView>
                                     <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ywf-bL-Qaa">
-                                        <rect key="frame" x="279" y="7" width="37" height="31"/>
+                                        <rect key="frame" x="277" y="534" width="37" height="31"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <state key="normal" title="Post">
+                                        <state key="normal" title="Send">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                         </state>
                                         <connections>
@@ -59,7 +68,7 @@
                                         </connections>
                                     </button>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="6uu-Qi-E5V">
-                                        <rect key="frame" x="5" y="7" width="271" height="30"/>
+                                        <rect key="frame" x="7" y="532" width="264" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -70,15 +79,6 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             </view>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="ebo-NS-ff6">
-                                <rect key="frame" x="0.0" y="61" width="320" height="463"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="M7g-9K-4Ou" id="o7d-hy-BWh"/>
-                                    <outlet property="delegate" destination="M7g-9K-4Ou" id="dEB-NP-LUl"/>
-                                </connections>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -86,6 +86,7 @@
                     <connections>
                         <outlet property="commentTextField" destination="6uu-Qi-E5V" id="Rqn-ld-AlV"/>
                         <outlet property="viewPostTableView" destination="ebo-NS-ff6" id="dlX-ze-Vzg"/>
+                        <outlet property="viewThatContainsTableAndTextField" destination="be9-9P-QIH" id="xAF-1E-2FX"/>
                         <segue destination="LAB-UI-cDH" kind="modal" identifier="viewEntitySegue" id="3Vc-NU-qSJ"/>
                     </connections>
                 </viewController>

@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+@protocol ViewPostDisplayButtonBarTableViewCellDelegate;
+
 @interface ViewPostDisplayButtonBarTableViewCell : UITableViewCell
+@property (nonatomic, weak) id<ViewPostDisplayButtonBarTableViewCellDelegate> delegate;
+
+@end
+
+
+@protocol ViewPostDisplayButtonBarTableViewCellDelegate <NSObject>
+
+@required
+
+- (void) sharePost:(id)sender;
+- (void) reportPost:(id)sender;
+- (void) followPost:(id)sender;
+- (void) commentPost:(id)sender;
 
 @end

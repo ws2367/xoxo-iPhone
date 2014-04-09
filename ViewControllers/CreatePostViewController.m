@@ -616,7 +616,7 @@
                 NSString *locationName = [location objectForKey:@"name"];
                 if (locationName) {
                     NSArray *cityAndState = [locationName componentsSeparatedByString:@", "];
-                    if (cityAndState) {
+                    if ([cityAndState count] > 1) {
                         state = [cityAndState objectAtIndex:1];
                         [newFBEntity setLocation:state];
                     }

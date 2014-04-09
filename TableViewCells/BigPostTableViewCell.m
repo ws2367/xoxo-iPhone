@@ -191,9 +191,24 @@
     if(!photo){
         return;
     }
+    
     _imageWidth = photo.size.width*POST_IMAGE_HEIGHT/photo.size.height;
     [_postImageView setFrame:CGRectMake(WIDTH - _imageWidth, 0, _imageWidth, POST_IMAGE_HEIGHT)];
+    
     [_postImageView setImage:photo];
+    /*
+    _postImageView.animationImages = [NSArray arrayWithObjects:
+                                 [UIImage imageNamed:@"Loading-Gif.gif"],
+                                 [UIImage imageNamed:@"YoursIcon60x60.png"], nil];
+    
+    
+    _postImageView.animationDuration = 2.0;
+    _postImageView.animationRepeatCount = 0;
+    [_postImageView startAnimating];
+     */
+
+    
+    
     [self.contentView addSubview:_postImageView];
     [self createGradient];
     
@@ -364,19 +379,19 @@
     [self createVerticalLineAtOriginX:98 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursBlue]];
     [self createVerticalLineAtOriginX:180 andY:BUTTON_ORIGIN_Y+3 withColor:[UIColor colorForYoursOrange]];
     _shareButton = [self createLowerButtonAtOriginX:15 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newshare.png"]];
-    [_shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _commentButton = [self createLowerButtonAtOriginX:64 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newcomment.png"]];
-    [_commentButton addTarget:self action:@selector(commentButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _whatButton = [self createLowerButtonAtOriginX:150 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-follow.png"]];
-    [_whatButton addTarget:self action:@selector(followButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _reportButton = [self createLowerButtonAtOriginX:285 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newreport.png"]];
+    [_shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_commentButton addTarget:self action:@selector(commentButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [_whatButton addTarget:self action:@selector(followButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [_reportButton addTarget:self action:@selector(reportButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 //    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width+4, buttonImage.size.height+4);
+    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width + 4, buttonImage.size.height + 4);
     [button setImage:buttonImage forState:UIControlStateNormal];
     [self.contentView addSubview:button];
     return button;

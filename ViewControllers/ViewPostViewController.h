@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 #import "Post.h"
+#import <AddressBookUI/AddressBookUI.h>
+#import "ViewPostDisplayButtonBarTableViewCell.h"
 
 @class ViewMultiPostsViewController;
 
 @interface ViewPostViewController : UIViewController
-                                <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSFetchedResultsControllerDelegate>
+                                <UITableViewDelegate, UITableViewDataSource, UITextFieldDelegate, NSFetchedResultsControllerDelegate, ABPeoplePickerNavigationControllerDelegate,ViewPostDisplayButtonBarTableViewCellDelegate,UIActionSheetDelegate>
 
 
 
