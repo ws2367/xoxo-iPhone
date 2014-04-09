@@ -240,6 +240,14 @@
         [self.tableView
          reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
+        
+        //TODO: check if the model is empty then this will raise exception
+        
+        Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
+//        MSDebug(@"Changed!");
+//        MSDebug(@"Post content: %@", post.content);
+//        MSDebug(@"Post f count: %@", post.followersCount);
+//        MSDebug(@"Post c count: %@", post.commentsCount);
     } else if (type == NSFetchedResultsChangeMove) {
         [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
         [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:newIndexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -303,9 +311,9 @@
     
     if (post.image != nil) {
         UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];
-        [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
+        [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate];
     } else{
-        [cell setCellWithImage:[UIImage imageNamed:@"YoursIcon60x60.png"] Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
+        [cell setCellWithImage:[UIImage imageNamed:@"YoursIcon60x60.png"] Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate];
     }
     /*
     // We want the cell to know which row it is, so we store that in button.tag

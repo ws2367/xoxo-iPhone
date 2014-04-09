@@ -182,7 +182,7 @@
 }
  */
 
--(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentNum:(NSInteger *)commentNum FollowNum:(NSInteger *)followNum atDate:(NSDate *)date{
+-(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount atDate:(NSDate *)date{
     //first process photo
     if(!_postImageView){
         _postImageView = [[UIImageView alloc] init];
@@ -219,7 +219,7 @@
     [self generateContentLabel:content];
     
     //then comment and follow Number
-    [self addCommentAndFollowNumbersWithCommentNum:commentNum FollowNum:followNum];
+    [self addCommentAndFollowNumbersWithCommentsCount:[commentsCount integerValue] FollowersCount:[followersCount integerValue]];
     
     //then display date
     [self displayDate:date];
@@ -364,7 +364,7 @@
     [self.contentView addSubview:nameLabel];
 }
 
--(void) addCommentAndFollowNumbersWithCommentNum:(NSInteger *)commentNum FollowNum:(NSInteger *)followNum{
+-(void) addCommentAndFollowNumbersWithCommentsCount:(NSInteger)commentNum FollowersCount:(NSInteger)followNum{
     _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(102, BUTTON_ORIGIN_Y+3, 50, 18)];
     _followLabel = [[UILabel alloc] initWithFrame:CGRectMake(184, BUTTON_ORIGIN_Y+3, 50, 18)];
     _commentNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)commentNum] attributes:[Utility getCommentNumberFontDictionary]];
