@@ -304,7 +304,8 @@
     if (post.image != nil) {
         UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];
         [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
-        
+    } else{
+        [cell setCellWithImage:[UIImage imageNamed:@"YoursIcon60x60.png"] Entities:entitiesArray Content:post.content CommentNum:nil FollowNum:nil atDate:post.updateDate];
     }
     /*
     // We want the cell to know which row it is, so we store that in button.tag

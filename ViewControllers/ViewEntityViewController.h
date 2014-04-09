@@ -10,11 +10,12 @@
 #import <MapKit/MapKit.h>
 #import "Entity.h"
 #import "BigPostTableViewCell.h"
+#import <AddressBookUI/AddressBookUI.h>
 
 @class ViewMultiPostsViewController;
 
 @interface ViewEntityViewController : UIViewController
-                                        <MKMapViewDelegate, NSFetchedResultsControllerDelegate, BigPostTableViewCellDelegate>
+                                        <MKMapViewDelegate, NSFetchedResultsControllerDelegate, BigPostTableViewCellDelegate, UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate>
 
 @property (strong, nonatomic) Entity *entity;
 
