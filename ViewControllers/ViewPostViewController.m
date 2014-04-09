@@ -44,6 +44,8 @@
 @property (strong, nonatomic) NSMutableArray *comments; //store comment pointers
 @property (strong, nonatomic) NSMutableArray *entities;
 @property (weak, nonatomic) IBOutlet UITableView *viewPostTableView;
+
+@property (nonatomic) BOOL startEditingComment;
 @end
 
 #define ROW_HEIGHT 46
@@ -89,6 +91,14 @@
     
     UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
     self.navigationItem.rightBarButtonItem = exitButton;
+
+
+}
+-(void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+    if(_startEditingComment){
+        [_commentTextField becomeFirstResponder];
+    }
 }
 
 - (void) viewWillDisappear:(BOOL)animated{
@@ -214,12 +224,16 @@
 }
 
 #pragma mark -
-#pragma mark Whoever presented this view controller should call this methods
+#pragma mark Global methods Whoever presented this view controller should call these methods
 - (void) setPost:(Post *)post{
     _post = post;
     _entities = [[NSMutableArray alloc] initWithArray:[_post.entities allObjects]];
     _comments = [[NSMutableArray alloc] initWithArray:[_post.comments allObjects]];
     [_viewPostTableView reloadData];
+}
+
+- (void) setStartEditingComment:(BOOL)shouldStartEdit{
+    _startEditingComment = shouldStartEdit;
 }
 
 

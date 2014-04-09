@@ -18,4 +18,5 @@
 
 - (id)initWithViewMultiPostsViewController:(ViewMultiPostsViewController *)viewController;
 - (void) setPost:(Post *)post;
+- (void) setStartEditingComment:(BOOL)shouldStartEdit;
 @end

@@ -116,23 +116,13 @@
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IIM-Z9-maz">
-                                <rect key="frame" x="224" y="525" width="46" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Button">
-                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="calibratedRGB"/>
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <segue destination="pux-Kp-BJn" kind="modal" identifier="viewMultiPostsSegue" id="x9l-61-AXH"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <connections>
                         <outlet property="loginView" destination="qv1-kq-qRY" id="FVR-dw-Kum"/>
                         <outlet property="nameLabel" destination="H9w-mC-3E3" id="K4o-Nk-er7"/>
+                        <segue destination="pux-Kp-BJn" kind="modal" identifier="viewMultiPostsSegue" id="c84-FH-6B8"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="nTN-no-uUl" userLabel="First Responder" sceneMemberID="firstResponder"/>

@@ -68,7 +68,7 @@
     NSLog(@"accessToken: %@", accessToken);
  
     [ClientManager login:accessToken];
-//    [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
+    [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
     
 }
 

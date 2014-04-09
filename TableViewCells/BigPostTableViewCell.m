@@ -282,11 +282,27 @@
 #pragma mark -
 #pragma mark Button Methods
 -(void) shareButtonPressed:(id)sender{
-    if(_delegate && [_delegate respondsToSelector:@selector(sharePost)]){
-        [_delegate sharePost];
-        MSDebug(@"called delegate");
+    if(_delegate && [_delegate respondsToSelector:@selector(sharePost:)]){
+        [_delegate sharePost:sender];
     }
 }
+-(void) commentButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(commentPost:)]){
+        [_delegate commentPost:sender];
+    }
+}
+-(void) followButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(followPost:)]){
+        [_delegate followPost:sender];
+    }
+}
+-(void) reportButtonPressed:(id)sender{
+    if(_delegate && [_delegate respondsToSelector:@selector(reportPost:)]){
+        [_delegate reportPost:sender];
+    }
+}
+
+
 
 
 #pragma mark -
@@ -350,15 +366,18 @@
     _shareButton = [self createLowerButtonAtOriginX:15 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newshare.png"]];
     [_shareButton addTarget:self action:@selector(shareButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _commentButton = [self createLowerButtonAtOriginX:64 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newcomment.png"]];
+    [_commentButton addTarget:self action:@selector(commentButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _whatButton = [self createLowerButtonAtOriginX:150 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-follow.png"]];
+    [_whatButton addTarget:self action:@selector(followButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     _reportButton = [self createLowerButtonAtOriginX:285 andY:BUTTON_ORIGIN_Y withImage:[UIImage imageNamed:@"icon-newreport.png"]];
+    [_reportButton addTarget:self action:@selector(reportButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 //    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    button.frame = CGRectMake(originX, originY, buttonImage.size.width, buttonImage.size.height);
-    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width+4, buttonImage.size.height+4);
+    [button setImage:buttonImage forState:UIControlStateNormal];
     [self.contentView addSubview:button];
     return button;
 }

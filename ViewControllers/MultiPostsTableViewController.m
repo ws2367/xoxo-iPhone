@@ -246,43 +246,6 @@
     }
 }
 
-- (void) followPost:(id)sender{
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
-    
-    UIButton *followButton = (UIButton *)sender;
-    bool toFollow = [[followButton titleForState:UIControlStateNormal] isEqualToString:@"follow"];
-
-    if (![KeyChainWrapper isSessionTokenValid]) {
-        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
-        return;
-    }
-    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSMutableURLRequest *request = nil;
-    if (toFollow) {
-        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"follow_post"
-                                                                         object:post
-                                                                     parameters:@{@"auth_token": sessionToken}];
-    
-    
-    } else {
-        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"unfollow_post"
-                                                                         object:post
-                                                                     parameters:@{@"auth_token": sessionToken}];
-    }
-    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
-                          forState:UIControlStateNormal];
-        
-        [post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:error];
-    }];
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [operationQueue addOperation:operation];
-}
 
 #pragma mark -
 #pragma mark Table Data Source Methods
@@ -441,9 +404,101 @@
 # pragma mark -
 #pragma mark BigPostTableViewCell delegate method
 - (void) CellPerformViewPost:(id)sender{
+    //indicate we want to view post from top
+    [sender setTag:0];
+    
     [self performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
 
+-(void)sharePost:(id)sender{
+    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
+    picker.peoplePickerDelegate = self;
+    
+    /*picker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
+     [self.view addSubview:picker.view];
+     [UIView animateWithDuration:ANIMATION_DURATION
+     delay:ANIMATION_DELAY
+     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
+     animations:^{
+     picker.view.frame = CGRectMake( 0, 0, WIDTH, HEIGHT);
+     
+     }
+     completion:^(BOOL finished){
+     }];*/
+    
+    
+    [self presentViewController:picker animated:YES completion:nil];
+    
+    
+    
+    //CFErrorRef error = nil;
+    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
+    //if (!addressBook) // test the result, not the error
+    //{
+    //    NSLog(@"ERROR!!!");
+    //    return; // bail
+    //}
+    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
+    
+    //NSLog(@"%@", arrayOfPeople);
+}
+
+-(void)commentPost:(id)sender{
+    //indicate we want to comment
+    [sender setTag:1];
+    [self performSegueWithIdentifier:@"viewPostSegue" sender:sender];
+}
+- (void) followPost:(id)sender{
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
+    
+    UIButton *followButton = (UIButton *)sender;
+    bool toFollow = [[followButton titleForState:UIControlStateNormal] isEqualToString:@"follow"];
+    
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+        return;
+    }
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    NSMutableURLRequest *request = nil;
+    if (toFollow) {
+        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"follow_post"
+                                                                         object:post
+                                                                     parameters:@{@"auth_token": sessionToken}];
+        
+        
+    } else {
+        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"unfollow_post"
+                                                                         object:post
+                                                                     parameters:@{@"auth_token": sessionToken}];
+    }
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
+                      forState:UIControlStateNormal];
+        
+        [post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:error];
+    }];
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
+}
+
+
+-(void)reportPost:(id)sender{
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to report this post?"
+                                        delegate:self
+                               cancelButtonTitle:@"Cancel"
+                          destructiveButtonTitle:@"Report It"
+                               otherButtonTitles:nil];
+    [sheet setTag:indexPath.row];
+    [sheet showInView:self.view];
+}
 
 
 # pragma mark -
@@ -468,9 +523,13 @@
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
         Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
-        
+
         [nextController setPost:post];
-        
+        if ([sender tag] == 0) {
+            [nextController setStartEditingComment:NO];
+        }else{
+            [nextController setStartEditingComment:YES];
+        }
 
     }
 }
@@ -520,7 +579,9 @@
     return NO;
 }
 
-#pragma alertView delegate method
+
+#pragma mark -
+#pragma mark alertView delegate method
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     switch (buttonIndex) {
@@ -532,6 +593,20 @@
             break;
     }
     
+}
+
+#pragma mark UIActionSheet delegate method
+- (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
+    NSLog(@"Button %d", buttonIndex);
+}
+-(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
+//    [actionSheet.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//        if ([obj isKindOfClass:[UIButton class]]) {
+//            UIButton *button = (UIButton *)obj;
+//            button.titleLabel.font = [UIFont systemFontOfSize:30];
+//        }
+//    }];
+
 }
 
 
@@ -648,39 +723,6 @@
 }
 
 
-
--(void)sharePost{
-    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
-    
-    /*picker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
-     [self.view addSubview:picker.view];
-     [UIView animateWithDuration:ANIMATION_DURATION
-     delay:ANIMATION_DELAY
-     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-     animations:^{
-     picker.view.frame = CGRectMake( 0, 0, WIDTH, HEIGHT);
-     
-     }
-     completion:^(BOOL finished){
-     }];*/
-    
-    
-    [self presentViewController:picker animated:YES completion:nil];
-    
-    
-    
-    //CFErrorRef error = nil;
-    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
-    //if (!addressBook) // test the result, not the error
-    //{
-    //    NSLog(@"ERROR!!!");
-    //    return; // bail
-    //}
-    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
-    
-    //NSLog(@"%@", arrayOfPeople);
-}
 
 
 
