@@ -60,7 +60,9 @@
                                                       //meta attributes
                                                       @"is_yours":        @"isYours",
                                                       @"popularity":      @"popularity",
-                                                      @"following":       @"following"}];
+                                                      @"following":       @"following",
+                                                      @"comments_count":  @"commentsCount",
+                                                      @"followers_count": @"followersCount"}];
     postMapping.identificationAttributes = @[@"uuid"];
     
     

@@ -87,8 +87,6 @@
     Entity *en = [NSEntityDescription insertNewObjectForEntityForName:@"Entity"
                                                inManagedObjectContext:context];
     
-    // set UUID
-    [en setUuid:[Utility getUUID]];
     [en setFbUserID:fbid];
     [en setIsYourFriend:@YES];
     [en setDirty:@NO];

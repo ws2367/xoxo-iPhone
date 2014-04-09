@@ -2,7 +2,7 @@
 //  Post.h
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 4/4/14.
+//  Created by Wen-Hsiang Shaw on 4/9/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
@@ -22,6 +22,8 @@
 @property (nonatomic, retain) NSNumber * remoteID;
 @property (nonatomic, retain) NSDate * updateDate;
 @property (nonatomic, retain) NSString * uuid;
+@property (nonatomic, retain) NSNumber * commentsCount;
+@property (nonatomic, retain) NSNumber * followersCount;
 @property (nonatomic, retain) NSSet *comments;
 @property (nonatomic, retain) NSSet *entities;
 @end
