@@ -34,7 +34,7 @@ NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
 //NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
 NSString *const BASE_URL = @"http://localhost:3000/v1/";
 
-NSString *const S3BUCKET_NAME = @"moose-photos";
+NSString * S3BUCKET_NAME = @"undefined";
 
 NSString *const bigPostCellIdentifier = @"bigPostCell";
 NSString *const commentCellIdentifier = @"commentCell";
@@ -48,4 +48,9 @@ NSString *const viewPostDisplayContentCellIdentifier = @"viewPostDisplayContentC
 
 
 @implementation Constants
+
++ (void)setS3BucketName:(NSString *)name{
+    S3BUCKET_NAME = [NSString stringWithString:name];
+}
+
 @end

@@ -108,8 +108,10 @@
        
     NSLog(@"After login: %@", jsonFromData);
     
-    if (jsonFromData[@"token"] != nil) {
+    if (jsonFromData[@"token"] != nil && jsonFromData[@"bucket_name"] != nil) {
         [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
+        [Constants setS3BucketName:jsonFromData[@"bucket_name"]];
+        MSDebug(@"Bucket name: %@", S3BUCKET_NAME);
     } else {
         NSLog(@"Log in failed");
         return NO;

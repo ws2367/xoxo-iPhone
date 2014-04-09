@@ -30,7 +30,7 @@ extern const int VIEW_POST_NAVIGATION_BAR_HEIGHT;
 extern const int BIG_POSTS_CELL_HEIGHT;
 
 
-extern NSString *const S3BUCKET_NAME;
+extern NSString * S3BUCKET_NAME;
 
 extern NSString *const TOKEN_VENDING_MACHINE_URL;
 extern NSString *const BASE_URL;
@@ -46,4 +46,7 @@ extern NSString *const viewPostDisplayButtonBarCellIdentifier;
 extern NSString *const viewPostDisplayContentCellIdentifier;
 
 @interface Constants : NSObject
+
++ (void)setS3BucketName:(NSString *)name;
+
 @end
