@@ -365,6 +365,8 @@
 }
 
 -(void) addCommentAndFollowNumbersWithCommentsCount:(NSInteger)commentNum FollowersCount:(NSInteger)followNum{
+    [_commentLabel removeFromSuperview];
+    [_followLabel removeFromSuperview];
     _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(102, BUTTON_ORIGIN_Y+3, 50, 18)];
     _followLabel = [[UILabel alloc] initWithFrame:CGRectMake(184, BUTTON_ORIGIN_Y+3, 50, 18)];
     _commentNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)commentNum] attributes:[Utility getCommentNumberFontDictionary]];
