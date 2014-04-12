@@ -189,6 +189,7 @@
     }
     
     if(!photo){
+        [self addLaunchingImage];
         return;
     }
     
@@ -242,6 +243,16 @@
         [_delegate CellPerformViewPost: sender];
         MSDebug(@"called delegate");
     }
+}
+
+-(void) addLaunchingImage{
+    UIView *logoArea = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, POST_IMAGE_HEIGHT)];
+    [logoArea setBackgroundColor:[UIColor colorForYoursOrange]];
+    [self.contentView addSubview:logoArea];
+    UIImage *logoImage = [UIImage imageNamed:@"logo_white.png"];
+    UIImageView *logoView = [[UIImageView alloc] initWithImage:logoImage];
+    [logoView setFrame:CGRectMake(80, 60, logoImage.size.width/2, logoImage.size.height/2)];
+    [self.contentView addSubview:logoView];
 }
 
 #pragma mark -
@@ -418,10 +429,10 @@
     _gradientLeft = [CAGradientLayer layer];
     if(_imageWidth > (3*WIDTH)/4){
         [_blackLayer setFrame:CGRectMake(0 , 0, WIDTH/4, POST_IMAGE_HEIGHT)];
-        [_gradientLeft setFrame:CGRectMake(WIDTH/4,0 , WIDTH/2, POST_IMAGE_HEIGHT)];
+        [_gradientLeft setFrame:CGRectMake(WIDTH/4,0 , WIDTH/3, POST_IMAGE_HEIGHT)];
     } else{
         [_blackLayer setFrame:CGRectMake(0 , 0, WIDTH - _imageWidth, POST_IMAGE_HEIGHT)];
-        [_gradientLeft setFrame:CGRectMake(WIDTH - _imageWidth, 0 ,  _imageWidth/2, POST_IMAGE_HEIGHT)];
+        [_gradientLeft setFrame:CGRectMake(WIDTH - _imageWidth, 0 ,  _imageWidth/3, POST_IMAGE_HEIGHT)];
     }
         
     _blackLayer.colors = [NSArray arrayWithObjects:(id)[[UIColor colorWithWhite:0 alpha:1] CGColor],(id)[[UIColor colorWithWhite:0 alpha:1] CGColor], nil];

@@ -552,6 +552,7 @@
         if (!cell){
             cell = [[ViewPostDisplayButtonBarTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayButtonBarCellIdentifier];
         }
+        [cell addCommentAndFollowNumbersWithCommentsCount:_post.commentsCount FollowersCount:_post.followersCount];
         cell.delegate = self;
         return cell;
 
