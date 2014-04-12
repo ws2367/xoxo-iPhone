@@ -30,4 +30,5 @@
 +(UIColor *) colorForYoursFacebookBlue{return [UIColor colorWithRed:77.0/255.0 green:104.0/255.0 blue:162.0/255.0 alpha:1.0]; }
 +(UIColor *) colorForYoursLightPink{return [UIColor colorWithRed:247.0/255.0 green:169.0/255.0 blue:150.0/255.0 alpha:1.0];}
 +(UIColor *) colorForYoursDarkPink{return [UIColor colorWithRed:240.0/255.0 green:83.0/255.0 blue:45.0/255.0 alpha:1.0]; }
++(UIColor *) colorForYoursTabBarUnselectedColor{return [UIColor colorWithRed:51.0/255.0 green:51.0/255.0 blue:51.0/255.0 alpha:1.0]; }
 @end

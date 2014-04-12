@@ -31,7 +31,8 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 
 + (void)saveToPersistenceStore:(NSManagedObjectContext *)context failureMessage:(NSString *)failureMessage;
 
-+ (NSDictionary *)getTabBarItemFontDictionary;
++ (NSDictionary *)getTabBarItemSelectedFontDictionary;
++ (NSDictionary *)getTabBarItemUnselectedFontDictionary;
 + (NSDictionary *)getCommentNumberFontDictionary;
 + (NSDictionary *)getFollowNumberFontDictionary;
 + (NSDictionary *)getMultiPostsNameFontDictionary;

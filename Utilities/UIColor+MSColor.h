@@ -24,4 +24,5 @@
 +(UIColor *) colorForYoursFacebookBlue;
 +(UIColor *) colorForYoursLightPink;
 +(UIColor *) colorForYoursDarkPink;
++(UIColor *) colorForYoursTabBarUnselectedColor;
 @end

@@ -198,8 +198,12 @@
     }
 }
 
-+ (NSDictionary *)getTabBarItemFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
++ (NSDictionary *)getTabBarItemSelectedFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor colorForYoursWhite] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getTabBarItemUnselectedFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor colorForYoursTabBarUnselectedColor] ,NSForegroundColorAttributeName,nil];
 }
 
 + (NSDictionary *)getCommentNumberFontDictionary{

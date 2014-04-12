@@ -68,7 +68,6 @@
 
     
     
-    [self.tabBarItem setTitleTextAttributes:[Utility getTabBarItemFontDictionary] forState:UIControlStateNormal];
     
     // set up swipe gesture recognizer
     UISwipeGestureRecognizer * recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];

@@ -177,7 +177,7 @@
                             <outlet property="delegate" destination="4o8-5A-P8n" id="RvS-PG-TeT"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Popular" image="menu-popular.png" id="TgA-1L-jB0"/>
+                    <tabBarItem key="tabBarItem" title="Popular" id="TgA-1L-jB0"/>
                     <connections>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="zbB-nn-Wgf"/>
                     </connections>
@@ -305,7 +305,7 @@
                             <outlet property="delegate" destination="GyV-8z-QUK" id="Frj-AL-8Qq"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Friends" image="menu-friends.png" id="hOq-Bl-X9B"/>
+                    <tabBarItem key="tabBarItem" title="Friends" id="hOq-Bl-X9B"/>
                     <connections>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="3kc-Vj-N2l"/>
                     </connections>
@@ -327,7 +327,7 @@
                             <outlet property="delegate" destination="lWb-zS-cZi" id="lSV-av-EiN"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="menu-favorites.png" id="g1y-mP-VoF"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" id="g1y-mP-VoF"/>
                     <connections>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="4h5-QD-dnB"/>
                     </connections>
@@ -349,7 +349,7 @@
                             <outlet property="delegate" destination="Y0h-ma-CBO" id="DCq-ev-KsI"/>
                         </connections>
                     </tableView>
-                    <tabBarItem key="tabBarItem" title="My" image="menu-my-unselected.png" id="lUa-Eb-8wd"/>
+                    <tabBarItem key="tabBarItem" title="My" id="lUa-Eb-8wd"/>
                     <connections>
                         <segue destination="5uP-uA-pZw" kind="push" identifier="viewMySettingSegue" id="xDr-Qy-CdK"/>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="hcm-Ek-oke"/>
@@ -539,12 +539,6 @@
             <point key="canvasLocation" x="543" y="371"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="menu-favorites.png" width="27" height="27"/>
-        <image name="menu-friends.png" width="27" height="27"/>
-        <image name="menu-my-unselected.png" width="27" height="27"/>
-        <image name="menu-popular.png" width="27" height="27"/>
-    </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -552,6 +546,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="8aj-h6-ff8"/>
+        <segue reference="hcm-Ek-oke"/>
     </inferredMetricsTieBreakers>
 </document>
