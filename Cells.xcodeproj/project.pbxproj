@@ -628,6 +628,11 @@
 				TargetAttributes = {
 					75CCCF3A17FC03DF000BF0F4 = {
 						DevelopmentTeam = 4AKZFCP9WW;
+						SystemCapabilities = {
+							com.apple.iOS = {
+								enabled = 0;
+							};
+						};
 					};
 				};
 			};
@@ -891,7 +896,7 @@
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Yours;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "E9DD2358-11EB-4F92-B700-8EBD2D32DA3F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -915,7 +920,7 @@
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Yours;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "E9DD2358-11EB-4F92-B700-8EBD2D32DA3F";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
