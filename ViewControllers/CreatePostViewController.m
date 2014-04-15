@@ -20,7 +20,7 @@
 #import "Entity+MSEntity.h"
 #import "UIColor+MSColor.h"
 
-#define VIEW_OFFSET_KEYBOARD 70
+#define VIEW_OFFSET_KEYBOARD 100
 #define ANIMATION_CUTDOWN 0.05
 #define OFFSET_X_FOR_DISPLAY_ENTITIES 20
 #define OFFSET_Y_FOR_DISPLAY_ENTITIES 5
@@ -59,6 +59,8 @@
 //for grabbing facebook profile image
 @property (weak, nonatomic) IBOutlet UIImageView *profileImageView;
 @property (strong, nonatomic) NSString *currentDisplayFBID;
+
+@property (strong, nonatomic) UIButton *doneCreatingPostButton;
 
 @property (strong, nonatomic) UIView *whiteBackgroundRow1;
 @property (strong, nonatomic) UIView *whiteBackgroundRow2;
@@ -220,10 +222,10 @@
 
 -(void)addDoneCreatingPostButton{
     UIImage *doneCreatingButtonImage = [UIImage imageNamed:@"icon-check.png"];
-    UIButton *doneCreatingButton =[[UIButton alloc] initWithFrame:CGRectMake(130, 500, doneCreatingButtonImage.size.width, doneCreatingButtonImage.size.height)];
-    [doneCreatingButton setImage:doneCreatingButtonImage forState:UIControlStateNormal];
-    [doneCreatingButton addTarget:self action:@selector(doneCreatingPost:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:doneCreatingButton];
+    _doneCreatingPostButton =[[UIButton alloc] initWithFrame:CGRectMake(130, 500, doneCreatingButtonImage.size.width, doneCreatingButtonImage.size.height)];
+    [_doneCreatingPostButton setImage:doneCreatingButtonImage forState:UIControlStateNormal];
+    [_doneCreatingPostButton addTarget:self action:@selector(doneCreatingPost:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_doneCreatingPostButton];
 }
 -(void)addAddFBFriendButton{
     UIButton *addFBFriendButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 263, WIDTH, 45)];
@@ -255,6 +257,18 @@
     // can only store objects, not CGRect which is a C struct
     [keyboardRectAsObject getValue:&keyboardRect];
     
+    CGFloat offsetToMove;
+    NSUInteger cnt = [_entities count];
+    if(cnt > 4){
+        offsetToMove = VIEW_OFFSET_KEYBOARD - 45;
+    } else if(cnt > 2){
+        offsetToMove = VIEW_OFFSET_KEYBOARD - 30;
+    } else if(cnt > 0){
+        offsetToMove = VIEW_OFFSET_KEYBOARD - 15;
+    } else {
+        offsetToMove = VIEW_OFFSET_KEYBOARD;
+    }
+    
     // set the whole view to be right above keyboard
     [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
                           delay:ANIMATION_DELAY
@@ -262,9 +276,10 @@
                      animations:^{
                          self.view.frame =
                          CGRectMake(self.view.frame.origin.x,
-                                    keyboardRect.origin.y - HEIGHT + VIEW_OFFSET_KEYBOARD,
+                                    keyboardRect.origin.y - HEIGHT + offsetToMove,
                                     WIDTH,
                                     HEIGHT);
+                         [_doneCreatingPostButton setAlpha:0];
                      }
                      completion:^(BOOL finished){
                      }];
@@ -284,6 +299,7 @@
                                     0,
                                     WIDTH,
                                     HEIGHT);
+                         [_doneCreatingPostButton setAlpha:1];
                      }
                      completion:^(BOOL finished){
                      }];
@@ -332,10 +348,15 @@
 
 - (void)textViewDidBeginEditing:(UITextView *) textView
 {
-    if ([Utility compareUIColorBetween:[textView textColor] and:[UIColor lightGrayColor]]) {
+    if([[textView text] isEqualToString:@"Write here!"]){
         [textView setText:@""];
         [textView setTextColor:[UIColor blackColor]];
     }
+    /*
+    if ([Utility compareUIColorBetween:[textView textColor] and:[UIColor lightGrayColor]]) {
+        [textView setText:@""];
+        [textView setTextColor:[UIColor blackColor]];
+    }*/
 }
 
 - (void)textViewDidEndEditing:(UITextView *)textView
@@ -373,6 +394,14 @@
 }
 
 - (IBAction)doneCreatingPost:(id)sender {
+    if([[_textView text] isEqualToString:@"Write here!"]){
+        [Utility generateAlertWithMessage:@"Please type in post content..." error:nil];
+        return;
+    }
+    if([_entities count] == 0 || _entities == nil){
+        [Utility generateAlertWithMessage:@"Please tag a friend..." error:nil];
+        return;
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self uploadPostAndRelatedObjects];
@@ -717,12 +746,15 @@
     } else{
         [self removeThirdRowEntities];
     }
-    
-    if(entitiesCnt > 0 && entitiesCnt <= 2){
+    if(entitiesCnt == 0){
+        CGFloat originalX = _textView.bounds.origin.x;
+        CGFloat width = _textView.bounds.size.width;
+        [_textView setFrame:CGRectMake(originalX+20, START_DISPLAYING_ENTITIES + 20, width, 100)];
+        MSDebug(@"here!");
+    } else if(entitiesCnt > 0 && entitiesCnt <= 2){
         CGFloat originalX = _textView.bounds.origin.x;
         CGFloat width = _textView.bounds.size.width;
         [_textView setFrame:CGRectMake(originalX+20, START_DISPLAYING_ENTITIES + HEIGHT_FOR_EACH_ENTITY_ROW + 20, width, 100)];
-        MSDebug(@"here!");
     } else if(entitiesCnt > 2 && entitiesCnt <= 4){
         CGFloat originalX = _textView.bounds.origin.x;
         CGFloat width = _textView.bounds.size.width;

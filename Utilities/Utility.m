@@ -120,20 +120,31 @@
 }
 
 
-+ (NSString *)getDateToShow:(NSDate *)date{
-    
++ (NSString *)getDateToShow:(NSDate *)date inWhole:(BOOL) inWhole;{
+    if (inWhole) {
+        NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
+        NSInteger month = [components month];
+        NSInteger year = [components year];
+        NSInteger day = [components day];
+        NSString *monthString = [Utility getMonthName:month];
+        NSString *yearString = [NSString stringWithFormat: @"%d", (int)year];
+        NSString *dayString = [NSString stringWithFormat:@"%d", (int)day];
+        return [[[[monthString stringByAppendingString:@" "] stringByAppendingString:dayString ] stringByAppendingString:@", "] stringByAppendingString:yearString];
+    }
     NSTimeInterval timedifference = -date.timeIntervalSinceNow;
-    if(timedifference < 5){
-        return @"just now";
+    if(timedifference < 60){
+        return @"now";
     }
     int yearCnt = floor(timedifference/YEAR_SECOND);
     if(yearCnt > 0){
         NSDateComponents *components = [[NSCalendar currentCalendar] components:NSCalendarUnitDay | NSCalendarUnitMonth | NSCalendarUnitYear fromDate:[NSDate date]];
         NSInteger month = [components month];
         NSInteger year = [components year];
-        NSString *a = [Utility getMonthName:month];
-        NSString *yearstring = [NSString stringWithFormat: @"%d", (int)year];
-        return [[a stringByAppendingString:@" "] stringByAppendingString:yearstring];
+        NSInteger day = [components day];
+        NSString *monthString = [Utility getMonthName:month];
+        NSString *yearString = [NSString stringWithFormat: @"%d", (int)year];
+        NSString *dayString = [NSString stringWithFormat:@"%d", (int)day];
+        return [[[[monthString stringByAppendingString:@" "] stringByAppendingString:dayString ] stringByAppendingString:@", "] stringByAppendingString:yearString];
 
     }
     int monthCnt = floor(timedifference/MONTH_SECOND);
@@ -198,8 +209,16 @@
     }
 }
 
-+ (NSDictionary *)getTabBarItemFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
++ (NSDictionary *)getTabBarItemSelectedFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor colorForYoursWhite] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getViewPostDisplayContentDateFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor colorForYoursLightGray] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getTabBarItemUnselectedFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor colorForYoursTabBarUnselectedColor] ,NSForegroundColorAttributeName,nil];
 }
 
 + (NSDictionary *)getCommentNumberFontDictionary{

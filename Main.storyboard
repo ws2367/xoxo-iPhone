@@ -4,30 +4,6 @@
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
-        <scene sceneID="btc-bo-12V">
-            <objects>
-                <viewController id="5uP-uA-pZw" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="Bfz-1J-b6i">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <subviews>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="My setting" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="thY-NY-mnp">
-                                <rect key="frame" x="120" y="273" width="81" height="21"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
-                    </view>
-                    <navigationItem key="navigationItem" id="gQT-Gg-Xc9"/>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="7iI-Ff-kSD" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="1905" y="538"/>
-        </scene>
         <!--View Post View Controller-->
         <scene sceneID="NSB-WL-wYf">
             <objects>
@@ -62,6 +38,7 @@
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" minimumFontSize="17" id="6uu-Qi-E5V">
                                         <rect key="frame" x="7" y="532" width="264" height="30"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                         <textInputTraits key="textInputTraits"/>
                                         <connections>
@@ -153,7 +130,6 @@
                         <segue destination="bs7-2m-2iS" kind="modal" identifier="createPostSegue" id="RNz-9H-R8S"/>
                         <segue destination="4o8-5A-P8n" kind="relationship" relationship="viewControllers" id="uaX-vr-f9s"/>
                         <segue destination="GyV-8z-QUK" kind="relationship" relationship="viewControllers" id="SmY-cV-Uev"/>
-                        <segue destination="xvr-rN-5oX" kind="push" identifier="viewMySettingSegue" id="sbZ-41-PmR"/>
                         <segue destination="OYH-Te-k9x" kind="push" identifier="searchSegue" id="hdU-KL-hjb"/>
                         <segue destination="o8P-f7-3KN" kind="relationship" relationship="viewControllers" id="KbG-rw-zqU"/>
                         <segue destination="lWb-zS-cZi" kind="relationship" relationship="viewControllers" id="Onu-1i-t3z"/>
@@ -168,16 +144,7 @@
         <scene sceneID="AHl-0m-i5E">
             <objects>
                 <tableViewController id="4o8-5A-P8n" customClass="PopularPostsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="TEe-04-CYc">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="4o8-5A-P8n" id="w7Z-Ci-c2r"/>
-                            <outlet property="delegate" destination="4o8-5A-P8n" id="RvS-PG-TeT"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Popular" image="menu-popular.png" id="TgA-1L-jB0"/>
+                    <tabBarItem key="tabBarItem" title="Popular" id="TgA-1L-jB0"/>
                     <connections>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="zbB-nn-Wgf"/>
                     </connections>
@@ -264,6 +231,7 @@
                                 <rect key="frame" x="20" y="328" width="280" height="141"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -296,16 +264,7 @@
         <scene sceneID="Y0x-As-mYF">
             <objects>
                 <tableViewController id="GyV-8z-QUK" customClass="FriendsPostsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="4Ns-5a-N12">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="GyV-8z-QUK" id="a9q-kS-uAt"/>
-                            <outlet property="delegate" destination="GyV-8z-QUK" id="Frj-AL-8Qq"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Friends" image="menu-friends.png" id="hOq-Bl-X9B"/>
+                    <tabBarItem key="tabBarItem" title="Friends" id="hOq-Bl-X9B"/>
                     <connections>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="3kc-Vj-N2l"/>
                     </connections>
@@ -318,16 +277,7 @@
         <scene sceneID="rB3-pk-Bzy">
             <objects>
                 <tableViewController id="lWb-zS-cZi" customClass="FavoritesPostsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="fny-lG-KsC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="lWb-zS-cZi" id="wyJ-sV-cLg"/>
-                            <outlet property="delegate" destination="lWb-zS-cZi" id="lSV-av-EiN"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="Favorites" image="menu-favorites.png" id="g1y-mP-VoF"/>
+                    <tabBarItem key="tabBarItem" title="Favorites" id="g1y-mP-VoF"/>
                     <connections>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="4h5-QD-dnB"/>
                     </connections>
@@ -340,19 +290,10 @@
         <scene sceneID="u1W-Sd-wv2">
             <objects>
                 <tableViewController id="Y0h-ma-CBO" customClass="MyPostsViewController" sceneMemberID="viewController">
-                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="FdM-ML-3Uk">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                        <connections>
-                            <outlet property="dataSource" destination="Y0h-ma-CBO" id="q61-fe-2Ld"/>
-                            <outlet property="delegate" destination="Y0h-ma-CBO" id="DCq-ev-KsI"/>
-                        </connections>
-                    </tableView>
-                    <tabBarItem key="tabBarItem" title="My" image="menu-my-unselected.png" id="lUa-Eb-8wd"/>
+                    <tabBarItem key="tabBarItem" title="My" id="lUa-Eb-8wd"/>
                     <connections>
-                        <segue destination="5uP-uA-pZw" kind="push" identifier="viewMySettingSegue" id="xDr-Qy-CdK"/>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="hcm-Ek-oke"/>
+                        <segue destination="xvr-rN-5oX" kind="push" identifier="viewSettingSegue" id="bKC-aK-utw"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pBO-WU-1i4" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -489,7 +430,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0dK-xy-enQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1071" y="1951"/>
+            <point key="canvasLocation" x="1905" y="539"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="KFU-6R-QKN">
@@ -512,7 +453,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d5l-Gx-BOz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1071" y="2659"/>
+            <point key="canvasLocation" x="1071" y="1939"/>
         </scene>
         <!--View Controller - Item-->
         <scene sceneID="AYc-G6-BCd">
@@ -539,12 +480,6 @@
             <point key="canvasLocation" x="543" y="371"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="menu-favorites.png" width="27" height="27"/>
-        <image name="menu-friends.png" width="27" height="27"/>
-        <image name="menu-my-unselected.png" width="27" height="27"/>
-        <image name="menu-popular.png" width="27" height="27"/>
-    </resources>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>
@@ -552,6 +487,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="8aj-h6-ff8"/>
+        <segue reference="hcm-Ek-oke"/>
     </inferredMetricsTieBreakers>
 </document>

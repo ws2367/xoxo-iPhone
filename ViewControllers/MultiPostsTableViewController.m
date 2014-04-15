@@ -69,7 +69,6 @@
 
     
     
-    [self.tabBarItem setTitleTextAttributes:[Utility getTabBarItemFontDictionary] forState:UIControlStateNormal];
     
     // set up swipe gesture recognizer
     UISwipeGestureRecognizer * recognizerRight = [[UISwipeGestureRecognizer alloc] initWithTarget:self action:@selector(handleSwipe:)];
@@ -308,7 +307,7 @@
         UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];
         [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate];
     } else{
-        [cell setCellWithImage:[UIImage imageNamed:@"YoursIcon60x60.png"] Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate];
+        [cell setCellWithImage:nil Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate];
     }
     /*
     // We want the cell to know which row it is, so we store that in button.tag

@@ -7,6 +7,7 @@
 //
 
 #import "ViewPostDisplayImageTableViewCell.h"
+#import "UIColor+MSColor.h"
 
 @interface ViewPostDisplayImageTableViewCell()
 @property (strong, nonatomic) UIImageView *postImageView;
@@ -30,7 +31,15 @@
     // Configure the view for the selected state
 }
 - (void) setPostImage:(UIImage *) image{
-    _postImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, WIDTH, 300)];
+    [self.contentView setBackgroundColor:[UIColor colorForYoursWhite]];
+    if(image.size.height > VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT){
+        _postImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, image.size.width*VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT/image.size.height, VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT)];
+        [_postImageView setCenter:CGPointMake(WIDTH/2, VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT/2)];
+    } else{
+        _postImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, image.size.width, image.size.height)];
+        [_postImageView setCenter:CGPointMake(WIDTH/2, image.size.height/2)];
+        
+    }
     [_postImageView setImage:image];
     [self.contentView addSubview:_postImageView];
 }

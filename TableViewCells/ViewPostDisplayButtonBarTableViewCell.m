@@ -34,7 +34,7 @@
     if (self) {
         // Initialization code
         [self addLowerButtons];
-        [self addCommentAndFollowNumbersWithCommentNum:0 FollowNum:0];
+//        [self addCommentAndFollowNumbersWithCommentNum:0 FollowNum:0];
         [self addOrangeLine];
     }
     return self;
@@ -61,6 +61,7 @@
     }
 }
 -(void) followButtonPressed:(id)sender{
+    [_whatButton setImage:[UIImage imageNamed:@"icon-followIIold.png"] forState:UIControlStateNormal];
     if(_delegate && [_delegate respondsToSelector:@selector(followPost:)]){
         [_delegate followPost:sender];
     }
@@ -113,11 +114,11 @@
     dashLineLayer.path = path.CGPath;
     [self.contentView.layer addSublayer:dashLineLayer];
 }
--(void) addCommentAndFollowNumbersWithCommentNum:(NSInteger *)commentNum FollowNum:(NSInteger *)followNum{
+-(void) addCommentAndFollowNumbersWithCommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount{
     _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(102, BUTTON_BAR_ORIGIN_Y+5, 50, 18)];
     _followLabel = [[UILabel alloc] initWithFrame:CGRectMake(184, BUTTON_BAR_ORIGIN_Y+5, 50, 18)];
-    _commentNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)commentNum] attributes:[Utility getCommentNumberFontDictionary]];
-    _followNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)followNum] attributes:[Utility getFollowNumberFontDictionary]];
+    _commentNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", [commentsCount integerValue]] attributes:[Utility getCommentNumberFontDictionary]];
+    _followNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", [followersCount integerValue]] attributes:[Utility getFollowNumberFontDictionary]];
     [_commentLabel setAttributedText:_commentNumber];
     [_followLabel setAttributedText:_followNumber];
     [self.contentView addSubview:_commentLabel];

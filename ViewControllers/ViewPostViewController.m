@@ -48,12 +48,15 @@
 
 
 @property (nonatomic) BOOL startEditingComment;
+
+@property (strong, nonatomic) UIButton *maskToEndEditing;
 @end
 
 #define ROW_HEIGHT 46
 #define START_ENTITIES_Y 220
 #define ENTITY_HEIGHT 25
 #define LEFT_OFFSET 5
+#define TEXT_FIELD_HEIGHT 40
 
 @implementation ViewPostViewController
 
@@ -94,6 +97,9 @@
     UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithTitle:@"X" style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
     self.navigationItem.rightBarButtonItem = exitButton;
 
+    //deselect anything
+    MSDebug(@"view will appear!");
+    [_viewPostTableView deselectRowAtIndexPath:[_viewPostTableView indexPathForSelectedRow] animated:YES];
 
 }
 -(void)viewDidAppear:(BOOL)animated{
@@ -308,6 +314,10 @@
                                     HEIGHT);
                      }
                      completion:^(BOOL finished){
+                         _maskToEndEditing = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, WIDTH, keyboardRect.origin.y - TEXT_FIELD_HEIGHT)];
+                         [_maskToEndEditing addTarget:self action:@selector(maskToEndEditingPressed) forControlEvents:UIControlEventTouchUpInside];
+                         [self.view addSubview:_maskToEndEditing];
+                         
                      }];
 }
 
@@ -326,6 +336,7 @@
                                     HEIGHT);
                      }
                      completion:^(BOOL finished){
+                         [_maskToEndEditing removeFromSuperview];
                      }];
 
 }
@@ -333,7 +344,16 @@
 #pragma mark -
 #pragma mark Button Methods
 
+-(void)maskToEndEditingPressed{
+    [_commentTextField endEditing:YES];
+}
+
 - (IBAction)postComment:(id)sender {
+    
+    if([_commentTextField text] == nil || [[_commentTextField text] isEqualToString:@""] ||[[_commentTextField text] isEqualToString:@"Leave a comment..."]){
+        [Utility generateAlertWithMessage:@"Please type in a comment..." error:nil];
+        return;
+    }
 
     // hide the keyboard
     [_commentTextField resignFirstResponder];
@@ -444,10 +464,14 @@
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
-    if ([Utility compareUIColorBetween:[textField textColor] and:[UIColor lightGrayColor]]) {
+    if ([[textField text] isEqualToString:@"Leave a comment..."]) {
         [textField setTextColor:[UIColor blackColor]];
         [textField setText:@""];
     }
+//    if ([Utility compareUIColorBetween:[textField textColor] and:[UIColor lightGrayColor]]) {
+//        [textField setTextColor:[UIColor blackColor]];
+//        [textField setText:@""];
+//    }
 }
 
 
@@ -510,7 +534,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row == 0){
-        return VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
+        UIImage *thisImage = [[UIImage alloc] initWithData:_post.image];
+        if(thisImage.size.height > VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT){
+            return VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
+        } else{
+            return thisImage.size.height;
+        }
     } else if(indexPath.row <= [_entities count]){
         return VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT;
     } else if(indexPath.row == ([_entities count] + 1)){
@@ -520,7 +549,7 @@
                                                 options:NSStringDrawingUsesLineFragmentOrigin
                                              attributes:[Utility getViewPostDisplayContentFontDictionary] context:nil];
 
-        return ceilf(rectSize.size.height)+30;
+        return ceilf(rectSize.size.height)+40;
     } else{
         return VIEW_POST_DISPLAY_COMMENT_HEIGHT;
     }
@@ -552,6 +581,7 @@
         if (!cell){
             cell = [[ViewPostDisplayButtonBarTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayButtonBarCellIdentifier];
         }
+        [cell addCommentAndFollowNumbersWithCommentsCount:_post.commentsCount FollowersCount:_post.followersCount];
         cell.delegate = self;
         return cell;
 
@@ -567,8 +597,8 @@
         if (!cell){
             cell = [[ViewPostDisplayCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayCommentCellIdentifier];
         }
-        NSString *commentContent =[[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )] content];
-        [cell setComment:commentContent];
+        Comment *comment =[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )];
+        [cell setComment:comment];
         return cell;
     }
     
@@ -587,8 +617,17 @@
     if(indexPath.row <= [_entities count] && indexPath.row != 0){
         [self performSegueWithIdentifier:@"viewEntitySegue" sender:indexPath];
     }
-    [_viewPostTableView deselectRowAtIndexPath:indexPath animated:YES];
 }
+
+- (NSIndexPath *)tableView:(UITableView *)tableView willSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+    if(indexPath.row <= [_entities count] && indexPath.row != 0){
+        return indexPath;
+    } else{
+        return nil;
+    }
+}
+
+
 
 # pragma mark -
 #pragma mark Prepare Segue

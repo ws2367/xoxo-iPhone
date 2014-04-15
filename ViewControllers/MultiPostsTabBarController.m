@@ -35,7 +35,9 @@
 {
     [super viewDidLoad];
     self.delegate = self;
-    _settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
+    //delete setting button from here, add it in mypost
+    /*_settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
+     */
     _searchBtn = [[UIBarButtonItem alloc] initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:self action:@selector(searchButtonPressed:)];
 //    self.navigationItem.leftBarButtonItem = _searchBtn;
     [_searchBtn setTintColor:[UIColor colorForTabBar]];
@@ -64,19 +66,38 @@
 //    [self.customizableViewControllers
 	// Do any additional setup after loading the view.
     
+    //set tabbaritem image
+    [self setTabBarItemImages];
     // set tabbaritem font
     for(UIViewController *v in self.customizableViewControllers){
-        [v.tabBarItem setTitleTextAttributes:[Utility getTabBarItemFontDictionary] forState:UIControlStateNormal];
+        [v.tabBarItem setTitleTextAttributes:[Utility getTabBarItemUnselectedFontDictionary] forState:UIControlStateNormal];
+        [v.tabBarItem setTitleTextAttributes:[Utility getTabBarItemSelectedFontDictionary] forState:UIControlStateHighlighted];
+        v.tabBarItem.image = [v.tabBarItem.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     }
-    self.tabBarItem = [self.tabBarController.tabBar.items objectAtIndex:0];
-    [self.tabBarItem setImage:[UIImage imageNamed:@"menu-popular-unselected.png"]];
-    self.tabBarItem.selectedImage = [UIImage imageNamed:@"menu-popular.png"];
+    
+//    [firstVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"menu-popular.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"menu-popular-unselected.png"]];
+    //[firstVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"menu-popular.png"]];
+    
+//    self.tabBarItem = [self.tabBarController.tabBar.items objectAtIndex:0];
+//    [self.tabBarItem setImage:[UIImage imageNamed:@"menu-popular-unselected.png"]];
+//    self.tabBarItem.selectedImage = [UIImage imageNamed:@"menu-popular.png"];
 }
 
-
-
-
-
+#pragma mark - UI methods
+-(void) setTabBarItemImages{
+    UIViewController *firstVC = [self.customizableViewControllers objectAtIndex:0];
+    [firstVC.tabBarItem setImage:[UIImage imageNamed:@"menu-popular-unselected.png"]];
+    [firstVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"menu-popular.png"]];
+    UIViewController *secondVC = [self.customizableViewControllers objectAtIndex:1];
+    [secondVC.tabBarItem setImage:[UIImage imageNamed:@"menu-friends-unselected.png"]];
+    [secondVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"menu-friends.png"]];
+    UIViewController *fourthVC = [self.customizableViewControllers objectAtIndex:3];
+    [fourthVC.tabBarItem setImage:[UIImage imageNamed:@"menu-favorites-unselected.png"]];
+    [fourthVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"menu-favorites.png"]];
+    UIViewController *fifthVC = [self.customizableViewControllers objectAtIndex:4];
+    [fifthVC.tabBarItem setImage:[UIImage imageNamed:@"menu-my-unselected.png"]];
+    [fifthVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"menu-my.png"]];
+}
 
 #pragma mark - add center button
 -(void)willAppearIn:(UINavigationController *)navigationController
@@ -121,14 +142,15 @@
 #pragma mark - detect which viewcontroller is selected right now
 - (void)tabBarController:(UITabBarController *)tabBarController
  didSelectViewController:(UIViewController *)viewController{
-    if([viewController isKindOfClass:MyPostsViewController.class]){
-        self.navigationItem.rightBarButtonItem = _settingBtn;
-        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, WIDTH, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
-    }
-    else{
+//    if([viewController isKindOfClass:MyPostsViewController.class]){
+//        //dont add it in here, add it in my post
+//        //self.navigationItem.rightBarButtonItem = _settingBtn;
+//        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, WIDTH, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
+//    }
+//    else{
         self.navigationItem.rightBarButtonItem = NULL;
         [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, NAVIGATION_BAR_CUT_DOWN_HEIGHT, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
-    }
+//    }
 }
 
 - (void)mySettingButtonPressed:(id)sender{

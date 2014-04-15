@@ -15,9 +15,9 @@
 			<key>CFBundleIconFiles</key>
 			<array>
 				<string>launchOrangeG</string>
-				<string>YoursIcon57x57</string>
-				<string>YoursIcon40x40</string>
-				<string>YoursIcon60x60</string>
+				<string>YoursIcon2nd57x57</string>
+				<string>YoursIcon2nd40x40</string>
+				<string>YoursIcon2nd60x60</string>
 			</array>
 		</dict>
 	</dict>

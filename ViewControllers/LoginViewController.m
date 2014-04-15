@@ -145,7 +145,7 @@
     if([segue.identifier isEqualToString:@"viewMultiPostsSegue"]){
         NavigationController *nav = segue.destinationViewController;
         nav.delegate = self;
-        [nav setUserName:[self.nameLabel text]];
+        [nav setUserName:[_displayNameLabel text]];
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
