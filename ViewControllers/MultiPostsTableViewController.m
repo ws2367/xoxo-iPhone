@@ -290,12 +290,6 @@
     /*CAUTION! following is a NSNumber (though declared as bool in Core Data) 
      so you have to get its bool value
      */
-    [cell.followButton setTitle:([post.following boolValue] ? @"unfollow" : @"follow")
-                       forState:UIControlStateNormal];
-    
-    [cell.followButton addTarget:self action:@selector(followPost:)
-                forControlEvents:UIControlEventTouchUpInside];
-    
 //    cell.dateToShow = getDateToShow(post.updateDate);
     //post.entities is a NSSet but cell.entities is a NSArray
     // actually, here we should do more work than just sending a NSArray of Entity to cell
@@ -457,13 +451,13 @@
     [sender setTag:1];
     [self performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
-- (void) followPost:(id)sender{
+
+-(void)followPost:(id)sender{
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
     
-    UIButton *followButton = (UIButton *)sender;
-    bool toFollow = [[followButton titleForState:UIControlStateNormal] isEqualToString:@"follow"];
+    bool toFollow = ![[post following] boolValue];
     
     if (![KeyChainWrapper isSessionTokenValid]) {
         [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
@@ -484,9 +478,6 @@
     }
     RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
-                      forState:UIControlStateNormal];
-        
         [post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
@@ -495,7 +486,6 @@
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     [operationQueue addOperation:operation];
 }
-
 
 -(void)reportPost:(id)sender{
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -604,6 +594,7 @@
     
 }
 
+#pragma mark -
 #pragma mark UIActionSheet delegate method
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     NSLog(@"Button %d", buttonIndex);

@@ -666,9 +666,7 @@
     [_commentTextField becomeFirstResponder];
 }
 - (void) followPost:(id)sender{
-    
-    UIButton *followButton = (UIButton *)sender;
-    bool toFollow = [[followButton titleForState:UIControlStateNormal] isEqualToString:@"follow"];
+    bool toFollow = ![[_post following] boolValue];
     
     if (![KeyChainWrapper isSessionTokenValid]) {
         [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
@@ -689,9 +687,6 @@
     }
     RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
-                      forState:UIControlStateNormal];
-        
         [_post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
         
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {

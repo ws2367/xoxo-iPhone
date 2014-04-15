@@ -16,7 +16,6 @@
 @property (nonatomic, weak) id<BigPostTableViewCellDelegate> delegate;
 @property (strong, nonatomic) NSArray *entities;
 @property (copy, nonatomic) NSString *content;
-@property (weak, nonatomic) IBOutlet UIButton *followButton;
 @property (strong, nonatomic) UIImage *image;
 
 

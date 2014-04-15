@@ -228,11 +228,6 @@
     /*CAUTION! following is a NSNumber (though declared as bool in Core Data)
      so you have to get its bool value
      */
-    [cell.followButton setTitle:([post.following boolValue] ? @"unfollow" : @"follow")
-                       forState:UIControlStateNormal];
-    
-    [cell.followButton addTarget:self action:@selector(followPost:)
-                forControlEvents:UIControlEventTouchUpInside];
     
     //    cell.dateToShow = getDateToShow(post.updateDate);
     //post.entities is a NSSet but cell.entities is a NSArray
