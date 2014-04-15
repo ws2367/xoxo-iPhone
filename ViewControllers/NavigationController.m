@@ -9,6 +9,8 @@
 #import "NavigationController.h"
 #import "LoginViewController.h"
 
+#import "KeyChainWrapper.h"
+
 @interface NavigationController ()
 @property(strong, nonatomic)NSString *userName;
 
@@ -61,6 +63,7 @@
 
 -(void) userLoggedOut{
     [(LoginViewController *)self.delegate logoutUser];
+    [KeyChainWrapper cleanUpCredentials];
     [self dismissViewControllerAnimated:YES completion:nil];
     
 }
