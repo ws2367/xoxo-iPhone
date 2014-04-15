@@ -495,6 +495,7 @@
                                cancelButtonTitle:@"Cancel"
                           destructiveButtonTitle:@"Report It"
                                otherButtonTitles:nil];
+
     [sheet setTag:indexPath.row];
     [sheet showInView:self.view];
 }
@@ -580,7 +581,7 @@
 
 
 #pragma mark -
-#pragma mark alertView delegate method
+#pragma mark AlertView delegate method
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
     
     switch (buttonIndex) {
@@ -595,9 +596,31 @@
 }
 
 #pragma mark -
-#pragma mark UIActionSheet delegate method
+#pragma mark ActionSheet delegate method
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSLog(@"Button %d", buttonIndex);
+    MSDebug(@"sheet tag: %d", [actionSheet tag]);
+    
+    Post *post = [fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:[actionSheet tag] inSection:0]];
+    
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+        return;
+    }
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    NSMutableURLRequest *request = nil;
+    request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"report_post"
+                                                                     object:post
+                                                                 parameters:@{@"auth_token": sessionToken}];
+
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:nil
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         [Utility generateAlertWithMessage:@"Network problem" error:error];
+    }];
+    
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
+
 }
 -(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
 //    [actionSheet.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {

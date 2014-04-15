@@ -182,13 +182,16 @@
     //Thirdly, named routes
     RKRoute *followPostRoute = [RKRoute routeWithName:@"follow_post" pathPattern:@"posts/:remoteID/follow" method:RKRequestMethodPOST];
     RKRoute *unfollowPostRoute = [RKRoute routeWithName:@"unfollow_post" pathPattern:@"posts/:remoteID/unfollow" method:RKRequestMethodDELETE];
+
+    RKRoute *reportPostRoute = [RKRoute routeWithName:@"report_post" pathPattern:@"posts/:remoteID/report" method:RKRequestMethodPOST];
+    RKRoute *sharePostRoute = [RKRoute routeWithName:@"share_post" pathPattern:@"posts/:remoteID/share" method:RKRequestMethodPOST];
     
     [objectManager.router.routeSet addRoutes:@[// class routes
                                                postRoute, commentPOSTRoute, postPOSTRoute,
                                                // relationship routes
                                                postCommentRelationshipRoute, entityPostRelationshipRoute,
                                                // named routes
-                                               followPostRoute, unfollowPostRoute]];
+                                               followPostRoute, unfollowPostRoute, reportPostRoute, sharePostRoute]];
     
     
     /* Set up request descriptor
