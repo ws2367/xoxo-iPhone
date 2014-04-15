@@ -23,6 +23,7 @@
 +(UIColor *) colorForYoursOrange { return [UIColor colorWithRed:249.0/255.0 green:97.0/255.0 blue:59.0/255.0 alpha:1.0]; }
 +(UIColor *) colorForYoursRed { return [UIColor colorWithRed:255.0/255.0 green:89.0/255.0 blue:82.0/255.0 alpha:1.0];}
 +(UIColor *) colorForYoursGray{ return [UIColor colorWithRed:102.0/255.0 green:102.0/255.0 blue:102.0/255.0 alpha:1.0];}
++(UIColor *) colorForYoursLightGray{ return [UIColor colorWithRed:153.0/255.0 green:153.0/255.0 blue:153.0/255.0 alpha:1.0];}
 +(UIColor *) colorForYoursDashLine{ return [UIColor colorWithRed:77.0/255.0 green:77.0/255.0 blue:77.0/255.0 alpha:1.0];
 }
 +(UIColor *) colorForYoursWhite{return [UIColor colorWithRed:255.0/255.0 green:242.0/255.0 blue:223.0/255.0 alpha:1.0]; }

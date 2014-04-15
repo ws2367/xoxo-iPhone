@@ -339,7 +339,7 @@
     UIImageView *timeIconView = [[UIImageView alloc] initWithImage:timeIcon];
     [timeIconView setFrame:CGRectMake(275, 8, timeIcon.size.width, timeIcon.size.height)];
     [self.contentView addSubview:timeIconView];
-    NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:[Utility getDateToShow:date] attributes:[Utility getMultiPostsDateFontDictionary]];
+    NSAttributedString *dateString = [[NSAttributedString alloc] initWithString:[Utility getDateToShow:date inWhole:NO] attributes:[Utility getMultiPostsDateFontDictionary]];
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(290, -10, 50, 50)];
     [dateLabel setAttributedText:dateString];
     [dateLabel setShadowColor:[UIColor colorWithWhite:0 alpha:0.3]];

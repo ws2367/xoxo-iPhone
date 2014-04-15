@@ -25,4 +25,5 @@
 +(UIColor *) colorForYoursLightPink;
 +(UIColor *) colorForYoursDarkPink;
 +(UIColor *) colorForYoursTabBarUnselectedColor;
++(UIColor *) colorForYoursLightGray;
 @end

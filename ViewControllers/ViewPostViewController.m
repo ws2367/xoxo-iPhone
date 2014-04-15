@@ -534,7 +534,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row == 0){
-        return VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
+        UIImage *thisImage = [[UIImage alloc] initWithData:_post.image];
+        if(thisImage.size.height > VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT){
+            return VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
+        } else{
+            return thisImage.size.height;
+        }
     } else if(indexPath.row <= [_entities count]){
         return VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT;
     } else if(indexPath.row == ([_entities count] + 1)){
@@ -544,7 +549,7 @@
                                                 options:NSStringDrawingUsesLineFragmentOrigin
                                              attributes:[Utility getViewPostDisplayContentFontDictionary] context:nil];
 
-        return ceilf(rectSize.size.height)+30;
+        return ceilf(rectSize.size.height)+40;
     } else{
         return VIEW_POST_DISPLAY_COMMENT_HEIGHT;
     }
@@ -592,8 +597,8 @@
         if (!cell){
             cell = [[ViewPostDisplayCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayCommentCellIdentifier];
         }
-        NSString *commentContent =[[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )] content];
-        [cell setComment:commentContent];
+        Comment *comment =[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )];
+        [cell setComment:comment];
         return cell;
     }
     

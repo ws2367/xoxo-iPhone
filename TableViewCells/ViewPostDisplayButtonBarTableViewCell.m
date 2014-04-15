@@ -61,6 +61,7 @@
     }
 }
 -(void) followButtonPressed:(id)sender{
+    [_whatButton setImage:[UIImage imageNamed:@"icon-followIIold.png"] forState:UIControlStateNormal];
     if(_delegate && [_delegate respondsToSelector:@selector(followPost:)]){
         [_delegate followPost:sender];
     }

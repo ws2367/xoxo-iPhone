@@ -27,7 +27,7 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 + (void) generateAlertWithMessage:(NSString *)message
                             error:(NSError *)error;
 
-+ (NSString *)getDateToShow:(NSDate *)date;
++ (NSString *)getDateToShow:(NSDate *)date inWhole:(BOOL) inWhole;
 
 + (void)saveToPersistenceStore:(NSManagedObjectContext *)context failureMessage:(NSString *)failureMessage;
 
@@ -42,6 +42,7 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 + (NSDictionary *)getViewPostDisplayInstitutionFontDictionary;
 + (NSDictionary *)getViewPostDisplayContentFontDictionary;
 + (NSDictionary *)getViewPostDisplayCommentFontDictionary;
++ (NSDictionary *)getViewPostDisplayContentDateFontDictionary;
 + (NSDictionary *)getLoginViewTitleDescriptionFontDictionary;
 + (NSDictionary *)getLoginViewContentDescriptionFontDictionary;
 + (NSDictionary *)getCreatePostViewAddFriendButtonFontDictionary;

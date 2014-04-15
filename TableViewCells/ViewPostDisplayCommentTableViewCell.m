@@ -8,9 +8,11 @@
 
 #import "ViewPostDisplayCommentTableViewCell.h"
 #import "UIColor+MSColor.h"
+#import "Comment.h"
+
 
 @interface ViewPostDisplayCommentTableViewCell()
-@property (strong, nonatomic) NSString *comment;
+@property (strong, nonatomic) Comment *myComment;
 @end
 
 
@@ -33,17 +35,17 @@
     // Configure the view for the selected state
 }
 
--(void) setComment:(NSString *)comment{
+-(void) setComment:(Comment *)comment{
     UIImage *userImage = [UIImage imageNamed:@"icon-user.png"];
     UIImageView *userImageView = [[UIImageView alloc] initWithImage:userImage];
-    [userImageView setFrame:CGRectMake(10, 10, userImage.size.width, userImage.size.height)];
+    [userImageView setFrame:CGRectMake(10, 0, userImage.size.width, userImage.size.height)];
      [self.contentView addSubview:userImageView];
-    _comment = comment;
-    CGRect rectSize = [_comment boundingRectWithSize:(CGSize){WIDTH-70, CGFLOAT_MAX}
+    _myComment = comment;
+    CGRect rectSize = [[_myComment content] boundingRectWithSize:(CGSize){WIDTH-70, CGFLOAT_MAX}
                                             options:NSStringDrawingUsesLineFragmentOrigin
                                          attributes:[Utility getViewPostDisplayCommentFontDictionary] context:nil];
     NSAttributedString *commentText = [[NSAttributedString alloc]
-                                       initWithString:_comment attributes:[Utility getViewPostDisplayCommentFontDictionary]];
+                                       initWithString:[_myComment content] attributes:[Utility getViewPostDisplayCommentFontDictionary]];
     CGFloat textViewEnd = (rectSize.size.height+10);
     UITextView *commentTextView =[[UITextView alloc] initWithFrame:CGRectMake(70, 10, WIDTH, textViewEnd)];
     [commentTextView setAttributedText:commentText];
@@ -51,7 +53,21 @@
     [commentTextView setSelectable:NO];
     [commentTextView setScrollEnabled:NO];
     [self.contentView addSubview:commentTextView];
+    [self addDate];
 
+}
+
+-(void) addDate{
+    UIImage *timeIcon =[UIImage imageNamed:@"icon-time.png"];
+    UIImageView *timeIconView = [[UIImageView alloc] initWithImage:timeIcon];
+    [timeIconView setFrame:CGRectMake(18, 40, timeIcon.size.width, timeIcon.size.height)];
+    [self.contentView addSubview:timeIconView];
+    NSAttributedString *dateStr = [[NSAttributedString alloc] initWithString:[Utility getDateToShow:[_myComment updateDate] inWhole:NO] attributes:[Utility getViewPostDisplayContentDateFontDictionary]];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 40, 70, 20)];
+    [dateLabel setAttributedText:dateStr];
+    [self.contentView addSubview:dateLabel];
+
+    
 }
 
 -(void) addDarkBlueLine{
