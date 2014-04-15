@@ -97,6 +97,8 @@
 		7AA9221F18F4CD0C00794751 /* Loading-Gif.gif in Resources */ = {isa = PBXBuildFile; fileRef = 7AA9221E18F4CD0C00794751 /* Loading-Gif.gif */; };
 		7AB4283D18FC603F00DFC1D1 /* icon-follow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4283B18FC603F00DFC1D1 /* icon-follow@2x.png */; };
 		7AB4283E18FC603F00DFC1D1 /* icon-followII@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4283C18FC603F00DFC1D1 /* icon-followII@2x.png */; };
+		7AB4284118FDB12000DFC1D1 /* PostsAboutMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB4284018FDB12000DFC1D1 /* PostsAboutMeViewController.m */; };
+		7AB4284418FDB1B200DFC1D1 /* PostsICreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 		7ABFAA1B18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFAA1A18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m */; };
@@ -265,6 +267,10 @@
 		7AA9221E18F4CD0C00794751 /* Loading-Gif.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = "Loading-Gif.gif"; sourceTree = "<group>"; };
 		7AB4283B18FC603F00DFC1D1 /* icon-follow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-follow@2x.png"; sourceTree = "<group>"; };
 		7AB4283C18FC603F00DFC1D1 /* icon-followII@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-followII@2x.png"; sourceTree = "<group>"; };
+		7AB4283F18FDB12000DFC1D1 /* PostsAboutMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostsAboutMeViewController.h; sourceTree = "<group>"; };
+		7AB4284018FDB12000DFC1D1 /* PostsAboutMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostsAboutMeViewController.m; sourceTree = "<group>"; };
+		7AB4284218FDB1B200DFC1D1 /* PostsICreatedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PostsICreatedViewController.h; sourceTree = "<group>"; };
+		7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostsICreatedViewController.m; sourceTree = "<group>"; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
@@ -366,6 +372,10 @@
 				7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */,
 				7ABC939A18E0AEA4005E403B /* SettingViewController.h */,
 				7ABC939B18E0AEA4005E403B /* SettingViewController.m */,
+				7AB4283F18FDB12000DFC1D1 /* PostsAboutMeViewController.h */,
+				7AB4284018FDB12000DFC1D1 /* PostsAboutMeViewController.m */,
+				7AB4284218FDB1B200DFC1D1 /* PostsICreatedViewController.h */,
+				7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -772,11 +782,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				75CCCF4B17FC03DF000BF0F4 /* main.m in Sources */,
+				7AB4284418FDB1B200DFC1D1 /* PostsICreatedViewController.m in Sources */,
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
 				5186F09B18CEE58800B27C71 /* KeyChainWrapper.m in Sources */,
 				7AFAFC7618EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.m in Sources */,
+				7AB4284118FDB12000DFC1D1 /* PostsAboutMeViewController.m in Sources */,
 				7AFAFC7C18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.m in Sources */,
 				5180E32C18B7EE7500115C14 /* TopBorderTextField.m in Sources */,
 				514D369618EF2D7E00921816 /* Model.xcdatamodeld in Sources */,

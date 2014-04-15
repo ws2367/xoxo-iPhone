@@ -6,8 +6,7 @@
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
-#import "MultiPostsTableViewController.h"
 
-@interface MyPostsViewController : MultiPostsTableViewController
+@interface MyPostsViewController : UIViewController
 
 @end
