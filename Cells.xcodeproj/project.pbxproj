@@ -38,6 +38,7 @@
 		51A4058118BC4FB400C61438 /* ImageToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51A4058018BC4FB400C61438 /* ImageToDataTransformer.m */; };
 		51BA54B718D2730200B85BAF /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BA54B618D2730200B85BAF /* NavigationController.m */; };
 		51CCDF1418E9E48F00491CB4 /* RestKitInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CCDF1318E9E48F00491CB4 /* RestKitInitializer.m */; };
+		51D109D018FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D109CF18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m */; };
 		51E9FEDA18DCF93A00E60232 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9FED818DCF93A00E60232 /* AWSRuntime.framework */; };
 		51E9FEDB18DCF93A00E60232 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9FED918DCF93A00E60232 /* AWSS3.framework */; };
 		51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */; };
@@ -181,6 +182,8 @@
 		51BA54B618D2730200B85BAF /* NavigationController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NavigationController.m; sourceTree = "<group>"; };
 		51CCDF1218E9E48F00491CB4 /* RestKitInitializer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RestKitInitializer.h; sourceTree = "<group>"; };
 		51CCDF1318E9E48F00491CB4 /* RestKitInitializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestKitInitializer.m; sourceTree = "<group>"; };
+		51D109CE18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplePeoplePickerViewController.h; sourceTree = "<group>"; };
+		51D109CF18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiplePeoplePickerViewController.m; sourceTree = "<group>"; };
 		51E9FED818DCF93A00E60232 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = "Libraries/aws-ios-sdk-1.7.1/AWSRuntime.framework"; sourceTree = "<group>"; };
 		51E9FED918DCF93A00E60232 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "Libraries/aws-ios-sdk-1.7.1/AWSS3.framework"; sourceTree = "<group>"; };
 		51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBorderTextField.h; sourceTree = "<group>"; };
@@ -327,6 +330,8 @@
 		5124229C18B29C5B008BEF86 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
+				51D109CE18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.h */,
+				51D109CF18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m */,
 				511233F918DE3E6000EFBF85 /* LoginViewController.h */,
 				511233FA18DE3E6000EFBF85 /* LoginViewController.m */,
 				75073FC31814BF1A009177C7 /* ViewEntityViewController.h */,
@@ -755,6 +760,7 @@
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
 				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
+				51D109D018FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m in Sources */,
 				5186F09B18CEE58800B27C71 /* KeyChainWrapper.m in Sources */,
 				7AFAFC7618EDD23B00696C30 /* ViewPostDisplayImageTableViewCell.m in Sources */,
 				7AFAFC7C18EDE5CC00696C30 /* ViewPostDisplayCommentTableViewCell.m in Sources */,

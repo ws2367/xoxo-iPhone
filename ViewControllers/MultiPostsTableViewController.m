@@ -10,6 +10,7 @@
 #import "BigPostTableViewCell.h"
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
+#import "MultiplePeoplePickerViewController.h"
 
 #import "KeyChainWrapper.h"
 #import "ClientManager.h"
@@ -414,23 +415,17 @@
 }
 
 -(void)sharePost:(id)sender{
-    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
-    /*picker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
-     [self.view addSubview:picker.view];
-     [UIView animateWithDuration:ANIMATION_DURATION
-     delay:ANIMATION_DELAY
-     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-     animations:^{
-     picker.view.frame = CGRectMake( 0, 0, WIDTH, HEIGHT);
-     
-     }
-     completion:^(BOOL finished){
-     }];*/
-    
-    
+    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
+    picker.delegate = self;
+    [picker setSenderIndexPath:indexPath];
     [self presentViewController:picker animated:YES completion:nil];
+//    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
+//    picker.peoplePickerDelegate = self;
+//    
+//    [self presentViewController:picker animated:YES completion:nil];
     
     
     
@@ -535,23 +530,61 @@
 }
 
 #pragma mark -
+#pragma mark Multile People Picker Delegate Methods
+- (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    MSDebug(@"Selected numbers %@", selectedNumbers);
+    
+    Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
+    
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+        return;
+    }
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken, [selectedNumbers allObjects]]
+                                                       forKeys:@[@"auth_token", @"numbers"]];
+    
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"share_post"
+                                                                     object:post
+                                                                 parameters:params];
+    
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:nil
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         [Utility generateAlertWithMessage:@"Network problem" error:error];
+                                     }];
+    
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
+
+    
+}
+
+/*
+#pragma mark -
 #pragma mark PeoplePicker Delegate Methods
 
 - (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
     [self dismissViewControllerAnimated:YES completion:nil];
-    /*[UIView animateWithDuration:ANIMATION_DURATION
-     delay:ANIMATION_DELAY
-     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-     animations:^{
-     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
-     
-     }
-     completion:^(BOOL finished){
-     [peoplePicker.view removeFromSuperview];
-     }];*/
 }
 
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
+- (void)displayPerson:(ABRecordRef)person{
+    CFStringRef a = ABRecordCopyCompositeName(person);
+    NSLog(@"%@", a);
+    ABMultiValueRef phoneNumbers = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonPhoneProperty);
+    CFRelease(phoneNumbers);
+    NSString* phoneNumber = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
+    NSCharacterSet *onlyAllowedChars = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
+    phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:onlyAllowedChars] componentsJoinedByString:@""];
+    NSLog(@"%@", phoneNumber);
+}
+
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person {
     [self displayPerson:person];
     [self dismissViewControllerAnimated:YES completion:nil];
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please type in message you want to send"
@@ -561,24 +594,13 @@
                                               otherButtonTitles:@"Send",nil];
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
-
-    /*[UIView animateWithDuration:ANIMATION_DURATION
-     delay:ANIMATION_DELAY
-     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-     animations:^{
-     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
-     
-     }
-     completion:^(BOOL finished){
-     [peoplePicker.view removeFromSuperview];
-     }];*/
     return NO;
 }
 
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property  identifier:(ABMultiValueIdentifier)identifier{
     return NO;
 }
-
+*/
 
 #pragma mark -
 #pragma mark AlertView delegate method
@@ -631,20 +653,6 @@
 //    }];
 
 }
-
-
-#pragma mark -
-#pragma mark PeoplePicker Custom Methods
-
-- (void)displayPerson:(ABRecordRef)person{
-    CFStringRef a = ABRecordCopyCompositeName(person);
-    NSLog(@"%@", a);
-    ABMultiValueRef phoneNumbers = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonPhoneProperty);
-    CFRelease(phoneNumbers);
-    NSString* phoneNumber = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-    NSLog(@"%@", phoneNumber);
-}
-
 
 #pragma mark -
 #pragma mark Miscellaneous Methods
