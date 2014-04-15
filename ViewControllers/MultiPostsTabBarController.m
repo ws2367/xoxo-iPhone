@@ -35,7 +35,9 @@
 {
     [super viewDidLoad];
     self.delegate = self;
-    _settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
+    //delete setting button from here, add it in mypost
+    /*_settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Setting" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
+     */
     _searchBtn = [[UIBarButtonItem alloc] initWithTitle:@"Search" style:UIBarButtonItemStylePlain target:self action:@selector(searchButtonPressed:)];
 //    self.navigationItem.leftBarButtonItem = _searchBtn;
     [_searchBtn setTintColor:[UIColor colorForTabBar]];
@@ -140,14 +142,15 @@
 #pragma mark - detect which viewcontroller is selected right now
 - (void)tabBarController:(UITabBarController *)tabBarController
  didSelectViewController:(UIViewController *)viewController{
-    if([viewController isKindOfClass:MyPostsViewController.class]){
-        self.navigationItem.rightBarButtonItem = _settingBtn;
-        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, WIDTH, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
-    }
-    else{
+//    if([viewController isKindOfClass:MyPostsViewController.class]){
+//        //dont add it in here, add it in my post
+//        //self.navigationItem.rightBarButtonItem = _settingBtn;
+//        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, WIDTH, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
+//    }
+//    else{
         self.navigationItem.rightBarButtonItem = NULL;
         [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, NAVIGATION_BAR_CUT_DOWN_HEIGHT, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
-    }
+//    }
 }
 
 - (void)mySettingButtonPressed:(id)sender{

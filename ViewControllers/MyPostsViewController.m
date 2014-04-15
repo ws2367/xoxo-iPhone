@@ -9,6 +9,7 @@
 #import "MyPostsViewController.h"
 #import "PostsAboutMeViewController.h"
 #import "PostsICreatedViewController.h"
+#import "NavigationController.h"
 
 #import "UIColor+MSColor.h"
 
@@ -39,23 +40,48 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    UIBarButtonItem *settingBtn = [[UIBarButtonItem alloc] initWithTitle:@"Show" style:UIBarButtonItemStylePlain target:self action:@selector(mySettingButtonPressed:)];
-    self.navigationItem.rightBarButtonItem = settingBtn;
+    [self.view setBackgroundColor:[UIColor colorForYoursOrange]];
+    [self addTopNavigationBar];
     NSLog(@"loaded my posts");
     [self setupTabSystem];
     
 }
 
-- (void)mySettingButtonPressed:(id)sender{
-    NSLog(@"mySettingButtonPressed");
-    [self performSegueWithIdentifier:@"viewMySettingSegue" sender:sender];
-}
 
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+-(void) addTopNavigationBar{
+    //add top controller bar
+    UINavigationBar *topNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, VIEW_POST_NAVIGATION_BAR_HEIGHT)];
+    [topNavigationBar setBarTintColor:[UIColor colorForYoursOrange]];
+    [topNavigationBar setTranslucent:NO];
+    [topNavigationBar setTintColor:[UIColor whiteColor]];
+    [topNavigationBar setTitleTextAttributes:[Utility getMultiPostsContentFontDictionary]];
+    [topNavigationBar setShadowImage:[[UIImage alloc] init]];
+    [topNavigationBar setBackgroundImage:[[UIImage alloc]init] forBarMetrics:UIBarMetricsDefault];
+
+    UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-setting.png"] style:UIBarButtonItemStylePlain target:self action:@selector(settingButtonPressed:)];
+    [settingButton setTintColor:[UIColor whiteColor]];
+    
+    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:[(NavigationController *)self.navigationController getUserName]];
+    
+    topNavigationItem.rightBarButtonItem = settingButton;
+    topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
+    [self.view addSubview:topNavigationBar];
+
+
+}
+#pragma mark -
+#pragma mark Button Method
+-(void)settingButtonPressed:(id)sender{
+    MSDebug(@"hello??");
+    [self performSegueWithIdentifier:@"viewSettingSegue" sender:sender];
+}
+
 
 #pragma mark -
 #pragma mark Imitate TabBar System
