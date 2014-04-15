@@ -63,11 +63,11 @@
     [_youAreLoggedOutLabel removeFromSuperview];
     _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" atX:88 andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     FBAccessTokenData *accessTokenData = FBSession.activeSession.accessTokenData;
-    NSString *accessToken = accessTokenData.accessToken;
+    NSString *FBAccessToken = accessTokenData.accessToken;
 
-    NSLog(@"accessToken: %@", accessToken);
- 
-    [ClientManager login:accessToken];
+    MSDebug(@"FB Access Token: %@", FBAccessToken);
+
+    [ClientManager login:FBAccessToken];
     [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
     
 }
