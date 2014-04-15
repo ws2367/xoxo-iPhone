@@ -12,11 +12,20 @@
 
 +(bool)areAWSCredentialsExpired;
 +(AmazonCredentials *)getAWSCredentialsFromKeyChain;
-+(void)storeCredentialsInKeyChain:(NSString *)theAccessKey secretKey:(NSString *)theSecretKey securityToken:(NSString *)theSecurityToken expiration:(NSString *)theExpirationDate;
++(void)storeCredentialsInKeyChain:(NSString *)theAccessKey
+                        secretKey:(NSString *)theSecretKey
+                    securityToken:(NSString *)theSecurityToken
+                       expiration:(NSString *)theExpirationDate;
 
 +(void)storeSessionToken:(NSString *)theSessionToken;
 +(NSString *)getSessionTokenForUser;
 +(BOOL) isSessionTokenValid;
+
++(void)storeFBUserID:(NSString *)fbUserID;
++(BOOL)isFBUserIDValid;
++(NSString *)FBUserID;
+
++(void)cleanUpCredentials;
 //+(NSString *)getValueFromKeyChain:(NSString *)key;
 //+(void)storeValueInKeyChain:(NSString *)value forKey:(NSString *)key;
 //+(void)registerDeviceId:(NSString *)uid andKey:(NSString *)key;

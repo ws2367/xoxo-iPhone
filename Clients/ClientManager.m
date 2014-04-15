@@ -24,11 +24,9 @@
 
 #import "ClientManager.h"
 #import "KeyChainWrapper.h"
-//#import "Response.h"
 
 #import <AWSRuntime/AWSRuntime.h>
 
-//#import "KeyChainWrapper.h"
 
 static AmazonS3Client *s3  = nil;
 static TVMClient *tvm = nil;
