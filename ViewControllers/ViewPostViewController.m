@@ -201,7 +201,14 @@
 
     [exitButton setTintColor:[UIColor whiteColor]];
     
+    //we want icon
     UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:@"Yours"];
+
+    UIImageView *yoursView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 33)];
+    [yoursView setImage:[UIImage imageNamed:@"logo_white.png"] ];
+    yoursView.contentMode = UIViewContentModeScaleAspectFit;
+    topNavigationItem.titleView = yoursView;
+
     
     topNavigationItem.rightBarButtonItem = exitButton;
     topNavigationItem.leftBarButtonItem = homeButton;

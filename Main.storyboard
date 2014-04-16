@@ -182,7 +182,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="T84-WV-wdp">
-                                <rect key="frame" x="0.0" y="67" width="320" height="554"/>
+                                <rect key="frame" x="0.0" y="61" width="320" height="507"/>
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
@@ -200,6 +200,7 @@
                         <outlet property="nameLabel" destination="v5j-X8-Rc3" id="q3O-aO-BP5"/>
                         <outlet property="tableView" destination="T84-WV-wdp" id="dVZ-ea-cvZ"/>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="8aj-h6-ff8"/>
+                        <segue destination="wxp-PC-w3z" kind="modal" identifier="createPostSegue" id="vqm-JZ-yjl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mRh-Vp-7mZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -219,7 +220,7 @@
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" id="dNX-Ic-V6h" customClass="UIImageView">
-                                        <rect key="frame" x="54" y="6" width="201" height="185"/>
+                                        <rect key="frame" x="0.0" y="-7" width="320" height="212"/>
                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                                     </view>
@@ -479,6 +480,60 @@
             </objects>
             <point key="canvasLocation" x="543" y="371"/>
         </scene>
+        <!--Create Post View Controller-->
+        <scene sceneID="d4W-ft-5ox">
+            <objects>
+                <viewController id="wxp-PC-w3z" customClass="CreatePostViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="ZdY-Za-Vc5">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" id="kuM-8E-DKZ" userLabel="superImageView" customClass="SuperImageView">
+                                <rect key="frame" x="0.0" y="64" width="320" height="197"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" id="1Kk-Ww-2Pe" customClass="UIImageView">
+                                        <rect key="frame" x="0.0" y="-8" width="320" height="213"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <gestureRecognizers/>
+                            </view>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" text="Write here!" id="7xh-sS-YtC">
+                                <rect key="frame" x="20" y="328" width="280" height="141"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="tintColor" cocoaTouchSystemColor="scrollViewTexturedBackgroundColor"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                                <fontDescription key="fontDescription" name="AmericanTypewriter" family="American Typewriter" pointSize="14"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="wxp-PC-w3z" id="nmq-GI-7JR"/>
+                                </connections>
+                            </textView>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" id="IcF-lX-lVO">
+                                <rect key="frame" x="20" y="43" width="280" height="2"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </progressView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <simulatedStatusBarMetrics key="simulatedStatusBarMetrics"/>
+                        <simulatedScreenMetrics key="simulatedDestinationMetrics" type="retina4"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="WTW-pr-neg"/>
+                    <connections>
+                        <outlet property="profileImageView" destination="1Kk-Ww-2Pe" id="uFN-WC-ILb"/>
+                        <outlet property="progressView" destination="IcF-lX-lVO" id="WDg-lD-NPK"/>
+                        <outlet property="superImageView" destination="kuM-8E-DKZ" id="tPq-EL-sRI"/>
+                        <outlet property="textView" destination="7xh-sS-YtC" id="0cS-xM-EyQ"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="R8b-oU-kZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2503" y="-890"/>
+        </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -487,6 +542,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="hcm-Ek-oke"/>
+        <segue reference="8aj-h6-ff8"/>
     </inferredMetricsTieBreakers>
 </document>

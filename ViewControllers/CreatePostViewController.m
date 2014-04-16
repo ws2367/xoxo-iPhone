@@ -60,6 +60,7 @@
 @property (strong, nonatomic) NSString *currentDisplayFBID;
 
 @property (strong, nonatomic) UIButton *doneCreatingPostButton;
+@property (strong, nonatomic) UIButton *addPhotoButton;
 
 @property (strong, nonatomic) UIView *whiteBackgroundRow1;
 @property (strong, nonatomic) UIView *whiteBackgroundRow2;
@@ -165,10 +166,12 @@
     topNavigationItem.rightBarButtonItem = exitButton;
     topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
     
+    [_profileImageView setImage:[UIImage imageNamed:@"background.png"]];
 //    [self addContentTextView];
     [self addAddPhotoButton];
     [self addDoneCreatingPostButton];
     [self addAddFBFriendButton];
+    [_textView  setFont: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:18]];
     
     
     
@@ -213,10 +216,10 @@
 #pragma mark Create Button Methods
 - (void) addAddPhotoButton{
     UIImage *addPhotoButtonImage = [UIImage imageNamed:@"icon-add_photo.png"];
-    UIButton *addPhotoButton =[[UIButton alloc] initWithFrame:CGRectMake(120, 130, addPhotoButtonImage.size.width, addPhotoButtonImage.size.height)];
-    [addPhotoButton setImage:addPhotoButtonImage forState:UIControlStateNormal];
-    [addPhotoButton addTarget:self action:@selector(addPhoto:) forControlEvents:UIControlEventTouchUpInside];
-    [self.view addSubview:addPhotoButton];
+    _addPhotoButton =[[UIButton alloc] initWithFrame:CGRectMake(120, 130, addPhotoButtonImage.size.width, addPhotoButtonImage.size.height)];
+    [_addPhotoButton setImage:addPhotoButtonImage forState:UIControlStateNormal];
+    [_addPhotoButton addTarget:self action:@selector(addPhoto:) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:_addPhotoButton];
 }
 
 -(void)addDoneCreatingPostButton{
@@ -227,12 +230,15 @@
     [self.view addSubview:_doneCreatingPostButton];
 }
 -(void)addAddFBFriendButton{
+    UIImageView *addImageView = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"icon-add.png"]];
+    [addImageView setCenter:CGPointMake(95, 283)];
     UIButton *addFBFriendButton =[[UIButton alloc] initWithFrame:CGRectMake(0, 263, WIDTH, 45)];
     [addFBFriendButton setBackgroundColor:[UIColor colorForYoursFacebookBlue]];
-    NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"+ Facebook Friends" attributes:[Utility getCreatePostViewAddFriendButtonFontDictionary]];
+    NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Facebook Friends" attributes:[Utility getCreatePostViewAddFriendButtonFontDictionary]];
     [addFBFriendButton setAttributedTitle:title forState:UIControlStateNormal];
     [addFBFriendButton addTarget:self action:@selector(fbFriendButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:addFBFriendButton];
+    [self.view addSubview:addImageView];
 }
 
 //-(void)addContentTextView{
@@ -376,20 +382,16 @@
     if([thisEntityID isEqualToString:_currentDisplayFBID]){
         if([_entities count]){
             Entity *firstEn = [_entities firstObject];
-            NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", firstEn.fbUserID];
-            _currentDisplayFBID = firstEn.fbUserID;
-            [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
-            _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
+            [self setProfileImageViewWithfbUserID:firstEn.fbUserID];
+        } else{
+            [self setProfileImageViewWithfbUserID:nil];
         }
     }
     [self reloadSelectedEntitiesSection];
 }
 -(void)nameButtonPressed:(id)sender{
     Entity *pressedEntity = [_entities objectAtIndex:[sender tag] - 1];
-    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", pressedEntity.fbUserID];
-    _currentDisplayFBID = pressedEntity.fbUserID;
-    [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
-    _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self setProfileImageViewWithfbUserID:pressedEntity.fbUserID];
 }
 
 - (IBAction)doneCreatingPost:(id)sender {
@@ -422,20 +424,8 @@
         _entities = [[NSMutableArray alloc] init];
     }
     [_entities addObject:en];
-    
-    if(!_nameList){
-        _nameList = [[NSMutableString alloc] init];
-    }
-    [_nameList appendString:[en name]];
-    _entityNames = [NSMutableString string];
-    
-    for (Entity *ent in _entities) {
-        [_entityNames appendString:ent.name];
-        if (ent != [_entities lastObject])
-            [_entityNames appendString:@", "];
-    }
-    
-    self.entitiesTextField.text = _nameList;
+    [self reloadSelectedEntitiesSection];
+    [self setProfileImageViewWithfbUserID:en.fbUserID];
 }
 
 
@@ -637,10 +627,7 @@
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
     id<FBGraphUser> firstFrd = [self.friendPickerController.selection firstObject];
     _profilePicView.profileID = firstFrd.id;
-    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", firstFrd.id];
-    _currentDisplayFBID = firstFrd.id;
-    [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
-    _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [self setProfileImageViewWithfbUserID:firstFrd.id];
     for (id<FBGraphUser> frd in self.friendPickerController.selection) {
         _profilePicView.profileID = frd.id;
         [self processFBUser:frd];
@@ -1005,6 +992,22 @@
     UIButton *button = [[UIButton alloc] initWithFrame:CGRectMake(originX, originY, btnImage.size.width, btnImage.size.height)];
     [button setImage:btnImage forState:UIControlStateNormal];
     return button;
+}
+
+# pragma mark -
+#pragma mark - Helper Methods
+-(void)setProfileImageViewWithfbUserID:(NSString *)fbUserID{
+    if(fbUserID == nil){
+        [_profileImageView setImage:[UIImage imageNamed:@"background.png"]];
+        [_addPhotoButton setAlpha:1];
+        return;
+    }
+    [_profileImageView setBackgroundColor:[UIColor colorForYoursWhite]];
+    NSString *imageUrl = [NSString stringWithFormat:@"http://graph.facebook.com/%@/picture?type=large", fbUserID];
+    _currentDisplayFBID = fbUserID;
+    [_profileImageView setImageWithURL:[NSURL URLWithString:imageUrl]];
+    _profileImageView.contentMode = UIViewContentModeScaleAspectFit;
+    [_addPhotoButton setAlpha:0.6];
 }
 
 

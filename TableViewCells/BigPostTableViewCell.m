@@ -20,7 +20,7 @@
 @property (strong,nonatomic)  UIView *blackMask;
 @property (nonatomic) bool gradientFlag;
 
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
+@property (strong, nonatomic) UITextView *contentTextView;
 @property (weak, nonatomic) IBOutlet UIButton *entityButton;
 
 @property (strong, nonatomic)UIImageView *postImageView;
@@ -347,20 +347,31 @@
     [self.contentView addSubview:dateLabel];
 }
 -(void)generateContentLabel:(NSString *)content{
-    NSAttributedString *contentString = [[NSAttributedString alloc] initWithString:content attributes:[Utility getMultiPostsContentFontDictionary]];
-    UILabel *contentLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 150, WIDTH/2, 50)];
-    [contentLabel setAttributedText:contentString];
-    [self.contentView addSubview:contentLabel];
+
+    NSAttributedString *contentText = [[NSAttributedString alloc]
+                                       initWithString:content attributes:[Utility getMultiPostsContentFontDictionary]];
+    _contentTextView =[[UITextView alloc] initWithFrame:CGRectMake(8, 130, WIDTH/2+ 20, 80)];
+    [_contentTextView setAttributedText:contentText];
+    [_contentTextView setBackgroundColor:[UIColor clearColor]];
+    [_contentTextView setEditable:NO];
+    [_contentTextView setSelectable:NO];
+    [_contentTextView setScrollEnabled:NO];
+    [self.contentView addSubview:_contentTextView];
 }
 
 -(void)generateNameLabels:(NSArray *)entities{
     if([entities count] >= 1){
          NSDictionary *firstEntity = [entities firstObject];
-        [self generateNameLabel:firstEntity[@"name"] atX:8 Y:115];
+        if([entities count] > 2){
+            NSString *namePlusDot = [firstEntity[@"name"] stringByAppendingString:@"..."];
+            [self generateNameLabel:namePlusDot  atX:8 Y:95];
+        } else{
+            [self generateNameLabel:firstEntity[@"name"]  atX:8 Y:95];
+        }
     }
     if([entities count] >= 2){
          NSDictionary *secondEntity = [entities objectAtIndex:1];
-        [self generateNameLabel:secondEntity[@"name"] atX:8 Y:80];
+        [self generateNameLabel:secondEntity[@"name"]  atX:8 Y:60];
     }
 }
 
@@ -370,7 +381,7 @@
     [nameIconImageView setFrame:CGRectMake(originX, originY +8, nameIconImage.size.width, nameIconImage.size.height)];
     [self.contentView addSubview:nameIconImageView];
     NSAttributedString *nameString = [[NSAttributedString alloc] initWithString:name attributes:[Utility getMultiPostsNameFontDictionary]];
-    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX + 28, originY, WIDTH/2, 50)];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX + 28, originY, WIDTH/2 + 50, 50)];
     [nameLabel setAttributedText:nameString];
     [self.contentView addSubview:nameLabel];
 }

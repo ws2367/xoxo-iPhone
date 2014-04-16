@@ -10,6 +10,7 @@
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
 #import "NavigationController.h"
+#import "CreatePostViewController.h"
 
 #import "BigPostTableViewCell.h"
 #import "CircleViewForImage.h"
@@ -104,6 +105,32 @@
         NSLog(@"Failed to fetch posts for entity");
     }
     
+    [_tableView setBackgroundColor:[UIColor colorForYoursWhite]];
+    [self addNavigationBar];
+    [self addCreatePostButton];
+    
+    //hide scrollbar & clear separator
+    [_tableView setShowsVerticalScrollIndicator:NO];
+    [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [_tableView setBackgroundColor:[UIColor colorForYoursWhite]];
+
+
+}
+
+
+
+
+
+- (void)didReceiveMemoryWarning
+{
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+#pragma mark -
+#pragma mark Add bar and buttons
+-(void) addNavigationBar{
     //add top controller bar
     UINavigationBar *topNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, VIEW_POST_NAVIGATION_BAR_HEIGHT)];
     [topNavigationBar setBarTintColor:[UIColor colorForYoursOrange]];
@@ -125,14 +152,17 @@
     topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
 }
 
-
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
+-(void)addCreatePostButton{
+    UIImage *buttonImage = [UIImage imageNamed:@"menu-addpost.png"];
+    UIButton* button = [UIButton buttonWithType:UIButtonTypeCustom];
+    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
+    button.frame = CGRectMake(100, 100, buttonImage.size.width, buttonImage.size.height);
+    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    
+    [button addTarget:self action:@selector(createPostButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [button setCenter:CGPointMake(WIDTH/2, HEIGHT - (buttonImage.size.height/2))];
+    [self.view addSubview:button];
 }
-
 
 #pragma mark -
 #pragma mark Navigation Bar Button Methods
@@ -146,6 +176,10 @@
         thisViewController = [thisViewController presentingViewController];
     }
     [thisViewController dismissViewControllerAnimated:YES completion:nil];
+}
+
+-(void)createPostButtonPressed:(id)sender{
+    [self performSegueWithIdentifier:@"createPostSegue" sender:sender];
 }
 
 
@@ -207,6 +241,14 @@
 {
     id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[section];
     return sectionInfo.numberOfObjects;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    id <NSFetchedResultsSectionInfo> sectionInfo = self.fetchedResultsController.sections[0];
+    if (indexPath.row == sectionInfo.numberOfObjects-1 ) {
+        return BIG_POSTS_CELL_HEIGHT + 40;
+    }
+    return BIG_POSTS_CELL_HEIGHT;
 }
 
 // This is where cells got data and set up
@@ -381,8 +423,7 @@
         Entity *entity = [[post.entities allObjects] firstObject];
         
         [nextController setEntity:entity];
-    }
-    else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+    } else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
         ViewPostViewController *nextController = segue.destinationViewController;
         
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -394,6 +435,9 @@
             [nextController setStartEditingComment:YES];
         }
         [nextController setPost:post];
+    } else if ([segue.identifier isEqualToString:@"createPostSegue"]){
+        CreatePostViewController *nextController = segue.destinationViewController;
+        [nextController addEntity:_entity];
     }
 }
 

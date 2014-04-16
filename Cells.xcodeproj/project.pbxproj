@@ -81,7 +81,8 @@
 		7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */; };
 		7A33F91518DFE3F600CEE1A7 /* MyPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */; };
 		7A37FA2E18E4AF2D003E5BFF /* UIColor+MSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A37FA2D18E4AF2D003E5BFF /* UIColor+MSColor.m */; };
-		7A37FA3A18E4B4B6003E5BFF /* fire.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA2F18E4B4B6003E5BFF /* fire.png */; };
+		7A37FA3A18E4B4B6003E5BFF /* fire@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA2F18E4B4B6003E5BFF /* fire@2x.png */; };
+		7A37FA3C18E4B4B6003E5BFF /* icon-follow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3118E4B4B6003E5BFF /* icon-follow@2x.png */; };
 		7A37FA3F18E4B4B6003E5BFF /* menu-addpost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3418E4B4B6003E5BFF /* menu-addpost@2x.png */; };
 		7A37FA4018E4B4B6003E5BFF /* menu-favorites@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3518E4B4B6003E5BFF /* menu-favorites@2x.png */; };
 		7A37FA4118E4B4B6003E5BFF /* menu-friends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3618E4B4B6003E5BFF /* menu-friends@2x.png */; };
@@ -100,6 +101,7 @@
 		7AB4284418FDB1B200DFC1D1 /* PostsICreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */; };
 		7AB4284718FDEB2100DFC1D1 /* icon-add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4284518FDEB2100DFC1D1 /* icon-add@2x.png */; };
 		7AB4284818FDEB2100DFC1D1 /* icon-setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4284618FDEB2100DFC1D1 /* icon-setting@2x.png */; };
+		7AB4284A18FF038400DFC1D1 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4284918FF038400DFC1D1 /* background@2x.png */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 		7ABFAA1B18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFAA1A18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m */; };
@@ -251,7 +253,7 @@
 		7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyPostsViewController.m; sourceTree = "<group>"; };
 		7A37FA2C18E4AF2D003E5BFF /* UIColor+MSColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+MSColor.h"; sourceTree = "<group>"; };
 		7A37FA2D18E4AF2D003E5BFF /* UIColor+MSColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+MSColor.m"; sourceTree = "<group>"; };
-		7A37FA2F18E4B4B6003E5BFF /* fire.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fire.png; sourceTree = "<group>"; };
+		7A37FA2F18E4B4B6003E5BFF /* fire@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "fire@2x.png"; sourceTree = "<group>"; };
 		7A37FA3118E4B4B6003E5BFF /* icon-follow@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-follow@2x.png"; sourceTree = "<group>"; };
 		7A37FA3418E4B4B6003E5BFF /* menu-addpost@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-addpost@2x.png"; sourceTree = "<group>"; };
 		7A37FA3518E4B4B6003E5BFF /* menu-favorites@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-favorites@2x.png"; sourceTree = "<group>"; };
@@ -274,6 +276,7 @@
 		7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostsICreatedViewController.m; sourceTree = "<group>"; };
 		7AB4284518FDEB2100DFC1D1 /* icon-add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-add@2x.png"; sourceTree = "<group>"; };
 		7AB4284618FDEB2100DFC1D1 /* icon-setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-setting@2x.png"; sourceTree = "<group>"; };
+		7AB4284918FF038400DFC1D1 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
@@ -408,6 +411,7 @@
 		512422A318B2B196008BEF86 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7AB4284918FF038400DFC1D1 /* background@2x.png */,
 				7AB4284518FDEB2100DFC1D1 /* icon-add@2x.png */,
 				7AB4284618FDEB2100DFC1D1 /* icon-setting@2x.png */,
 				7AB4283B18FC603F00DFC1D1 /* icon-follow@2x.png */,
@@ -433,7 +437,7 @@
 				7AFAFC5218EA3D8900696C30 /* facebook_icon.png */,
 				7AFAFC5318EA3D8900696C30 /* icon-commenter.png */,
 				7AFAFC5C18EA3D8900696C30 /* time.png */,
-				7A37FA2F18E4B4B6003E5BFF /* fire.png */,
+				7A37FA2F18E4B4B6003E5BFF /* fire@2x.png */,
 				7AD1F25618F1CB5F00592D23 /* logo_white@2x.png */,
 				7A37FA3118E4B4B6003E5BFF /* icon-follow@2x.png */,
 				7A37FA3418E4B4B6003E5BFF /* menu-addpost@2x.png */,
@@ -698,12 +702,13 @@
 				75CCCF4917FC03DF000BF0F4 /* InfoPlist.strings in Resources */,
 				7AD1F25B18F2183700592D23 /* YoursIcon40x40@2x.png in Resources */,
 				75721FD2181107D600298ACF /* EntityTableViewCell.xib in Resources */,
-				7A37FA3A18E4B4B6003E5BFF /* fire.png in Resources */,
+				7A37FA3A18E4B4B6003E5BFF /* fire@2x.png in Resources */,
 				5168110218B6868400B4AE0B /* launchOrangeC-568h@2x.png in Resources */,
 				7A37FA4218E4B4B6003E5BFF /* menu-my@2x.png in Resources */,
 				512422A618B2B2AD008BEF86 /* AppIcon40x40@2x.png in Resources */,
 				752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */,
 				7AB4284718FDEB2100DFC1D1 /* icon-add@2x.png in Resources */,
+				7AB4284A18FF038400DFC1D1 /* background@2x.png in Resources */,
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
 				7AD1F25518F1487B00592D23 /* YoursLaunchPage@2x.png in Resources */,
 				7584D1B818DED1FC00981E2E /* camera_button_take.png in Resources */,
