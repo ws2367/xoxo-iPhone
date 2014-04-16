@@ -102,6 +102,7 @@
 		7AB4284418FDB1B200DFC1D1 /* PostsICreatedViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */; };
 		7AB4284718FDEB2100DFC1D1 /* icon-add@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4284518FDEB2100DFC1D1 /* icon-add@2x.png */; };
 		7AB4284818FDEB2100DFC1D1 /* icon-setting@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4284618FDEB2100DFC1D1 /* icon-setting@2x.png */; };
+		7AB4284A18FF038400DFC1D1 /* background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4284918FF038400DFC1D1 /* background@2x.png */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 		7ABFAA1B18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFAA1A18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m */; };
@@ -278,6 +279,7 @@
 		7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PostsICreatedViewController.m; sourceTree = "<group>"; };
 		7AB4284518FDEB2100DFC1D1 /* icon-add@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-add@2x.png"; sourceTree = "<group>"; };
 		7AB4284618FDEB2100DFC1D1 /* icon-setting@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-setting@2x.png"; sourceTree = "<group>"; };
+		7AB4284918FF038400DFC1D1 /* background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "background@2x.png"; sourceTree = "<group>"; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
@@ -414,6 +416,7 @@
 		512422A318B2B196008BEF86 /* Icons */ = {
 			isa = PBXGroup;
 			children = (
+				7AB4284918FF038400DFC1D1 /* background@2x.png */,
 				7AB4284518FDEB2100DFC1D1 /* icon-add@2x.png */,
 				7AB4284618FDEB2100DFC1D1 /* icon-setting@2x.png */,
 				7AB4283B18FC603F00DFC1D1 /* icon-follow@2x.png */,
@@ -705,6 +708,7 @@
 				512422A618B2B2AD008BEF86 /* AppIcon40x40@2x.png in Resources */,
 				752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */,
 				7AB4284718FDEB2100DFC1D1 /* icon-add@2x.png in Resources */,
+				7AB4284A18FF038400DFC1D1 /* background@2x.png in Resources */,
 				75C086AF17FE30B800023200 /* pic1.png in Resources */,
 				7AD1F25518F1487B00592D23 /* YoursLaunchPage@2x.png in Resources */,
 				7584D1B818DED1FC00981E2E /* camera_button_take.png in Resources */,
