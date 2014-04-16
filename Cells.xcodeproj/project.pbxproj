@@ -10,7 +10,6 @@
 		2030C502A68542968957D8CF /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 426AC05381C84018A9CF6EC3 /* libPods.a */; };
 		511233F818DE2FFA00EFBF85 /* FacebookSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 511233F718DE2FFA00EFBF85 /* FacebookSDK.framework */; };
 		511233FB18DE3E6000EFBF85 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 511233FA18DE3E6000EFBF85 /* LoginViewController.m */; };
-		5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 5124229718B29639008BEF86 /* ViewMultiPostsViewController.m */; };
 		512422A618B2B2AD008BEF86 /* AppIcon40x40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 512422A518B2B2AD008BEF86 /* AppIcon40x40@2x.png */; };
 		512422B018B3E9C1008BEF86 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 512422AF18B3E9C1008BEF86 /* CoreData.framework */; };
 		512422C118B3F36D008BEF86 /* MultiPostsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */; };
@@ -142,8 +141,6 @@
 		511233F718DE2FFA00EFBF85 /* FacebookSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FacebookSDK.framework; path = Libraries/FacebookSDK/FacebookSDK.framework; sourceTree = "<group>"; };
 		511233F918DE3E6000EFBF85 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginViewController.h; sourceTree = "<group>"; };
 		511233FA18DE3E6000EFBF85 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginViewController.m; sourceTree = "<group>"; };
-		5124229618B29639008BEF86 /* ViewMultiPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewMultiPostsViewController.h; sourceTree = "<group>"; };
-		5124229718B29639008BEF86 /* ViewMultiPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewMultiPostsViewController.m; sourceTree = "<group>"; };
 		512422A118B29FC3008BEF86 /* Cells-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Cells-Info.plist"; path = "Cells/Cells-Info.plist"; sourceTree = SOURCE_ROOT; };
 		512422A418B2B26D008BEF86 /* AppIcon60x60@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon60x60@2x.png"; sourceTree = "<group>"; };
 		512422A518B2B2AD008BEF86 /* AppIcon40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon40x40@2x.png"; sourceTree = "<group>"; };
@@ -366,8 +363,6 @@
 				512422C018B3F36D008BEF86 /* MultiPostsTableViewController.m */,
 				51BA54B518D2730200B85BAF /* NavigationController.h */,
 				51BA54B618D2730200B85BAF /* NavigationController.m */,
-				5124229618B29639008BEF86 /* ViewMultiPostsViewController.h */,
-				5124229718B29639008BEF86 /* ViewMultiPostsViewController.m */,
 				7584D1B218DED07600981E2E /* MultiPostsTabBarController.h */,
 				7584D1B318DED07600981E2E /* MultiPostsTabBarController.m */,
 				7A33F90B18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m */,
@@ -800,7 +795,6 @@
 				75CCCF4B17FC03DF000BF0F4 /* main.m in Sources */,
 				7AB4284418FDB1B200DFC1D1 /* PostsICreatedViewController.m in Sources */,
 				753B4FD11842F86D00863B9F /* CommentTableViewCell.m in Sources */,
-				5124229818B29639008BEF86 /* ViewMultiPostsViewController.m in Sources */,
 				516FB2E818B6EFF100088AF6 /* Utility.m in Sources */,
 				51D109D018FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m in Sources */,
 				5186F09B18CEE58800B27C71 /* KeyChainWrapper.m in Sources */,

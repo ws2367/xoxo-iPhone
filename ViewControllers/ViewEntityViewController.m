@@ -6,14 +6,18 @@
 //  Copyright (c) 2013年 WYY. All rights reserved.
 //
 
+#import "MultiplePeoplePickerViewController.h"
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
-#import "BigPostTableViewCell.h"
-#import "KeyChainWrapper.h"
-#import "Entity.h"
 #import "NavigationController.h"
 
+#import "BigPostTableViewCell.h"
 #import "CircleViewForImage.h"
+
+#import "KeyChainWrapper.h"
+
+#import "Entity.h"
+
 #import "UIColor+MSColor.h"
 
 @interface ViewEntityViewController ()
@@ -294,37 +298,15 @@
 }
 
 -(void)sharePost:(id)sender{
-    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
-    picker.peoplePickerDelegate = self;
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
-    /*picker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
-     [self.view addSubview:picker.view];
-     [UIView animateWithDuration:ANIMATION_DURATION
-     delay:ANIMATION_DELAY
-     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-     animations:^{
-     picker.view.frame = CGRectMake( 0, 0, WIDTH, HEIGHT);
-     
-     }
-     completion:^(BOOL finished){
-     }];*/
-    
-    
+    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
+    picker.delegate = self;
+    [picker setSenderIndexPath:indexPath];
     [self presentViewController:picker animated:YES completion:nil];
-    
-    
-    
-    //CFErrorRef error = nil;
-    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
-    //if (!addressBook) // test the result, not the error
-    //{
-    //    NSLog(@"ERROR!!!");
-    //    return; // bail
-    //}
-    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
-    
-    //NSLog(@"%@", arrayOfPeople);
 }
+
 
 -(void)commentPost:(id)sender{
     //indicate we want to comment
@@ -416,22 +398,48 @@
 }
 
 #pragma mark -
-#pragma mark PeoplePicker Delegate Methods
-
-- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    /*[UIView animateWithDuration:ANIMATION_DURATION
-     delay:ANIMATION_DELAY
-     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-     animations:^{
-     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
-     
-     }
-     completion:^(BOOL finished){
-     [peoplePicker.view removeFromSuperview];
-     }];*/
+#pragma mark Multile People Picker Delegate Methods
+- (void) handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath{
+    Post *post = [_fetchedResultsController objectAtIndexPath:indexPath];
+    
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+        return;
+    }
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken, [selectedNumbers allObjects]]
+                                                       forKeys:@[@"auth_token", @"numbers"]];
+    
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"share_post"
+                                                                                          object:post
+                                                                                      parameters:params];
+    
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:nil
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         [Utility generateAlertWithMessage:@"Network problem" error:error];
+                                     }];
+    
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
+    
+    
 }
 
+- (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    MSDebug(@"Selected numbers %@", selectedNumbers);
+    
+    if ([selectedNumbers count] > 0) {
+        [self handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    }
+}
+
+#pragma mark -
+#pragma mark PeoplePicker Delegate Methods
+/*
 - (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person {
 //    [self displayPerson:person];
     [self dismissViewControllerAnimated:YES completion:nil];
@@ -443,23 +451,9 @@
     alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
     [alertView show];
     
-    /*[UIView animateWithDuration:ANIMATION_DURATION
-     delay:ANIMATION_DELAY
-     options: (UIViewAnimationOptions)UIViewAnimationCurveEaseIn
-     animations:^{
-     peoplePicker.view.frame = CGRectMake( WIDTH, 0, WIDTH, HEIGHT);
-     
-     }
-     completion:^(BOOL finished){
-     [peoplePicker.view removeFromSuperview];
-     }];*/
     return NO;
 }
-
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property  identifier:(ABMultiValueIdentifier)identifier{
-    return NO;
-}
-
+*/
 
 #pragma mark -
 #pragma mark alertView delegate method

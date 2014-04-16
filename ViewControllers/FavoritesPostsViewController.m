@@ -63,8 +63,6 @@
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
     
     
-//    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localPostIDs, localEntityIDs, sessionToken, @"following"]
-//                                                       forKeys:@[@"Post", @"Entity", @"auth_token", @"type"]];
     NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken, @"following"]
                                                        forKeys:@[@"auth_token", @"type"]];
     

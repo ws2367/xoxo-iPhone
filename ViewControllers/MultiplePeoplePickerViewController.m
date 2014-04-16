@@ -112,7 +112,7 @@ static NSString *CellIdentifier = @"ContactCell";
         phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:onlyAllowedChars] componentsJoinedByString:@""];
         [phoneNumbers addObject:phoneNumber];
     }
-    if(_delegate && [_delegate respondsToSelector:@selector(CellPerformViewPost:)]){
+    if(_delegate && [_delegate respondsToSelector:@selector(donePickingMutiplePeople: senderIndexPath:)]){
         [_delegate donePickingMutiplePeople:phoneNumbers senderIndexPath:_senderIndexPath];
     }
 }

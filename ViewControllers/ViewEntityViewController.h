@@ -10,12 +10,14 @@
 #import <MapKit/MapKit.h>
 #import "Entity.h"
 #import "BigPostTableViewCell.h"
+#import "MultiplePeoplePickerViewController.h"
 #import <AddressBookUI/AddressBookUI.h>
 
 @class ViewMultiPostsViewController;
 
 @interface ViewEntityViewController : UIViewController
-                                        <MKMapViewDelegate, NSFetchedResultsControllerDelegate, BigPostTableViewCellDelegate, UIActionSheetDelegate, ABPeoplePickerNavigationControllerDelegate>
+                                        <NSFetchedResultsControllerDelegate, BigPostTableViewCellDelegate, UIActionSheetDelegate,
+                                        MultiplePeoplePickerViewControllerDelegate>
 
 @property (strong, nonatomic) Entity *entity;
 

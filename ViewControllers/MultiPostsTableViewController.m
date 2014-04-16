@@ -243,7 +243,6 @@
         
         //TODO: check if the model is empty then this will raise exception
         
-        Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
 //        MSDebug(@"Changed!");
 //        MSDebug(@"Post content: %@", post.content);
 //        MSDebug(@"Post f count: %@", post.followersCount);
@@ -545,8 +544,9 @@
 {
     [self dismissViewControllerAnimated:YES completion:nil];
     MSDebug(@"Selected numbers %@", selectedNumbers);
-    
-    [self handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    if ([selectedNumbers count] > 0) {
+        [self handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    }
 }
 
 #pragma mark -

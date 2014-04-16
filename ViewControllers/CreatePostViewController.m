@@ -10,7 +10,6 @@
 
 #import "CreatePostViewController.h"
 #import "CreateEntityViewController.h"
-#import "ViewMultiPostsViewController.h"
 
 #import "SuperImageView.h"
 #import "KeyChainWrapper.h"

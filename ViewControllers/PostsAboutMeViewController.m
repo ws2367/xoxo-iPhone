@@ -122,7 +122,9 @@
     [_myPostsViewController dismissViewControllerAnimated:YES completion:nil];
     MSDebug(@"Selected numbers %@", selectedNumbers);
     
-    [super handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    if ([selectedNumbers count] > 0) {
+        [super handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    }
 }
 
 
