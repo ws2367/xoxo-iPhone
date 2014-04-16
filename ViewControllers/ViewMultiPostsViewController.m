@@ -124,7 +124,7 @@
     //add a table view 
     _tableViewController = [[MultiPostsTableViewController alloc] init];
     _tableViewController.tableView = _tableView;
-    _tableViewController.masterController = self;
+    //_tableViewController.masterController = self;
     _tableView.delegate = _tableViewController;
     
     

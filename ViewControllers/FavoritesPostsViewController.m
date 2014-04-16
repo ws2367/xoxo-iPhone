@@ -53,15 +53,9 @@
 - (void)startRefreshingUp{
     [super startRefreshingUp];
     
-    // fetch ten most popular posts ids
-//    NSArray *localPostIDs = [super fetchMostPopularPostIDsOfNumber:10 predicate:self.predicate];
-//    NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
-//    MSDebug(@"post IDs to be pushed to server: %@", localPostIDs);
-//    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
-
     // check if seesion token is valid
     if (![KeyChainWrapper isSessionTokenValid]) {
-        NSLog(@"At PopularPostsViewController: user session token is not valid. Stop refreshing up");
+        NSLog(@"User session token is not valid. Stop refreshing up");
         [self.refreshControl endRefreshing];
         return;
     }
@@ -137,10 +131,5 @@
     
     
 }
-
-
-#pragma mark -
-#pragma mark Miscellaneous Methods
-
 
 @end

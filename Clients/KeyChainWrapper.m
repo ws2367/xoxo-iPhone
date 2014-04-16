@@ -8,24 +8,46 @@
 
 #import "KeyChainWrapper.h"
 
-static NSString *AccessKey = nil;
-static NSString *SecretKey = nil;
-static NSString *SecurityToken = nil;
-static NSString *Expiration = nil;
+// AWS credentials
+static NSString *AWSAccessKey = nil;
+static NSString *AWSSecretKey = nil;
+static NSString *AWSSecurityToken = nil;
+static NSString *AWSExpiration = nil;
 
-static NSString *UID = nil;
-static NSString *Key = nil;
-
+// Moose server credentials
 static NSString *SessionToken = nil;
+
+// FB credentials
+static NSString *FBUserID = nil;
 
 @implementation KeyChainWrapper
 
++(void)storeFBUserID:(NSString *)fbUserID
+{
+    if (fbUserID != nil) {
+        FBUserID = [NSString stringWithString:fbUserID];
+    }
+}
+
++(NSString *)FBUserID
+{
+    return FBUserID;
+}
+
++(BOOL)isFBUserIDValid
+{
+    if (FBUserID == nil || [FBUserID isEqualToString:@""]){
+        return false;
+    } else {
+        return true;
+    }
+}
 
 +(bool)areAWSCredentialsExpired
 {
     AMZLogDebug(@"areAWSCredentialsExpired");
     
-    NSString *expiration = Expiration;
+    NSString *expiration = AWSExpiration;
     if (expiration == nil) {
         return YES;
     }
@@ -90,10 +112,10 @@ static NSString *SessionToken = nil;
 
 +(AmazonCredentials *)getAWSCredentialsFromKeyChain
 {
-    if ((AccessKey != nil) && (SecretKey != nil) && (SecurityToken != nil)) {
+    if ((AWSAccessKey != nil) && (AWSSecretKey != nil) && (AWSSecurityToken != nil)) {
         if (![KeyChainWrapper areAWSCredentialsExpired]) {
-            AmazonCredentials *credentials = [[AmazonCredentials alloc] initWithAccessKey:AccessKey withSecretKey:SecretKey];
-            credentials.securityToken = SecurityToken;
+            AmazonCredentials *credentials = [[AmazonCredentials alloc] initWithAccessKey:AWSAccessKey withSecretKey:AWSSecretKey];
+            credentials.securityToken = AWSSecurityToken;
             
             return credentials;
         }
@@ -103,29 +125,36 @@ static NSString *SessionToken = nil;
 }
 
 
-+(void)storeCredentialsInKeyChain:(NSString *)theAccessKey secretKey:(NSString *)theSecretKey
-                    securityToken:(NSString *)theSecurityToken expiration:(NSString *)theExpirationDate{
++(void)storeCredentialsInKeyChain:(NSString *)theAWSAccessKey secretKey:(NSString *)theAWSSecretKey
+                    securityToken:(NSString *)theAWSSecurityToken expiration:(NSString *)theAWSExpirationDate{
     
-    if (theAccessKey != nil && theSecretKey != nil && theSecurityToken != nil && theExpirationDate != nil) {
-        AccessKey = [NSString stringWithString:theAccessKey];
-        SecretKey = [NSString stringWithString:theSecretKey];
-        SecurityToken = [NSString stringWithString:theSecurityToken];
-        Expiration = [NSString stringWithString:theExpirationDate];
+    if (theAWSAccessKey != nil && theAWSSecretKey != nil && theAWSSecurityToken != nil && theAWSExpirationDate != nil) {
+        AWSAccessKey = [NSString stringWithString:theAWSAccessKey];
+        AWSSecretKey = [NSString stringWithString:theAWSSecretKey];
+        AWSSecurityToken = [NSString stringWithString:theAWSSecurityToken];
+        AWSExpiration = [NSString stringWithString:theAWSExpirationDate];
     }
     /*
-    [KeyChainWrapper storeValueInKeyChain:theAccessKey forKey:kKeychainAccessKeyIdentifier];
-    [KeyChainWrapper storeValueInKeyChain:theSecretKey forKey:kKeychainSecretKeyIdentifier];
-    [KeyChainWrapper storeValueInKeyChain:theSecurityToken forKey:kKeychainSecrutiyTokenIdentifier];
-    [KeyChainWrapper storeValueInKeyChain:theExpirationDate forKey:kKeychainExpirationDateIdentifier];
+    [KeyChainWrapper storeValueInKeyChain:theAWSAccessKey forKey:kKeychainAWSAccessKeyIdentifier];
+    [KeyChainWrapper storeValueInKeyChain:theAWSSecretKey forKey:kKeychainAWSSecretKeyIdentifier];
+    [KeyChainWrapper storeValueInKeyChain:theAWSSecurityToken forKey:kKeychainAWSSecrutiyTokenIdentifier];
+    [KeyChainWrapper storeValueInKeyChain:theAWSExpirationDate forKey:kKeychainAWSExpirationDateIdentifier];
      */
    
 }
 
-+(void)storeValueInKeyChain:(NSString *)value forKey:(NSString *)key
-{
++(void)cleanUpCredentials{
+    // AWS credentials
+    AWSAccessKey = nil;
+    AWSSecretKey = nil;
+    AWSSecurityToken = nil;
+    AWSExpiration = nil;
     
-
+    // Moose server credentials
+    SessionToken = nil;
+    
+    // FB credentials
+    FBUserID = nil;
 }
-
 
 @end

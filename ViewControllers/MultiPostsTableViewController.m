@@ -421,23 +421,6 @@
     picker.delegate = self;
     [picker setSenderIndexPath:indexPath];
     [self presentViewController:picker animated:YES completion:nil];
-//    ABPeoplePickerNavigationController *picker =[[ABPeoplePickerNavigationController alloc] init];
-//    picker.peoplePickerDelegate = self;
-//    
-//    [self presentViewController:picker animated:YES completion:nil];
-    
-    
-    
-    //CFErrorRef error = nil;
-    //ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, &error); // indirection
-    //if (!addressBook) // test the result, not the error
-    //{
-    //    NSLog(@"ERROR!!!");
-    //    return; // bail
-    //}
-    //CFArrayRef arrayOfPeople = ABAddressBookCopyArrayOfAllPeople(addressBook);
-    
-    //NSLog(@"%@", arrayOfPeople);
 }
 
 -(void)commentPost:(id)sender{
@@ -517,7 +500,7 @@
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
         Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
-
+        MSDebug(@"Post: %@", post);
         [nextController setPost:post];
         if ([sender tag] == 0) {
             [nextController setStartEditingComment:NO];
@@ -530,11 +513,7 @@
 
 #pragma mark -
 #pragma mark Multile People Picker Delegate Methods
-- (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
-{
-    [self dismissViewControllerAnimated:YES completion:nil];
-    MSDebug(@"Selected numbers %@", selectedNumbers);
-    
+- (void) handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath{
     Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
     
     if (![KeyChainWrapper isSessionTokenValid]) {
@@ -542,13 +521,13 @@
         return;
     }
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-
+    
     NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken, [selectedNumbers allObjects]]
                                                        forKeys:@[@"auth_token", @"numbers"]];
     
     NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"share_post"
-                                                                     object:post
-                                                                 parameters:params];
+                                                                                          object:post
+                                                                                      parameters:params];
     
     RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
     [operation setCompletionBlockWithSuccess:nil
@@ -558,48 +537,17 @@
     
     NSOperationQueue *operationQueue = [NSOperationQueue new];
     [operationQueue addOperation:operation];
-
     
+
 }
 
-/*
-#pragma mark -
-#pragma mark PeoplePicker Delegate Methods
-
-- (void)peoplePickerNavigationControllerDidCancel:(ABPeoplePickerNavigationController *)peoplePicker{
+- (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
+{
     [self dismissViewControllerAnimated:YES completion:nil];
+    MSDebug(@"Selected numbers %@", selectedNumbers);
+    
+    [self handleNumbers:selectedNumbers senderIndexPath:indexPath];
 }
-
-- (void)displayPerson:(ABRecordRef)person{
-    CFStringRef a = ABRecordCopyCompositeName(person);
-    NSLog(@"%@", a);
-    ABMultiValueRef phoneNumbers = (ABMultiValueRef)ABRecordCopyValue(person, kABPersonPhoneProperty);
-    CFRelease(phoneNumbers);
-    NSString* phoneNumber = (__bridge NSString*)ABMultiValueCopyValueAtIndex(phoneNumbers, 0);
-    NSCharacterSet *onlyAllowedChars = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
-    phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:onlyAllowedChars] componentsJoinedByString:@""];
-    NSLog(@"%@", phoneNumber);
-}
-
-
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
-      shouldContinueAfterSelectingPerson:(ABRecordRef)person {
-    [self displayPerson:person];
-    [self dismissViewControllerAnimated:YES completion:nil];
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Please type in message you want to send"
-                                                        message:nil
-                                                       delegate:self
-                                              cancelButtonTitle:@"Cancel"
-                                              otherButtonTitles:@"Send",nil];
-    alertView.alertViewStyle = UIAlertViewStylePlainTextInput;
-    [alertView show];
-    return NO;
-}
-
-- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker shouldContinueAfterSelectingPerson:(ABRecordRef)person property:(ABPropertyID)property  identifier:(ABMultiValueIdentifier)identifier{
-    return NO;
-}
-*/
 
 #pragma mark -
 #pragma mark AlertView delegate method
@@ -751,10 +699,5 @@
     }
     return [[match firstObject] remoteID];
 }
-
-
-
-
-
 
 @end

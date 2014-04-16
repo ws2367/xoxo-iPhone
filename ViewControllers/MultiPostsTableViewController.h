@@ -20,7 +20,7 @@
     NSFetchedResultsController *fetchedResultsController;
 }
 
-@property (strong, nonatomic)ViewMultiPostsViewController *masterController;
+- (void)handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath;
 
 - (void)startRefreshingUp;
 
@@ -28,14 +28,13 @@
 
 - (void) loadPhotosForPost:(Post *)post;
 
-- (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number;
-
 - (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate;
 
 - (void) setFetchedResultsControllerWithEntityName:(NSString *)entityName
                                          predicate:(NSPredicate *)predicate
                                     sortDescriptor:(NSSortDescriptor *)sort;
 
-- (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number predicate:(NSPredicate *)predicate;
+//- (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number;
+//- (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number predicate:(NSPredicate *)predicate;
 
 @end

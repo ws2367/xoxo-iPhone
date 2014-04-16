@@ -7,7 +7,10 @@
 //
 
 #import "MultiPostsTableViewController.h"
+#import "MyPostsViewController.h"
 
 @interface PostsAboutMeViewController : MultiPostsTableViewController
+
+@property (nonatomic, weak) MyPostsViewController *myPostsViewController;
 
 @end

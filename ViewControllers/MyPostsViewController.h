@@ -6,7 +6,12 @@
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
+#import "Post.h"
+#import "Entity.h"
 
 @interface MyPostsViewController : UIViewController
+
+@property (nonatomic, strong) Post *post;
+@property (nonatomic, strong) Entity *entity;
 
 @end

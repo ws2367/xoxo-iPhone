@@ -6,10 +6,16 @@
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
+#import <FacebookSDK/FacebookSDK.h>
+
 #import "MyPostsViewController.h"
 #import "PostsAboutMeViewController.h"
 #import "PostsICreatedViewController.h"
 #import "NavigationController.h"
+#import "ViewEntityViewController.h"
+#import "ViewPostViewController.h"
+
+#import "KeyChainWrapper.h"
 
 #import "UIColor+MSColor.h"
 
@@ -24,6 +30,8 @@
 @property (strong, nonatomic) UIView *contentContainerView;
 @property (nonatomic) NSUInteger selectedIndex;
 @property (strong, nonatomic) UIViewController *selectedViewController;
+
+
 @end
 
 @implementation MyPostsViewController
@@ -46,7 +54,6 @@
     [self setupTabSystem];
     
 }
-
 
 - (void)didReceiveMemoryWarning
 {
@@ -91,7 +98,10 @@
     PostsICreatedViewController *postsICreatedViewController = [[PostsICreatedViewController alloc] initWithStyle:UITableViewStylePlain];
     _viewControllers = @[postsAboutMeViewController, postsICreatedViewController];
     postsAboutMeViewController.tabBarItem.title = @"Posts About Me";
+    postsAboutMeViewController.myPostsViewController = self;
+    
     postsICreatedViewController.tabBarItem.title = @"My Posts";
+    postsICreatedViewController.myPostsViewController = self;
     
 	_tabButtonsContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CONTENT_VIEW_BEGIN_Y - TABBAR_HEIGHT, self.view.bounds.size.width, TABBAR_HEIGHT)];
 	_tabButtonsContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
@@ -145,7 +155,7 @@
 -(void) deselectTabButton:(UIButton *)button{
     [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [button setBackgroundColor:[UIColor colorForYoursOrange]];
-    MSDebug(@"im deselecting button %d", button.tag);
+    MSDebug(@"im deselecting button %ld", (long)button.tag);
 }
 
 - (void) selectTabButton:(UIButton *)button
@@ -173,7 +183,7 @@
     {
         UIButton *fromButton = (UIButton *)[_tabButtonsContainerView viewWithTag:_selectedIndex];
         [self deselectTabButton:fromButton];
-        MSDebug(@"deselect %d",fromButton.tag);
+        MSDebug(@"deselect %ld",(long)fromButton.tag);
         fromViewController = [_viewControllers objectAtIndex:_selectedIndex - BUTTON_TAG_OFFSET];
     }
     
@@ -182,9 +192,9 @@
     if (_selectedIndex != NSNotFound)
     {
         toButton = (UIButton *)[_tabButtonsContainerView viewWithTag: newSelectedIndex];
-        MSDebug(@"select %d",toButton.tag);
+        MSDebug(@"select %ld",(long)toButton.tag);
         [self selectTabButton:toButton];
-        MSDebug(@"select %d",toButton.tag);
+        MSDebug(@"select %ld",(long)toButton.tag);
         toViewController = [_viewControllers objectAtIndex:newSelectedIndex - BUTTON_TAG_OFFSET];
         
     }
@@ -211,7 +221,23 @@
     }
 }
 
-
+#pragma mark -
+#pragma mark Segue methods
+- (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
+    if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+        ViewPostViewController *nextController = segue.destinationViewController;
+        
+        if (!_post) {
+            MSError(@"No post is set when performing viewPostSegue");
+        }
+        [nextController setPost:_post];
+        if ([sender tag] == 0) {
+            [nextController setStartEditingComment:NO];
+        }else{
+            [nextController setStartEditingComment:YES];
+        }
+    }
+}
 
 
 @end
