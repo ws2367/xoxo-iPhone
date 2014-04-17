@@ -26,6 +26,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 0, 0);
     // Do any additional setup after loading the view.
 }
 
@@ -158,4 +159,15 @@
         [super handleNumbers:selectedNumbers senderIndexPath:indexPath];
     }
 }
+
+//to let the last cell taller
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+    id <NSFetchedResultsSectionInfo> sectionInfo = fetchedResultsController.sections[0];
+    if(indexPath.row == sectionInfo.numberOfObjects - 1){
+        return BIG_POSTS_CELL_HEIGHT + 40;
+    } else{
+        return BIG_POSTS_CELL_HEIGHT;
+    }
+}
+
 @end

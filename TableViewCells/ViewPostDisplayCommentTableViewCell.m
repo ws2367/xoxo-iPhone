@@ -10,6 +10,8 @@
 #import "UIColor+MSColor.h"
 #import "Comment.h"
 
+#define TIME_LABEL_TAG 2000
+
 
 @interface ViewPostDisplayCommentTableViewCell()
 @property (strong, nonatomic) Comment *myComment;
@@ -58,14 +60,20 @@
 }
 
 -(void) addDate{
-    UIImage *timeIcon =[UIImage imageNamed:@"icon-time.png"];
+    for(UIView *view in self.contentView.subviews){
+        if(view.tag == TIME_LABEL_TAG){
+            [view removeFromSuperview];
+        }
+    }
+    UIImage *timeIcon=[UIImage imageNamed:@"icon-clock.png"];
     UIImageView *timeIconView = [[UIImageView alloc] initWithImage:timeIcon];
-    [timeIconView setFrame:CGRectMake(16, 40, timeIcon.size.width, timeIcon.size.height)];
+    [timeIconView setFrame:CGRectMake(19, 42, timeIcon.size.width, timeIcon.size.height)];
     [self.contentView addSubview:timeIconView];
     NSAttributedString *dateStr = [[NSAttributedString alloc] initWithString:[Utility getDateToShow:[_myComment updateDate] inWhole:NO] attributes:[Utility getViewPostDisplayContentDateFontDictionary]];
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 40, 70, 20)];
-    [dateLabel setAttributedText:dateStr];
-    [self.contentView addSubview:dateLabel];
+    UILabel *timeLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 39, 70, 20)];
+    [timeLabel setTag:TIME_LABEL_TAG];
+    [timeLabel setAttributedText:dateStr];
+    [self.contentView addSubview:timeLabel];
 
     
 }

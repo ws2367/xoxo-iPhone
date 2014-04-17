@@ -283,9 +283,16 @@
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeUpdate) {
+//        NSIndexPath *indexPathButton = [NSIndexPath indexPathForRow:([_entities count]+1) inSection:0];
+//        [self.tableView
+//         reloadRowsAtIndexPaths:@[indexPathButton]
+//         withRowAnimation:UITableViewRowAnimationAutomatic];
+
+
         [self.tableView
          reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
+        
     }
 }
 
@@ -355,11 +362,12 @@
 }
 
 - (IBAction)postComment:(id)sender {
-    
+
     if([_commentTextField text] == nil || [[_commentTextField text] isEqualToString:@""] ||[[_commentTextField text] isEqualToString:@"Leave a comment..."]){
         [Utility generateAlertWithMessage:@"Please type in a comment..." error:nil];
         return;
     }
+
 
     // hide the keyboard
     [_commentTextField resignFirstResponder];
@@ -381,6 +389,9 @@
         [_comments addObject:comment];
     }
     [_viewPostTableView reloadData];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([_entities count]+1) inSection:0];
+    ViewPostDisplayButtonBarTableViewCell *cell = (ViewPostDisplayButtonBarTableViewCell *)[self.viewPostTableView cellForRowAtIndexPath:indexPath];
+    [cell addCommentNumber];
     [self scrollTableViewToBottom];
     // Note that here, even if we connect the relationship to Post for the comment,
     // we still need to set postUUID in order to let the server know the relationship.
@@ -686,7 +697,8 @@
     //indicate we want to comment
     [_commentTextField becomeFirstResponder];
 }
-- (void) followPost:(id)sender{
+- (void) followPost:(id)sender;
+{
     [_post sendFollowRequestWithFailureBlock:^{
         [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:nil];
     }];

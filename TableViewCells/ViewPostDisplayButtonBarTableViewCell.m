@@ -64,7 +64,6 @@
     }
 }
 -(void) commentButtonPressed:(id)sender{
-    [_commentLabel removeFromSuperview];
     if(_delegate && [_delegate respondsToSelector:@selector(commentPost:)]){
         [_delegate commentPost:sender];
     }
@@ -80,15 +79,15 @@
         NSAttributedString *String = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", _followNumber] attributes:[Utility getFollowNumberFontDictionary]];
         [_followLabel setAttributedText:String];
         [_whatButton setImage:[UIImage imageNamed:@"icon-follow.png"] forState:UIControlStateNormal];
-        _hasFollowed = FALSE;
         [self.contentView addSubview:_followLabel];
+        _hasFollowed = FALSE;
     }else{
         _followNumber++;
         NSAttributedString *String = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", _followNumber] attributes:[Utility getFollowNumberFontDictionary]];
         [_followLabel setAttributedText:String];
         [_whatButton setImage:[UIImage imageNamed:@"icon-followII.png"] forState:UIControlStateNormal];
-        _hasFollowed = TRUE;
         [self.contentView addSubview:_followLabel];
+        _hasFollowed = TRUE;
     }
     if(_delegate && [_delegate respondsToSelector:@selector(followPost:)]){
         [_delegate followPost:sender];
@@ -143,6 +142,11 @@
     [self.contentView.layer addSublayer:dashLineLayer];
 }
 -(void) addCommentAndFollowNumbersWithCommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount hasFollowed:(BOOL)hasFollowed{
+    for(UIView *view in self.contentView.subviews){
+        if(view.tag == FOLLOW_LABEL_TAG || view.tag == COMMENT_LABEL_TAG){
+            [view removeFromSuperview];
+        }
+    }
     _followNumber = [followersCount integerValue];
     _commentNumber = [commentsCount integerValue];
     _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(102, BUTTON_BAR_ORIGIN_Y+5, 50, 18)];
@@ -164,6 +168,20 @@
     }
     _hasFollowed = hasFollowed;
     
+}
+
+
+-(void) addCommentNumber{
+    for(UIView *view in self.contentView.subviews){
+        if(view.tag == COMMENT_LABEL_TAG){
+            [view removeFromSuperview];
+        }
+    }
+    MSDebug(@"added a comment! before %d",_commentNumber);
+    _commentNumber++;
+    NSAttributedString *String = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", _commentNumber] attributes:[Utility getCommentNumberFontDictionary]];
+    [_commentLabel setAttributedText:String];
+    [self.contentView addSubview:_commentLabel];
 }
 
 -(void) addOrangeLine{
