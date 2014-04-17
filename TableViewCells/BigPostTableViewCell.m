@@ -35,12 +35,14 @@
 
 @property (strong,nonatomic) UILabel *commentLabel;
 @property (strong,nonatomic) UILabel *followLabel;
-@property (strong, nonatomic) NSAttributedString *commentNumber;
-@property (strong, nonatomic) NSAttributedString *followNumber;
+@property (strong, nonatomic) NSAttributedString *commentString;
+@property (strong, nonatomic) NSAttributedString *followString;
 @property (nonatomic) CGFloat imageWidth;
 
 @property (strong, nonatomic) CAGradientLayer *blackLayer;
 @property (strong, nonatomic) CAGradientLayer *gradientLeft;
+
+
 
 
 /*
@@ -182,7 +184,7 @@
 }
  */
 
--(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount atDate:(NSDate *)date{
+-(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount atDate:(NSDate *)date hasFollowed:(BOOL)hasFollowed{
     //first process photo
     if(!_postImageView){
         _postImageView = [[UIImageView alloc] init];
@@ -190,44 +192,38 @@
     
     if(!photo){
         [self addLaunchingImage];
+        [_followLabel removeFromSuperview];
+        [_commentLabel removeFromSuperview];
         return;
     }
-    
+
     _imageWidth = photo.size.width*POST_IMAGE_HEIGHT/photo.size.height;
     [_postImageView setFrame:CGRectMake(WIDTH - _imageWidth, 0, _imageWidth, POST_IMAGE_HEIGHT)];
     
     [_postImageView setImage:photo];
-    /*
-    _postImageView.animationImages = [NSArray arrayWithObjects:
-                                 [UIImage imageNamed:@"Loading-Gif.gif"],
-                                 [UIImage imageNamed:@"YoursIcon60x60.png"], nil];
-    
-    
-    _postImageView.animationDuration = 2.0;
-    _postImageView.animationRepeatCount = 0;
-    [_postImageView startAnimating];
-     */
-
-    
-    
     [self.contentView addSubview:_postImageView];
     [self createGradient];
-    
     //then process entities
     [self generateNameLabels:entities];
-
     //then content
     [self generateContentLabel:content];
     
-    //then comment and follow Number
-    [self addCommentAndFollowNumbersWithCommentsCount:[commentsCount integerValue] FollowersCount:[followersCount integerValue]];
     
     //then display date
     [self displayDate:date];
     
     //add mask to let user to click into post
     [self addClickAreaToViewPost];
-
+    
+    [self addCommentAndFollowNumbersWithCommentsCount:[commentsCount integerValue] FollowersCount:[followersCount integerValue]];
+    
+    //change follow icon
+    if(hasFollowed){
+        [_whatButton setImage:[UIImage imageNamed:@"icon-followII.png"] forState:UIControlStateNormal];
+    } else{
+        [_whatButton setImage:[UIImage imageNamed:@"icon-follow.png"] forState:UIControlStateNormal];
+    }
+    
     
 }
 
@@ -347,10 +343,15 @@
     [self.contentView addSubview:dateLabel];
 }
 -(void)generateContentLabel:(NSString *)content{
-
+    NSString *toDisplay;
+    if([content length] > 50){
+        toDisplay = [[content substringWithRange:NSMakeRange(0, 50)] stringByAppendingString:@"..."];
+    } else{
+        toDisplay = content;
+    }
     NSAttributedString *contentText = [[NSAttributedString alloc]
-                                       initWithString:content attributes:[Utility getMultiPostsContentFontDictionary]];
-    _contentTextView =[[UITextView alloc] initWithFrame:CGRectMake(8, 130, WIDTH/2+ 20, 80)];
+                                       initWithString:toDisplay attributes:[Utility getMultiPostsContentFontDictionary]];
+    _contentTextView =[[UITextView alloc] initWithFrame:CGRectMake(8, 118, WIDTH/2+ 20, 78)];
     [_contentTextView setAttributedText:contentText];
     [_contentTextView setBackgroundColor:[UIColor clearColor]];
     [_contentTextView setEditable:NO];
@@ -364,14 +365,14 @@
          NSDictionary *firstEntity = [entities firstObject];
         if([entities count] > 2){
             NSString *namePlusDot = [firstEntity[@"name"] stringByAppendingString:@"..."];
-            [self generateNameLabel:namePlusDot  atX:8 Y:95];
+            [self generateNameLabel:namePlusDot  atX:8 Y:85];
         } else{
-            [self generateNameLabel:firstEntity[@"name"]  atX:8 Y:95];
+            [self generateNameLabel:firstEntity[@"name"]  atX:8 Y:85];
         }
     }
     if([entities count] >= 2){
          NSDictionary *secondEntity = [entities objectAtIndex:1];
-        [self generateNameLabel:secondEntity[@"name"]  atX:8 Y:60];
+        [self generateNameLabel:secondEntity[@"name"]  atX:8 Y:52];
     }
 }
 
@@ -391,10 +392,10 @@
     [_followLabel removeFromSuperview];
     _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(102, BUTTON_ORIGIN_Y+3, 50, 18)];
     _followLabel = [[UILabel alloc] initWithFrame:CGRectMake(184, BUTTON_ORIGIN_Y+3, 50, 18)];
-    _commentNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)commentNum] attributes:[Utility getCommentNumberFontDictionary]];
-    _followNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)followNum] attributes:[Utility getFollowNumberFontDictionary]];
-    [_commentLabel setAttributedText:_commentNumber];
-    [_followLabel setAttributedText:_followNumber];
+    _commentString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)commentNum] attributes:[Utility getCommentNumberFontDictionary]];
+    _followString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", (int)followNum] attributes:[Utility getFollowNumberFontDictionary]];
+    [_commentLabel setAttributedText:_commentString];
+    [_followLabel setAttributedText:_followString];
     [self.contentView addSubview:_commentLabel];
     [self.contentView addSubview:_followLabel];
 }
@@ -415,7 +416,7 @@
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 //    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width + 4, buttonImage.size.height + 4);
+    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width + 8, buttonImage.size.height + 8);
     [button setImage:buttonImage forState:UIControlStateNormal];
     [self.contentView addSubview:button];
     return button;

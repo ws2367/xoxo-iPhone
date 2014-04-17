@@ -366,6 +366,7 @@
     
     Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
                                                      inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+    
 
     // This is better than [comment setValue:..... forKey:@"content"]
     // because literal string is not type-checked, but @properties are.
@@ -556,7 +557,7 @@
                                                 options:NSStringDrawingUsesLineFragmentOrigin
                                              attributes:[Utility getViewPostDisplayContentFontDictionary] context:nil];
 
-        return ceilf(rectSize.size.height)+40;
+        return ceilf(rectSize.size.height)+60;
     } else{
         return VIEW_POST_DISPLAY_COMMENT_HEIGHT;
     }
@@ -588,7 +589,7 @@
         if (!cell){
             cell = [[ViewPostDisplayButtonBarTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayButtonBarCellIdentifier];
         }
-        [cell addCommentAndFollowNumbersWithCommentsCount:_post.commentsCount FollowersCount:_post.followersCount];
+        [cell addCommentAndFollowNumbersWithCommentsCount:_post.commentsCount FollowersCount:_post.followersCount hasFollowed:[_post.following boolValue]];
         cell.delegate = self;
         return cell;
 

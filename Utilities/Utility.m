@@ -234,7 +234,7 @@
 
 }
 + (NSDictionary *)getMultiPostsContentFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:17],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getMultiPostsDateFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"Helvetica" size:15],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
@@ -247,7 +247,7 @@
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:12],NSFontAttributeName, [UIColor colorForYoursGray] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getViewPostDisplayContentFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor colorForYoursGray] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:18],NSFontAttributeName, [UIColor colorForYoursGray] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getViewPostDisplayCommentFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor colorForYoursDarkBlue] ,NSForegroundColorAttributeName,nil];
@@ -266,6 +266,16 @@
 }
 + (NSDictionary *)getCreatePostDisplayInstitutionFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:10],NSFontAttributeName, [UIColor colorForYoursGray] ,NSForegroundColorAttributeName,nil];
+}
++ (NSDictionary *)getNavigationBarTitleFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:19],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+}
++ (NSDictionary *)getSettingButtonFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:19],NSFontAttributeName, [UIColor colorForYoursOrange] ,NSForegroundColorAttributeName,nil];
+}
+
++ (NSDictionary *)getViewEntityInstitutionFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Roman" size:12],NSFontAttributeName, [UIColor colorForYoursWhite] ,NSForegroundColorAttributeName,nil];
 }
 
 

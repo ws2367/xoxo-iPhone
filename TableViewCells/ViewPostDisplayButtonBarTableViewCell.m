@@ -10,6 +10,8 @@
 #import "UIColor+MSColor.h"
 
 #define BUTTON_BAR_ORIGIN_Y 12
+#define FOLLOW_LABEL_TAG 1000
+#define COMMENT_LABEL_TAG 1001
 
 @interface ViewPostDisplayButtonBarTableViewCell()
 
@@ -20,8 +22,14 @@
 
 @property (strong,nonatomic) UILabel *commentLabel;
 @property (strong,nonatomic) UILabel *followLabel;
-@property (strong, nonatomic) NSAttributedString *commentNumber;
-@property (strong, nonatomic) NSAttributedString *followNumber;
+@property (strong, nonatomic) NSAttributedString *commentString;
+@property (strong, nonatomic) NSAttributedString *followString;
+
+@property (nonatomic) BOOL hasFollowed;
+@property (nonatomic) NSInteger followNumber;
+@property (nonatomic) NSInteger commentNumber;
+
+
 
 
 @end
@@ -56,12 +64,32 @@
     }
 }
 -(void) commentButtonPressed:(id)sender{
+    [_commentLabel removeFromSuperview];
     if(_delegate && [_delegate respondsToSelector:@selector(commentPost:)]){
         [_delegate commentPost:sender];
     }
 }
 -(void) followButtonPressed:(id)sender{
-    [_whatButton setImage:[UIImage imageNamed:@"icon-followII.png"] forState:UIControlStateNormal];
+    for(UIView *view in self.contentView.subviews){
+        if(view.tag == FOLLOW_LABEL_TAG){
+            [view removeFromSuperview];
+        }
+    }
+    if(_hasFollowed){
+        _followNumber--;
+        NSAttributedString *String = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", _followNumber] attributes:[Utility getFollowNumberFontDictionary]];
+        [_followLabel setAttributedText:String];
+        [_whatButton setImage:[UIImage imageNamed:@"icon-follow.png"] forState:UIControlStateNormal];
+        _hasFollowed = FALSE;
+        [self.contentView addSubview:_followLabel];
+    }else{
+        _followNumber++;
+        NSAttributedString *String = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", _followNumber] attributes:[Utility getFollowNumberFontDictionary]];
+        [_followLabel setAttributedText:String];
+        [_whatButton setImage:[UIImage imageNamed:@"icon-followII.png"] forState:UIControlStateNormal];
+        _hasFollowed = TRUE;
+        [self.contentView addSubview:_followLabel];
+    }
     if(_delegate && [_delegate respondsToSelector:@selector(followPost:)]){
         [_delegate followPost:sender];
     }
@@ -91,8 +119,8 @@
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    button.frame = CGRectMake(originX, originY, buttonImage.size.width, buttonImage.size.height);
-    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width+8, buttonImage.size.height+8);
+    [button setImage:buttonImage forState:UIControlStateNormal];
     [self.contentView addSubview:button];
     return button;
 }
@@ -114,15 +142,28 @@
     dashLineLayer.path = path.CGPath;
     [self.contentView.layer addSublayer:dashLineLayer];
 }
--(void) addCommentAndFollowNumbersWithCommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount{
+-(void) addCommentAndFollowNumbersWithCommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount hasFollowed:(BOOL)hasFollowed{
+    _followNumber = [followersCount integerValue];
+    _commentNumber = [commentsCount integerValue];
     _commentLabel = [[UILabel alloc] initWithFrame:CGRectMake(102, BUTTON_BAR_ORIGIN_Y+5, 50, 18)];
     _followLabel = [[UILabel alloc] initWithFrame:CGRectMake(184, BUTTON_BAR_ORIGIN_Y+5, 50, 18)];
-    _commentNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", [commentsCount integerValue]] attributes:[Utility getCommentNumberFontDictionary]];
-    _followNumber = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", [followersCount integerValue]] attributes:[Utility getFollowNumberFontDictionary]];
-    [_commentLabel setAttributedText:_commentNumber];
-    [_followLabel setAttributedText:_followNumber];
+    _commentString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", [commentsCount integerValue]] attributes:[Utility getCommentNumberFontDictionary]];
+    _followString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"%d", [followersCount integerValue]] attributes:[Utility getFollowNumberFontDictionary]];
+    [_commentLabel setAttributedText:_commentString];
+    [_followLabel setAttributedText:_followString];
+    [_commentLabel setTag:COMMENT_LABEL_TAG];
+    [_followLabel setTag:FOLLOW_LABEL_TAG];
+    [_followLabel removeFromSuperview];
+    [_commentLabel removeFromSuperview];
     [self.contentView addSubview:_commentLabel];
     [self.contentView addSubview:_followLabel];
+    if(hasFollowed){
+        [_whatButton setImage:[UIImage imageNamed:@"icon-followII.png"] forState:UIControlStateNormal];
+    }else{
+        [_whatButton setImage:[UIImage imageNamed:@"icon-follow.png"] forState:UIControlStateNormal];
+    }
+    _hasFollowed = hasFollowed;
+    
 }
 
 -(void) addOrangeLine{

@@ -42,6 +42,9 @@
 //    self.navigationItem.leftBarButtonItem = _searchBtn;
     [_searchBtn setTintColor:[UIColor colorForTabBar]];
     
+    //we dont need any navigationcontroller anymore
+    [self.navigationController.navigationBar removeFromSuperview];
+    
     //set tabbar background color
     CGRect frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, TABBAR_HEIGHT );
     UIView *v = [[UIView alloc] initWithFrame:frame];
@@ -148,8 +151,8 @@
 //        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, WIDTH, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
 //    }
 //    else{
-        self.navigationItem.rightBarButtonItem = NULL;
-        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, NAVIGATION_BAR_CUT_DOWN_HEIGHT, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
+//        self.navigationItem.rightBarButtonItem = NULL;
+//        [self.navigationController.navigationBar setFrame:CGRectMake(0, 0, NAVIGATION_BAR_CUT_DOWN_HEIGHT, NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
 //    }
 }
 

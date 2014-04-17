@@ -60,7 +60,7 @@
 -(void) addDate{
     UIImage *timeIcon =[UIImage imageNamed:@"icon-time.png"];
     UIImageView *timeIconView = [[UIImageView alloc] initWithImage:timeIcon];
-    [timeIconView setFrame:CGRectMake(18, 40, timeIcon.size.width, timeIcon.size.height)];
+    [timeIconView setFrame:CGRectMake(16, 40, timeIcon.size.width, timeIcon.size.height)];
     [self.contentView addSubview:timeIconView];
     NSAttributedString *dateStr = [[NSAttributedString alloc] initWithString:[Utility getDateToShow:[_myComment updateDate] inWhole:NO] attributes:[Utility getViewPostDisplayContentDateFontDictionary]];
     UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(30, 40, 70, 20)];

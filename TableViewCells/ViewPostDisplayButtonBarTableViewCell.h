@@ -12,8 +12,7 @@
 
 @interface ViewPostDisplayButtonBarTableViewCell : UITableViewCell
 @property (nonatomic, weak) id<ViewPostDisplayButtonBarTableViewCellDelegate> delegate;
--(void) addCommentAndFollowNumbersWithCommentsCount:(NSNumber *)commentNum FollowersCount:(NSNumber *)followNum;
-
+-(void) addCommentAndFollowNumbersWithCommentsCount:(NSNumber *)commentNum FollowersCount:(NSNumber *)followNum hasFollowed:(BOOL)hasFollowed;
 @end
 
 

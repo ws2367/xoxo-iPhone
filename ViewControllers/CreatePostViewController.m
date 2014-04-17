@@ -423,7 +423,9 @@
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
-    [_entities addObject:en];
+    if([_entities count]<6){
+        [_entities addObject:en];
+    }
     [self reloadSelectedEntitiesSection];
     [self setProfileImageViewWithfbUserID:en.fbUserID];
 }
@@ -583,6 +585,11 @@
 #pragma mark FacebookFriendPicker initiation
 -(void) fbFriendButtonPressed:(id)sender {
     
+    if([_entities count] >= 6){
+        [Utility generateAlertWithMessage:@"Sorry, your tags are full..." error:nil];
+        return;
+    }
+    
     // FBSample logic
     // if the session is open, then load the data for our view controller
     if (!FBSession.activeSession.isOpen) {
@@ -630,12 +637,16 @@
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
     id<FBGraphUser> firstFrd = [self.friendPickerController.selection firstObject];
     _profilePicView.profileID = firstFrd.id;
+    if([_entities count] + [self.friendPickerController.selection count] > 6){
+        [Utility generateAlertWithMessage:@"Sorry, your tags are full..." error:nil];
+    }
     [self setProfileImageViewWithfbUserID:firstFrd.id];
-    for (id<FBGraphUser> frd in self.friendPickerController.selection) {
+        for (id<FBGraphUser> frd in self.friendPickerController.selection) {
         _profilePicView.profileID = frd.id;
         [self processFBUser:frd];
     }
     [self dismissViewControllerAnimated:YES completion:NULL];
+    MSDebug(@"count%d", [_entities count]);
 }
 
 - (void)facebookViewControllerCancelWasPressed:(id)sender {
@@ -670,8 +681,16 @@
     if(_entities == nil){
         _entities = [[NSMutableArray alloc] init];
     }
-    [_entities addObject:newFBEntity];
-    
+    for(Entity *en in _entities){
+        if([en.fbUserID isEqualToString:newFBEntity.fbUserID]){
+            return;
+        }
+    }
+    if([_entities count]<6){
+        [_entities addObject:newFBEntity];
+    } else{
+        return;
+    }
     [self reloadSelectedEntitiesSection];
     
     MSDebug(@"has found existing entity? %d", hasFoundExistingEntity);
