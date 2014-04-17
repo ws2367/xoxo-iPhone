@@ -123,6 +123,11 @@
 
 #pragma mark -
 #pragma mark Server Communication Methods
+//This is a wrapper for refresh controller
+- (void) startRefreshing{
+    [self startRefreshing:[self generateBasicParams]];
+}
+
 - (NSMutableDictionary *)generateBasicParams{
     // fetch ten most popular posts ids
     //    NSArray *localPostIDs = [super fetchMostPopularPostIDsOfNumber:10 predicate:nil];
@@ -146,7 +151,6 @@
     return [NSMutableDictionary dictionaryWithObjects:@[sessionToken, self.type]
                                               forKeys:@[@"auth_token", @"type"]];
 }
-
 
 - (void) startRefreshing:(NSDictionary *)params
 {
