@@ -14,4 +14,6 @@
 
 - (void)sendFollowRequestWithFailureBlock:(void (^)(void))failureBlock;
 
+- (void)incrementCommentsCount;
+
 @end

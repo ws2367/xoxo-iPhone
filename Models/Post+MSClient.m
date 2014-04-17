@@ -72,4 +72,9 @@
     
 }
 
+- (void)incrementCommentsCount
+{
+    [self setCommentsCount:[NSNumber numberWithInt:([[self commentsCount] intValue] + 1)]];
+}
+
 @end
