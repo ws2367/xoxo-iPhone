@@ -20,7 +20,6 @@
 #import "UIColor+MSColor.h"
 
 #define CONTENT_VIEW_BEGIN_Y 110
-#define TAB_BAR_HEIGHT 40
 #define BUTTON_TAG_OFFSET 1000
 
 @interface MyPostsViewController ()
@@ -107,7 +106,7 @@
 	_tabButtonsContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	[self.view addSubview:_tabButtonsContainerView];
     
-	_contentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CONTENT_VIEW_BEGIN_Y, WIDTH, HEIGHT - CONTENT_VIEW_BEGIN_Y)];
+	_contentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CONTENT_VIEW_BEGIN_Y, WIDTH, HEIGHT - CONTENT_VIEW_BEGIN_Y - TABBAR_HEIGHT)];
     
     [_contentContainerView setBackgroundColor:[UIColor colorForYoursOrange]];
     

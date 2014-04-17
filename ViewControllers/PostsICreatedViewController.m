@@ -31,6 +31,9 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+    
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0., CGRectGetHeight(self.tabBarController.tabBar.frame), 0);
+
 //    UIImage *userImage = [UIImage imageNamed:@"YoursIcon2nd40x40.png"];
 //    UIImageView *userImageView = [[UIImageView alloc] initWithImage:userImage];
 //    [userImageView setFrame:CGRectMake(10, 0, userImage.size.width, userImage.size.height)];

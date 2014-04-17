@@ -15,6 +15,7 @@
     #import <Foundation/Foundation.h>
     #import "AppDelegate.h"
     #import "Constants.h"
+    #import "UIColor+MSColor.h"
 #endif
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED

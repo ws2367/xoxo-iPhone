@@ -267,6 +267,12 @@
 + (NSDictionary *)getCreatePostDisplayInstitutionFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:10],NSFontAttributeName, [UIColor colorForYoursGray] ,NSForegroundColorAttributeName,nil];
 }
++ (NSDictionary *)getNavigationBarTitleFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:19],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
+}
++ (NSDictionary *)getSettingButtonFontDictionary{
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:19],NSFontAttributeName, [UIColor colorForYoursOrange] ,NSForegroundColorAttributeName,nil];
+}
 
 
 @end
