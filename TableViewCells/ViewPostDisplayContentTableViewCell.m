@@ -42,7 +42,7 @@
     _content = content;
     NSAttributedString *contentText = [[NSAttributedString alloc]
                                           initWithString:_content attributes:[Utility getViewPostDisplayContentFontDictionary]];
-    CGFloat textViewEnd = (rectSize.size.height+30);
+    CGFloat textViewEnd = (rectSize.size.height+50);
     UITextView *contentTextView =[[UITextView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, textViewEnd)];
     [contentTextView setAttributedText:contentText];
     [contentTextView setBackgroundColor:[UIColor colorForYoursWhite]];

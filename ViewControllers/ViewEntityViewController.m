@@ -289,7 +289,7 @@
 
     if (post.image != nil) {
         UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];
-        [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate];
+        [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate hasFollowed:[post.following boolValue]];
     }
     
     /*

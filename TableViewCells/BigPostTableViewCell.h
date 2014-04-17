@@ -22,7 +22,7 @@
 - (void)swipeRight;
 - (void)swipeLeft;
 -(void) setDateToShow:(NSString *)dateToShow;
--(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentsCount:(NSNumber *)commentNum FollowersCount:(NSNumber *)followNum atDate:(NSDate *)date;
+-(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentsCount:(NSNumber *)commentNum FollowersCount:(NSNumber *)followNum atDate:(NSDate *)date hasFollowed:(BOOL)hasFollowed;
 
 @end
 
