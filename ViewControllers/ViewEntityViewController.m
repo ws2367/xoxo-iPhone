@@ -61,6 +61,7 @@
     // embedded view controller is a child view controller
     ViewEntityPostsViewController *childViewController = [self.childViewControllers firstObject];
     // set up entity for child view controller first, then fire off it
+    childViewController.viewEntityViewController = self;
     childViewController.entity = self.entity;
     [childViewController fireOff];
 }
