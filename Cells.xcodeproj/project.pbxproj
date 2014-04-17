@@ -82,7 +82,6 @@
 		7A33F91518DFE3F600CEE1A7 /* MyPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91418DFE3F600CEE1A7 /* MyPostsViewController.m */; };
 		7A37FA2E18E4AF2D003E5BFF /* UIColor+MSColor.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A37FA2D18E4AF2D003E5BFF /* UIColor+MSColor.m */; };
 		7A37FA3A18E4B4B6003E5BFF /* fire@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA2F18E4B4B6003E5BFF /* fire@2x.png */; };
-		7A37FA3C18E4B4B6003E5BFF /* icon-follow@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3118E4B4B6003E5BFF /* icon-follow@2x.png */; };
 		7A37FA3F18E4B4B6003E5BFF /* menu-addpost@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3418E4B4B6003E5BFF /* menu-addpost@2x.png */; };
 		7A37FA4018E4B4B6003E5BFF /* menu-favorites@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3518E4B4B6003E5BFF /* menu-favorites@2x.png */; };
 		7A37FA4118E4B4B6003E5BFF /* menu-friends@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3618E4B4B6003E5BFF /* menu-friends@2x.png */; };
@@ -942,7 +941,7 @@
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Yours;
-				PROVISIONING_PROFILE = "E9DD2358-11EB-4F92-B700-8EBD2D32DA3F";
+				PROVISIONING_PROFILE = "F46C8E97-7085-4D5C-B306-6BF340573F35";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -967,7 +966,7 @@
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				PRODUCT_NAME = Yours;
-				PROVISIONING_PROFILE = "E9DD2358-11EB-4F92-B700-8EBD2D32DA3F";
+				PROVISIONING_PROFILE = "F46C8E97-7085-4D5C-B306-6BF340573F35";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

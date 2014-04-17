@@ -66,8 +66,6 @@
     
     //set background color
     [self.view setBackgroundColor:[UIColor colorForBackground]];
-
-    
     
     
     // set up swipe gesture recognizer
@@ -83,7 +81,7 @@
     
     // set up and fire off refresh control
     self.refreshControl = [UIRefreshControl new];
-    [self.refreshControl addTarget:self action:@selector(startRefreshingUp) forControlEvents:UIControlEventValueChanged];
+    [self.refreshControl addTarget:self action:@selector(startRefreshing) forControlEvents:UIControlEventValueChanged];
     
     //hide scrollbar & clear separator
     [self.tableView setShowsVerticalScrollIndicator:NO];
@@ -94,6 +92,7 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    MSDebug(@"Memory warning!");
 }
 
 #pragma mark -
@@ -114,7 +113,7 @@
         //TODO: grab more data from server
         if(distanceFromBottom < height)
         {
-            [self startLoadingMore];
+            [self startLoadingMore:[self generateBasicParams]];
             //[self.tableView reloadData];
         }
     }
@@ -124,14 +123,85 @@
 
 #pragma mark -
 #pragma mark Server Communication Methods
-- (void) startRefreshingUp
+- (NSMutableDictionary *)generateBasicParams{
+    // fetch ten most popular posts ids
+    //    NSArray *localPostIDs = [super fetchMostPopularPostIDsOfNumber:10 predicate:nil];
+    //    NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
+    
+    
+    //    MSDebug(@"post IDs to be pushed to server: %@", localPostIDs);
+    //    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
+    
+    //    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localPostIDs, localEntityIDs, sessionToken, @"popular"]
+    //                                                       forKeys:@[@"Post", @"Entity", @"auth_token", @"type"]];
+    
+    // check if seesion token is valid
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        NSLog(@"User session token is not valid. Stop refreshing up");
+        [self.refreshControl endRefreshing];
+        return nil;
+    }
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    
+    return [NSMutableDictionary dictionaryWithObjects:@[sessionToken, self.type]
+                                              forKeys:@[@"auth_token", @"type"]];
+}
+
+
+- (void) startRefreshing:(NSDictionary *)params
 {
+    MSDebug(@"parent startRefreshing");
+    [[RKObjectManager sharedManager] getObject:[Post alloc]
+                                          path:nil
+                                    parameters:params
+                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           MSDebug(@"Successfully loadded posts from server");
+                                           
+                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                               NSArray *posts = [mappingResult array];
+                                               for (Post *post in posts) {
+                                                   [self loadPhotosForPost:post];
+                                               }
+                                           });
+                                           
+                                           [self.refreshControl endRefreshing];
+                                       }
+                                       failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server"
+                                                                               block:^{[self.refreshControl endRefreshing];}]
+     ];
 
 }
 
-- (void) startLoadingMore
+- (void) startLoadingMore:(NSMutableDictionary *)params
 {
+    if (isLoadingMore) return;
+    else isLoadingMore = true;
     
+    MSDebug(@"Start loading more");
+    
+    NSNumber *lastOfPreviousPostsIDs = [self fetchLastOfPreviousPostsIDsWithPredicate:self.predicate];
+    if (lastOfPreviousPostsIDs == nil) return;
+    
+    [params setObject:lastOfPreviousPostsIDs forKey:@"last_of_previous_post_ids"];
+
+    [[RKObjectManager sharedManager] getObject:[Post alloc]
+                                          path:nil
+                                    parameters:params
+                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           MSDebug(@"Successfully loadded more posts from server");
+                                           isLoadingMore = false;
+                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                               NSArray *posts = [mappingResult array];
+                                               for (Post *post in posts) {
+                                                   [self loadPhotosForPost:post];
+                                               }
+                                           });
+                                       }
+                                       failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server"
+                                                                               block:^{isLoadingMore = false;}]
+     ];
+    
+
 }
 
 #pragma mark -
@@ -188,18 +258,24 @@
         [request setContentType:@"image/png"];
         
         S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post];
+        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
+        MSDebug(@"main thread = %@", [NSThread mainThread]);
         
         delegate.delegate = self;
         request.delegate = delegate;
         [self.S3RequestResponders addObject:delegate];
-        
-        [[ClientManager s3] getObject:request];
+        //TODO: Why does Amazon S3 Client getobject method have to run on main thead?
+        // if it is not called on main thread, the delegate will not be notified. 
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[ClientManager s3] getObject:request];
+        });
     }
 }
 
 #pragma mark -
 #pragma mark S3 Delegate Delegate Methods
 // this will remove the S3 delegate that completed its task
+//TODO: make sure NSMutableArray removeObject is thread-safe.
 - (void) removeS3RequestResponder:(id)delegate{
     [self.S3RequestResponders removeObject:(S3RequestResponder *)delegate];
 }
@@ -237,6 +313,7 @@
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeUpdate) {
+        
         [self.tableView
          reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -299,9 +376,6 @@
         [entitiesArray addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
     }];
     
-//    cell.entities = entitiesArray;
-    
-    
     if (post.image != nil) {
         UIImage *imagephoto = [[UIImage alloc] initWithData:post.image];
         [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate];
@@ -359,10 +433,6 @@
         }
     }
 }
-
-
-#pragma mark -
-#pragma mark In-cell Button Methods
 
 /*
 // Override to support conditional editing of the table view.

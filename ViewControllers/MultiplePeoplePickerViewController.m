@@ -99,7 +99,6 @@ static NSString *CellIdentifier = @"ContactCell";
         cell.accessoryType = UITableViewCellAccessoryNone;
         [self.selectedPeople removeObject:person];
     }
-//    MSDebug(@"%@", self.selectedPeople);
 }
 
 - (void)doneButtonClicked:(id)sender{

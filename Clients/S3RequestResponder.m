@@ -34,7 +34,9 @@
 inManagedObjectContext:(NSManagedObjectContext *)context{
     
     // This will save NSData typed image to an external binary storage
-    post.image = imageData;
+    // this has to be done on main thread so fetched result controller will know the update
+
+        post.image = imageData;
 }
 
 #pragma mark -
@@ -42,39 +44,47 @@ inManagedObjectContext:(NSManagedObjectContext *)context{
 
 - (void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response
 {
-    if (response.error) {
-        [Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
-    }
-    
-    [self saveImageData:response.body
-                 toPost:_post
- inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
-    
-    //let's save all the photos we just created!
-    NSError *error;
-    if ([[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext saveToPersistentStore:&error]) {
-        MSDebug(@"Successfully saved the photos!");
-    } else {
-        MSError(@"Failed to save the managed object context.");
-    }
-    
-    if (self.delegate && [self.delegate respondsToSelector:@selector(removeS3RequestResponder:)]) {
-        [self.delegate removeS3RequestResponder:self];
-    } else {
-        MSError(@"S3 delegate's delegation is not set!");
-    }
-    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        if (response.error) {
+            [Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
+        }
+        
+        MSDebug(@"AmazonServiceRequestDelegate current thread = %@", [NSThread currentThread]);
+        MSDebug(@"main thread = %@", [NSThread mainThread]);
+        
+        //TODO: not sure if this has to be run on main thread... its about fetchedresultcontroller change notification
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self saveImageData:response.body
+                         toPost:_post
+         inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
+        });
+        //let's save all the photos we just created!
+        NSError *error;
+        if ([[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext saveToPersistentStore:&error]) {
+            MSDebug(@"Successfully saved the photos!");
+        } else {
+            MSError(@"Failed to save the managed object context.");
+        }
+        
+        if (self.delegate && [self.delegate respondsToSelector:@selector(removeS3RequestResponder:)]) {
+            [self.delegate removeS3RequestResponder:self];
+        } else {
+            MSError(@"S3 delegate's delegation is not set!");
+        }
+    });
 }
 
 -(void)request:(AmazonServiceRequest *)request didSendData:(long long)bytesWritten totalBytesWritten:(long long)totalBytesWritten totalBytesExpectedToWrite:(long long)totalBytesExpectedToWrite
 {
         //do nothing for now
+
 }
 
 
 - (void)request:(AmazonServiceRequest *)request didFailWithServiceException:(NSException *)exception
 {
     [Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
+    MSDebug(@"Failed with AWS request");
 }
 
 @end

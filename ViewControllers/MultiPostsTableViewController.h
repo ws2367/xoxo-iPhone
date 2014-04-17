@@ -20,14 +20,20 @@
     NSFetchedResultsController *fetchedResultsController;
 }
 
+@property (strong, nonatomic) NSPredicate *predicate;
+@property (strong, nonatomic) NSString *type;
+
 - (void)handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath;
 
-- (void)startRefreshingUp;
+- (NSMutableDictionary *)generateBasicParams;
 
-- (void)startLoadingMore;
+- (void)startRefreshing:(NSDictionary *)params;
+
+- (void)startLoadingMore:(NSMutableDictionary *)params;
 
 - (void) loadPhotosForPost:(Post *)post;
 
+//TODO: don't need to be publi
 - (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate;
 
 - (void) setFetchedResultsControllerWithEntityName:(NSString *)entityName

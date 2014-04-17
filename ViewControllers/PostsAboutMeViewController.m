@@ -14,8 +14,6 @@
 
 @interface PostsAboutMeViewController ()
 
-@property (strong, nonatomic) NSPredicate *predicate;
-
 @end
 
 @implementation PostsAboutMeViewController
@@ -34,7 +32,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
-    
+    self.type = @"posts_about_me";
     if (![KeyChainWrapper isFBUserIDValid]) {
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
             if ([result isKindOfClass:[NSDictionary class]]){
@@ -53,7 +51,7 @@
                                                   sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
                 [self.tableView reloadData];
                 
-                [self startRefreshingUp];
+                [self startRefreshing:[self generateBasicParams]];
                 [self.refreshControl beginRefreshing];
             } else {
                 MSError(@"Cannot retrieve information about me from FB server!");
@@ -66,7 +64,7 @@
                                                predicate:nil //self.predicate
                                           sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
         
-        [self startRefreshingUp];
+        [self startRefreshing:[self generateBasicParams]];
         [self.refreshControl beginRefreshing];
     }
 }
@@ -126,85 +124,5 @@
         [super handleNumbers:selectedNumbers senderIndexPath:indexPath];
     }
 }
-
-
-
-#pragma mark -
-#pragma mark Refreshing Methods
-- (NSMutableDictionary *)paramsGenerator{
-    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    
-    return [NSMutableDictionary dictionaryWithObjects:@[sessionToken, @"posts_about_me"]
-                                              forKeys:@[@"auth_token", @"type"]];
-    
-}
-
-- (void)startRefreshingUp{
-    [super startRefreshingUp];
-    
-    // check if seesion token is valid
-    if (![KeyChainWrapper isSessionTokenValid]) {
-        NSLog(@"User session token is not valid. Stop refreshing up");
-        [self.refreshControl endRefreshing];
-        return;
-    }
-    
-    NSDictionary *params = [self paramsGenerator];
-    [[RKObjectManager sharedManager] getObject:[Post alloc]
-                                          path:nil
-                                    parameters:params
-                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                           MSDebug(@"Successfully loadded posts from server");
-                                           //TODO: make sure this does not run on main thread
-                                           NSArray *posts = [mappingResult array];
-                                           for (Post *post in posts) {
-                                               [super loadPhotosForPost:post];
-                                           }
-                                           [self.refreshControl endRefreshing];
-                                       }
-                                       failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server"
-                                                                               block:^{[self.refreshControl endRefreshing];}]
-     ];
-}
-
-
-
-- (void)startLoadingMore{
-    //TODO: make sure this can really do the work, not causing race condition
-    if (isLoadingMore) return;
-    else isLoadingMore = true;
-    
-    MSDebug(@"Start loading more");
-    [super startLoadingMore];
-    
-    NSNumber *lastOfPreviousPostsIDs = [super fetchLastOfPreviousPostsIDsWithPredicate:self.predicate];
-    if (lastOfPreviousPostsIDs == nil) return;
-    
-    // check if seesion token is valid
-    if (![KeyChainWrapper isSessionTokenValid]) {
-        NSLog(@"User session token is not valid. Stop refreshing up");
-        [self.refreshControl endRefreshing];
-        return;
-    }
-    
-    NSMutableDictionary *params = [self paramsGenerator];
-    [params setObject:lastOfPreviousPostsIDs forKey:@"last_of_previous_post_ids"];
-    
-    [[RKObjectManager sharedManager] getObject:[Post alloc]
-                                          path:nil
-                                    parameters:params
-                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
-                                           MSDebug(@"Successfully loadded more posts from server");
-                                           isLoadingMore = false;
-                                           NSArray *posts = [mappingResult array];
-                                           for (Post *post in posts) {
-                                               [super loadPhotosForPost:post];
-                                           }
-                                       }
-                                       failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server"
-                                                                               block:^{isLoadingMore = false;}]
-     ];
-}
-
 
 @end
