@@ -50,6 +50,7 @@ typedef void (^RKSuccessBlock)(RKObjectRequestOperation *, RKMappingResult *);
 + (NSDictionary *)getCreatePostDisplayInstitutionFontDictionary;
 + (NSDictionary *)getNavigationBarTitleFontDictionary;
 + (NSDictionary *)getSettingButtonFontDictionary;
++ (NSDictionary *)getViewEntityInstitutionFontDictionary;
 
 
 

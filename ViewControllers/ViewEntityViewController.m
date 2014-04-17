@@ -108,6 +108,7 @@
     [_tableView setBackgroundColor:[UIColor colorForYoursWhite]];
     [self addNavigationBar];
     [self addCreatePostButton];
+    [self displayNameAndInstitution];
     
     //hide scrollbar & clear separator
     [_tableView setShowsVerticalScrollIndicator:NO];
@@ -145,7 +146,7 @@
     
     [exitButton setTintColor:[UIColor whiteColor]];
     
-    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:[_entity name]];
+    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] init];
     
     topNavigationItem.rightBarButtonItem = exitButton;
     topNavigationItem.leftBarButtonItem = homeButton;
@@ -162,6 +163,22 @@
     [button addTarget:self action:@selector(createPostButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [button setCenter:CGPointMake(WIDTH/2, HEIGHT - (buttonImage.size.height/2))];
     [self.view addSubview:button];
+}
+
+
+-(void)displayNameAndInstitution{
+    NSAttributedString *name = [[NSAttributedString alloc] initWithString:[_entity name] attributes:[Utility getNavigationBarTitleFontDictionary]];
+    UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 18, WIDTH - 40, 40)];
+    [nameLabel setAttributedText:name];
+    nameLabel.textAlignment = NSTextAlignmentCenter;
+    [self.view addSubview:nameLabel];
+    if([_entity institution]){
+        NSAttributedString *insti = [[NSAttributedString alloc] initWithString:[_entity institution] attributes:[Utility getViewEntityInstitutionFontDictionary]];
+        UILabel *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 35, WIDTH - 40, 40)];
+        [instiLabel setAttributedText:insti];
+        instiLabel.textAlignment = NSTextAlignmentCenter;
+        [self.view addSubview:instiLabel];
+    }
 }
 
 #pragma mark -

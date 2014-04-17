@@ -119,8 +119,8 @@
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
     button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    button.frame = CGRectMake(originX, originY, buttonImage.size.width, buttonImage.size.height);
-    [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
+    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width+8, buttonImage.size.height+8);
+    [button setImage:buttonImage forState:UIControlStateNormal];
     [self.contentView addSubview:button];
     return button;
 }

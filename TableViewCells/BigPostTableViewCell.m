@@ -343,10 +343,15 @@
     [self.contentView addSubview:dateLabel];
 }
 -(void)generateContentLabel:(NSString *)content{
-
+    NSString *toDisplay;
+    if([content length] > 50){
+        toDisplay = [[content substringWithRange:NSMakeRange(0, 50)] stringByAppendingString:@"..."];
+    } else{
+        toDisplay = content;
+    }
     NSAttributedString *contentText = [[NSAttributedString alloc]
-                                       initWithString:content attributes:[Utility getMultiPostsContentFontDictionary]];
-    _contentTextView =[[UITextView alloc] initWithFrame:CGRectMake(8, 130, WIDTH/2+ 20, 80)];
+                                       initWithString:toDisplay attributes:[Utility getMultiPostsContentFontDictionary]];
+    _contentTextView =[[UITextView alloc] initWithFrame:CGRectMake(8, 118, WIDTH/2+ 20, 78)];
     [_contentTextView setAttributedText:contentText];
     [_contentTextView setBackgroundColor:[UIColor clearColor]];
     [_contentTextView setEditable:NO];
@@ -360,14 +365,14 @@
          NSDictionary *firstEntity = [entities firstObject];
         if([entities count] > 2){
             NSString *namePlusDot = [firstEntity[@"name"] stringByAppendingString:@"..."];
-            [self generateNameLabel:namePlusDot  atX:8 Y:95];
+            [self generateNameLabel:namePlusDot  atX:8 Y:85];
         } else{
-            [self generateNameLabel:firstEntity[@"name"]  atX:8 Y:95];
+            [self generateNameLabel:firstEntity[@"name"]  atX:8 Y:85];
         }
     }
     if([entities count] >= 2){
          NSDictionary *secondEntity = [entities objectAtIndex:1];
-        [self generateNameLabel:secondEntity[@"name"]  atX:8 Y:60];
+        [self generateNameLabel:secondEntity[@"name"]  atX:8 Y:52];
     }
 }
 
@@ -411,7 +416,7 @@
 -(UIButton *)createLowerButtonAtOriginX:(int)originX andY:(int)originY withImage:(UIImage *)buttonImage{
     UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
 //    button.autoresizingMask = UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin;
-    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width + 4, buttonImage.size.height + 4);
+    button.frame = CGRectMake(originX-4, originY-4, buttonImage.size.width + 8, buttonImage.size.height + 8);
     [button setImage:buttonImage forState:UIControlStateNormal];
     [self.contentView addSubview:button];
     return button;
