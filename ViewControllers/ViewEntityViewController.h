@@ -8,17 +8,14 @@
 
 #import <UIKit/UIKit.h>
 #import "Entity.h"
+#import "Post.h"
 #import "BigPostTableViewCell.h"
 #import "MultiplePeoplePickerViewController.h"
-
+#import "MultiPostsTableViewController.h"
 
 @interface ViewEntityViewController : UIViewController
-                                        <NSFetchedResultsControllerDelegate,
-                                         BigPostTableViewCellDelegate,
-                                         UIActionSheetDelegate,
-                                         MultiplePeoplePickerViewControllerDelegate>
 
 @property (strong, nonatomic) Entity *entity;
-
+@property (nonatomic, strong) Post *post;
 
 @end

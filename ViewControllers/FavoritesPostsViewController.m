@@ -36,7 +36,7 @@
                                       sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
     
     // these two have to be called together or it only shows refreshing but not actually pulling any data
-    [self startRefreshing:[self generateBasicParams]];
+    [self startRefreshing];
     [self.refreshControl beginRefreshing];
 }
 

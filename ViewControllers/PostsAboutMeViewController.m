@@ -51,7 +51,7 @@
                                                   sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
                 [self.tableView reloadData];
                 
-                [self startRefreshing:[self generateBasicParams]];
+                [self startRefreshing];
                 [self.refreshControl beginRefreshing];
             } else {
                 MSError(@"Cannot retrieve information about me from FB server!");
@@ -64,7 +64,7 @@
                                                predicate:nil //self.predicate
                                           sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
         
-        [self startRefreshing:[self generateBasicParams]];
+        [self startRefreshing];
         [self.refreshControl beginRefreshing];
     }
 }

@@ -25,16 +25,7 @@
 
 - (void)handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath;
 
-- (NSMutableDictionary *)generateBasicParams;
-
-- (void)startRefreshing:(NSDictionary *)params;
-
-- (void)startLoadingMore:(NSMutableDictionary *)params;
-
-- (void) loadPhotosForPost:(Post *)post;
-
-//TODO: don't need to be publi
-- (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate;
+- (void)startRefreshing;
 
 - (void) setFetchedResultsControllerWithEntityName:(NSString *)entityName
                                          predicate:(NSPredicate *)predicate

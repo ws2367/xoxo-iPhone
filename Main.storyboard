@@ -161,6 +161,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         <subviews>
+                            <containerView contentMode="scaleToFill" id="uUd-Qb-CSS">
+                                <rect key="frame" x="0.0" y="57" width="320" height="511"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                <connections>
+                                    <segue destination="Dgh-zw-79V" kind="embed" id="c4d-Ab-fxs"/>
+                                </connections>
+                            </containerView>
                             <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Name" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="v5j-X8-Rc3">
                                 <rect key="frame" x="40" y="22" width="116" height="37"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -181,15 +189,6 @@
                                 <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="250" sectionHeaderHeight="22" sectionFooterHeight="22" id="T84-WV-wdp">
-                                <rect key="frame" x="0.0" y="61" width="320" height="507"/>
-                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                <connections>
-                                    <outlet property="dataSource" destination="LAB-UI-cDH" id="mKV-DU-l0y"/>
-                                    <outlet property="delegate" destination="LAB-UI-cDH" id="zqM-5n-bsa"/>
-                                </connections>
-                            </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
@@ -198,14 +197,13 @@
                         <outlet property="institutionLabel" destination="tHR-cm-heA" id="Wtb-cj-vYS"/>
                         <outlet property="locationLabel" destination="WBm-xn-8c6" id="nFd-De-G6b"/>
                         <outlet property="nameLabel" destination="v5j-X8-Rc3" id="q3O-aO-BP5"/>
-                        <outlet property="tableView" destination="T84-WV-wdp" id="dVZ-ea-cvZ"/>
                         <segue destination="M7g-9K-4Ou" kind="modal" identifier="viewPostSegue" id="8aj-h6-ff8"/>
                         <segue destination="wxp-PC-w3z" kind="modal" identifier="createPostSegue" id="vqm-JZ-yjl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mRh-Vp-7mZ" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1905" y="-890"/>
+            <point key="canvasLocation" x="1887" y="-1038"/>
         </scene>
         <!--Create Post View Controller-->
         <scene sceneID="2LP-UC-Nj1">
@@ -533,6 +531,34 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="R8b-oU-kZU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2503" y="-890"/>
+        </scene>
+        <!--View Entity Posts View Controller-->
+        <scene sceneID="aaV-2p-2hz">
+            <objects>
+                <tableViewController id="Dgh-zw-79V" customClass="ViewEntityPostsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="YvC-Kw-lH8">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="pcB-zw-gk8">
+                                <rect key="frame" x="0.0" y="22" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="pcB-zw-gk8" id="Bbe-Ys-xdI">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="Dgh-zw-79V" id="Keg-wv-vsa"/>
+                            <outlet property="delegate" destination="Dgh-zw-79V" id="go3-du-GVp"/>
+                        </connections>
+                    </tableView>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="79j-nn-ZKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2263" y="-1755"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

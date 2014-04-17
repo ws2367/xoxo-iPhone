@@ -1,21 +1,18 @@
 //
-//  PostsICreatedViewController.m
+//  ViewEntityPostsViewController.m
 //  Cells
 //
-//  Created by Iru on 4/15/14.
+//  Created by Wen-Hsiang Shaw on 4/17/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
-#import "PostsICreatedViewController.h"
-#import "ViewPostViewController.h"
+#import "ViewEntityPostsViewController.h"
 
-#import "KeyChainWrapper.h"
-
-@interface PostsICreatedViewController ()
+@interface ViewEntityPostsViewController ()
 
 @end
 
-@implementation PostsICreatedViewController
+@implementation ViewEntityPostsViewController
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -29,18 +26,24 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
+    // Do any additional setup after loading the view.
+}
+
+- (void)fireOff
+{
+    MSDebug(@"Entity in viewEntityPosts: %@", self.entity);
     
-    self.type = @"my_posts";
-    self.predicate = [NSPredicate predicateWithFormat:@"isYours = 1"];
+    // set up fetched results controller
+    self.type = @"popular";
+    self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.remoteID = %@", _entity.remoteID];
+    
     [super setFetchedResultsControllerWithEntityName:@"Post"
                                            predicate:self.predicate
                                       sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
     
-    // these two have to be called together or it only shows refreshing
-    // but not actually pulling any data
     [self startRefreshing];
     [self.refreshControl beginRefreshing];
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -56,7 +59,7 @@
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
-    [_myPostsViewController setPost:post];
+    [_viewEntityViewController setPost:post];
 }
 
 - (void) CellPerformViewPost:(id)sender{
@@ -64,7 +67,7 @@
     [sender setTag:0];
     [self setPostInMyPostsViewController:sender];
     
-    [_myPostsViewController performSegueWithIdentifier:@"viewPostSegue" sender:sender];
+    [_viewEntityViewController performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
 
 -(void)commentPost:(id)sender{
@@ -72,7 +75,7 @@
     [sender setTag:1];
     [self setPostInMyPostsViewController:sender];
     
-    [_myPostsViewController performSegueWithIdentifier:@"viewPostSegue" sender:sender];
+    [_viewEntityViewController performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
 
 -(void)sharePost:(id)sender{
@@ -82,14 +85,14 @@
     MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
     picker.delegate = self;
     [picker setSenderIndexPath:indexPath];
-    [_myPostsViewController presentViewController:picker animated:YES completion:nil];
+    [_viewEntityViewController presentViewController:picker animated:YES completion:nil];
 }
 
 #pragma mark -
 #pragma mark Multile People Picker Delegate Methods
 - (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
 {
-    [_myPostsViewController dismissViewControllerAnimated:YES completion:nil];
+    [_viewEntityViewController dismissViewControllerAnimated:YES completion:nil];
     MSDebug(@"Selected numbers %@", selectedNumbers);
     
     if ([selectedNumbers count] > 0) {
