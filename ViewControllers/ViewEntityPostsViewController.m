@@ -29,6 +29,8 @@
     // Do any additional setup after loading the view.
 }
 
+// we put stuff in fireOff method because viewDidLoad is called before the entity is set.
+// Stuff in fireOff should run after the entity is set.
 - (void)fireOff
 {
     MSDebug(@"Entity in viewEntityPosts: %@", self.entity);
@@ -45,6 +47,63 @@
     [self.refreshControl beginRefreshing];
 
 }
+
+- (void) startRefreshing:(NSDictionary *)params
+{
+    MSDebug(@"View entity start refreshing");
+    
+    [[RKObjectManager sharedManager]
+     getObjectsAtPathForRelationship:@"posts"
+     ofObject:self.entity
+     parameters:params
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         MSDebug(@"Successfully loadded posts from server");
+         
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             NSArray *posts = [mappingResult array];
+             for (Post *post in posts) {
+                 [self loadPhotosForPost:post];
+             }
+         });
+         
+         [self.refreshControl endRefreshing];
+     }
+     failure:[Utility failureBlockWithAlertMessage:@"No network connection"
+                                             block:^{[self.refreshControl endRefreshing];}]];
+}
+
+- (void) startLoadingMore:(NSMutableDictionary *)params
+{
+    if (isLoadingMore) return;
+    else isLoadingMore = true;
+    
+    MSDebug(@"view entity start loading more");
+    
+    NSNumber *lastOfPreviousPostsIDs = [self fetchLastOfPreviousPostsIDsWithPredicate:self.predicate];
+    if (lastOfPreviousPostsIDs == nil) return;
+    
+    [params setObject:lastOfPreviousPostsIDs forKey:@"last_of_previous_post_ids"];
+    
+    [[RKObjectManager sharedManager]
+     getObjectsAtPathForRelationship:@"posts"
+     ofObject:self.entity
+     parameters:params
+     success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+         MSDebug(@"Successfully loadded posts from server");
+         isLoadingMore = false;
+         
+         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+             NSArray *posts = [mappingResult array];
+             for (Post *post in posts) {
+                 [self loadPhotosForPost:post];
+             }
+         });
+     }
+     failure:[Utility failureBlockWithAlertMessage:@"No network connection"
+                                             block:^{isLoadingMore = false;}]];
+    
+}
+
 
 - (void)didReceiveMemoryWarning
 {
