@@ -8,15 +8,15 @@
 
 #import "ViewPostViewController.h"
 #import "ViewEntityViewController.h"
-#import "CommentTableViewCell.h"
-#import "KeyChainWrapper.h"
 #import "NavigationController.h"
 
-#import "Post.h"
+#import "Post+MSClient.h"
 #import "Comment.h"
 
+#import "KeyChainWrapper.h"
 #import "UIColor+MSColor.h"
 
+#import "CommentTableViewCell.h"
 #import "ViewPostDisplayImageTableViewCell.h"
 #import "ViewPostDisplayEntityTableViewCell.h"
 #import "ViewPostDisplayCommentTableViewCell.h"
@@ -685,34 +685,9 @@
     [_commentTextField becomeFirstResponder];
 }
 - (void) followPost:(id)sender{
-    bool toFollow = ![[_post following] boolValue];
-    
-    if (![KeyChainWrapper isSessionTokenValid]) {
-        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
-        return;
-    }
-    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSMutableURLRequest *request = nil;
-    if (toFollow) {
-        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"follow_post"
-                                                                         object:_post
-                                                                     parameters:@{@"auth_token": sessionToken}];
-        
-        
-    } else {
-        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"unfollow_post"
-                                                                         object:_post
-                                                                     parameters:@{@"auth_token": sessionToken}];
-    }
-    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [_post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:error];
+    [_post sendFollowRequestWithFailureBlock:^{
+        [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:nil];
     }];
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [operationQueue addOperation:operation];
 }
 
 

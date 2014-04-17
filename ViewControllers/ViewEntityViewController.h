@@ -7,17 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <MapKit/MapKit.h>
 #import "Entity.h"
 #import "BigPostTableViewCell.h"
 #import "MultiplePeoplePickerViewController.h"
-#import <AddressBookUI/AddressBookUI.h>
 
-@class ViewMultiPostsViewController;
 
 @interface ViewEntityViewController : UIViewController
-                                        <NSFetchedResultsControllerDelegate, BigPostTableViewCellDelegate, UIActionSheetDelegate,
-                                        MultiplePeoplePickerViewControllerDelegate>
+                                        <NSFetchedResultsControllerDelegate,
+                                         BigPostTableViewCellDelegate,
+                                         UIActionSheetDelegate,
+                                         MultiplePeoplePickerViewControllerDelegate>
 
 @property (strong, nonatomic) Entity *entity;
 

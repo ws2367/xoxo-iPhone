@@ -1,5 +1,5 @@
 //
-//  Post+MSS3Client.h
+//  Post+MSClient.h
 //  Cells
 //
 //  Created by Wen-Hsiang Shaw on 4/4/14.
@@ -8,9 +8,10 @@
 
 #import "Post.h"
 
-@interface Post (MSS3Client)
+@interface Post (MSClient)
 
 - (bool) uploadImageToS3;
 
+- (void)sendFollowRequestWithFailureBlock:(void (^)(void))failureBlock;
 
 @end

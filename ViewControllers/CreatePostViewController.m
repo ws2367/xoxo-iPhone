@@ -15,7 +15,7 @@
 #import "KeyChainWrapper.h"
 #import "ClientManager.h"
 
-#import "Post+MSS3Client.h"
+#import "Post+MSClient.h"
 #import "Entity+MSEntity.h"
 #import "UIColor+MSColor.h"
 

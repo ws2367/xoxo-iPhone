@@ -17,7 +17,6 @@
 		5148477F18C69A7800280874 /* ArrayToDataTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = 5148477E18C69A7800280874 /* ArrayToDataTransformer.m */; };
 		514D369618EF2D7E00921816 /* Model.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 514D369418EF2D7E00921816 /* Model.xcdatamodeld */; };
 		514D369918EF2E6F00921816 /* Comment.m in Sources */ = {isa = PBXBuildFile; fileRef = 514D369818EF2E6F00921816 /* Comment.m */; };
-		514D36A218EF33CE00921816 /* Post+MSS3Client.m in Sources */ = {isa = PBXBuildFile; fileRef = 514D36A118EF33CE00921816 /* Post+MSS3Client.m */; };
 		516791E118D26A9C007C0843 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 516791E018D26A9C007C0843 /* Main.storyboard */; };
 		5168110218B6868400B4AE0B /* launchOrangeC-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */; };
 		5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 5168110118B6868400B4AE0B /* launchOrangeC@2x.png */; };
@@ -25,6 +24,7 @@
 		516BE12218F5EBE300629716 /* Post.m in Sources */ = {isa = PBXBuildFile; fileRef = 516BE12118F5EBE300629716 /* Post.m */; };
 		516FB2E818B6EFF100088AF6 /* Utility.m in Sources */ = {isa = PBXBuildFile; fileRef = 516FB2E718B6EFF100088AF6 /* Utility.m */; };
 		516FB2EB18B6F40700088AF6 /* Constants.m in Sources */ = {isa = PBXBuildFile; fileRef = 516FB2EA18B6F40700088AF6 /* Constants.m */; };
+		5170835718FFB72B00930C21 /* Post+MSClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 5170835618FFB72B00930C21 /* Post+MSClient.m */; };
 		51732B9D18C174A80013D891 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51732B9C18C174A80013D891 /* MobileCoreServices.framework */; };
 		51732B9F18C174B40013D891 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51732B9E18C174B40013D891 /* Security.framework */; };
 		51732BA118C174BF0013D891 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51732BA018C174BF0013D891 /* CFNetwork.framework */; };
@@ -46,7 +46,6 @@
 		75073FC01813B76D009177C7 /* AddressBookUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FBF1813B76D009177C7 /* AddressBookUI.framework */; settings = {ATTRIBUTES = (Required, ); }; };
 		75073FC21813BF15009177C7 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FC11813BF15009177C7 /* AddressBook.framework */; };
 		75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75073FC41814BF1A009177C7 /* ViewEntityViewController.m */; };
-		75073FC71814BF1A009177C7 /* ViewEntityViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */; };
 		75073FE918198E36009177C7 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FE818198E36009177C7 /* MapKit.framework */; };
 		75073FEB18199310009177C7 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75073FEA18199310009177C7 /* CoreLocation.framework */; };
 		752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */; };
@@ -155,8 +154,6 @@
 		514D369518EF2D7E00921816 /* Model.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Model.xcdatamodel; sourceTree = "<group>"; };
 		514D369718EF2E6F00921816 /* Comment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Comment.h; sourceTree = "<group>"; };
 		514D369818EF2E6F00921816 /* Comment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Comment.m; sourceTree = "<group>"; };
-		514D36A018EF33CE00921816 /* Post+MSS3Client.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Post+MSS3Client.h"; sourceTree = "<group>"; };
-		514D36A118EF33CE00921816 /* Post+MSS3Client.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Post+MSS3Client.m"; sourceTree = "<group>"; };
 		516791E018D26A9C007C0843 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
 		5168110018B6868400B4AE0B /* launchOrangeC-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launchOrangeC-568h@2x.png"; sourceTree = "<group>"; };
 		5168110118B6868400B4AE0B /* launchOrangeC@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "launchOrangeC@2x.png"; sourceTree = "<group>"; };
@@ -168,6 +165,8 @@
 		516FB2E718B6EFF100088AF6 /* Utility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utility.m; sourceTree = "<group>"; };
 		516FB2E918B6F40700088AF6 /* Constants.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		516FB2EA18B6F40700088AF6 /* Constants.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Constants.m; sourceTree = "<group>"; };
+		5170835518FFB72B00930C21 /* Post+MSClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Post+MSClient.h"; sourceTree = "<group>"; };
+		5170835618FFB72B00930C21 /* Post+MSClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Post+MSClient.m"; sourceTree = "<group>"; };
 		51732B9C18C174A80013D891 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		51732B9E18C174B40013D891 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		51732BA018C174BF0013D891 /* CFNetwork.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CFNetwork.framework; path = System/Library/Frameworks/CFNetwork.framework; sourceTree = SDKROOT; };
@@ -202,7 +201,6 @@
 		75073FC11813BF15009177C7 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = System/Library/Frameworks/AddressBook.framework; sourceTree = SDKROOT; };
 		75073FC31814BF1A009177C7 /* ViewEntityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewEntityViewController.h; sourceTree = "<group>"; };
 		75073FC41814BF1A009177C7 /* ViewEntityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewEntityViewController.m; sourceTree = "<group>"; };
-		75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ViewEntityViewController.xib; sourceTree = "<group>"; };
 		75073FE818198E36009177C7 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		75073FEA18199310009177C7 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		752B1EE117FD2B6D00F61382 /* BigPostTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = BigPostTableViewCell.xib; sourceTree = "<group>"; };
@@ -354,7 +352,6 @@
 				511233FA18DE3E6000EFBF85 /* LoginViewController.m */,
 				75073FC31814BF1A009177C7 /* ViewEntityViewController.h */,
 				75073FC41814BF1A009177C7 /* ViewEntityViewController.m */,
-				75073FC51814BF1A009177C7 /* ViewEntityViewController.xib */,
 				75073FA518120314009177C7 /* ViewPostViewController.h */,
 				75073FA618120314009177C7 /* ViewPostViewController.m */,
 				75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */,
@@ -388,13 +385,13 @@
 		5124229D18B29CFA008BEF86 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				5170835518FFB72B00930C21 /* Post+MSClient.h */,
+				5170835618FFB72B00930C21 /* Post+MSClient.m */,
 				514D369418EF2D7E00921816 /* Model.xcdatamodeld */,
 				516BE12018F5EBE300629716 /* Post.h */,
 				516BE12118F5EBE300629716 /* Post.m */,
 				516BE11A18F5E6C600629716 /* Entity.h */,
 				516BE11B18F5E6C600629716 /* Entity.m */,
-				514D36A018EF33CE00921816 /* Post+MSS3Client.h */,
-				514D36A118EF33CE00921816 /* Post+MSS3Client.m */,
 				514D369718EF2E6F00921816 /* Comment.h */,
 				514D369818EF2E6F00921816 /* Comment.m */,
 				5148477D18C69A7800280874 /* ArrayToDataTransformer.h */,
@@ -734,7 +731,6 @@
 				7AD1F25D18F2183700592D23 /* YoursIcon60x60@2x.png in Resources */,
 				7AD1F25118F1473400592D23 /* menu-friends-unselected@2x.png in Resources */,
 				7AFAFC6718EA3D8900696C30 /* time.png in Resources */,
-				75073FC71814BF1A009177C7 /* ViewEntityViewController.xib in Resources */,
 				7AD1F24B18F143EC00592D23 /* icon-check@2x.png in Resources */,
 				7A37FA3F18E4B4B6003E5BFF /* menu-addpost@2x.png in Resources */,
 				7AD1F25218F1473400592D23 /* menu-my-unselected@2x.png in Resources */,
@@ -822,7 +818,7 @@
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
 				7A33F90F18DFE3C300CEE1A7 /* FriendsPostsViewController.m in Sources */,
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
-				514D36A218EF33CE00921816 /* Post+MSS3Client.m in Sources */,
+				5170835718FFB72B00930C21 /* Post+MSClient.m in Sources */,
 				51CCDF1418E9E48F00491CB4 /* RestKitInitializer.m in Sources */,
 				7A99E87A18E8E3BD001F9927 /* Entity+MSEntity.m in Sources */,
 				7A33F90C18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m in Sources */,

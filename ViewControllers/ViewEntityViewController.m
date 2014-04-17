@@ -13,21 +13,16 @@
 #import "CreatePostViewController.h"
 
 #import "BigPostTableViewCell.h"
-#import "CircleViewForImage.h"
 
 #import "KeyChainWrapper.h"
 
+#import "Post+MSClient.h"
 #import "Entity.h"
 
 #import "UIColor+MSColor.h"
 
 @interface ViewEntityViewController ()
 
-// for map, potentially depreciated
-@property (weak, nonatomic) IBOutlet UIButton *dropPinButton;
-@property (weak, nonatomic) IBOutlet MKMapView *myMap;
-
-@property (weak, nonatomic) IBOutlet CircleViewForImage *circleViewForImage;
 
 // entity attributes
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -60,15 +55,11 @@
     [super viewDidLoad];
     
     // set up entity
-    // TODO: make sure that Core Data makes every name attribute is filled
     [self setNameAndInstitutionAndLocation];
 
-    //TODO: prepare post ids and entity ids too
-    
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjects:@[sessionToken]
                                                                      forKeys:@[@"auth_token"]];
-    
     
     // Let's ask the server for the posts of this entity!
     [[RKObjectManager sharedManager]
@@ -360,38 +351,9 @@
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     Post *post = [self.fetchedResultsController  objectAtIndexPath:indexPath];
     
-    UIButton *followButton = (UIButton *)sender;
-    bool toFollow = [[followButton titleForState:UIControlStateNormal] isEqualToString:@"follow"];
-    
-    if (![KeyChainWrapper isSessionTokenValid]) {
-        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
-        return;
-    }
-    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSMutableURLRequest *request = nil;
-    if (toFollow) {
-        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"follow_post"
-                                                                         object:post
-                                                                     parameters:@{@"auth_token": sessionToken}];
-        
-        
-    } else {
-        request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"unfollow_post"
-                                                                         object:post
-                                                                     parameters:@{@"auth_token": sessionToken}];
-    }
-    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
-        [followButton setTitle:(toFollow ? @"unfollow" : @"follow")
-                      forState:UIControlStateNormal];
-        
-        [post setFollowing:[NSNumber numberWithBool:(toFollow ? YES: NO)]];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:error];
+    [post sendFollowRequestWithFailureBlock:^{
+        [Utility generateAlertWithMessage:@"Failed to follow/unfollow!" error:nil];
     }];
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [operationQueue addOperation:operation];
 }
 
 
