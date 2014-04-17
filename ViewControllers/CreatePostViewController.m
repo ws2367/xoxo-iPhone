@@ -502,7 +502,8 @@
                                                             method:RKRequestMethodPOST
                                                               path:@"posts"
                                                         parameters:params];
-        
+
+        //Note that the completion block runs on main thread even if this method runs on non-main thread
         [operation setCompletionBlockWithSuccess:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
             MSDebug(@"Uploaded posts and stuff to server. Next upload the photo.");
             
@@ -520,7 +521,9 @@
 //                MSDebug(@"Entity to merge has remoteID: %@", entity.remoteID);
 //                [entity updateUUIDinManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
 //            }
-            [post uploadImageToS3];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [post uploadImageToS3];
+            });
             
         } failure:[Utility failureBlockWithAlertMessage:@"Can't upload posts!" block:^{
             for (NSManagedObject *managedObject in objectsToPush) {

@@ -33,8 +33,6 @@
 @property (weak, nonatomic) IBOutlet UILabel *locationLabel;
 @property (strong, nonatomic) NSString *location;
 
-@property (weak, nonatomic) IBOutlet UITableView *tableView;
-
 @end
 
 @implementation ViewEntityViewController
@@ -58,7 +56,7 @@
     [self addNavigationBar];
     [self addCreatePostButton];
     
-    //set up chil view controller
+    //set up child view controller
     // embedded view controller is a child view controller
     ViewEntityPostsViewController *childViewController = [self.childViewControllers firstObject];
     // set up entity for child view controller first, then fire off it

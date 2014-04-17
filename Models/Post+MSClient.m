@@ -28,6 +28,26 @@
         MSError(@"Error while uploading photos");
     } else {
         MSDebug(@"Photo of posts %@ loaded!", self.remoteID);
+        if (![KeyChainWrapper isSessionTokenValid]) {
+            [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+            return false;
+        }
+        NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+        
+        NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"activate_post"
+                                                                                              object:self
+                                                                                          parameters:@{@"auth_token": sessionToken}];
+        
+        RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+        [operation setCompletionBlockWithSuccess:nil
+                                         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                             [Utility generateAlertWithMessage:@"Network problem" error:error];
+                                             MSError(@"Cannot activate post!");
+                                         }];
+        
+        NSOperationQueue *operationQueue = [NSOperationQueue new];
+        [operationQueue addOperation:operation];
+
     }
 
     // then we can save all the stuff to database
