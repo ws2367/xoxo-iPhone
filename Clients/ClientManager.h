@@ -37,11 +37,11 @@
 //+(TVMClient *)tvm;
 
 +(bool)isLoggedIn;
-+(BOOL)login:(NSString *)FBAccessToken;
++(void)login:(NSString *)FBAccessToken delegate:(id<TVMClientDelegate>)delegate;
 +(BOOL)logout;
 +(BOOL)validateCredentials;
 //+(void)wipeAllCredentials;
 //+ (BOOL)wipeCredentialsOnAuthError:(NSError *)error;
 
-
 @end
+

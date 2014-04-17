@@ -61,9 +61,10 @@ static TVMClient *tvm = nil;
 }
 
 
-+(BOOL)login:(NSString *)FBAccessToken
++(void)login:(NSString *)FBAccessToken delegate:(id<TVMClientDelegate>)delegate
 {
-    return [[ClientManager tvm] login:FBAccessToken];
+    [ClientManager tvm].delegate = delegate;
+    [[ClientManager tvm] login:FBAccessToken];
 }
 
 +(BOOL) logout

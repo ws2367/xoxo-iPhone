@@ -76,11 +76,17 @@
     if (buttonIndex == tryAgainButtonIndex) {
         MSDebug(@"Try to log in again!");
         [self login:_FBAccessToken];
+    } else {
+        if (self.delegate && [self.delegate respondsToSelector:@selector(TVMLoggingInFailed)]) {
+            [self.delegate TVMLoggingInFailed];
+        } else {
+            MSError(@"TVMClient's delegation is not set!");
+        }
     }
 }
 
 
--(BOOL)login:(NSString *)FBAccessToken{
+-(void)login:(NSString *)FBAccessToken{
     _FBAccessToken = [NSString stringWithString:FBAccessToken];
     
     NSDictionary *params = [NSDictionary dictionaryWithObject:FBAccessToken forKey:@"fb_access_token"];
@@ -96,28 +102,29 @@
                                                  errorLog:@"Can't log in!"];
     
     if (!success) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Connection"
-                                                        message:@"Failed to log in"
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No network connection"
+                                                        message:nil
                                                        delegate:self
                                               cancelButtonTitle:@"OK"
                                               otherButtonTitles:nil];
         tryAgainButtonIndex = [alert addButtonWithTitle:@"Try again!"];
         [alert show];
-    }
-        
-       
-    NSLog(@"After login: %@", jsonFromData);
-    
-    if (jsonFromData[@"token"] != nil && jsonFromData[@"bucket_name"] != nil) {
-        [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
-        [Constants setS3BucketName:jsonFromData[@"bucket_name"]];
-        MSDebug(@"Bucket name: %@", S3BUCKET_NAME);
     } else {
-        NSLog(@"Log in failed");
-        return NO;
-    }
+        if (jsonFromData[@"token"] != nil && jsonFromData[@"bucket_name"] != nil) {
+            [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
+            [Constants setS3BucketName:jsonFromData[@"bucket_name"]];
+            MSDebug(@"Auth token: %@", jsonFromData[@"token"]);
+            MSDebug(@"Bucket name: %@", S3BUCKET_NAME);
+            if (self.delegate && [self.delegate respondsToSelector:@selector(TVMLoggedIn)]) {
+                [self.delegate TVMLoggedIn];
+            } else {
+                MSError(@"TVMClient's delegation is not set!");
+            }
 
-    return YES;
+        } else {
+            MSError(@"Login request sent successfully, but no token or bucket_name is returned");
+        }
+    }
 }
 
 - (BOOL)logout

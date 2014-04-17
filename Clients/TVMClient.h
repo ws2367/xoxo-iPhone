@@ -8,16 +8,27 @@
 
 #import <Foundation/Foundation.h>
 
+@protocol TVMClientDelegate;
+
 @interface TVMClient : NSObject <UIAlertViewDelegate>
+
+@property (nonatomic, weak) id<TVMClientDelegate> delegate;
 
 @property (nonatomic, retain) NSString *endpoint;
 //@property (nonatomic) bool             useSSL;
 
 -(id)initWithEndpoint:(NSString *)endpoint;
 -(BOOL)getToken;
--(BOOL)login:(NSString *)FBAccessToken;
+-(void)login:(NSString *)FBAccessToken;
 -(BOOL)logout;
 
+@end
 
+@protocol TVMClientDelegate <NSObject>
+
+@required
+
+- (void) TVMLoggedIn;
+- (void) TVMLoggingInFailed;
 
 @end

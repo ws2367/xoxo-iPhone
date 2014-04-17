@@ -15,7 +15,6 @@
 
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet FBLoginView *loginView;
-@property (weak, nonatomic) IBOutlet UILabel *statusLabel;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *youAreLoggedInLabel;
 @property (strong, nonatomic) UILabel *youAreLoggedOutLabel;
@@ -67,9 +66,7 @@
 
     MSDebug(@"FB Access Token: %@", FBAccessToken);
 
-    [ClientManager login:FBAccessToken];
-    [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
-    
+    [ClientManager login:FBAccessToken delegate:self];
 }
 
 - (void) loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
@@ -122,6 +119,20 @@
                           otherButtonTitles:nil] show];
     }
 }
+
+#pragma mark -
+#pragma mark TVMClient Delegate methods
+- (void) TVMLoggedIn
+{
+    [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
+}
+
+- (void) TVMLoggingInFailed
+{
+    [self logoutUser];
+}
+
+
 
 #pragma mark - Navigation Controller delegate method
 - (void)navigationController:(UINavigationController *)navController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
