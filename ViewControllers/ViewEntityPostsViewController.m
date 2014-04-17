@@ -113,7 +113,7 @@
 
 # pragma mark -
 #pragma mark BigPostTableViewCell delegate method
--(void)setPostInMyPostsViewController:(id)sender
+-(void)setPostInViewEntityViewController:(id)sender
 {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
@@ -124,7 +124,7 @@
 - (void) CellPerformViewPost:(id)sender{
     //indicate we want to view post from top
     [sender setTag:0];
-    [self setPostInMyPostsViewController:sender];
+    [self setPostInViewEntityViewController:sender];
     
     [_viewEntityViewController performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
@@ -132,7 +132,7 @@
 -(void)commentPost:(id)sender{
     //indicate we want to comment
     [sender setTag:1];
-    [self setPostInMyPostsViewController:sender];
+    [self setPostInViewEntityViewController:sender];
     
     [_viewEntityViewController performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
