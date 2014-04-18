@@ -115,6 +115,11 @@ static NSString *CellIdentifier = @"ContactCell";
     for(id person in _selectedPeople) {
         ABMultiValueRef numbers = (ABMultiValueRef)ABRecordCopyValue((__bridge ABRecordRef)(person), kABPersonPhoneProperty);
         NSString* phoneNumber = (__bridge NSString*)ABMultiValueCopyValueAtIndex(numbers, 0);
+        if (phoneNumber == nil) {
+            MSDebug(@"The contact has no phone number");
+            continue;
+        }
+            
         NSCharacterSet *onlyAllowedChars = [[NSCharacterSet characterSetWithCharactersInString:@"0123456789"] invertedSet];
         phoneNumber = [[phoneNumber componentsSeparatedByCharactersInSet:onlyAllowedChars] componentsJoinedByString:@""];
         [phoneNumbers addObject:phoneNumber];
