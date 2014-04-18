@@ -43,9 +43,9 @@
     _loginView.delegate = self;
     [self.view setBackgroundColor:[UIColor colorForYoursOrange]];
     [self addLogo];
-    [self addDescriptionsWithString:@"Welcome to Yours" atX:90 andY:300 withDictionary:[Utility getLoginViewTitleDescriptionFontDictionary]];
-    [self addDescriptionsWithString:@"A place to say your true opinions" atX:60 andY:330 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
-    [self addDescriptionsWithString:@"You will always be anonymous on Yours" atX:30 andY:350 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    [self addDescriptionsWithString:@"Welcome to Yours" andY:300 withDictionary:[Utility getLoginViewTitleDescriptionFontDictionary]];
+    [self addDescriptionsWithString:@"A place to say your true opinions" andY:330 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    [self addDescriptionsWithString:@"You will always be anonymous on Yours" andY:350 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -55,12 +55,12 @@
 }
 
 - (void) loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
-    _displayNameLabel = [self addDescriptionsWithString:user.name atX:120 andY:410 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    _displayNameLabel = [self addDescriptionsWithString:user.name andY:410 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
 }
 
 - (void) loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     [_youAreLoggedOutLabel removeFromSuperview];
-    _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" atX:88 andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     FBAccessTokenData *accessTokenData = FBSession.activeSession.accessTokenData;
     NSString *FBAccessToken = accessTokenData.accessToken;
 
@@ -72,7 +72,7 @@
 - (void) loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
     [_youAreLoggedInLabel removeFromSuperview];
     [_displayNameLabel removeFromSuperview];
-    _youAreLoggedOutLabel = [self addDescriptionsWithString:@"You're logged out!" atX:88 andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    _youAreLoggedOutLabel = [self addDescriptionsWithString:@"You're logged out!" andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     
     [ClientManager logout];
 }
@@ -171,9 +171,10 @@
     [self.view addSubview:logoImageView];
 }
 
--(UILabel *) addDescriptionsWithString:(NSString *)stringToDisplay atX:(CGFloat)originX andY:(CGFloat)originY withDictionary:(NSDictionary *)dictionary{
+-(UILabel *) addDescriptionsWithString:(NSString *)stringToDisplay andY:(CGFloat)originY withDictionary:(NSDictionary *)dictionary{
     NSAttributedString *text = [[NSAttributedString alloc] initWithString:stringToDisplay attributes:dictionary];
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY, WIDTH, 20)];
+    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, originY, WIDTH, 20)];
+    textLabel.textAlignment = NSTextAlignmentCenter;
     [textLabel setAttributedText:text];
     [self.view addSubview:textLabel];
     return textLabel;

@@ -105,7 +105,10 @@
 }
 
 -(void) inviteButtonPressed:(id)sender{
-    
+    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
+    picker.delegate = self;
+    [self presentViewController:picker animated:YES completion:nil];
+
 }
 
 -(void) termOfUseButtonPressed:(id)sender{
@@ -217,6 +220,32 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
+#pragma mark -
+#pragma mark Multiple People Picker Delegate method
+
+- (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
+{
+    [self dismissViewControllerAnimated:YES completion:nil];
+    MSDebug(@"Selected numbers %@", selectedNumbers);
+
+   
+    if([MFMessageComposeViewController canSendText])
+    {
+        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+        controller.body = @"SMS message here";
+        controller.recipients = [selectedNumbers allObjects];
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:NULL];
+    }
+
+}
+
+#pragma mark -
+#pragma mark MFMessageCompose Delegate method
+- (void)messageComposeViewController:(MFMessageComposeViewController *)controller
+                 didFinishWithResult:(MessageComposeResult)result {
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
 
 
 @end

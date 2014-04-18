@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 #import <MessageUI/MessageUI.h>
+#import "MultiplePeoplePickerViewController.h"
 
 
-@interface SettingViewController : UIViewController <UIAlertViewDelegate, MFMailComposeViewControllerDelegate>
+
+@interface SettingViewController : UIViewController <UIAlertViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, MultiplePeoplePickerViewControllerDelegate>
 
 @end
