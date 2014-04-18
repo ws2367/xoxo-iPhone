@@ -23,6 +23,8 @@
 #import "ViewPostDisplayButtonBarTableViewCell.h"
 #import "ViewPostDisplayContentTableViewCell.h"
 
+#define COMMENT_ICON_MAX 29
+
 @interface ViewPostViewController ()
 
 @property (strong, nonatomic) Post *post;
@@ -49,6 +51,9 @@
 @property (nonatomic) BOOL startEditingComment;
 
 @property (strong, nonatomic) UIButton *maskToEndEditing;
+
+@property (strong, nonatomic) NSMutableDictionary *commentIconDictionary;
+@property (strong, nonatomic) NSMutableArray *usedIconNumber;
 @end
 
 #define ROW_HEIGHT 46
@@ -217,7 +222,8 @@
     //hide scrollbar & clear separator
     [_viewPostTableView setShowsVerticalScrollIndicator:NO];
     [_viewPostTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-
+    
+    _commentIconDictionary = [[NSMutableDictionary alloc] init];
 }
 
 
@@ -246,7 +252,14 @@
 - (void) setPost:(Post *)post{
     _post = post;
     _entities = [[NSMutableArray alloc] initWithArray:[_post.entities allObjects]];
-    _comments = [[NSMutableArray alloc] initWithArray:[_post.comments allObjects]];
+    NSArray *tempComments = [[NSArray alloc] initWithArray:[_post.comments allObjects]];
+    NSArray *comments;
+    comments = [tempComments sortedArrayUsingComparator:^NSComparisonResult(id a, id b) {
+        NSDate *first = [(Comment *)a updateDate];
+        NSDate *second = [(Comment *)b updateDate];
+        return [first compare:second];
+    }];
+    _comments = [[NSMutableArray alloc] initWithArray:comments];
     [_viewPostTableView reloadData];
 }
 
@@ -287,8 +300,9 @@
 //        [self.tableView
 //         reloadRowsAtIndexPaths:@[indexPathButton]
 //         withRowAnimation:UITableViewRowAnimationAutomatic];
-
-
+        
+        [self.viewPostTableView reloadData];
+        
         [self.tableView
          reloadRowsAtIndexPaths:@[indexPath]
          withRowAnimation:UITableViewRowAnimationAutomatic];
@@ -570,7 +584,23 @@
 
         return ceilf(rectSize.size.height)+60;
     } else{
-        return VIEW_POST_DISPLAY_COMMENT_HEIGHT;
+        Comment *comment =[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )];
+        if([[comment content] length]<25){
+            return VIEW_POST_DISPLAY_COMMENT_HEIGHT;
+        }else{
+            CGRect rectSize = [[comment content] boundingRectWithSize:(CGSize){WIDTH-60, CGFLOAT_MAX}
+                                                                 options:NSStringDrawingUsesLineFragmentOrigin
+                                                              attributes:@{
+                                                                           NSFontAttributeName : [UIFont systemFontOfSize:15]
+                                                                           } context:nil];
+            CGFloat textViewEnd = ceil(rectSize.size.height)+20;
+
+            if(textViewEnd > VIEW_POST_DISPLAY_COMMENT_HEIGHT){
+                return textViewEnd;
+            } else{
+                return VIEW_POST_DISPLAY_COMMENT_HEIGHT;
+            }
+        }
     }
 }
 
@@ -617,7 +647,37 @@
             cell = [[ViewPostDisplayCommentTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayCommentCellIdentifier];
         }
         Comment *comment =[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )];
-        [cell setComment:comment];
+        NSString *commentIconFileString;
+        NSInteger num = 1;
+        MSDebug(@"anonymized %@", [comment anonymizedUserID]);
+        commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%d",num]] stringByAppendingString:@".png"];
+        
+        if([[comment anonymizedUserID] isEqualToNumber:[NSNumber numberWithInt:0]]){
+            [cell setComment:comment withIcon:nil];
+            return cell;
+        }
+        
+        if(_commentIconDictionary[[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]] == nil){
+            NSInteger getNum;
+            if([_usedIconNumber count]<COMMENT_ICON_MAX){
+                do {
+                    getNum = rand()%COMMENT_ICON_MAX + 1;
+                    MSDebug(@"the randome number i got %d",getNum);
+                } while ([_usedIconNumber containsObject:[NSNumber numberWithInt:getNum]]);
+                [_usedIconNumber addObject:[NSNumber numberWithInt:getNum]];
+                commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%d",getNum]] stringByAppendingString:@".png"];
+                [_commentIconDictionary setObject:[NSNumber numberWithInt:getNum] forKey:[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]];
+            } else{
+                getNum = rand()%COMMENT_ICON_MAX + 1;
+                [_commentIconDictionary setValue:[NSNumber numberWithInt:getNum] forKey:[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]];
+                commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%d",getNum]] stringByAppendingString:@".png"];
+            }
+        } else{
+            NSNumber *num = [_commentIconDictionary valueForKey:[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]];
+            commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%d",[num integerValue]]] stringByAppendingString:@".png"];
+        }
+        
+        [cell setComment:comment withIcon:commentIconFileString];
         return cell;
     }
     
