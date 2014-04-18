@@ -185,6 +185,13 @@
  */
 
 -(void) setCellWithImage:(UIImage *)photo Entities:(NSArray *)entities Content:(NSString *)content CommentsCount:(NSNumber *)commentsCount FollowersCount:(NSNumber *)followersCount atDate:(NSDate *)date hasFollowed:(BOOL)hasFollowed{
+    
+    //prevent memory warning...
+    for(UIView *view in self.contentView.subviews){
+        [view removeFromSuperview];
+    }
+    [self addLowerButtons];
+
     //first process photo
     if(!_postImageView){
         _postImageView = [[UIImageView alloc] init];

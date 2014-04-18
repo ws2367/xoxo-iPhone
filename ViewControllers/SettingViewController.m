@@ -77,11 +77,14 @@
 }
 
 -(void)addAdditionalButtons{
-    UIButton *termOfUseButton = [self addButtonAtY:250 withTitle:[NSString stringWithFormat:@"     Term of Use"]];
-//    [termOfUseButton addTarget:self action:@selector(termOfUseButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    UIButton *contactButton = [self addButtonAtY:250 + TABBAR_HEIGHT withTitle:[NSString stringWithFormat:@"     Contact Us"]];
-//    [contactButton addTarget:self action:@selector(contactButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    UIButton *inviteButton = [self addButtonAtY:250 withTitle:[NSString stringWithFormat:@"     Invite Friend"]];
+    [inviteButton addTarget:self action:@selector(inviteButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
     [self addOrangeLineStartAtY:250+TABBAR_HEIGHT];
+    UIButton *termOfUseButton = [self addButtonAtY:250 + TABBAR_HEIGHT withTitle:[NSString stringWithFormat:@"     Term of Use"]];
+    [termOfUseButton addTarget:self action:@selector(termOfUseButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
+    [self addOrangeLineStartAtY:250+2*TABBAR_HEIGHT];
+    UIButton *contactButton = [self addButtonAtY:250 + 2*TABBAR_HEIGHT withTitle:[NSString stringWithFormat:@"     Contact Us"]];
+    [contactButton addTarget:self action:@selector(contactButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
 }
 
 -(UIButton *)addButtonAtY:(CGFloat)Y withTitle:(NSString *)title{
@@ -101,6 +104,32 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) inviteButtonPressed:(id)sender{
+    
+}
+
+-(void) termOfUseButtonPressed:(id)sender{
+    MSDebug(@"what's wrong?");
+    [self performSegueWithIdentifier:@"viewTOUSegue" sender:sender];
+}
+
+-(void) contactButtonPressed:(id)sender{
+    // Email Subject
+    NSString *emailTitle = @"Gotta tell you.";
+    // Email Content
+    NSString *messageBody = @"Hey, wussup! I think ...";
+    // To address
+    NSArray *toRecipents = [NSArray arrayWithObject:@"orrzs.inc@gmail.com"];
+    
+    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+    mc.mailComposeDelegate = self;
+    [mc setSubject:emailTitle];
+    [mc setMessageBody:messageBody isHTML:NO];
+    [mc setToRecipients:toRecipents];
+    
+    // Present mail view controller on screen
+    [self presentViewController:mc animated:YES completion:NULL];
+}
 #pragma mark -
 #pragma mark Navigation Bar Button Methods
 - (void)exitButtonPressed:(id)sender{
@@ -158,6 +187,34 @@
     dashLineLayer.lineJoin = kCALineJoinMiter;
     dashLineLayer.path = path.CGPath;
     [self.view.layer addSublayer:dashLineLayer];
+}
+
+
+#pragma mark -
+#pragma mark Mail Compose View Delegate method
+
+- (void) mailComposeController:(MFMailComposeViewController *)controller didFinishWithResult:(MFMailComposeResult)result error:(NSError *)error
+{
+    switch (result)
+    {
+        case MFMailComposeResultCancelled:
+            NSLog(@"Mail cancelled");
+            break;
+        case MFMailComposeResultSaved:
+            NSLog(@"Mail saved");
+            break;
+        case MFMailComposeResultSent:
+            NSLog(@"Mail sent");
+            break;
+        case MFMailComposeResultFailed:
+            NSLog(@"Mail sent failure: %@", [error localizedDescription]);
+            break;
+        default:
+            break;
+    }
+    
+    // Close the Mail Interface
+    [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
 

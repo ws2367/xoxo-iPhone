@@ -12,5 +12,5 @@
 @interface ViewPostDisplayCommentTableViewCell : UITableViewCell
 
 
--(void) setComment:(Comment *)comment;
+-(void) setComment:(Comment *)comment withIcon:(NSString *)fileString;
 @end

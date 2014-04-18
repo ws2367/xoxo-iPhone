@@ -414,6 +414,7 @@
                     <navigationItem key="navigationItem" id="e1C-ZC-9YY"/>
                     <connections>
                         <outlet property="nameLabel" destination="O7d-9E-ORK" id="iar-uj-k2L"/>
+                        <segue destination="GBf-wT-gzl" kind="modal" identifier="viewTOUSegue" id="SQY-sw-vIE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0dK-xy-enQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -548,6 +549,30 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="79j-nn-ZKF" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2263" y="-1755"/>
+        </scene>
+        <!--View Term Of Use View Controller - Item-->
+        <scene sceneID="xXe-jE-Xms">
+            <objects>
+                <viewController id="GBf-wT-gzl" customClass="viewTermOfUseViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Tai-18-1Zk">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Just for a empty view controller" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="IDr-3w-V5B">
+                                <rect key="frame" x="28" y="117" width="276" height="44"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="Item" id="6J2-Pg-Dkk"/>
+                    <navigationItem key="navigationItem" id="sdh-gv-b4R"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GFy-b8-5OD" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2455" y="539"/>
         </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

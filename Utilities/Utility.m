@@ -250,7 +250,7 @@
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:18],NSFontAttributeName, [UIColor colorForYoursGray] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getViewPostDisplayCommentFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor colorForYoursDarkBlue] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:14],NSFontAttributeName, [UIColor colorForYoursDarkBlue] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getLoginViewTitleDescriptionFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:20],NSFontAttributeName, [UIColor colorForYoursWhite] ,NSForegroundColorAttributeName,nil];
