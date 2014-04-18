@@ -31,7 +31,7 @@
     [_nameLabel setText:[(NavigationController *)self.navigationController getUserName]];
     [self addTopNavigationBar];
     [self.view setBackgroundColor:[UIColor colorForYoursWhite]];
-    [self addSignOutButton];
+//    [self addSignOutButton];
     [self addLogo];
     [self addAdditionalButtons];
 	// Do any additional setup after loading the view.
@@ -158,7 +158,7 @@
         case 0:
             break;
         case 1:
-            [(NavigationController *)self.navigationController userLoggedOut];
+//            [(NavigationController *)self.navigationController userLoggedOut];
             break;
         default:
             break;

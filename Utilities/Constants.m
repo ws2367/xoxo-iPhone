@@ -31,8 +31,10 @@ const int BIG_POSTS_CELL_HEIGHT = 250;
 // Remeber, evaluation of path patterns against base URL could be surprising.
 //NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
 //NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
-NSString *const BASE_URL = @"http://localhost:3000/v1/";
-NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
+NSString *const BASE_URL = @"http://107.170.232.66:3000/v1/";
+NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.232.66:3000/v1/";
+//NSString *const BASE_URL = @"http://localhost:3000/v1/";
+//NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
 
 NSString * S3BUCKET_NAME = @"undefined";
 
