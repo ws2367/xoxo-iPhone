@@ -192,6 +192,16 @@
     // remove separators of the table view
     _tableView.separatorColor = [UIColor clearColor];
     
+    [self addNavigationBar];
+    
+    //hide scrollbar & clear separator
+    [_viewPostTableView setShowsVerticalScrollIndicator:NO];
+    [_viewPostTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    _commentIconDictionary = [[NSMutableDictionary alloc] init];
+}
+
+-(void) addNavigationBar{
     //add top controller bar
     UINavigationBar *topNavigationBar = [[UINavigationBar alloc] initWithFrame:CGRectMake(0, 0, WIDTH, VIEW_POST_NAVIGATION_BAR_HEIGHT)];
     [topNavigationBar setBarTintColor:[UIColor colorForYoursOrange]];
@@ -203,27 +213,21 @@
     UIBarButtonItem *exitButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-cancel.png"] style:UIBarButtonItemStylePlain target:self action:@selector(exitButtonPressed:)];
     [exitButton setTintColor:[UIColor whiteColor]];
     UIBarButtonItem *homeButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"menu-popular.png"] style:UIBarButtonItemStylePlain target:self action:@selector(homeButtonPressed:)];
-
+    
     [exitButton setTintColor:[UIColor whiteColor]];
     
     //we want icon
     UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:@"Yours"];
-
+    
     UIImageView *yoursView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 33)];
     [yoursView setImage:[UIImage imageNamed:@"logo_white.png"] ];
     yoursView.contentMode = UIViewContentModeScaleAspectFit;
     topNavigationItem.titleView = yoursView;
-
+    
     
     topNavigationItem.rightBarButtonItem = exitButton;
     topNavigationItem.leftBarButtonItem = homeButton;
     topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
-    
-    //hide scrollbar & clear separator
-    [_viewPostTableView setShowsVerticalScrollIndicator:NO];
-    [_viewPostTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
-    _commentIconDictionary = [[NSMutableDictionary alloc] init];
 }
 
 

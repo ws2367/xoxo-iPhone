@@ -131,6 +131,9 @@
 		7AB428871900E6FE00DFC1D1 /* comment-icon-27@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4286A1900E6FE00DFC1D1 /* comment-icon-27@2x.png */; };
 		7AB428881900E6FE00DFC1D1 /* comment-icon-28@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4286B1900E6FE00DFC1D1 /* comment-icon-28@2x.png */; };
 		7AB428891900E6FE00DFC1D1 /* comment-icon-29@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4286C1900E6FE00DFC1D1 /* comment-icon-29@2x.png */; };
+		7AB4288C1901AECE00DFC1D1 /* viewTermOfUseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7AB4288B1901AECE00DFC1D1 /* viewTermOfUseViewController.m */; };
+		7AB4288F1901CFCB00DFC1D1 /* OrrzsTermofUse.txt in Resources */ = {isa = PBXBuildFile; fileRef = 7AB4288E1901CFCB00DFC1D1 /* OrrzsTermofUse.txt */; };
+		7AB428911901D49600DFC1D1 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7AB428901901D49600DFC1D1 /* MessageUI.framework */; };
 		7ABC939C18E0AEA4005E403B /* SettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939B18E0AEA4005E403B /* SettingViewController.m */; };
 		7ABC939F18E0DC24005E403B /* SuperImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABC939E18E0DC24005E403B /* SuperImageView.m */; };
 		7ABFAA1B18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 7ABFAA1A18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m */; };
@@ -337,6 +340,10 @@
 		7AB4286A1900E6FE00DFC1D1 /* comment-icon-27@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment-icon-27@2x.png"; sourceTree = "<group>"; };
 		7AB4286B1900E6FE00DFC1D1 /* comment-icon-28@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment-icon-28@2x.png"; sourceTree = "<group>"; };
 		7AB4286C1900E6FE00DFC1D1 /* comment-icon-29@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "comment-icon-29@2x.png"; sourceTree = "<group>"; };
+		7AB4288A1901AECE00DFC1D1 /* viewTermOfUseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = viewTermOfUseViewController.h; sourceTree = "<group>"; };
+		7AB4288B1901AECE00DFC1D1 /* viewTermOfUseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = viewTermOfUseViewController.m; sourceTree = "<group>"; };
+		7AB4288E1901CFCB00DFC1D1 /* OrrzsTermofUse.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = OrrzsTermofUse.txt; sourceTree = "<group>"; };
+		7AB428901901D49600DFC1D1 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		7ABC939A18E0AEA4005E403B /* SettingViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SettingViewController.h; sourceTree = "<group>"; };
 		7ABC939B18E0AEA4005E403B /* SettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SettingViewController.m; sourceTree = "<group>"; };
 		7ABC939D18E0DC24005E403B /* SuperImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SuperImageView.h; path = ../ViewControllers/SuperImageView.h; sourceTree = "<group>"; };
@@ -384,6 +391,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7AB428911901D49600DFC1D1 /* MessageUI.framework in Frameworks */,
 				51732BA318C174CA0013D891 /* SystemConfiguration.framework in Frameworks */,
 				51732BA118C174BF0013D891 /* CFNetwork.framework in Frameworks */,
 				51732B9F18C174B40013D891 /* Security.framework in Frameworks */,
@@ -443,6 +451,8 @@
 				7AB4284018FDB12000DFC1D1 /* PostsAboutMeViewController.m */,
 				7AB4284218FDB1B200DFC1D1 /* PostsICreatedViewController.h */,
 				7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */,
+				7AB4288A1901AECE00DFC1D1 /* viewTermOfUseViewController.h */,
+				7AB4288B1901AECE00DFC1D1 /* viewTermOfUseViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -590,6 +600,7 @@
 		75CCCF3217FC03DF000BF0F4 = {
 			isa = PBXGroup;
 			children = (
+				7AB4288D1901CFA400DFC1D1 /* TextFiles */,
 				7AFAFC6B18EB75F200696C30 /* Resources */,
 				516791E018D26A9C007C0843 /* Main.storyboard */,
 				5186F08F18CEE37600B27C71 /* Clients */,
@@ -619,6 +630,7 @@
 		75CCCF3D17FC03DF000BF0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7AB428901901D49600DFC1D1 /* MessageUI.framework */,
 				511233F718DE2FFA00EFBF85 /* FacebookSDK.framework */,
 				51E9FED818DCF93A00E60232 /* AWSRuntime.framework */,
 				51E9FED918DCF93A00E60232 /* AWSS3.framework */,
@@ -713,6 +725,14 @@
 				7AB4286C1900E6FE00DFC1D1 /* comment-icon-29@2x.png */,
 			);
 			name = Comment_Icons;
+			sourceTree = "<group>";
+		};
+		7AB4288D1901CFA400DFC1D1 /* TextFiles */ = {
+			isa = PBXGroup;
+			children = (
+				7AB4288E1901CFCB00DFC1D1 /* OrrzsTermofUse.txt */,
+			);
+			path = TextFiles;
 			sourceTree = "<group>";
 		};
 		7AFAFC6B18EB75F200696C30 /* Resources */ = {
@@ -873,6 +893,7 @@
 				7AB428741900E6FE00DFC1D1 /* comment-icon-8@2x.png in Resources */,
 				5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */,
 				7AFAFC5E18EA3D8900696C30 /* icon-commenter.png in Resources */,
+				7AB4288F1901CFCB00DFC1D1 /* OrrzsTermofUse.txt in Resources */,
 				75C086F017FE9B2C00023200 /* likeoff.png in Resources */,
 				7AA8E5E618F6613B00EB5EA0 /* YoursIcon2nd60x60@2x.png in Resources */,
 				7AFAFC5D18EA3D8900696C30 /* facebook_icon.png in Resources */,
@@ -951,6 +972,7 @@
 				7584D1B418DED07600981E2E /* MultiPostsTabBarController.m in Sources */,
 				75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */,
 				7A33F90F18DFE3C300CEE1A7 /* FriendsPostsViewController.m in Sources */,
+				7AB4288C1901AECE00DFC1D1 /* viewTermOfUseViewController.m in Sources */,
 				75073FC61814BF1A009177C7 /* ViewEntityViewController.m in Sources */,
 				5170835718FFB72B00930C21 /* Post+MSClient.m in Sources */,
 				51CCDF1418E9E48F00491CB4 /* RestKitInitializer.m in Sources */,
