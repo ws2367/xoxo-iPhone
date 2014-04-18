@@ -186,13 +186,16 @@
     RKRoute *reportPostRoute = [RKRoute routeWithName:@"report_post" pathPattern:@"posts/:remoteID/report" method:RKRequestMethodPOST];
     RKRoute *sharePostRoute = [RKRoute routeWithName:@"share_post" pathPattern:@"posts/:remoteID/share" method:RKRequestMethodPOST];
     RKRoute *activatePostRoute = [RKRoute routeWithName:@"activate_post" pathPattern:@"posts/:remoteID/activate" method:RKRequestMethodPOST];
+
+    RKRoute *inviteeRoute = [RKRoute routeWithName:@"report_inviter" pathPattern:@"invitations/inviter" method:RKRequestMethodPOST];
     
     [objectManager.router.routeSet addRoutes:@[// class routes
                                                postRoute, commentPOSTRoute, postPOSTRoute,
                                                // relationship routes
                                                postCommentRelationshipRoute, entityPostRelationshipRoute,
                                                // named routes
-                                               followPostRoute, unfollowPostRoute, reportPostRoute, sharePostRoute, activatePostRoute]];
+                                               followPostRoute, unfollowPostRoute, reportPostRoute, sharePostRoute, activatePostRoute,
+                                               inviteeRoute]];
     
     
     /* Set up request descriptor

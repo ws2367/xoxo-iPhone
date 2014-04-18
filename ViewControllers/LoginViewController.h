@@ -10,7 +10,8 @@
 #import <FacebookSDK/FacebookSDK.h>
 #import "TVMClient.h"
 
-@interface LoginViewController : UIViewController <FBLoginViewDelegate, UINavigationControllerDelegate, TVMClientDelegate>
+@interface LoginViewController : UIViewController <FBViewControllerDelegate, FBLoginViewDelegate,
+                    UINavigationControllerDelegate, TVMClientDelegate>
 
 - (void) logoutUser;
 

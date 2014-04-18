@@ -29,7 +29,6 @@
 
 @property (strong, nonatomic) Post *post;
 
-@property (weak, nonatomic) IBOutlet UITextView *contentTextView;
 @property (strong, nonatomic) NSString *content;
 
 @property (weak, nonatomic) IBOutlet UITextField *commentTextField;
@@ -177,7 +176,7 @@
     // Let's perform one fetch here
     NSError *fetchingErr = nil;
     if ([self.fetchedResultsController performFetch:&fetchingErr]){
-        NSLog(@"Number of fetched comments %u", [[self.fetchedResultsController fetchedObjects] count]);
+        NSLog(@"Number of fetched comments %ld", [[self.fetchedResultsController fetchedObjects] count]);
         NSLog(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch");

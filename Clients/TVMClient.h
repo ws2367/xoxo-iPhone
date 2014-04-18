@@ -29,6 +29,7 @@
 @required
 
 - (void) TVMLoggedIn;
+- (void) TVMSignedUp;
 - (void) TVMLoggingInFailed;
 
 @end

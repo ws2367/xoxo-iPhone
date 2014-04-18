@@ -5,13 +5,15 @@
 //  Created by Wen-Hsiang Shaw on 3/22/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
+#import <FacebookSDK/FacebookSDK.h>
 
 #import "LoginViewController.h"
-#import "ClientManager.h"
 #import "NavigationController.h"
-#import "UIColor+MSColor.h"
 
-#import <FacebookSDK/FacebookSDK.h>
+#import "ClientManager.h"
+#import "KeyChainWrapper.h"
+
+#import "UIColor+MSColor.h"
 
 @interface LoginViewController ()
 @property (strong, nonatomic) IBOutlet FBLoginView *loginView;
@@ -19,6 +21,8 @@
 @property (strong, nonatomic) UILabel *youAreLoggedInLabel;
 @property (strong, nonatomic) UILabel *youAreLoggedOutLabel;
 @property (strong, nonatomic) UILabel *displayNameLabel;
+
+@property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
 
 @end
 
@@ -132,6 +136,110 @@
     [self logoutUser];
 }
 
+- (void) TVMSignedUp
+{
+    // if the session is open, then load the data for our view controller
+    if (!FBSession.activeSession.isOpen) {
+        MSDebug(@"no session");
+        // if the session is closed, then we open it here, and establish a handler for state changes
+        NSArray *permissions = [[NSArray alloc] initWithObjects:
+                                @"user_birthday", @"friends_hometown", @"email",
+                                @"friends_birthday", @"friends_location", @"friends_education_history", nil];
+        [FBSession openActiveSessionWithReadPermissions:permissions
+                                           allowLoginUI:YES
+                                      completionHandler:^(FBSession *session,
+                                                          FBSessionState state,
+                                                          NSError *error) {
+                                          if (error) {
+                                              UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Error"
+                                                                                                  message:error.localizedDescription
+                                                                                                 delegate:nil
+                                                                                        cancelButtonTitle:@"OK"
+                                                                                        otherButtonTitles:nil];
+                                              [alertView show];
+                                          } else if (session.isOpen) {
+                                              [self TVMSignedUp];
+                                          }
+                                      }];
+        return;
+    }
+    
+    if (self.friendPickerController == nil) {
+        // Create friend picker, and get data loaded into it.
+        self.friendPickerController = [[FBFriendPickerViewController alloc] init];
+        self.friendPickerController.title = @"Who invited you?";
+        [self.friendPickerController setAllowsMultipleSelection:NO];
+        self.friendPickerController.delegate = self;
+    }
+    
+    [self.friendPickerController loadData];
+    [self.friendPickerController clearSelection];
+    
+    [self presentViewController:self.friendPickerController animated:YES completion:nil];
+}
+
+# pragma mark -
+#pragma mark - FBFriendPickerDelegate method
+- (void)facebookViewControllerDoneWasPressed:(id)sender {
+    id<FBGraphUser> frd = [self.friendPickerController.selection firstObject];
+    [self dismissViewControllerAnimated:YES completion:^{
+        [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
+    }];
+    [self processFBUser:frd];
+}
+
+- (void)facebookViewControllerCancelWasPressed:(id)sender {
+    [self dismissViewControllerAnimated:YES completion:NULL];
+}
+
+- (void)processFBUser:(id<FBGraphUser>)frd{
+    FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
+                                                  graphPath:frd.id];
+    [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            NSString *name = [result objectForKey:@"name"];
+            NSString *birthday = [result objectForKey:@"birthday"];
+            NSString *fbID = frd.id;
+            MSDebug(@"name: %@, birthday: %@, fb ID: %@", name, birthday, fbID);
+            
+            if (![KeyChainWrapper isSessionTokenValid]) {
+                MSError(@"User session token is not valid.");
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+                });
+                return;
+            }
+            
+            if (fbID == nil) {
+                MSError(@"No fb ID in reporting inviter");
+                return;
+            }
+            
+            NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+            
+            NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjects:@[sessionToken, fbID]
+                                                                              forKeys:@[@"auth_token", @"fb_id"]];
+            
+            if (name) {[params setObject:name forKey:@"name"];}
+            if (birthday) {[params setObject:birthday forKey:@"birthday"];}
+            
+            NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"report_inviter"
+                                                                             object:self
+                                                                         parameters:params];
+            
+            RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+            [operation setCompletionBlockWithSuccess:nil
+                                             failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                                 [Utility generateAlertWithMessage:@"Network problem" error:error];
+                                                 MSError(@"Cannot report inviter!");
+                                             }];
+            
+            NSOperationQueue *operationQueue = [NSOperationQueue new];
+            [operationQueue addOperation:operation];
+            
+        });
+    }];
+}
 
 
 #pragma mark - Navigation Controller delegate method

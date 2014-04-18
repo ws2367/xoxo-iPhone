@@ -110,17 +110,24 @@
         tryAgainButtonIndex = [alert addButtonWithTitle:@"Try again!"];
         [alert show];
     } else {
-        if (jsonFromData[@"token"] != nil && jsonFromData[@"bucket_name"] != nil) {
+        if (jsonFromData[@"token"] != nil && jsonFromData[@"bucket_name"] != nil & jsonFromData[@"signup"] != nil) {
             [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
             [Constants setS3BucketName:jsonFromData[@"bucket_name"]];
             MSDebug(@"Auth token: %@", jsonFromData[@"token"]);
             MSDebug(@"Bucket name: %@", S3BUCKET_NAME);
-            if (self.delegate && [self.delegate respondsToSelector:@selector(TVMLoggedIn)]) {
-                [self.delegate TVMLoggedIn];
+            if ([jsonFromData[@"signup"] isEqualToString:@"true"]) {
+                if (self.delegate && [self.delegate respondsToSelector:@selector(TVMSignedUp)]) {
+                    [self.delegate TVMSignedUp];
+                } else {
+                    MSError(@"TVMClient's delegate method TVMSignedUp is not set!");
+                }
             } else {
-                MSError(@"TVMClient's delegation is not set!");
+                if (self.delegate && [self.delegate respondsToSelector:@selector(TVMLoggedIn)]) {
+                    [self.delegate TVMLoggedIn];
+                } else {
+                    MSError(@"TVMClient's delegate method TVMLoggedIn is not set!");
+                }
             }
-
         } else {
             MSError(@"Login request sent successfully, but no token or bucket_name is returned");
         }

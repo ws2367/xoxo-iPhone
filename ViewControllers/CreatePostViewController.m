@@ -614,7 +614,7 @@
         MSDebug(@"no session");
         // if the session is closed, then we open it here, and establish a handler for state changes
         NSArray *permissions = [[NSArray alloc] initWithObjects:
-                                @"user_birthday",@"friends_hometown",
+                                @"user_birthday",@"friends_hometown",@"email",
                             @"friends_birthday",@"friends_location",@"friends_education_history",@"friends_work_history",                              nil];
         [FBSession openActiveSessionWithReadPermissions:permissions
                                            allowLoginUI:YES
@@ -667,7 +667,7 @@
         [self processFBUser:frd];
     }
     [self dismissViewControllerAnimated:YES completion:NULL];
-    MSDebug(@"count%d", [_entities count]);
+    MSDebug(@"count %lu", [_entities count]);
 }
 
 - (void)facebookViewControllerCancelWasPressed:(id)sender {
@@ -682,7 +682,7 @@
     
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Entity *newFBEntity;
-    MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %u", frd.name, frd.id, [frd.id integerValue]);
+    MSDebug(@"Selected this fb frd: %@ with fbid: %@ to integer %lu", frd.name, frd.id, [frd.id integerValue]);
     BOOL hasFoundExistingEntity = [Entity
                                    findOrCreateEntityForFBUserName:frd.name
                                    withFBid:frd.id
