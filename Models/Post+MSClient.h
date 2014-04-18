@@ -13,6 +13,7 @@
 - (bool) uploadImageToS3;
 
 - (void)sendFollowRequestWithFailureBlock:(void (^)(void))failureBlock;
+- (void)sendReportRequestWithFailureBlock:(void (^)(void))failureBlock;
 
 - (void)incrementCommentsCount;
 

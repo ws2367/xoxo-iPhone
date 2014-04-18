@@ -140,16 +140,17 @@
 }
 
 -(void)createPostButtonPressed:(id)sender{
+    [Flurry logEvent:@"Create_Post" withParameters:@{@"View":@"ViewEntity"} timed:YES];
     [self performSegueWithIdentifier:@"createPostSegue" sender:sender];
 }
 
 
-# pragma mark -
+#pragma mark -
 #pragma mark Prepare Segue
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"viewPostSegue"]){
         ViewPostViewController *nextController = segue.destinationViewController;
-        
+        [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"ViewEntity"}];
         if (!_post) {
             MSError(@"No post is set when performing viewPostSegue");
         }

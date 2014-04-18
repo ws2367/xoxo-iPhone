@@ -54,6 +54,7 @@
 
 # pragma mark -
 #pragma mark BigPostTableViewCell delegate method
+//TODO: Set a presenter which could be self or its parent controller. Then we don't need to rewrite all these methods!!
 -(void)setPostInMyPostsViewController:(id)sender
 {
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -79,14 +80,26 @@
 }
 
 -(void)sharePost:(id)sender{
+    [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"PostsICreated"} timed:YES];
+    [_myPostsViewController presentViewController:[self createMultiplePeoplePickerViewControllerFrom:sender]
+                                         animated:YES completion:nil];
+}
+
+-(void)reportPost:(id)sender{
+    [Flurry logEvent:@"Report_Post" withParameters:@{@"View":@"PostsICreated"} timed:YES];
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to report this post?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                         destructiveButtonTitle:@"Report It"
+                                              otherButtonTitles:nil];
     
-    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
-    picker.delegate = self;
-    [picker setSenderIndexPath:indexPath];
-    [_myPostsViewController presentViewController:picker animated:YES completion:nil];
+    [sheet setTag:indexPath.row];
+    [sheet showInView:self.view];
 }
+
+
 
 #pragma mark -
 #pragma mark Multile People Picker Delegate Methods
@@ -96,7 +109,10 @@
     MSDebug(@"Selected numbers %@", selectedNumbers);
     
     if ([selectedNumbers count] > 0) {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
         [super handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    } else {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
 }
 @end

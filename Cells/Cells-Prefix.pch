@@ -16,6 +16,7 @@
     #import "AppDelegate.h"
     #import "Constants.h"
     #import "UIColor+MSColor.h"
+    #import "Flurry.h"
 #endif
 
 #if __IPHONE_OS_VERSION_MIN_REQUIRED

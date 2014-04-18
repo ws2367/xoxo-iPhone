@@ -473,6 +473,16 @@
 
 # pragma mark -
 #pragma mark BigPostTableViewCell delegate method
+- (MultiplePeoplePickerViewController *)createMultiplePeoplePickerViewControllerFrom:(id)sender{
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    
+    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
+    picker.delegate = self;
+    [picker setSenderIndexPath:indexPath];
+    return picker;
+}
+
 - (void) CellPerformViewPost:(id)sender{
     //indicate we want to view post from top
     [sender setTag:0];
@@ -481,13 +491,9 @@
 }
 
 -(void)sharePost:(id)sender{
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    
-    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
-    picker.delegate = self;
-    [picker setSenderIndexPath:indexPath];
-    [self presentViewController:picker animated:YES completion:nil];
+    [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"MultiPosts"} timed:YES];
+    [self presentViewController:[self createMultiplePeoplePickerViewControllerFrom:sender]
+                       animated:YES completion:nil];
 }
 
 -(void)commentPost:(id)sender{
@@ -508,6 +514,7 @@
 }
 
 -(void)reportPost:(id)sender{
+    [Flurry logEvent:@"Report_Post" withParameters:@{@"View":@"MultiPosts"} timed:YES];
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to report this post?"
@@ -539,7 +546,7 @@
 
     } else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
         ViewPostViewController *nextController = segue.destinationViewController;
-        
+        [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"MultiPosts"}];
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
         Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
@@ -589,7 +596,10 @@
     [self dismissViewControllerAnimated:YES completion:nil];
     MSDebug(@"Selected numbers %@", selectedNumbers);
     if ([selectedNumbers count] > 0) {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
         [self handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    } else {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
 }
 
@@ -613,26 +623,16 @@
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
     MSDebug(@"sheet tag: %d", [actionSheet tag]);
     
-    Post *post = [fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:[actionSheet tag] inSection:0]];
-    
-    if (![KeyChainWrapper isSessionTokenValid]) {
-        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
-        return;
-    }
-    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSMutableURLRequest *request = nil;
-    request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"report_post"
-                                                                     object:post
-                                                                 parameters:@{@"auth_token": sessionToken}];
 
-    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
-    [operation setCompletionBlockWithSuccess:nil
-                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-                                         [Utility generateAlertWithMessage:@"Network problem" error:error];
-    }];
-    
-    NSOperationQueue *operationQueue = [NSOperationQueue new];
-    [operationQueue addOperation:operation];
+    if (buttonIndex == 0) {
+        [Flurry endTimedEvent:@"Report_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
+        
+        Post *post = [fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:[actionSheet tag] inSection:0]];
+        
+        [post sendReportRequestWithFailureBlock:^{[Utility generateAlertWithMessage:@"Network problem" error:nil];}];
+    } else {
+        [Flurry endTimedEvent:@"Report_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
+    }
 
 }
 -(void)willPresentActionSheet:(UIActionSheet *)actionSheet{

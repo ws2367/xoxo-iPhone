@@ -724,6 +724,7 @@
         [nextController setEntity:entity];
     }
     else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+        [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"ViewPost"}];
         ViewPostViewController *nextController = segue.destinationViewController;
         
         CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
@@ -751,6 +752,7 @@
 #pragma mark BigPostTableViewCell delegate method
 
 -(void)sharePost:(id)sender{
+    [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"ViewPost"} timed:YES];
     MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
     picker.delegate = self;
     [self presentViewController:picker animated:YES completion:nil];
@@ -770,6 +772,7 @@
 
 
 -(void)reportPost:(id)sender{
+    [Flurry logEvent:@"Report_Post" withParameters:@{@"View":@"ViewPost"} timed:YES];
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to report this post?"
@@ -818,7 +821,10 @@
     MSDebug(@"Selected numbers %@", selectedNumbers);
     
     if ([selectedNumbers count] > 0) {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
         [self handleNumbers:selectedNumbers];
+    } else {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
 }
 
@@ -840,15 +846,17 @@
 
 #pragma mark UIActionSheet delegate method
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    NSLog(@"Button %d", buttonIndex);
+    if (buttonIndex == 0) {
+        [Flurry endTimedEvent:@"Report_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
+        
+        [_post sendReportRequestWithFailureBlock:^{[Utility generateAlertWithMessage:@"Network problem" error:nil];}];
+    } else {
+        [Flurry endTimedEvent:@"Report_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
+    }
 }
--(void)willPresentActionSheet:(UIActionSheet *)actionSheet{
-    //    [actionSheet.subviews enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-    //        if ([obj isKindOfClass:[UIButton class]]) {
-    //            UIButton *button = (UIButton *)obj;
-    //            button.titleLabel.font = [UIFont systemFontOfSize:30];
-    //        }
-    //    }];
+
+-(void)willPresentActionSheet:(UIActionSheet *)actionSheet
+{
     
 }
 

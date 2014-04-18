@@ -45,4 +45,19 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void)reportPost:(id)sender{
+    [Flurry logEvent:@"Report_Post" withParameters:@{@"View":@"FriendsPosts"} timed:YES];
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to report this post?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                         destructiveButtonTitle:@"Report It"
+                                              otherButtonTitles:nil];
+    
+    [sheet setTag:indexPath.row];
+    [sheet showInView:self.view];
+}
+
+
 @end

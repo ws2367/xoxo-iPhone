@@ -23,6 +23,9 @@
 @property (strong, nonatomic) NSPredicate *predicate;
 @property (strong, nonatomic) NSString *type;
 
+
+- (MultiplePeoplePickerViewController *)createMultiplePeoplePickerViewControllerFrom:(id)sender;
+    
 - (void)handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath;
 
 //ViewEntityPostsViewController needs them

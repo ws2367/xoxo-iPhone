@@ -179,6 +179,7 @@
 #pragma mark -
 #pragma mark Navigation Bar Button Methods
 - (void)exitButtonPressed:(id)sender{
+    [Flurry endTimedEvent:@"Create_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
@@ -354,8 +355,11 @@
 - (void)textViewDidBeginEditing:(UITextView *) textView
 {
     if([[textView text] isEqualToString:@"Write here!"]){
+        [Flurry logEvent:@"Edit_Content" withParameters:@{@"Start_Fresh":FL_YES} timed:YES];
         [textView setText:@""];
         [textView setTextColor:[UIColor blackColor]];
+    } else {
+        [Flurry logEvent:@"Edit_Content" withParameters:@{@"Start_Fresh":FL_NO} timed:YES];
     }
     /*
     if ([Utility compareUIColorBetween:[textView textColor] and:[UIColor lightGrayColor]]) {
@@ -367,8 +371,11 @@
 - (void)textViewDidEndEditing:(UITextView *)textView
 {
     if ([[textView text] isEqualToString:@""]) {
+        [Flurry endTimedEvent:@"Edit_Content" withParameters:@{@"Has_Content":FL_NO}];
         [textView setText:@"Write here!"];
         [textView setTextColor:[UIColor lightGrayColor]];
+    } else {
+        [Flurry endTimedEvent:@"Edit_Content" withParameters:@{@"Has_Content":FL_YES}];
     }
 }
 
@@ -394,15 +401,18 @@
     [self setProfileImageViewWithfbUserID:pressedEntity.fbUserID];
 }
 
-- (IBAction)doneCreatingPost:(id)sender {
+- (void)doneCreatingPost:(id)sender {
     if([[_textView text] isEqualToString:@"Write here!"]){
+        [Flurry logEvent:@"Fail_To_Create_Post" withParameters:@{@"type":@"No Content"}];
         [Utility generateAlertWithMessage:@"Please type in post content..." error:nil];
         return;
     }
     if([_entities count] == 0 || _entities == nil){
+        [Flurry logEvent:@"Fail_To_Create_Post" withParameters:@{@"type":@"No FB Friends tagged"}];
         [Utility generateAlertWithMessage:@"Please tag a friend..." error:nil];
         return;
     }
+    [Flurry endTimedEvent:@"Create_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
     [self dismissViewControllerAnimated:YES completion:nil];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [self uploadPostAndRelatedObjects];
@@ -410,7 +420,8 @@
     [self.navigationController popViewControllerAnimated:true];
 }
 
-- (IBAction)addPhoto:(id)sender {
+- (void)addPhoto:(id)sender {
+    [Flurry logEvent:@"Add_Photo" withParameters:nil timed:YES];
     _picker = [[UIImagePickerController alloc] init];
     _picker.sourceType = UIImagePickerControllerSourceTypePhotoLibrary;
     _picker.delegate = self;
@@ -554,8 +565,15 @@
 
 #pragma mark -
 #pragma mark Image Picker Controller Methods
+- (void)imagePickerControllerDidCancel:(UIImagePickerController *)picker
+{
+    [Flurry endTimedEvent:@"Add_Photo" withParameters:@{FL_IS_FINISHED:FL_NO}];
+    [[picker presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+}
 
 -(void)imagePickerController:(UIImagePickerController *)picked didFinishPickingMediaWithInfo:(NSDictionary *)info {
+    [Flurry endTimedEvent:@"Add_Photo" withParameters:@{FL_IS_FINISHED:FL_YES}];
+    
     [[picked presentingViewController] dismissViewControllerAnimated:YES completion:nil];
     [_superImageView addPhoto:[info objectForKey:UIImagePickerControllerOriginalImage]];
     _photos = nil;
@@ -627,8 +645,8 @@
     [self.friendPickerController loadData];
     [self.friendPickerController clearSelection];
     
-    
-    
+    NSString *number = [NSString stringWithFormat:@"%u", [_entities count]];
+    [Flurry logEvent:@"Add_FBFriends" withParameters:@{@"Existing_Entities":number} timed:YES];
     [self presentViewController:self.friendPickerController animated:YES completion:nil];
 }
 
@@ -637,6 +655,9 @@
 - (void)facebookViewControllerDoneWasPressed:(id)sender {
     id<FBGraphUser> firstFrd = [self.friendPickerController.selection firstObject];
     _profilePicView.profileID = firstFrd.id;
+    
+    NSString *number = [NSString stringWithFormat:@"%u", [self.friendPickerController.selection count]];
+    [Flurry endTimedEvent:@"Add_FBFriends" withParameters:@{@"Selected_Entities":number, FL_IS_FINISHED:FL_YES}];
     if([_entities count] + [self.friendPickerController.selection count] > 6){
         [Utility generateAlertWithMessage:@"Sorry, your tags are full..." error:nil];
     }
@@ -650,6 +671,7 @@
 }
 
 - (void)facebookViewControllerCancelWasPressed:(id)sender {
+    [Flurry endTimedEvent:@"Add_FBFriends" withParameters:@{FL_IS_FINISHED:FL_NO}];
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
@@ -657,15 +679,6 @@
 # pragma mark -
 #pragma mark - process every fb friend picked
 - (void) processFBUser:(id<FBGraphUser>) frd{
-    
-    //we are not going to use _nameList anymore
-    /*
-    if(!_nameList){
-        _nameList = [[NSMutableString alloc] init];
-    }
-    [_nameList appendString:frd.name];
-    _entitiesTextField.text = _nameList;
-*/
     
     RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
     Entity *newFBEntity;

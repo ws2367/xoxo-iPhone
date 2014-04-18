@@ -224,6 +224,7 @@
 #pragma mark Segue methods
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+        [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"MyPosts"}];
         ViewPostViewController *nextController = segue.destinationViewController;
         
         if (!_post) {

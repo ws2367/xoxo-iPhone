@@ -139,6 +139,7 @@
 }
 
 -(void)sharePost:(id)sender{
+    [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"ViewEntity"} timed:YES];
     CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
     NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
     
@@ -156,7 +157,10 @@
     MSDebug(@"Selected numbers %@", selectedNumbers);
     
     if ([selectedNumbers count] > 0) {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
         [super handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    } else {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
 }
 

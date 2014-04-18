@@ -15,7 +15,6 @@
 #import "ClientManager.h"
 #import "RestKitInitializer.h"
 
-
 @implementation AppDelegate
 
 @synthesize window = _window;
@@ -57,15 +56,15 @@
     
     [RestKitInitializer setupWithObjectManager:objectManager inManagedObjectStore:managedObjectStore];
     
-    /* Set up Facebook Login */
-    // Whenever a person opens the app, check for a cached session
     
     // make sure that the FBLoginView class is loaded before the login view is shown.
     [FBLoginView class];
     
-    /*Remove redundent data*/
-    //TODO: remove objects in Core Data except for the first 5 in friends and following
+    //note: iOS only allows one crash reporting tool per app; if using another, set to: NO
+    [Flurry setCrashReportingEnabled:YES];
     
+    // Replace YOUR_API_KEY with the api key in the downloaded package
+    [Flurry startSession:@"MQ724NMDYQJMTQKFB4DD"];
     return YES;
 }
 

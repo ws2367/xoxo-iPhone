@@ -87,6 +87,7 @@ static NSString *CellIdentifier = @"ContactCell";
             [name appendFormat:@" %@", lastName];
         }
     }
+    
     cell.textLabel.text = name;
     return cell;
 }

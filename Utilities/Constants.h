@@ -29,6 +29,10 @@ extern const int VIEW_POST_DISPLAY_COMMENT_HEIGHT;
 extern const int VIEW_POST_NAVIGATION_BAR_HEIGHT;
 extern const int BIG_POSTS_CELL_HEIGHT;
 
+//Flurry contants
+extern NSString *const FL_IS_FINISHED;
+extern NSString *const FL_YES;
+extern NSString *const FL_NO;
 
 extern NSString * S3BUCKET_NAME;
 

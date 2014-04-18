@@ -133,6 +133,7 @@
 }
 #pragma mark - center button function
 -(void)centerButtonTap:(id)sender{
+    [Flurry logEvent:@"Create_Post" withParameters:@{@"View":@"MultiPosts"} timed:YES];
     [self performSegueWithIdentifier:@"createPostSegue" sender:sender];
 }
 

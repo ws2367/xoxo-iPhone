@@ -29,10 +29,10 @@ const int BIG_POSTS_CELL_HEIGHT = 250;
 
 // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
 // Remeber, evaluation of path patterns against base URL could be surprising.
-NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
-NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
-//NSString *const BASE_URL = @"http://localhost:3000/v1/";
-//NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
+//NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
+//NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
+NSString *const BASE_URL = @"http://localhost:3000/v1/";
+NSString *const TOKEN_VENDING_MACHINE_URL = @"http://localhost:3000/v1/";
 
 NSString * S3BUCKET_NAME = @"undefined";
 
@@ -45,7 +45,10 @@ NSString *const viewPostDisplayCommentCellIdentifier = @"viewPostDisplayCommentC
 NSString *const viewPostDisplayButtonBarCellIdentifier = @"viewPostDisplayButtonBarCell";
 NSString *const viewPostDisplayContentCellIdentifier = @"viewPostDisplayContentCell";
 
-
+//Flurry constants
+NSString *const FL_IS_FINISHED = @"Is_Finished";
+NSString *const FL_YES = @"YES";
+NSString *const FL_NO = @"NO";
 
 @implementation Constants
 

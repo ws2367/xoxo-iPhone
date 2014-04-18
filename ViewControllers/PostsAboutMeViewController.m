@@ -106,13 +106,9 @@
 }
 
 -(void)sharePost:(id)sender{
-    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-    
-    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
-    picker.delegate = self;
-    [picker setSenderIndexPath:indexPath];
-    [_myPostsViewController presentViewController:picker animated:YES completion:nil];
+    [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"PostAboutMe"} timed:YES];
+    [_myPostsViewController presentViewController:[self createMultiplePeoplePickerViewControllerFrom:sender]
+                       animated:YES completion:nil];
 }
 
 #pragma mark -
@@ -123,7 +119,10 @@
     MSDebug(@"Selected numbers %@", selectedNumbers);
     
     if ([selectedNumbers count] > 0) {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
         [super handleNumbers:selectedNumbers senderIndexPath:indexPath];
+    } else {
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
 }
 

@@ -39,6 +39,7 @@
 		51BA54B718D2730200B85BAF /* NavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51BA54B618D2730200B85BAF /* NavigationController.m */; };
 		51CCDF1418E9E48F00491CB4 /* RestKitInitializer.m in Sources */ = {isa = PBXBuildFile; fileRef = 51CCDF1318E9E48F00491CB4 /* RestKitInitializer.m */; };
 		51D109D018FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 51D109CF18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m */; };
+		51DDBA3C1901AB3900A2F8CE /* libFlurry_4.4.0.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 51DDBA3B1901AB3900A2F8CE /* libFlurry_4.4.0.a */; };
 		51E9FEDA18DCF93A00E60232 /* AWSRuntime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9FED818DCF93A00E60232 /* AWSRuntime.framework */; };
 		51E9FEDB18DCF93A00E60232 /* AWSS3.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51E9FED918DCF93A00E60232 /* AWSS3.framework */; };
 		51F176B718B5DFCB00F7A058 /* BottomBorderTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 51F176B618B5DFCB00F7A058 /* BottomBorderTextField.m */; };
@@ -58,15 +59,6 @@
 		75721FD2181107D600298ACF /* EntityTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 75721FD1181107D600298ACF /* EntityTableViewCell.xib */; };
 		7584D1B418DED07600981E2E /* MultiPostsTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7584D1B318DED07600981E2E /* MultiPostsTabBarController.m */; };
 		7584D1B818DED1FC00981E2E /* camera_button_take.png in Resources */ = {isa = PBXBuildFile; fileRef = 7584D1B718DED1FC00981E2E /* camera_button_take.png */; };
-		75C086AF17FE30B800023200 /* pic1.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AA17FE30B800023200 /* pic1.png */; };
-		75C086B017FE30B800023200 /* pic2.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AB17FE30B800023200 /* pic2.png */; };
-		75C086B117FE30B800023200 /* pic3.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AC17FE30B800023200 /* pic3.png */; };
-		75C086B217FE30B800023200 /* pic4.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AD17FE30B800023200 /* pic4.png */; };
-		75C086B317FE30B800023200 /* pic5.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086AE17FE30B800023200 /* pic5.png */; };
-		75C086ED17FE9B2C00023200 /* hateoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086E917FE9B2C00023200 /* hateoff.png */; };
-		75C086EE17FE9B2C00023200 /* hateon.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086EA17FE9B2C00023200 /* hateon.png */; };
-		75C086EF17FE9B2C00023200 /* likeon.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086EB17FE9B2C00023200 /* likeon.png */; };
-		75C086F017FE9B2C00023200 /* likeoff.png in Resources */ = {isa = PBXBuildFile; fileRef = 75C086EC17FE9B2C00023200 /* likeoff.png */; };
 		75CCCF3F17FC03DF000BF0F4 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CCCF3E17FC03DF000BF0F4 /* UIKit.framework */; };
 		75CCCF4117FC03DF000BF0F4 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CCCF4017FC03DF000BF0F4 /* Foundation.framework */; };
 		75CCCF4317FC03DF000BF0F4 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 75CCCF4217FC03DF000BF0F4 /* CoreGraphics.framework */; };
@@ -225,6 +217,8 @@
 		51CCDF1318E9E48F00491CB4 /* RestKitInitializer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RestKitInitializer.m; sourceTree = "<group>"; };
 		51D109CE18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplePeoplePickerViewController.h; sourceTree = "<group>"; };
 		51D109CF18FDDE2A00CA5593 /* MultiplePeoplePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiplePeoplePickerViewController.m; sourceTree = "<group>"; };
+		51DDBA3A1901AB3900A2F8CE /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		51DDBA3B1901AB3900A2F8CE /* libFlurry_4.4.0.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libFlurry_4.4.0.a; path = Libraries/Flurry/libFlurry_4.4.0.a; sourceTree = "<group>"; };
 		51E9FED818DCF93A00E60232 /* AWSRuntime.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSRuntime.framework; path = "Libraries/aws-ios-sdk-1.7.1/AWSRuntime.framework"; sourceTree = "<group>"; };
 		51E9FED918DCF93A00E60232 /* AWSS3.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AWSS3.framework; path = "Libraries/aws-ios-sdk-1.7.1/AWSS3.framework"; sourceTree = "<group>"; };
 		51F176B518B5DFCB00F7A058 /* BottomBorderTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BottomBorderTextField.h; sourceTree = "<group>"; };
@@ -252,15 +246,6 @@
 		7584D1B218DED07600981E2E /* MultiPostsTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiPostsTabBarController.h; sourceTree = "<group>"; };
 		7584D1B318DED07600981E2E /* MultiPostsTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiPostsTabBarController.m; sourceTree = "<group>"; };
 		7584D1B718DED1FC00981E2E /* camera_button_take.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = camera_button_take.png; sourceTree = "<group>"; };
-		75C086AA17FE30B800023200 /* pic1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic1.png; sourceTree = "<group>"; };
-		75C086AB17FE30B800023200 /* pic2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic2.png; sourceTree = "<group>"; };
-		75C086AC17FE30B800023200 /* pic3.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic3.png; sourceTree = "<group>"; };
-		75C086AD17FE30B800023200 /* pic4.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic4.png; sourceTree = "<group>"; };
-		75C086AE17FE30B800023200 /* pic5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pic5.png; sourceTree = "<group>"; };
-		75C086E917FE9B2C00023200 /* hateoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hateoff.png; sourceTree = "<group>"; };
-		75C086EA17FE9B2C00023200 /* hateon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = hateon.png; sourceTree = "<group>"; };
-		75C086EB17FE9B2C00023200 /* likeon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = likeon.png; sourceTree = "<group>"; };
-		75C086EC17FE9B2C00023200 /* likeoff.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = likeoff.png; sourceTree = "<group>"; };
 		75CCCF3B17FC03DF000BF0F4 /* Yours.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Yours.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		75CCCF3E17FC03DF000BF0F4 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		75CCCF4017FC03DF000BF0F4 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -392,9 +377,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				7AB428911901D49600DFC1D1 /* MessageUI.framework in Frameworks */,
+				51732B9F18C174B40013D891 /* Security.framework in Frameworks */,
 				51732BA318C174CA0013D891 /* SystemConfiguration.framework in Frameworks */,
 				51732BA118C174BF0013D891 /* CFNetwork.framework in Frameworks */,
-				51732B9F18C174B40013D891 /* Security.framework in Frameworks */,
 				51732B9D18C174A80013D891 /* MobileCoreServices.framework in Frameworks */,
 				512422B018B3E9C1008BEF86 /* CoreData.framework in Frameworks */,
 				75073FEB18199310009177C7 /* CoreLocation.framework in Frameworks */,
@@ -406,6 +391,7 @@
 				75CCCF4317FC03DF000BF0F4 /* CoreGraphics.framework in Frameworks */,
 				2030C502A68542968957D8CF /* libPods.a in Frameworks */,
 				511233F818DE2FFA00EFBF85 /* FacebookSDK.framework in Frameworks */,
+				51DDBA3C1901AB3900A2F8CE /* libFlurry_4.4.0.a in Frameworks */,
 				51E9FEDA18DCF93A00E60232 /* AWSRuntime.framework in Frameworks */,
 				51E9FEDB18DCF93A00E60232 /* AWSS3.framework in Frameworks */,
 			);
@@ -560,20 +546,20 @@
 			path = Clients;
 			sourceTree = "<group>";
 		};
+		51DDBA391901AB3900A2F8CE /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				51DDBA3A1901AB3900A2F8CE /* Flurry.h */,
+			);
+			name = Flurry;
+			path = Libraries/Flurry;
+			sourceTree = SOURCE_ROOT;
+		};
 		75073FCE1814C13A009177C7 /* Images */ = {
 			isa = PBXGroup;
 			children = (
 				7584D1B718DED1FC00981E2E /* camera_button_take.png */,
 				752B5CD51854506100C0AE76 /* moose.png */,
-				75C086E917FE9B2C00023200 /* hateoff.png */,
-				75C086EA17FE9B2C00023200 /* hateon.png */,
-				75C086EB17FE9B2C00023200 /* likeon.png */,
-				75C086EC17FE9B2C00023200 /* likeoff.png */,
-				75C086AA17FE30B800023200 /* pic1.png */,
-				75C086AB17FE30B800023200 /* pic2.png */,
-				75C086AC17FE30B800023200 /* pic3.png */,
-				75C086AD17FE30B800023200 /* pic4.png */,
-				75C086AE17FE30B800023200 /* pic5.png */,
 			);
 			path = Images;
 			sourceTree = "<group>";
@@ -601,6 +587,7 @@
 			isa = PBXGroup;
 			children = (
 				7AB4288D1901CFA400DFC1D1 /* TextFiles */,
+				51DDBA391901AB3900A2F8CE /* Flurry */,
 				7AFAFC6B18EB75F200696C30 /* Resources */,
 				516791E018D26A9C007C0843 /* Main.storyboard */,
 				5186F08F18CEE37600B27C71 /* Clients */,
@@ -648,6 +635,7 @@
 				75CCCF4017FC03DF000BF0F4 /* Foundation.framework */,
 				75CCCF4217FC03DF000BF0F4 /* CoreGraphics.framework */,
 				426AC05381C84018A9CF6EC3 /* libPods.a */,
+				51DDBA3B1901AB3900A2F8CE /* libFlurry_4.4.0.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -836,11 +824,9 @@
 				752B1EE217FD2B6D00F61382 /* BigPostTableViewCell.xib in Resources */,
 				7AB4284718FDEB2100DFC1D1 /* icon-add@2x.png in Resources */,
 				7AB4284A18FF038400DFC1D1 /* background@2x.png in Resources */,
-				75C086AF17FE30B800023200 /* pic1.png in Resources */,
 				7AD1F25518F1487B00592D23 /* YoursLaunchPage@2x.png in Resources */,
 				7AB4287A1900E6FE00DFC1D1 /* comment-icon-14@2x.png in Resources */,
 				7584D1B818DED1FC00981E2E /* camera_button_take.png in Resources */,
-				75C086B017FE30B800023200 /* pic2.png in Resources */,
 				7AB4287C1900E6FE00DFC1D1 /* comment-icon-16@2x.png in Resources */,
 				7AB428831900E6FE00DFC1D1 /* comment-icon-23@2x.png in Resources */,
 				7AB4284E1900713F00DFC1D1 /* icon-clock@2x.png in Resources */,
@@ -852,7 +838,6 @@
 				7AB428881900E6FE00DFC1D1 /* comment-icon-28@2x.png in Resources */,
 				7AB428801900E6FE00DFC1D1 /* comment-icon-20@2x.png in Resources */,
 				7AFAFC7018EB8C7700696C30 /* icon-newshare@2x.png in Resources */,
-				75C086B117FE30B800023200 /* pic3.png in Resources */,
 				7AD1F24018EFC76400592D23 /* icon-newcomment@2x.png in Resources */,
 				7A37FA4418E4B4B6003E5BFF /* icon-time@2x.png in Resources */,
 				752B5CD61854506100C0AE76 /* moose.png in Resources */,
@@ -864,12 +849,10 @@
 				7AA8E5E518F6613B00EB5EA0 /* YoursIcon2nd57x57@2x.png in Resources */,
 				7A37FA4318E4B4B6003E5BFF /* menu-popular@2x.png in Resources */,
 				7AD1F25C18F2183700592D23 /* YoursIcon57x57@2x.png in Resources */,
-				75C086B217FE30B800023200 /* pic4.png in Resources */,
 				7AD1F25018F1473400592D23 /* menu-favorites-unselected@2x.png in Resources */,
 				7AB428821900E6FE00DFC1D1 /* comment-icon-22@2x.png in Resources */,
 				7AB428771900E6FE00DFC1D1 /* comment-icon-11@2x.png in Resources */,
 				753B4FD31842F91F00863B9F /* CommentTableViewCell.xib in Resources */,
-				75C086B317FE30B800023200 /* pic5.png in Resources */,
 				7AB4287E1900E6FE00DFC1D1 /* comment-icon-18@2x.png in Resources */,
 				7AB4284818FDEB2100DFC1D1 /* icon-setting@2x.png in Resources */,
 				7AD1F25D18F2183700592D23 /* YoursIcon60x60@2x.png in Resources */,
@@ -882,19 +865,15 @@
 				7AD1F25218F1473400592D23 /* menu-my-unselected@2x.png in Resources */,
 				7AB4283E18FC603F00DFC1D1 /* icon-followII@2x.png in Resources */,
 				7AD1F25318F1473400592D23 /* menu-popular-unselected@2x.png in Resources */,
-				75C086ED17FE9B2C00023200 /* hateoff.png in Resources */,
 				7AB428701900E6FE00DFC1D1 /* comment-icon-4@2x.png in Resources */,
 				516791E118D26A9C007C0843 /* Main.storyboard in Resources */,
 				7AB428751900E6FE00DFC1D1 /* comment-icon-9@2x.png in Resources */,
 				7AB4286E1900E6FE00DFC1D1 /* comment-icon-2@2x.png in Resources */,
 				7AB4287D1900E6FE00DFC1D1 /* comment-icon-17@2x.png in Resources */,
-				75C086EE17FE9B2C00023200 /* hateon.png in Resources */,
-				75C086EF17FE9B2C00023200 /* likeon.png in Resources */,
 				7AB428741900E6FE00DFC1D1 /* comment-icon-8@2x.png in Resources */,
 				5168110318B6868400B4AE0B /* launchOrangeC@2x.png in Resources */,
 				7AFAFC5E18EA3D8900696C30 /* icon-commenter.png in Resources */,
 				7AB4288F1901CFCB00DFC1D1 /* OrrzsTermofUse.txt in Resources */,
-				75C086F017FE9B2C00023200 /* likeoff.png in Resources */,
 				7AA8E5E618F6613B00EB5EA0 /* YoursIcon2nd60x60@2x.png in Resources */,
 				7AFAFC5D18EA3D8900696C30 /* facebook_icon.png in Resources */,
 				7AD1F25718F1CB5F00592D23 /* logo_white@2x.png in Resources */,
@@ -1092,6 +1071,10 @@
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Libraries/Flurry",
+				);
 				PRODUCT_NAME = Yours;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
@@ -1117,6 +1100,10 @@
 				GCC_PREFIX_HEADER = "Cells/Cells-Prefix.pch";
 				INFOPLIST_FILE = "Cells/Cells-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Libraries/Flurry",
+				);
 				PRODUCT_NAME = Yours;
 				PROVISIONING_PROFILE = "";
 				WRAPPER_EXTENSION = app;
