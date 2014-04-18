@@ -77,8 +77,16 @@ static NSString *CellIdentifier = @"ContactCell";
                                                                          kABPersonFirstNameProperty);
     NSString* lastName = (__bridge_transfer NSString*)ABRecordCopyValue(person,
                                                                         kABPersonLastNameProperty);
-    NSString *name = [NSString stringWithFormat:@"%@ %@", firstName, lastName];
-    
+
+    NSMutableString *name = [NSMutableString stringWithString:@""];
+    if (firstName) {[name appendString:firstName];}
+    if (lastName) {
+        if ([name isEqualToString:@""]) {
+            [name appendString:lastName];
+        } else{
+            [name appendFormat:@" %@", lastName];
+        }
+    }
     cell.textLabel.text = name;
     return cell;
 }
