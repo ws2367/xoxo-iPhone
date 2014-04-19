@@ -12,6 +12,7 @@
 
 #import "Post+MSClient.h"
 #import "Comment.h"
+#import "Flurry.h"
 
 #import "KeyChainWrapper.h"
 #import "UIColor+MSColor.h"
