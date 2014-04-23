@@ -8,8 +8,9 @@
 
 #import "Post.h"
 #import "Entity.h"
+#import "SettingViewController.h"
 
-@interface MyPostsViewController : UIViewController
+@interface MyPostsViewController : UIViewController<SettingViewControllerDelegate>
 
 @property (nonatomic, strong) Post *post;
 @property (nonatomic, strong) Entity *entity;

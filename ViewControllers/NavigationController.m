@@ -61,7 +61,7 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void) userLoggedOut{
+-(void) userLogOut{
     [(LoginViewController *)self.delegate logoutUser];
     [KeyChainWrapper cleanUpCredentials];
     [self dismissViewControllerAnimated:YES completion:nil];

@@ -64,7 +64,19 @@
     [Flurry setCrashReportingEnabled:YES];
     
     // Replace YOUR_API_KEY with the api key in the downloaded package
-    [Flurry startSession:@"MQ724NMDYQJMTQKFB4DD"];
+//    [Flurry startSession:@"MQ724NMDYQJMTQKFB4DD"];
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle: nil];
+    if(screenHeight < 500){
+//        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SmallPhoneLaunchVC"];
+        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SmallPhoneLaunchVC"];
+        self.window.rootViewController = vc;
+    } else{
+        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        self.window.rootViewController = vc;
+    }
     return YES;
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2dw-Jg-arN">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="5056" systemVersion="13C64" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" initialViewController="2dw-Jg-arN">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3733"/>
     </dependencies>
     <scenes>
         <!--View Post View Controller-->
@@ -66,7 +66,7 @@
         <!--Login View Controller-->
         <scene sceneID="KRE-nY-NPa">
             <objects>
-                <viewController id="2dw-Jg-arN" customClass="LoginViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="LoginVC" id="2dw-Jg-arN" customClass="LoginViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="FXc-jT-E21">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -527,7 +527,7 @@
             <objects>
                 <tableViewController id="Dgh-zw-79V" customClass="ViewEntityPostsViewController" sceneMemberID="viewController">
                     <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="YvC-Kw-lH8">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="511"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
@@ -574,6 +574,22 @@
             </objects>
             <point key="canvasLocation" x="2455" y="539"/>
         </scene>
+        <!--Small Phone Launch View Controller - Item-->
+        <scene sceneID="TmQ-sd-3NS">
+            <objects>
+                <viewController storyboardIdentifier="SmallPhoneLaunchVC" id="pDm-tn-Zri" customClass="SmallPhoneLaunchViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Idf-8O-dsy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                    </view>
+                    <tabBarItem key="tabBarItem" enabled="NO" title="Item" id="2eI-TM-80z"/>
+                    <navigationItem key="navigationItem" id="Lea-Yn-jXT"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ae0-w3-jEB" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-336" y="-1289"/>
+        </scene>
     </scenes>
     <color key="tintColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
@@ -582,6 +598,6 @@
         <simulatedScreenMetrics key="destination" type="retina4"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="8aj-h6-ff8"/>
+        <segue reference="4h5-QD-dnB"/>
     </inferredMetricsTieBreakers>
 </document>

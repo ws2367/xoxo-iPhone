@@ -158,7 +158,10 @@
         case 0:
             break;
         case 1:
-//            [(NavigationController *)self.navigationController userLoggedOut];
+            if(_delegate && [_delegate respondsToSelector:@selector(userLogOut)]){
+                [_delegate userLogOut];
+            }
+            [self dismissViewControllerAnimated:YES completion:nil];
             break;
         default:
             break;

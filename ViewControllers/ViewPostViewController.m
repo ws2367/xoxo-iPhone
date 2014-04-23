@@ -430,6 +430,7 @@
     // check if seesion token is valid
     if (![KeyChainWrapper isSessionTokenValid]) {
         MSError(@"At ViewPostViewController: user session token is not valid. Stop posting the comment.");
+        [Utility generateAlertWithMessage:@"Sorry.. Something's wrong.." error:nil];
         return;
     }
     
@@ -448,7 +449,8 @@
                                              block:^{ [_post incrementCommentsCount]; }]
      failure:^(RKObjectRequestOperation *operation, NSError *error) {
          [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext deleteObject:comment];
-         
+         [_comments removeLastObject];
+         [_viewPostTableView reloadData];
          [Utility generateAlertWithMessage:@"No network!" error:nil];
      }];
     

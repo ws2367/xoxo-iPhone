@@ -10,7 +10,7 @@
 
 @interface NavigationController : UINavigationController
 
--(void) userLoggedOut;
+-(void) userLogOut;
 -(void) setUserName:(NSString *)userName;
 -(NSString *) getUserName;
 @end

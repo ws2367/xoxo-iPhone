@@ -659,7 +659,7 @@
     NSString *number = [NSString stringWithFormat:@"%u", [self.friendPickerController.selection count]];
     [Flurry endTimedEvent:@"Add_FBFriends" withParameters:@{@"Selected_Entities":number, FL_IS_FINISHED:FL_YES}];
     if([_entities count] + [self.friendPickerController.selection count] > 6){
-        [Utility generateAlertWithMessage:@"Sorry, your tags are full..." error:nil];
+        [Utility generateAlertWithMessage:@"Sorry, you can only tag 6 people..." error:nil];
     }
     [self setProfileImageViewWithfbUserID:firstFrd.id];
         for (id<FBGraphUser> frd in self.friendPickerController.selection) {
@@ -984,7 +984,13 @@
     nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     if(entity.institution){
         *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY+13, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
-        NSAttributedString *instiWithFont = [[NSAttributedString alloc] initWithString:entity.institution attributes:[Utility getCreatePostDisplayInstitutionFontDictionary]];
+        NSAttributedString *instiWithFont;
+        if([entity.institution length] > 33){
+            NSString *stringInstitution = [[entity.institution substringWithRange:NSMakeRange(0, 32)] stringByAppendingString:@"..."];
+            instiWithFont = [[NSAttributedString alloc] initWithString:stringInstitution attributes:[Utility getCreatePostDisplayInstitutionFontDictionary]];
+        }else{
+            instiWithFont = [[NSAttributedString alloc] initWithString:entity.institution attributes:[Utility getCreatePostDisplayInstitutionFontDictionary]];
+        }
         [*instiLabel setAttributedText:instiWithFont];
         
     }
