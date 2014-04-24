@@ -742,6 +742,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 75CCCF5E17FC03DF000BF0F4 /* Build configuration list for PBXNativeTarget "Cells" */;
 			buildPhases = (
+				516B696C1909D48700E84346 /* ShellScript */,
 				89BE3CA7E45A4DC6A554D59E /* Check Pods Manifest.lock */,
 				75CCCF3717FC03DF000BF0F4 /* Sources */,
 				75CCCF3817FC03DF000BF0F4 /* Frameworks */,
@@ -888,6 +889,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		516B696C1909D48700E84346 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#Update build number with number of git commits if in release mode\nif [ ${CONFIGURATION} == \"Release\" ]; then\nbuildNumber=$(git rev-list HEAD | wc -l | tr -d ' ')\n/usr/libexec/PlistBuddy -c \"Set :CFBundleVersion $buildNumber\" \"${PROJECT_DIR}/${INFOPLIST_FILE}\"\nfi;";
+		};
 		89BE3CA7E45A4DC6A554D59E /* Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1076,7 +1090,7 @@
 					"$(PROJECT_DIR)/Libraries/Flurry",
 				);
 				PRODUCT_NAME = Yours;
-				PROVISIONING_PROFILE = "F8A96394-F215-479C-880A-AEB1C5530300";
+				PROVISIONING_PROFILE = "0968786D-2570-43C7-81F7-08CD5163BCE6";
 				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
@@ -1106,7 +1120,7 @@
 					"$(PROJECT_DIR)/Libraries/Flurry",
 				);
 				PRODUCT_NAME = Yours;
-				PROVISIONING_PROFILE = "F8A96394-F215-479C-880A-AEB1C5530300";
+				PROVISIONING_PROFILE = "0968786D-2570-43C7-81F7-08CD5163BCE6";
 				VERSIONING_SYSTEM = "";
 				WRAPPER_EXTENSION = app;
 			};
