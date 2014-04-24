@@ -61,12 +61,12 @@
 
 - (void) loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
     _userName = [user.name copy];
-    _displayNameLabel = [self addDescriptionsWithString:user.name andY:410 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    _displayNameLabel = [self addDescriptionsWithString:user.name andY:405 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
 }
 
 - (void) loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     [_youAreLoggedOutLabel removeFromSuperview];
-    _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" andY:385 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     FBAccessTokenData *accessTokenData = FBSession.activeSession.accessTokenData;
     NSString *FBAccessToken = accessTokenData.accessToken;
 
