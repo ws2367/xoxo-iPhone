@@ -105,7 +105,7 @@
     [button setBackgroundImage:buttonImage forState:UIControlStateNormal];
     
     [button addTarget:self action:@selector(createPostButtonPressed:) forControlEvents:UIControlEventTouchUpInside];
-    [button setCenter:CGPointMake(WIDTH/2, HEIGHT - (buttonImage.size.height/2))];
+    [button setCenter:CGPointMake(WIDTH/2, self.view.frame.size.height - (buttonImage.size.height/2))];
     [self.view addSubview:button];
 }
 

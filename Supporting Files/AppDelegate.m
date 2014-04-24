@@ -69,9 +69,9 @@
     CGFloat screenHeight = screenRect.size.height;
     UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
                                                              bundle: nil];
-    if(screenHeight < 500){
+    if(screenHeight < HEIGHT_TO_DISCRIMINATE){
 //        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SmallPhoneLaunchVC"];
-        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SmallPhoneLaunchVC"];
+        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"LoginVC"];
         self.window.rootViewController = vc;
     } else{
         UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"LoginVC"];

@@ -60,7 +60,7 @@
 }
 
 -(void) addSignOutButton{
-    UIButton *signOutButton =[[UIButton alloc] initWithFrame:CGRectMake(0, HEIGHT - TABBAR_HEIGHT, WIDTH, TABBAR_HEIGHT)];
+    UIButton *signOutButton =[[UIButton alloc] initWithFrame:CGRectMake(0, self.view.frame.size.height - TABBAR_HEIGHT, WIDTH, TABBAR_HEIGHT)];
     [signOutButton setBackgroundColor:[UIColor colorForYoursFacebookBlue]];
     NSAttributedString *title = [[NSAttributedString alloc] initWithString:@"Log Out" attributes:[Utility getNavigationBarTitleFontDictionary]];
     [signOutButton setAttributedTitle:title forState:UIControlStateNormal];

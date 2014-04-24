@@ -60,12 +60,14 @@
     [self.view addSubview:up];
 
     //set tabbar frame
-    self.tabBar.frame = CGRectMake(0, HEIGHT - TABBAR_HEIGHT, WIDTH, TABBAR_HEIGHT);
+    self.tabBar.frame = CGRectMake(0, self.view.frame.size.height - TABBAR_HEIGHT, WIDTH, TABBAR_HEIGHT);
     
     // delete the shadow line on top of tabbar
     [self.tabBar setShadowImage:[[UIImage alloc] init]];
     [self.tabBar setBackgroundImage:[[UIImage alloc] init]];
-//    [self.tabBar setTintColor:[UIColor colorForTabBar]];
+    
+    //set image color to white
+    [self.tabBar setTintColor:[UIColor whiteColor]];
 //    [self.customizableViewControllers
 	// Do any additional setup after loading the view.
     
@@ -76,7 +78,10 @@
         [v.tabBarItem setTitleTextAttributes:[Utility getTabBarItemUnselectedFontDictionary] forState:UIControlStateNormal];
         [v.tabBarItem setTitleTextAttributes:[Utility getTabBarItemSelectedFontDictionary] forState:UIControlStateHighlighted];
         v.tabBarItem.image = [v.tabBarItem.image imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+        v.tabBarItem.selectedImage = [v.tabBarItem.selectedImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
+
     }
+
     
 //    [firstVC.tabBarItem setFinishedSelectedImage:[UIImage imageNamed:@"menu-popular.png"] withFinishedUnselectedImage:[UIImage imageNamed:@"menu-popular-unselected.png"]];
     //[firstVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"menu-popular.png"]];
@@ -88,6 +93,7 @@
 
 #pragma mark - UI methods
 -(void) setTabBarItemImages{
+
     UIViewController *firstVC = [self.customizableViewControllers objectAtIndex:0];
     [firstVC.tabBarItem setImage:[UIImage imageNamed:@"menu-popular-unselected.png"]];
     [firstVC.tabBarItem setSelectedImage:[UIImage imageNamed:@"menu-popular.png"]];

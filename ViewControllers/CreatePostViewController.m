@@ -225,7 +225,7 @@
 
 -(void)addDoneCreatingPostButton{
     UIImage *doneCreatingButtonImage = [UIImage imageNamed:@"icon-check.png"];
-    _doneCreatingPostButton =[[UIButton alloc] initWithFrame:CGRectMake(130, 500, doneCreatingButtonImage.size.width, doneCreatingButtonImage.size.height)];
+    _doneCreatingPostButton =[[UIButton alloc] initWithFrame:CGRectMake(130, self.view.bounds.size.height - 68, doneCreatingButtonImage.size.width, doneCreatingButtonImage.size.height)];
     [_doneCreatingPostButton setImage:doneCreatingButtonImage forState:UIControlStateNormal];
     [_doneCreatingPostButton addTarget:self action:@selector(doneCreatingPost:) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:_doneCreatingPostButton];
@@ -282,9 +282,9 @@
                      animations:^{
                          self.view.frame =
                          CGRectMake(self.view.frame.origin.x,
-                                    keyboardRect.origin.y - HEIGHT + offsetToMove,
+                                    keyboardRect.origin.y - self.view.frame.size.height + offsetToMove,
                                     WIDTH,
-                                    HEIGHT);
+                                    self.view.frame.size.height);
                          [_doneCreatingPostButton setAlpha:0];
                      }
                      completion:^(BOOL finished){
@@ -304,7 +304,7 @@
                          CGRectMake(0,
                                     0,
                                     WIDTH,
-                                    HEIGHT);
+                                    self.view.frame.size.height);
                          [_doneCreatingPostButton setAlpha:1];
                      }
                      completion:^(BOOL finished){

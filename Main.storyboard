@@ -53,6 +53,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="j3Q-Ae-EVg"/>
                     <connections>
+                        <outlet property="SendButton" destination="Ywf-bL-Qaa" id="mAO-Hf-bB0"/>
                         <outlet property="commentTextField" destination="6uu-Qi-E5V" id="Rqn-ld-AlV"/>
                         <outlet property="viewPostTableView" destination="ebo-NS-ff6" id="dlX-ze-Vzg"/>
                         <outlet property="viewThatContainsTableAndTextField" destination="be9-9P-QIH" id="xAF-1E-2FX"/>
