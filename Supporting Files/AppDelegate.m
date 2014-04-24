@@ -64,7 +64,11 @@
     [Flurry setCrashReportingEnabled:YES];
     
     // Replace YOUR_API_KEY with the api key in the downloaded package
-    [Flurry startSession:@"MQ724NMDYQJMTQKFB4DD"];
+    [Flurry startSession:FL_APP_KEY];
+
+    // debug/release mode
+    NSLog(@"%@", BUILD_MODE);
+
     return YES;
 }
 

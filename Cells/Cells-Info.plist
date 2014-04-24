@@ -22,7 +22,7 @@
 		</dict>
 	</dict>
 	<key>CFBundleIdentifier</key>
-	<string>com.Orrzs.Moose</string>
+	<string>com.orrzs.moose</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -43,13 +43,23 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>0003</string>
 	<key>FacebookAppID</key>
 	<string>610309559054620</string>
 	<key>FacebookDisplayName</key>
 	<string>Moose</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>HelveticaNeueLTStd-Cn.otf</string>
+		<string>HelveticaNeueLTStd-UltLt.otf</string>
+		<string>HelveticaNeueLTStd-Lt.otf</string>
+		<string>HelveticaNeueLTStd-Roman.otf</string>
+		<string>HelveticaNeueLTStd-UltLtCn.otf</string>
+	</array>
 	<key>UILaunchImages</key>
 	<array>
 		<dict>
@@ -103,24 +113,12 @@
 			<string>{320, 480}</string>
 		</dict>
 	</array>
-	<key>LSApplicationCategoryType</key>
-	<string></string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>HelveticaNeueLTStd-Cn.otf</string>
-		<string>HelveticaNeueLTStd-UltLt.otf</string>
-		<string>HelveticaNeueLTStd-Lt.otf</string>
-		<string>HelveticaNeueLTStd-Roman.otf</string>
-		<string>HelveticaNeueLTStd-UltLtCn.otf</string>
-	</array>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UIRequiredDeviceCapabilities</key>
 	<array>
 		<string>armv7</string>
 	</array>
-	<key>UIViewControllerBasedStatusBarAppearance</key>
-	<false/>
 	<key>UIStatusBarHidden</key>
 	<false/>
 	<key>UIStatusBarStyle</key>
@@ -129,5 +127,7 @@
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
 	</array>
+	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<false/>
 </dict>
 </plist>

@@ -33,6 +33,9 @@ extern const int BIG_POSTS_CELL_HEIGHT;
 extern NSString *const FL_IS_FINISHED;
 extern NSString *const FL_YES;
 extern NSString *const FL_NO;
+extern NSString *const FL_APP_KEY;
+
+extern NSString *const BUILD_MODE;
 
 extern NSString * S3BUCKET_NAME;
 

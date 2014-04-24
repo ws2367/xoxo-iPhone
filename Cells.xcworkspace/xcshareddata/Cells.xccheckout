@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>E746E623-03CC-47B4-9A77-9A3D7CCDAA41</string>
+	<key>IDESourceControlProjectName</key>
+	<string>Cells</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>0B4C657D-E826-4E86-B7E7-8DEC81247CEE</key>
+		<string>ssh://github.com/ws2367/xoxo-iPhone.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>Cells.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>0B4C657D-E826-4E86-B7E7-8DEC81247CEE</key>
+		<string>..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>ssh://github.com/ws2367/xoxo-iPhone.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>0B4C657D-E826-4E86-B7E7-8DEC81247CEE</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>0B4C657D-E826-4E86-B7E7-8DEC81247CEE</string>
+			<key>IDESourceControlWCCName</key>
+			<string>xoxo_iPhone</string>
+		</dict>
+	</array>
+</dict>
+</plist>
