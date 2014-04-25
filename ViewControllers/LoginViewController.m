@@ -21,6 +21,7 @@
 @property (strong, nonatomic) UILabel *youAreLoggedInLabel;
 @property (strong, nonatomic) UILabel *youAreLoggedOutLabel;
 @property (strong, nonatomic) UILabel *displayNameLabel;
+@property (strong, nonatomic) NSString *userName;
 
 @property (retain, nonatomic) FBFriendPickerViewController *friendPickerController;
 
@@ -59,12 +60,13 @@
 }
 
 - (void) loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
-    _displayNameLabel = [self addDescriptionsWithString:user.name andY:410 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    _userName = [user.name copy];
+    _displayNameLabel = [self addDescriptionsWithString:user.name andY:405 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
 }
 
 - (void) loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     [_youAreLoggedOutLabel removeFromSuperview];
-    _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" andY:385 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     FBAccessTokenData *accessTokenData = FBSession.activeSession.accessTokenData;
     NSString *FBAccessToken = accessTokenData.accessToken;
 
@@ -138,6 +140,8 @@
 
 - (void) TVMSignedUp
 {
+    //if we want user to login directly, uncomment this line of code. [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
+
     // if the session is open, then load the data for our view controller
     if (!FBSession.activeSession.isOpen) {
         MSDebug(@"no session");
@@ -164,6 +168,9 @@
         return;
     }
     
+    
+    //removed who invited you friendPicker...
+    
     if (self.friendPickerController == nil) {
         // Create friend picker, and get data loaded into it.
         self.friendPickerController = [[FBFriendPickerViewController alloc] init];
@@ -176,6 +183,7 @@
     [self.friendPickerController clearSelection];
     
     [self presentViewController:self.friendPickerController animated:YES completion:nil];
+     
 }
 
 # pragma mark -
@@ -264,7 +272,7 @@
     if([segue.identifier isEqualToString:@"viewMultiPostsSegue"]){
         NavigationController *nav = segue.destinationViewController;
         nav.delegate = self;
-        [nav setUserName:[_displayNameLabel text]];
+        [nav setUserName:_userName];
     }
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.

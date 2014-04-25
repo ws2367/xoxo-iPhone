@@ -16,6 +16,7 @@
 @property (nonatomic, strong) NSArray *arrayOfPeople;
 @property (nonatomic, assign) CFArrayRef people;
 @property (nonatomic, strong) NSMutableSet *selectedPeople;
+@property (strong, nonatomic) UITableView *tableView;
 @end
 
 static NSString *CellIdentifier = @"ContactCell";
@@ -54,16 +55,39 @@ static NSString *CellIdentifier = @"ContactCell";
     [doneButton addTarget:self action:@selector(doneButtonClicked:) forControlEvents:UIControlEventTouchUpInside];
 
     //alloc table view
-    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 70, 320, 498)
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 70, 320, 498)
                                                           style:UITableViewStylePlain];
-    tableView.delegate = self;
-    tableView.dataSource = self;
-    [self.view addSubview:tableView];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    [self.view addSubview:_tableView];
     ABAddressBookRef addressBook = ABAddressBookCreateWithOptions(NULL, NULL);
+    
+    if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusNotDetermined) {
+        ABAddressBookRequestAccessWithCompletion(addressBook, ^(bool granted, CFErrorRef error) {
+            if (granted) {
+                // If the app is authorized to access the first time then add the contact
+                [self addContactToAddressBook:addressBook];
+            } else {
+                // Show an alert here if user denies access telling that the contact cannot be added because you didn't allow it to access the contacts
+            }
+        });
+    }
+    else if (ABAddressBookGetAuthorizationStatus() == kABAuthorizationStatusAuthorized) {
+        // If the user user has earlier provided the access, then add the contact
+        [self addContactToAddressBook:addressBook];
+    }
+    else {
+        // If the user user has NOT earlier provided the access, create an alert to tell the user to go to Settings app and allow access
+    }
+    [self addContactToAddressBook:addressBook];
+}
+
+- (void) addContactToAddressBook:(ABAddressBookRef) addressBook{
     self.people = ABAddressBookCopyArrayOfAllPeople(addressBook);
     self.arrayOfPeople = (__bridge_transfer NSArray*)ABAddressBookCopyArrayOfAllPeople(addressBook);
-    [tableView reloadData];
+    [_tableView reloadData];
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     if (cell == nil) {

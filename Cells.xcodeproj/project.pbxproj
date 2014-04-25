@@ -81,6 +81,7 @@
 		7A37FA4318E4B4B6003E5BFF /* menu-popular@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */; };
 		7A37FA4418E4B4B6003E5BFF /* icon-time@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A37FA3918E4B4B6003E5BFF /* icon-time@2x.png */; };
 		7A398C8A18F5D19C001E84E4 /* icon-name_delete@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7A398C8918F5D19C001E84E4 /* icon-name_delete@2x.png */; };
+		7A5661221908790B00DF62F7 /* SmallPhoneLaunchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A5661211908790B00DF62F7 /* SmallPhoneLaunchViewController.m */; };
 		7A99E87A18E8E3BD001F9927 /* Entity+MSEntity.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A99E87918E8E3BD001F9927 /* Entity+MSEntity.m */; };
 		7AA8E5E418F6613B00EB5EA0 /* YoursIcon2nd40x40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AA8E5E118F6613B00EB5EA0 /* YoursIcon2nd40x40@2x.png */; };
 		7AA8E5E518F6613B00EB5EA0 /* YoursIcon2nd57x57@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 7AA8E5E218F6613B00EB5EA0 /* YoursIcon2nd57x57@2x.png */; };
@@ -280,6 +281,8 @@
 		7A37FA3818E4B4B6003E5BFF /* menu-popular@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu-popular@2x.png"; sourceTree = "<group>"; };
 		7A37FA3918E4B4B6003E5BFF /* icon-time@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-time@2x.png"; sourceTree = "<group>"; };
 		7A398C8918F5D19C001E84E4 /* icon-name_delete@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon-name_delete@2x.png"; sourceTree = "<group>"; };
+		7A5661201908790B00DF62F7 /* SmallPhoneLaunchViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmallPhoneLaunchViewController.h; sourceTree = "<group>"; };
+		7A5661211908790B00DF62F7 /* SmallPhoneLaunchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmallPhoneLaunchViewController.m; sourceTree = "<group>"; };
 		7A99E87818E8E3BD001F9927 /* Entity+MSEntity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Entity+MSEntity.h"; sourceTree = "<group>"; };
 		7A99E87918E8E3BD001F9927 /* Entity+MSEntity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "Entity+MSEntity.m"; sourceTree = "<group>"; };
 		7AA8E5E118F6613B00EB5EA0 /* YoursIcon2nd40x40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "YoursIcon2nd40x40@2x.png"; sourceTree = "<group>"; };
@@ -439,6 +442,8 @@
 				7AB4284318FDB1B200DFC1D1 /* PostsICreatedViewController.m */,
 				7AB4288A1901AECE00DFC1D1 /* viewTermOfUseViewController.h */,
 				7AB4288B1901AECE00DFC1D1 /* viewTermOfUseViewController.m */,
+				7A5661201908790B00DF62F7 /* SmallPhoneLaunchViewController.h */,
+				7A5661211908790B00DF62F7 /* SmallPhoneLaunchViewController.m */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -957,6 +962,7 @@
 				51F176BA18B5E43000F7A058 /* CircleViewForImage.m in Sources */,
 				5170835D18FFCF0F00930C21 /* ViewEntityPostsViewController.m in Sources */,
 				75073FA818120314009177C7 /* ViewPostViewController.m in Sources */,
+				7A5661221908790B00DF62F7 /* SmallPhoneLaunchViewController.m in Sources */,
 				516BE12218F5EBE300629716 /* Post.m in Sources */,
 				516FB2EB18B6F40700088AF6 /* Constants.m in Sources */,
 				7ABFAA1B18EF96D80039A442 /* ViewPostDisplayButtonBarTableViewCell.m in Sources */,
@@ -1120,8 +1126,12 @@
 					"$(PROJECT_DIR)/Libraries/Flurry",
 				);
 				PRODUCT_NAME = Yours;
+<<<<<<< HEAD
 				PROVISIONING_PROFILE = "0968786D-2570-43C7-81F7-08CD5163BCE6";
 				VERSIONING_SYSTEM = "";
+=======
+				PROVISIONING_PROFILE = "224987B3-CAE2-4F56-9ABC-F34D36254F5C";
+>>>>>>> branchToFixSmallIssues
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

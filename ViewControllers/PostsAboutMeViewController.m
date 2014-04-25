@@ -33,7 +33,11 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
     self.type = @"posts_about_me";
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0., CGRectGetHeight(self.tabBarController.tabBar.frame), 0);
+    if(self.view.bounds.size.height < HEIGHT_TO_DISCRIMINATE){
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0., CGRectGetHeight(self.tabBarController.tabBar.frame) + HEIGHT - self.view.bounds.size.height, 0);
+    } else{
+        self.tableView.contentInset = UIEdgeInsetsMake(0, 0., CGRectGetHeight(self.tabBarController.tabBar.frame), 0);
+    }
 
     if (![KeyChainWrapper isFBUserIDValid]) {
         [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {

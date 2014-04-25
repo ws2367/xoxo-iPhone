@@ -69,6 +69,18 @@
     // debug/release mode
     NSLog(@"%@", BUILD_MODE);
 
+    CGRect screenRect = [[UIScreen mainScreen] bounds];
+    CGFloat screenHeight = screenRect.size.height;
+    UIStoryboard *mainStoryboard = [UIStoryboard storyboardWithName:@"Main"
+                                                             bundle: nil];
+    if(screenHeight < HEIGHT_TO_DISCRIMINATE){
+//        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"SmallPhoneLaunchVC"];
+        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        self.window.rootViewController = vc;
+    } else{
+        UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"LoginVC"];
+        self.window.rootViewController = vc;
+    }
     return YES;
 }
 

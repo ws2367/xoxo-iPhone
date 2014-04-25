@@ -14,12 +14,14 @@
 
 
 @interface SettingViewController : UIViewController <UIAlertViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, MultiplePeoplePickerViewControllerDelegate>
+@property (nonatomic, weak) id<SettingViewControllerDelegate> delegate;
+
 
 @end
 
 
 @protocol SettingViewControllerDelegate <NSObject>
 
-
+-(void)userLogOut;
 
 @end

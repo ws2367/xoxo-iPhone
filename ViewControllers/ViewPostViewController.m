@@ -54,6 +54,7 @@
 
 @property (strong, nonatomic) NSMutableDictionary *commentIconDictionary;
 @property (strong, nonatomic) NSMutableArray *usedIconNumber;
+@property (weak, nonatomic) IBOutlet UIButton *SendButton;
 @end
 
 #define ROW_HEIGHT 46
@@ -199,6 +200,19 @@
     [_viewPostTableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
     _commentIconDictionary = [[NSMutableDictionary alloc] init];
+    
+    //for 3.5 inch screen
+    [self resizeTextFieldAndSendButton];
+}
+
+-(void) resizeTextFieldAndSendButton{
+    if(self.view.bounds.size.height < HEIGHT_TO_DISCRIMINATE){
+        [_commentTextField setCenter:CGPointMake(WIDTH/2 - 20, self.view.bounds.size.height- 20)];
+        [_viewPostTableView setFrame:CGRectMake(0, VIEW_POST_NAVIGATION_BAR_HEIGHT, WIDTH, self.view.bounds.size.height- 40 - NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
+        [_SendButton setCenter:CGPointMake(WIDTH - 25, self.view.bounds.size.height- 20)];
+    } else {
+        [_viewPostTableView setFrame:CGRectMake(0, VIEW_POST_NAVIGATION_BAR_HEIGHT, WIDTH, self.view.bounds.size.height- 40 - NAVIGATION_BAR_CUT_DOWN_HEIGHT)];
+    }
 }
 
 -(void) addNavigationBar{
@@ -338,11 +352,8 @@
                           delay:ANIMATION_DELAY
                         options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
                      animations:^{
-                         _viewThatContainsTableAndTextField.frame =
-                         CGRectMake(_viewThatContainsTableAndTextField.frame.origin.x,
-                                    keyboardRect.origin.y - HEIGHT,
-                                    WIDTH,
-                                    HEIGHT);
+//                         _viewThatContainsTableAndTextField.frame =                       CGRectMake(_viewThatContainsTableAndTextField.frame.origin.x, keyboardRect.origin.y - self.view.frame.size.height, WIDTH, self.view.frame.size.height);
+                         _viewThatContainsTableAndTextField.frame =  CGRectMake(_viewThatContainsTableAndTextField.frame.origin.x, -keyboardRect.size.height, WIDTH, HEIGHT);
                      }
                      completion:^(BOOL finished){
                          _maskToEndEditing = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, WIDTH, keyboardRect.origin.y - TEXT_FIELD_HEIGHT)];
@@ -430,6 +441,7 @@
     // check if seesion token is valid
     if (![KeyChainWrapper isSessionTokenValid]) {
         MSError(@"At ViewPostViewController: user session token is not valid. Stop posting the comment.");
+        [Utility generateAlertWithMessage:@"Sorry.. Something's wrong.." error:nil];
         return;
     }
     
@@ -448,7 +460,8 @@
                                              block:^{ [_post incrementCommentsCount]; }]
      failure:^(RKObjectRequestOperation *operation, NSError *error) {
          [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext deleteObject:comment];
-         
+         [_comments removeLastObject];
+         [_viewPostTableView reloadData];
          [Utility generateAlertWithMessage:@"No network!" error:nil];
      }];
     

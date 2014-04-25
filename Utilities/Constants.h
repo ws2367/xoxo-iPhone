@@ -28,6 +28,8 @@ extern const int VIEW_POST_DISPLAY_BUTTON_BAR_HEIGHT;
 extern const int VIEW_POST_DISPLAY_COMMENT_HEIGHT;
 extern const int VIEW_POST_NAVIGATION_BAR_HEIGHT;
 extern const int BIG_POSTS_CELL_HEIGHT;
+extern const int HEIGHT_TO_DISCRIMINATE;
+
 
 //Flurry contants
 extern NSString *const FL_IS_FINISHED;

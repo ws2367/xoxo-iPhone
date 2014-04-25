@@ -14,6 +14,7 @@
 #import "NavigationController.h"
 #import "ViewEntityViewController.h"
 #import "ViewPostViewController.h"
+#import "NavigationController.h"
 
 #import "KeyChainWrapper.h"
 
@@ -29,6 +30,8 @@
 @property (strong, nonatomic) UIView *contentContainerView;
 @property (nonatomic) NSUInteger selectedIndex;
 @property (strong, nonatomic) UIViewController *selectedViewController;
+@property (strong, nonatomic) NSString *userName;
+@property (strong, nonatomic) UINavigationItem *topNavigationItem;
 
 
 @end
@@ -73,10 +76,25 @@
     UIBarButtonItem *settingButton = [[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"icon-setting.png"] style:UIBarButtonItemStylePlain target:self action:@selector(settingButtonPressed:)];
     [settingButton setTintColor:[UIColor whiteColor]];
     
-    UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:[(NavigationController *)self.navigationController getUserName]];
+    _userName = [(NavigationController *)self.navigationController getUserName];
+    if(_userName == nil || [_userName isEqualToString:@""]){
+        [FBRequestConnection startForMeWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
+            if (!error) {
+                // Success! Include your code to handle the results here
+                _userName = [result objectForKey:@"name"];
+                [_topNavigationItem setTitle:_userName];
+                NSLog(@"user info: %@", result);
+            } else {
+                // An error occurred, we need to handle the error
+                // See: https://developers.facebook.com/docs/ios/errors
+            }
+        }];
+    }
+    _topNavigationItem = [[UINavigationItem alloc] initWithTitle:_userName];
     
-    topNavigationItem.rightBarButtonItem = settingButton;
-    topNavigationBar.items = [NSArray arrayWithObjects: topNavigationItem,nil];
+    
+    _topNavigationItem.rightBarButtonItem = settingButton;
+    topNavigationBar.items = [NSArray arrayWithObjects: _topNavigationItem,nil];
     [self.view addSubview:topNavigationBar];
 
 
@@ -236,8 +254,21 @@
         }else{
             [nextController setStartEditingComment:YES];
         }
+    } else if([segue.identifier isEqualToString:@"viewSettingSegue"]){
+        SettingViewController *nextController = segue.destinationViewController;
+        nextController.delegate = self;
     }
 }
+
+#pragma mark -
+#pragma mark Setting View Controller methods
+-(void) userLogOut{
+    if([self.navigationController isKindOfClass:[NavigationController class]]){
+        [(NavigationController *)self.navigationController userLogOut];
+    }
+    MSDebug(@"logout");
+}
+
 
 
 @end
