@@ -1126,12 +1126,7 @@
 					"$(PROJECT_DIR)/Libraries/Flurry",
 				);
 				PRODUCT_NAME = Yours;
-<<<<<<< HEAD
 				PROVISIONING_PROFILE = "0968786D-2570-43C7-81F7-08CD5163BCE6";
-				VERSIONING_SYSTEM = "";
-=======
-				PROVISIONING_PROFILE = "224987B3-CAE2-4F56-9ABC-F34D36254F5C";
->>>>>>> branchToFixSmallIssues
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
