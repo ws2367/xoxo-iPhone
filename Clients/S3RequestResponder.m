@@ -9,8 +9,6 @@
 #import "S3RequestResponder.h"
 
 @interface S3RequestResponder ()
-
-@property (strong, nonatomic) Post *post;
     
 @end
 
@@ -46,7 +44,12 @@ inManagedObjectContext:(NSManagedObjectContext *)context{
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         if (response.error) {
-            [Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
+            //[Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
+            if (self.delegate && [self.delegate respondsToSelector:@selector(restartS3Request:)]) {
+                [self.delegate restartS3Request:self];
+            } else {
+                MSError(@"S3 delegate's delegation is not set!");
+            }
         }
         
         MSDebug(@"AmazonServiceRequestDelegate current thread = %@", [NSThread currentThread]);
@@ -83,7 +86,11 @@ inManagedObjectContext:(NSManagedObjectContext *)context{
 
 - (void)request:(AmazonServiceRequest *)request didFailWithServiceException:(NSException *)exception
 {
-    [Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
+    if (self.delegate && [self.delegate respondsToSelector:@selector(restartS3Request:)]) {
+        [self.delegate restartS3Request:self];
+    } else {
+        MSError(@"S3 delegate's delegation is not set!");
+    }
     MSDebug(@"Failed with AWS request");
 }
 

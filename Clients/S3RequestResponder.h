@@ -16,6 +16,8 @@
 
 @property (nonatomic, weak) id<S3RequestResponderDelegate> delegate;
 
+@property (strong, nonatomic) Post *post;
+
 + (S3RequestResponder *) S3RequestResponderForPost:(Post *)post;
 
 @end
@@ -27,5 +29,6 @@
 @required
 
 - (void) removeS3RequestResponder:(id)delegatee;
+- (void) restartS3Request:(id)delegatee;
 
 @end

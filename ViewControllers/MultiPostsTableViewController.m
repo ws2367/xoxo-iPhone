@@ -214,57 +214,57 @@
 
 
 //TODO: here we can make it much more efficient by asking photos of all posts at once
-- (NSArray *) generatePhotoKeysForPost:(Post *)post withBucketName:(NSString *)bucketName{
-    
-    if ([post.remoteID isEqualToNumber:[NSNumber numberWithInt:0]]) {
-        NSLog(@"Error in loading photos: the post is not sync'd yet.");
-        return nil;
-    }
-        
-    S3ListObjectsRequest *request = [[S3ListObjectsRequest alloc] initWithName:bucketName];
-    [request setPrefix:[NSString stringWithFormat:@"%@/", post.remoteID]];
-    [request setDelimiter:@"/"];
-    
-    S3ListObjectsResponse *response = [[ClientManager s3] listObjects:request];
-    if(response.error != nil){
-        NSLog(@"Error while listing photos: %@", response.error);
-        return nil;
-    }
-    
-    NSMutableArray *photoKeys = [[NSMutableArray alloc] init];
-    S3ListObjectsResult *result = response.listObjectsResult;
-    
-    for (S3ObjectSummary *objectSummary in result.objectSummaries) {
-        // object summaries might include the folder itself so we need to filter it out
-        if (![[objectSummary key] hasSuffix:@"/"]) {
-            [photoKeys addObject:[objectSummary key]];
-        }
-    }
-    
-    return photoKeys;
-}
+//- (NSArray *) generatePhotoKeysForPost:(Post *)post withBucketName:(NSString *)bucketName{
+//    
+//    if ([post.remoteID isEqualToNumber:[NSNumber numberWithInt:0]]) {
+//        NSLog(@"Error in loading photos: the post is not sync'd yet.");
+//        return nil;
+//    }
+//        
+//    S3ListObjectsRequest *request = [[S3ListObjectsRequest alloc] initWithName:bucketName];
+//    [request setPrefix:[NSString stringWithFormat:@"%@/", post.remoteID]];
+//    [request setDelimiter:@"/"];
+//    
+//    S3ListObjectsResponse *response = [[ClientManager s3] listObjects:request];
+//    if(response.error != nil){
+//        NSLog(@"Error while listing photos: %@", response.error);
+//        return nil;
+//    }
+//    
+//    NSMutableArray *photoKeys = [[NSMutableArray alloc] init];
+//    S3ListObjectsResult *result = response.listObjectsResult;
+//    
+//    for (S3ObjectSummary *objectSummary in result.objectSummaries) {
+//        // object summaries might include the folder itself so we need to filter it out
+//        if (![[objectSummary key] hasSuffix:@"/"]) {
+//            [photoKeys addObject:[objectSummary key]];
+//        }
+//    }
+//    
+//    return photoKeys;
+//}
 
 // let's validate AWS credentials before going further
 - (void) loadPhotosForPost:(Post *)post {
     if (post.image == nil) {
-        
+        MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
+        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
+        MSDebug(@"main thread = %@", [NSThread mainThread]);
+
         if (![ClientManager validateCredentials]){
             NSLog(@"Abort loading photos for post %@", post.remoteID);
             return;
         }
         
-        NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
+//        NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
         
-        NSString *photoKey = [photoKeys firstObject];
+//        NSString *photoKey = [photoKeys firstObject];
+        NSString *photoKey = [NSString stringWithFormat:@"%@/original.png", post.remoteID];
         
-        MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
-        MSDebug(@"Photo keypath: %@", photoKey);
         S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
         [request setContentType:@"image/png"];
         
         S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post];
-        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
-        MSDebug(@"main thread = %@", [NSThread mainThread]);
         
         delegate.delegate = self;
         request.delegate = delegate;
@@ -281,8 +281,14 @@
 #pragma mark S3 Delegate Delegate Methods
 // this will remove the S3 delegate that completed its task
 //TODO: make sure NSMutableArray removeObject is thread-safe.
-- (void) removeS3RequestResponder:(id)delegate{
-    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegate];
+- (void) removeS3RequestResponder:(id)delegatee{
+    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
+}
+
+- (void) restartS3Request:(id)delegatee{
+    Post *post = [(S3RequestResponder *)delegatee post];
+    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
+    [self loadPhotosForPost:post];
 }
 
 #pragma mark -
