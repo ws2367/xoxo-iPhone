@@ -500,6 +500,9 @@
     [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"MultiPosts"} timed:YES];
     [self presentViewController:[self createMultiplePeoplePickerViewControllerFrom:sender]
                        animated:YES completion:nil];
+//    ABPeoplePickerNavigationController *peoplePickerController = [[ABPeoplePickerNavigationController alloc] init];
+//    peoplePickerController.peoplePickerDelegate = self;
+//    [self presentViewController:peoplePickerController animated:YES completion:nil];
 }
 
 -(void)commentPost:(id)sender{
@@ -622,6 +625,19 @@
             break;
     }
     
+}
+
+#pragma mark -
+#pragma mark People Picker delegate method
+
+- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+      shouldContinueAfterSelectingPerson:(ABRecordRef)person
+{
+    NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,
+                                                                    kABPersonFirstNameProperty);
+    NSLog(@"Name %@", name);
+    // Do stuff with the person record
+    return NO;
 }
 
 #pragma mark -
