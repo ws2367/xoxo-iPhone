@@ -17,6 +17,7 @@
 @property (nonatomic, weak) id<S3RequestResponderDelegate> delegate;
 
 @property (strong, nonatomic) Post *post;
+@property (strong, nonatomic) S3Request *request;
 
 + (S3RequestResponder *) S3RequestResponderForPost:(Post *)post;
 

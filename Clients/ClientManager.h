@@ -23,16 +23,19 @@
 
 
 #import <Foundation/Foundation.h>
-
 #import <AWSS3/AWSS3.h>
+
 #import "TVMClient.h"
+#import "S3RequestResponder.h"
 
-
-@interface ClientManager : NSObject
+@interface ClientManager : NSObject <S3RequestResponderDelegate>
 
 +(void)setup:(NSString *)accessKey secretKey:(NSString *)secretKey securityToken:(NSString *)token expiration:(NSString *)expiration;
 
+// S3 Clients
 +(AmazonS3Client *)s3;
++ (void)CancelAllS3Requests;
++ (void)loadPhotosForPost:(Post *)post;
 
 //+(TVMClient *)tvm;
 

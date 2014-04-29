@@ -65,7 +65,6 @@
     [(LoginViewController *)self.delegate logoutUser];
     [KeyChainWrapper cleanUpCredentials];
     [self dismissViewControllerAnimated:YES completion:nil];
-    
 }
 
 -(void) setUserName:(NSString *)userName{

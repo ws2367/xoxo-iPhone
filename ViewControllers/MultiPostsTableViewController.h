@@ -29,7 +29,7 @@
 - (void)handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath;
 
 //ViewEntityPostsViewController needs them
-- (void) loadPhotosForPost:(Post *)post;
+//- (void) loadPhotosForPost:(Post *)post;
 - (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate;
 
 

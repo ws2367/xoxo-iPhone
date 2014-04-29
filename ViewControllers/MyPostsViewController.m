@@ -102,7 +102,7 @@
 #pragma mark -
 #pragma mark Button Method
 -(void)settingButtonPressed:(id)sender{
-    MSDebug(@"hello??");
+    MSDebug(@"Setting Button Pressed");
     [self performSegueWithIdentifier:@"viewSettingSegue" sender:sender];
 }
 
@@ -261,7 +261,7 @@
 }
 
 #pragma mark -
-#pragma mark Setting View Controller methods
+#pragma mark Setting View Controller Delegate methods
 -(void) userLogOut{
     if([self.navigationController isKindOfClass:[NavigationController class]]){
         [(NavigationController *)self.navigationController userLogOut];

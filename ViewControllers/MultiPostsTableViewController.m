@@ -44,7 +44,6 @@
     self = [super initWithStyle:style];
     if (self) {
         // Custom initialization
-        self.title = @"Popular";
     }
     return self;
 }
@@ -165,7 +164,7 @@
                                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                NSArray *posts = [mappingResult array];
                                                for (Post *post in posts) {
-                                                   [self loadPhotosForPost:post];
+                                                   [ClientManager loadPhotosForPost:post];
                                                }
                                            });
                                            
@@ -198,7 +197,7 @@
                                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                NSArray *posts = [mappingResult array];
                                                for (Post *post in posts) {
-                                                   [self loadPhotosForPost:post];
+                                                   [ClientManager loadPhotosForPost:post];
                                                }
                                            });
                                        }
@@ -245,51 +244,51 @@
 //}
 
 // let's validate AWS credentials before going further
-- (void) loadPhotosForPost:(Post *)post {
-    if (post.image == nil) {
-        MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
-        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
-        MSDebug(@"main thread = %@", [NSThread mainThread]);
+//- (void) loadPhotosForPost:(Post *)post {
+//    if (post.image == nil) {
+//        MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
+//        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
+//        MSDebug(@"main thread = %@", [NSThread mainThread]);
+//
+//        if (![ClientManager validateCredentials]){
+//            NSLog(@"Abort loading photos for post %@", post.remoteID);
+//            return;
+//        }
+//        
+////        NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
+//        
+////        NSString *photoKey = [photoKeys firstObject];
+//        NSString *photoKey = [NSString stringWithFormat:@"%@/original.png", post.remoteID];
+//        
+//        S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
+//        [request setContentType:@"image/png"];
+//        
+//        S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post];
+//        
+//        delegate.delegate = self;
+//        request.delegate = delegate;
+//        [self.S3RequestResponders addObject:delegate];
+//        //TODO: Why does Amazon S3 Client getobject method have to run on main thead?
+//        // if it is not called on main thread, the delegate will not be notified. 
+//        dispatch_async(dispatch_get_main_queue(), ^{
+//            [[ClientManager s3] getObject:request];
+//        });
+//    }
+//}
 
-        if (![ClientManager validateCredentials]){
-            NSLog(@"Abort loading photos for post %@", post.remoteID);
-            return;
-        }
-        
-//        NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
-        
-//        NSString *photoKey = [photoKeys firstObject];
-        NSString *photoKey = [NSString stringWithFormat:@"%@/original.png", post.remoteID];
-        
-        S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
-        [request setContentType:@"image/png"];
-        
-        S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post];
-        
-        delegate.delegate = self;
-        request.delegate = delegate;
-        [self.S3RequestResponders addObject:delegate];
-        //TODO: Why does Amazon S3 Client getobject method have to run on main thead?
-        // if it is not called on main thread, the delegate will not be notified. 
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [[ClientManager s3] getObject:request];
-        });
-    }
-}
-
-#pragma mark -
-#pragma mark S3 Delegate Delegate Methods
-// this will remove the S3 delegate that completed its task
-//TODO: make sure NSMutableArray removeObject is thread-safe.
-- (void) removeS3RequestResponder:(id)delegatee{
-    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
-}
-
-- (void) restartS3Request:(id)delegatee{
-    Post *post = [(S3RequestResponder *)delegatee post];
-    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
-    [self loadPhotosForPost:post];
-}
+//#pragma mark -
+//#pragma mark S3 Delegate Delegate Methods
+//// this will remove the S3 delegate that completed its task
+////TODO: make sure NSMutableArray removeObject is thread-safe.
+//- (void) removeS3RequestResponder:(id)delegatee{
+//    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
+//}
+//
+//- (void) restartS3Request:(id)delegatee{
+//    Post *post = [(S3RequestResponder *)delegatee post];
+//    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
+//    [self loadPhotosForPost:post];
+//}
 
 #pragma mark -
 #pragma mark Fetched Results Controller Delegate Methods

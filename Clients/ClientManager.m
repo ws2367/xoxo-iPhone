@@ -21,17 +21,112 @@
  * permissions and limitations under the License.
  */
 
+#import <AWSRuntime/AWSRuntime.h>
 
 #import "ClientManager.h"
 #import "KeyChainWrapper.h"
+#import "S3RequestResponder.h"
 
-#import <AWSRuntime/AWSRuntime.h>
+@interface ClientManager ()
+
+@property (strong, nonatomic)NSMutableArray *S3RequestResponders;
+
+@end
 
 
 static AmazonS3Client *s3  = nil;
 static TVMClient *tvm = nil;
 
 @implementation ClientManager
+
++(ClientManager *)sharedClientManager
+{
+    static ClientManager *sharedClientManager;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedClientManager = [[self alloc] init];
+        sharedClientManager.S3RequestResponders = [[NSMutableArray alloc] init];
+    });
+    return sharedClientManager;
+}
+
+#pragma mark -
+#pragma mark S3 Request Methods
+//- (NSMutableArray *)S3RequestResponders
+//{
+//    if (self.S3RequestResponders == nil)
+//    {
+//        self.S3RequestResponders = [[NSMutableArray alloc] init];
+//        return self.S3RequestResponders;
+//    } else {
+//        return self.S3RequestResponders;
+//    }
+//}
+
++ (void)AddS3RequestResponder:(S3RequestResponder *)responder
+{
+    [[[ClientManager sharedClientManager] S3RequestResponders] addObject:responder];
+}
+
++ (void)CancelAllS3Requests
+{
+    [[[ClientManager sharedClientManager] S3RequestResponders]
+     enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+         S3RequestResponder *responder = (S3RequestResponder *)obj;
+         [[responder.request urlConnection] cancel];
+    }];
+}
+
++ (void)loadPhotosForPost:(Post *)post {
+    if (post.image == nil) {
+        MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
+        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
+        MSDebug(@"main thread = %@", [NSThread mainThread]);
+        
+        // let's validate AWS credentials before going further
+        if (![ClientManager validateCredentials]){
+            NSLog(@"Abort loading photos for post %@", post.remoteID);
+            return;
+        }
+        
+        //        NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
+        
+        //        NSString *photoKey = [photoKeys firstObject];
+        NSString *photoKey = [NSString stringWithFormat:@"%@/original.png", post.remoteID];
+        
+        S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
+        [request setContentType:@"image/png"];
+        
+        S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post];
+        
+        delegate.delegate = [ClientManager sharedClientManager];
+        delegate.request = request;
+        request.delegate = delegate;
+        [ClientManager AddS3RequestResponder:delegate];
+        //TODO: Why does Amazon S3 Client getobject method have to run on main thead?
+        // if it is not called on main thread, the delegate will not be notified.
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [[ClientManager s3] getObject:request];
+        });
+    }
+}
+
+#pragma mark -
+#pragma mark S3 Responder Delegate Methods
+// this will remove the S3 delegate that completed its task
+//TODO: make sure NSMutableArray removeObject is thread-safe.
+- (void) removeS3RequestResponder:(id)delegatee{
+    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
+}
+
+- (void) restartS3Request:(id)delegatee{
+    Post *post = [(S3RequestResponder *)delegatee post];
+    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
+    [ClientManager loadPhotosForPost:post];
+}
+
+#pragma mark -
+#pragma mark Setup Methods
 
 +(void)setup:(NSString *)accessKey secretKey:(NSString *)secretKey securityToken:(NSString *)token expiration:(NSString *)expiration
 {

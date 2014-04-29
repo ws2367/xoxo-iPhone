@@ -8,6 +8,8 @@
 
 #import "ViewEntityPostsViewController.h"
 
+#import "ClientManager.h"
+
 @interface ViewEntityPostsViewController ()
 
 @end
@@ -63,7 +65,7 @@
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              NSArray *posts = [mappingResult array];
              for (Post *post in posts) {
-                 [self loadPhotosForPost:post];
+                 [ClientManager loadPhotosForPost:post];
              }
          });
          
@@ -96,7 +98,7 @@
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              NSArray *posts = [mappingResult array];
              for (Post *post in posts) {
-                 [self loadPhotosForPost:post];
+                 [ClientManager loadPhotosForPost:post];
              }
          });
      }

@@ -135,7 +135,7 @@
 
 - (void) TVMLoggingInFailed
 {
-    [self logoutUser];
+    [self logoutFBUser];
 }
 
 - (void) TVMSignedUp
@@ -260,6 +260,12 @@
 
 #pragma mark - log out user method
 -(void) logoutUser{
+    [ClientManager logout];
+    [ClientManager CancelAllS3Requests];
+    [self logoutFBUser];
+}
+
+-(void) logoutFBUser{
     [_displayNameLabel removeFromSuperview];
     [FBSession.activeSession closeAndClearTokenInformation];
 }
