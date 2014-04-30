@@ -14,7 +14,7 @@ const float ANIMATION_DURATION = 0.4;
 const float ANIMATION_DELAY = 0.0;
 const int HEIGHT = 568;
 const int WIDTH = 320;
-const int TABBAR_HEIGHT = 44;
+const int TABBAR_HEIGHT = 50;
 const int UPPER_AREA_HEIGHT = 20;
 const float TIMESTAMP_MAX = 2147483647.000;
 const int NAVIGATION_BAR_CUT_DOWN_HEIGHT = 64;
@@ -25,6 +25,7 @@ const int VIEW_POST_DISPLAY_COMMENT_HEIGHT = 60;
 const int VIEW_POST_NAVIGATION_BAR_HEIGHT = 63;
 const int BIG_POSTS_CELL_HEIGHT = 250;
 const int HEIGHT_TO_DISCRIMINATE = 500;
+const int MY_POST_TABBAR_HEIGHT = 45;
 
 
 

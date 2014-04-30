@@ -29,6 +29,8 @@ extern const int VIEW_POST_DISPLAY_COMMENT_HEIGHT;
 extern const int VIEW_POST_NAVIGATION_BAR_HEIGHT;
 extern const int BIG_POSTS_CELL_HEIGHT;
 extern const int HEIGHT_TO_DISCRIMINATE;
+extern const int MY_POST_TABBAR_HEIGHT;
+
 
 
 //Flurry contants

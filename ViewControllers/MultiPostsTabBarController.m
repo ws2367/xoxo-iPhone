@@ -9,6 +9,7 @@
 #import "MultiPostsTabBarController.h"
 #import "MyPostsViewController.h"
 #import "UIColor+MSColor.h"
+#import "CreatePostViewController.h"
 
 
 
@@ -175,10 +176,26 @@
 //#pragma mark - Prepare Segue
 //
 //// In a storyboard-based application, you will often want to do a little preparation before navigation
-//- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-//{
-//// Get the new view controller using [segue destinationViewController].
-//// Pass the selected object to the new view controller.
-//}
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+    
+    if([segue.identifier isEqualToString:@"createPostSegue"]){
+        CreatePostViewController *viewController = segue.destinationViewController;
+        viewController.multiPostsTabBarController = self;
+    }
+}
+
+#pragma mark -
+#pragma mark Let CreatePost change view Method
+- (void) createPostsViewControllerWantsToSwitchAndScrollView{
+    [self setSelectedIndex:4];
+    UIViewController *myPostVC = [self.customizableViewControllers objectAtIndex:4];
+    if(myPostVC){
+        if([myPostVC isKindOfClass:[MyPostsViewController class]]){
+            [(MyPostsViewController *)myPostVC switchToMyPostsAndScrollToEnd];
+        }
+    }
+}
+
 
 @end

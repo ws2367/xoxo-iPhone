@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "FacebookSDK/FacebookSDK.h"
+#import "MultiPostsTabBarController.h"
 
 @class ViewMultiPostsViewController;
 @class Entity;
@@ -15,6 +16,7 @@
 @interface CreatePostViewController : UIViewController <UINavigationControllerDelegate, UIImagePickerControllerDelegate, UITableViewDelegate, UITextViewDelegate, FBFriendPickerDelegate>
 
 @property (strong, nonatomic) NSMutableArray *entities;
+@property (weak,nonatomic) MultiPostsTabBarController *multiPostsTabBarController;
 
 -(void) addEntity:(Entity *)en;
 
