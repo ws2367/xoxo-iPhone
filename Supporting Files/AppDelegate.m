@@ -35,7 +35,7 @@
         RKLogError(@"Failed adding in-memory persistent store: %@", error);
     }
     [managedObjectStore createManagedObjectContexts];
-    
+      
     
     // Set the default store shared instance
     [RKManagedObjectStore setDefaultStore:managedObjectStore];
