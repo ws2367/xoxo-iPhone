@@ -228,18 +228,17 @@
 
 - (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
 {
-    [self dismissViewControllerAnimated:YES completion:nil];
-    MSDebug(@"Selected numbers %@", selectedNumbers);
+    [self dismissViewControllerAnimated:YES completion:^{
+        if([MFMessageComposeViewController canSendText])
+        {
+            MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+            controller.body = @"Hey! Come use this app called Yours!";
+            controller.recipients = [selectedNumbers allObjects];
+            controller.messageComposeDelegate = self;
+            [self presentViewController:controller animated:YES completion:NULL];
+        }
+    }];
 
-   
-    if([MFMessageComposeViewController canSendText])
-    {
-        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
-        controller.body = @"SMS message here";
-        controller.recipients = [selectedNumbers allObjects];
-        controller.messageComposeDelegate = self;
-        [self presentViewController:controller animated:YES completion:NULL];
-    }
 
 }
 

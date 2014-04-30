@@ -120,11 +120,13 @@
     postsICreatedViewController.tabBarItem.title = @"My Posts";
     postsICreatedViewController.myPostsViewController = self;
     
-	_tabButtonsContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CONTENT_VIEW_BEGIN_Y - TABBAR_HEIGHT, self.view.bounds.size.width, TABBAR_HEIGHT)];
+	_tabButtonsContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CONTENT_VIEW_BEGIN_Y - MY_POST_TABBAR_HEIGHT, self.view.bounds.size.width, MY_POST_TABBAR_HEIGHT)];
 	_tabButtonsContainerView.autoresizingMask = UIViewAutoresizingFlexibleWidth;
 	[self.view addSubview:_tabButtonsContainerView];
     
-	_contentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CONTENT_VIEW_BEGIN_Y, WIDTH, HEIGHT - CONTENT_VIEW_BEGIN_Y - TABBAR_HEIGHT)];
+    [self addWhiteLineAtY:CONTENT_VIEW_BEGIN_Y - MY_POST_TABBAR_HEIGHT];
+    
+	_contentContainerView = [[UIView alloc] initWithFrame:CGRectMake(0, CONTENT_VIEW_BEGIN_Y, WIDTH, HEIGHT - CONTENT_VIEW_BEGIN_Y - MY_POST_TABBAR_HEIGHT)];
     
     [_contentContainerView setBackgroundColor:[UIColor colorForYoursOrange]];
     
@@ -269,6 +271,51 @@
     MSDebug(@"logout");
 }
 
+
+#pragma mark -
+#pragma mark UI methods
+-(void) addWhiteLineAtY:(CGFloat)offsetY{
+    UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, NO, 0.0f);
+    CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
+    CGPoint startPoint = CGPointMake(0, offsetY);
+    CGPoint endPoint = CGPointMake(WIDTH, offsetY);
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    //draw a line
+    [path moveToPoint:startPoint]; //add yourStartPoint here
+    [path addLineToPoint:endPoint];// add yourEndPoint here
+    [path stroke];
+    
+    
+    UIColor *fill = [UIColor whiteColor];
+    dashLineLayer.strokeStart = 0.0;
+    dashLineLayer.strokeColor = fill.CGColor;
+    dashLineLayer.lineWidth = 1.0;
+    dashLineLayer.lineJoin = kCALineJoinMiter;
+    dashLineLayer.path = path.CGPath;
+    [self.view.layer addSublayer:dashLineLayer];
+}
+
+#pragma mark -
+#pragma mark Let CreatePost switch and scroll methods
+-(void) switchToMyPostsAndScrollToEnd{
+    [self setSelectedIndex:BUTTON_TAG_OFFSET + 1];
+    [self scrollContentContainerViewToBottom];
+}
+# pragma mark -
+#pragma mark ScrollToEnd helper method
+- (void)scrollContentContainerViewToBottom
+{
+//    CGFloat yOffset = 0;
+    UITableViewController *postsICreatedVC = [_viewControllers objectAtIndex:1];
+//    MSDebug(@"whats up %@", postsICreatedVC.tableView);
+//    MSDebug(@"%f and %f", postsICreatedVC.tableView.contentSize.height, postsICreatedVC.tableView.bounds.size.height);
+//    if (postsICreatedVC.ta
+//        postsICreatedVC.tableView.contentSize.height > postsICreatedVC.tableView.bounds.size.height) {
+//        yOffset = postsICreatedVC.tableView.contentSize.height - postsICreatedVC.tableView.bounds.size.height;
+//    }
+
+    [postsICreatedVC.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
+}
 
 
 @end

@@ -10,4 +10,5 @@
 
 @interface MultiPostsTabBarController : UITabBarController <UITabBarControllerDelegate>
 -(void)willAppearIn:(UINavigationController *)navigationController;
+- (void) createPostsViewControllerWantsToSwitchAndScrollView;
 @end

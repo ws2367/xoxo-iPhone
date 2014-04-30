@@ -611,27 +611,38 @@
     } else {
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please type in message you would like to send" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Done", nil];
+    [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [alert setTag:1111];
+    [alert show];
 }
 
 #pragma mark -
 #pragma mark AlertView delegate method
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    
-    switch (buttonIndex) {
-        case 0:
-            break;
-        case 1:
-            break;
-        default:
-            break;
+    if(buttonIndex == 1){
+        NSString *text = [alertView textFieldAtIndex:0].text;
+        MSDebug(@"%@", text);
     }
-    
 }
+
+//#pragma mark -
+//#pragma mark People Picker delegate method
+//
+//- (BOOL)peoplePickerNavigationController:(ABPeoplePickerNavigationController *)peoplePicker
+//      shouldContinueAfterSelectingPerson:(ABRecordRef)person
+//{
+//    NSString* name = (__bridge_transfer NSString*)ABRecordCopyValue(person,
+//                                                                    kABPersonFirstNameProperty);
+//    NSLog(@"Name %@", name);
+//    // Do stuff with the person record
+//    return NO;
+//}
 
 #pragma mark -
 #pragma mark ActionSheet delegate method
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
-    MSDebug(@"sheet tag: %d", [actionSheet tag]);
     
 
     if (buttonIndex == 0) {
