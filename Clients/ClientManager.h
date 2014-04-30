@@ -43,6 +43,9 @@
 +(void)login:(NSString *)FBAccessToken delegate:(id<TVMClientDelegate>)delegate;
 +(BOOL)logout;
 +(BOOL)validateCredentials;
+
++ (void)setBadgeNumber:(NSInteger)number;
+
 //+(void)wipeAllCredentials;
 //+ (BOOL)wipeCredentialsOnAuthError:(NSError *)error;
 

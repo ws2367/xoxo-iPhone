@@ -14,6 +14,7 @@
 //Client classes
 #import "ClientManager.h"
 #import "RestKitInitializer.h"
+#import "KeyChainWrapper.h"
 
 @implementation AppDelegate
 
@@ -81,6 +82,12 @@
         UIViewController *vc = [mainStoryboard instantiateViewControllerWithIdentifier:@"LoginVC"];
         self.window.rootViewController = vc;
     }
+    
+    // Register for PUSH NOTIFICATION
+    [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert |
+                                                                           UIRemoteNotificationTypeBadge |
+                                                                           UIRemoteNotificationTypeSound)];
+    
     return YES;
 }
 
@@ -99,6 +106,10 @@
 - (void)applicationWillEnterForeground:(UIApplication *)application
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
+    //Set Badge number to 0
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [ClientManager setBadgeNumber:0];
+    });
 }
 
 - (void)applicationDidBecomeActive:(UIApplication *)application
@@ -134,6 +145,30 @@
     }
 }*/
 
+
+
+#pragma mark -
+#pragma mark Push Notification Delegate Methods
+- (void)application:(UIApplication *)application
+didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
+{
+    MSDebug(@"application:didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceToken);
+    
+    [KeyChainWrapper storeDeviceToken:deviceToken];
+}
+
+- (void)application:(UIApplication *)application
+didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
+{
+    MSError(@"Error in registering remote notification: %@", error);
+}
+
+- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
+{
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [ClientManager setBadgeNumber:0];
+    });
+}
 
 #pragma mark - Core Data stack
 

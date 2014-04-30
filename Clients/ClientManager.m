@@ -204,24 +204,39 @@ static TVMClient *tvm = nil;
     //s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
 }
 
-/*
-+(void)wipeAllCredentials
++ (void)setBadgeNumber:(NSInteger)number
 {
-    @synchronized(self)
-    {
-        [KeyChainWrapper wipeCredentialsFromKeyChain];
-        
-        [s3 release];
-        [sdb release];
-        [sns release];
-        [sqs release];
-        
-        s3  = nil;
-        sdb = nil;
-        sqs = nil;
-        sns = nil;
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        MSError(@"User session token is not valid.");
+        return;
     }
+    
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    
+    MSDebug(@"badge number: %i", number);
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjects:@[sessionToken, [NSNumber numberWithInteger:number]]
+                                                                     forKeys:@[@"auth_token", @"badge_number"]];
+    
+    
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"set_badge"
+                                                                                          object:self
+                                                                                      parameters:params];
+    
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [UIApplication sharedApplication].applicationIconBadgeNumber = number;
+        });
+    }
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                             [Utility generateAlertWithMessage:@"Network problem" error:nil];
+                                         });
+                                         MSError(@"Cannot set badge number!");
+                                     }];
+    
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
 }
-*/
 
 @end

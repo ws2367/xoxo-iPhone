@@ -189,14 +189,15 @@
 
     RKRoute *inviteeRoute = [RKRoute routeWithName:@"report_inviter" pathPattern:@"invitations/inviter" method:RKRequestMethodPOST];
     
+    RKRoute *setBadgeRoute = [RKRoute routeWithName:@"set_badge" pathPattern:@"users/set_badge" method:RKRequestMethodPOST];
+    
     [objectManager.router.routeSet addRoutes:@[// class routes
                                                postRoute, commentPOSTRoute, postPOSTRoute,
                                                // relationship routes
                                                postCommentRelationshipRoute, entityPostRelationshipRoute,
                                                // named routes
-                                               followPostRoute, unfollowPostRoute, reportPostRoute, sharePostRoute, activatePostRoute,
-                                               inviteeRoute]];
-    
+                                               followPostRoute, unfollowPostRoute, reportPostRoute, sharePostRoute,
+                                               activatePostRoute, inviteeRoute, setBadgeRoute]];
     
     /* Set up request descriptor
      *

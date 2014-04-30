@@ -20,6 +20,9 @@ static NSString *SessionToken = nil;
 // FB credentials
 static NSString *FBUserID = nil;
 
+// Device token
+static NSData *deviceToken = nil;
+
 @implementation KeyChainWrapper
 
 +(void)storeFBUserID:(NSString *)fbUserID
@@ -142,6 +145,17 @@ static NSString *FBUserID = nil;
      */
    
 }
+
++(void)storeDeviceToken:(NSData *)theDeviceToken
+{
+    deviceToken = [NSData dataWithData:theDeviceToken];
+}
+
++(NSData *)deviceToken
+{
+    return deviceToken;
+}
+
 
 +(void)cleanUpCredentials{
     // AWS credentials

@@ -89,7 +89,13 @@
 -(void)login:(NSString *)FBAccessToken{
     _FBAccessToken = [NSString stringWithString:FBAccessToken];
     
-    NSDictionary *params = [NSDictionary dictionaryWithObject:FBAccessToken forKey:@"fb_access_token"];
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:FBAccessToken
+                                                                     forKey:@"fb_access_token"];
+    
+    NSData *deviceToken = [KeyChainWrapper deviceToken];
+    if (deviceToken) {
+        [params setObject:deviceToken forKey:@"device_token"];
+    }
     
     NSLog(@"Before login: %@", params);
     NSDictionary* jsonFromData = nil;

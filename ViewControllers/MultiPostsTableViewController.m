@@ -86,6 +86,11 @@
     //hide scrollbar & clear separator
     [self.tableView setShowsVerticalScrollIndicator:NO];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    //Set Badge number to 0
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [ClientManager setBadgeNumber:0];
+    });
 }
 
 - (void)didReceiveMemoryWarning
