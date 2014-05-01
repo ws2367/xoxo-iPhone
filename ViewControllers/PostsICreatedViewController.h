@@ -12,5 +12,5 @@
 @interface PostsICreatedViewController : MultiPostsTableViewController
 
 @property (nonatomic, weak) MyPostsViewController *myPostsViewController;
-
+@property(weak, nonatomic) Post *postToScrollTo;
 @end

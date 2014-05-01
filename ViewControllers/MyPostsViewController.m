@@ -297,24 +297,23 @@
 
 #pragma mark -
 #pragma mark Let CreatePost switch and scroll methods
--(void) switchToMyPostsAndScrollToEnd{
+-(void) switchToMyPostsAndScrollToPost:(Post *)post{
     [self setSelectedIndex:BUTTON_TAG_OFFSET + 1];
-    [self scrollContentContainerViewToBottom];
+    [self scrollContentContainerViewToPost:post];
 }
 # pragma mark -
 #pragma mark ScrollToEnd helper method
-- (void)scrollContentContainerViewToBottom
-{
+- (void)scrollContentContainerViewToPost:(Post *)post{
 //    CGFloat yOffset = 0;
     UITableViewController *postsICreatedVC = [_viewControllers objectAtIndex:1];
 //    MSDebug(@"whats up %@", postsICreatedVC.tableView);
 //    MSDebug(@"%f and %f", postsICreatedVC.tableView.contentSize.height, postsICreatedVC.tableView.bounds.size.height);
-//    if (postsICreatedVC.ta
+//    if (postsICreatedVC.t
 //        postsICreatedVC.tableView.contentSize.height > postsICreatedVC.tableView.bounds.size.height) {
 //        yOffset = postsICreatedVC.tableView.contentSize.height - postsICreatedVC.tableView.bounds.size.height;
 //    }
-
-    [postsICreatedVC.tableView setContentOffset:CGPointMake(0, 0) animated:NO];
+    ((PostsICreatedViewController *)postsICreatedVC).postToScrollTo = post;
+//    [postsICreatedVC.tableView setContentOffset:CGPointMake(0, 100) animated:NO];
 }
 
 

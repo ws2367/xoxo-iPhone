@@ -16,7 +16,7 @@
 #import "UIColor+MSColor.h"
 
 @interface LoginViewController ()
-@property (strong, nonatomic) IBOutlet FBLoginView *loginView;
+@property (strong, nonatomic) FBLoginView *loginView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
 @property (strong, nonatomic) UILabel *youAreLoggedInLabel;
 @property (strong, nonatomic) UILabel *youAreLoggedOutLabel;
@@ -46,12 +46,25 @@
     
     _loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_birthday", @"friends_education_history",@"friends_work_history"]];
     _loginView.delegate = self;
+    if(self.view.bounds.size.height > HEIGHT_TO_DISCRIMINATE){
+        [_loginView setFrame:CGRectMake(34, 430,253, 46)];
+    }else{
+        [_loginView setFrame:CGRectMake(34, 430-50,253, 46)];
+    }
+    [self.view addSubview:_loginView];
     [self.view setBackgroundColor:[UIColor colorForYoursOrange]];
     [self addLogo];
     [self addDescriptionsWithString:@"Welcome to Yours" andY:300 withDictionary:[Utility getLoginViewTitleDescriptionFontDictionary]];
     [self addDescriptionsWithString:@"A place to say your true opinions" andY:330 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
     [self addDescriptionsWithString:@"You will always be anonymous on Yours" andY:350 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+
+
 }
+
+-(void)viewDidAppear:(BOOL)animated{
+
+}
+
 
 - (void)didReceiveMemoryWarning
 {
@@ -289,13 +302,22 @@
 -(void) addLogo{
     UIImage *logoImage = [UIImage imageNamed:@"logo_white.png"];
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:logoImage];
-    [logoImageView setFrame:CGRectMake(24, 113, logoImage.size.width, logoImage.size.height)];
+    if(self.view.bounds.size.height > HEIGHT_TO_DISCRIMINATE){
+        [logoImageView setFrame:CGRectMake(24, 113, logoImage.size.width, logoImage.size.height)];
+    }else{
+        [logoImageView setFrame:CGRectMake(24, 113 - 50, logoImage.size.width, logoImage.size.height)];
+    }
     [self.view addSubview:logoImageView];
 }
 
 -(UILabel *) addDescriptionsWithString:(NSString *)stringToDisplay andY:(CGFloat)originY withDictionary:(NSDictionary *)dictionary{
     NSAttributedString *text = [[NSAttributedString alloc] initWithString:stringToDisplay attributes:dictionary];
-    UILabel *textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, originY, WIDTH, 20)];
+    UILabel *textLabel;
+    if(self.view.bounds.size.height > HEIGHT_TO_DISCRIMINATE){
+        textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, originY, WIDTH, 20)];
+    }else{
+        textLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, originY-50, WIDTH, 20)];
+    }
     textLabel.textAlignment = NSTextAlignmentCenter;
     [textLabel setAttributedText:text];
     [self.view addSubview:textLabel];

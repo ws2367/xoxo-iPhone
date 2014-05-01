@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Post.h"
 
 @interface MultiPostsTabBarController : UITabBarController <UITabBarControllerDelegate>
 -(void)willAppearIn:(UINavigationController *)navigationController;
-- (void) createPostsViewControllerWantsToSwitchAndScrollView;
+- (void) createPostsViewControllerWantsToSwitchAndScrollToPost:(Post *)post;
 @end

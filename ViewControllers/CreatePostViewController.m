@@ -414,11 +414,17 @@
     }
     [Flurry endTimedEvent:@"Create_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
     [self dismissViewControllerAnimated:YES completion:nil];
+
+    //to let UI scroll to it
+    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
+    Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
+                                              inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
     if(_multiPostsTabBarController){
-        [_multiPostsTabBarController createPostsViewControllerWantsToSwitchAndScrollView];
+        [_multiPostsTabBarController createPostsViewControllerWantsToSwitchAndScrollToPost:post];
     }
+
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [self uploadPostAndRelatedObjects];
+        [self uploadPostAndRelatedObjects:post withObjectStore:managedObjectStore];
     });
 //    [self.navigationController popViewControllerAnimated:true];
 }
@@ -448,12 +454,7 @@
 #pragma mark -
 #pragma mark Server Communication Methods
 
-- (void)uploadPostAndRelatedObjects {
-
-    RKManagedObjectStore *managedObjectStore = [RKManagedObjectStore defaultStore];
-    
-    Post *post =[NSEntityDescription insertNewObjectForEntityForName:@"Post"
-                                              inManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
+- (void)uploadPostAndRelatedObjects:(Post *)post withObjectStore:(RKManagedObjectStore *)managedObjectStore{
 
     if (post != nil) {
         post.content = _textView.text;
@@ -563,7 +564,9 @@
         _progressView.hidden = false;
          */
         [objectManager enqueueObjectRequestOperation:operation];
-         
+//        if(_multiPostsTabBarController){
+//            [_multiPostsTabBarController createPostsViewControllerWantsToSwitchAndScrollToPost:post];
+//        }
         
     }
 }

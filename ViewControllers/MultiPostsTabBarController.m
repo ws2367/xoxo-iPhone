@@ -187,12 +187,12 @@
 
 #pragma mark -
 #pragma mark Let CreatePost change view Method
-- (void) createPostsViewControllerWantsToSwitchAndScrollView{
+- (void) createPostsViewControllerWantsToSwitchAndScrollToPost:(Post *)post{
     [self setSelectedIndex:4];
     UIViewController *myPostVC = [self.customizableViewControllers objectAtIndex:4];
     if(myPostVC){
         if([myPostVC isKindOfClass:[MyPostsViewController class]]){
-            [(MyPostsViewController *)myPostVC switchToMyPostsAndScrollToEnd];
+            [(MyPostsViewController *)myPostVC switchToMyPostsAndScrollToPost:post];
         }
     }
 }

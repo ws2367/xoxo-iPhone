@@ -48,6 +48,10 @@
     [self.refreshControl beginRefreshing];
 }
 
+-(void) viewDidAppear:(BOOL)animated{
+    [self scrollToPost:_postToScrollTo];
+}
+
 - (void)didReceiveMemoryWarning
 {
     [super didReceiveMemoryWarning];
@@ -117,4 +121,16 @@
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
 }
+
+#pragma mark -
+#pragma mark Multile People Picker Delegate Methods
+-(void) scrollToPost:(Post *)post{
+    
+    MSDebug(@"im called!!");
+    NSIndexPath *indexPath = [fetchedResultsController indexPathForObject:post];
+    MSDebug(@"my index %@", indexPath);
+    CGFloat offset = indexPath.row*BIG_POSTS_CELL_HEIGHT;
+    [self.tableView setContentOffset:CGPointMake(0, offset) animated:NO];
+}
+
 @end

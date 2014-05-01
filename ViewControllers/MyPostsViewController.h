@@ -14,6 +14,5 @@
 
 @property (nonatomic, strong) Post *post;
 @property (nonatomic, strong) Entity *entity;
--(void) switchToMyPostsAndScrollToEnd;
-
+-(void) switchToMyPostsAndScrollToPost:(Post *)post;
 @end
