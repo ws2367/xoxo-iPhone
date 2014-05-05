@@ -34,7 +34,15 @@ inManagedObjectContext:(NSManagedObjectContext *)context{
     // This will save NSData typed image to an external binary storage
     // this has to be done on main thread so fetched result controller will know the update
 
-        post.image = imageData;
+    post.image = imageData;
+    NSString *fileName = [NSString stringWithFormat:@"%@.png", post.remoteID];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    BOOL succeed = [imageData writeToFile:filePath atomically:YES];
+    if(succeed){
+        MSDebug(@"succesfully saved");
+    }else{
+        MSDebug(@"failed to saved");
+    }
 }
 
 #pragma mark -

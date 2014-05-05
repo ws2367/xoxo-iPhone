@@ -78,7 +78,13 @@ static TVMClient *tvm = nil;
 }
 
 + (void)loadPhotosForPost:(Post *)post {
-    if (post.image == nil) {
+    NSString *fileName = [NSString stringWithFormat:@"%@.png", post.remoteID];
+    NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
+    NSData *imageData = [[NSData alloc] initWithContentsOfFile:filePath];
+    if(imageData){
+        post.image = imageData;
+        MSDebug(@"found photo!!!!!!");
+    } else{
         MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
         MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
         MSDebug(@"main thread = %@", [NSThread mainThread]);
