@@ -165,9 +165,26 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    NSString * postID = [userInfo objectForKey:@"post_id"];
+    MSDebug(@"Recevied remote notification");
+    MSDebug(@"post_id: %@", postID);
+    
+    //TODO: Show the post only if the user just enters the app
+    NSLog(@"Top most VC: %@", [self topMostController]);
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [ClientManager setBadgeNumber:0];
     });
+}
+
+- (UIViewController*) topMostController
+{
+    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    
+    while (topController.presentedViewController) {
+        topController = topController.presentedViewController;
+    }
+    
+    return topController;
 }
 
 #pragma mark - Core Data stack
