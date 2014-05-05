@@ -44,7 +44,8 @@
 +(BOOL)logout;
 +(BOOL)validateCredentials;
 
-+ (void)setBadgeNumber:(NSInteger)number;
++ (void)sendBadgeNumber:(NSInteger)number;
++ (void)sendDeviceToken;
 
 //+(void)wipeAllCredentials;
 //+ (BOOL)wipeCredentialsOnAuthError:(NSError *)error;

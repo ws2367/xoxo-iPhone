@@ -108,7 +108,7 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     //Set Badge number to 0
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [ClientManager setBadgeNumber:0];
+        [ClientManager sendBadgeNumber:0];
     });
 }
 
@@ -145,8 +145,6 @@
     }
 }*/
 
-
-
 #pragma mark -
 #pragma mark Push Notification Delegate Methods
 - (void)application:(UIApplication *)application
@@ -155,6 +153,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     MSDebug(@"application:didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceToken);
     
     [KeyChainWrapper storeDeviceToken:deviceToken];
+    [ClientManager sendDeviceToken];
 }
 
 - (void)application:(UIApplication *)application
@@ -163,12 +162,6 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
     MSError(@"Error in registering remote notification: %@", error);
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [ClientManager setBadgeNumber:0];
-    });
-}
 
 #pragma mark - Core Data stack
 

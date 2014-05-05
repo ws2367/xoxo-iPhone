@@ -41,8 +41,10 @@ const int MY_POST_TABBAR_HEIGHT = 45;
 #ifdef DEBUG
     NSString *const FL_APP_KEY = @"MQ724NMDYQJMTQKFB4DD";
     NSString *const BUILD_MODE = @"DEBUG mode";
-    NSString *const BASE_URL = @"http://107.170.193.248:3000/v1/";
-    NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.193.248:3000/v1/";
+//    NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
+//    NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
+    NSString *const BASE_URL = @"http://107.170.232.66:3000/v1/";
+    NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.232.66:3000/v1/";
 
 #else
     NSString *const FL_APP_KEY = @"YF2MB9Y24R2M664N6JT8";

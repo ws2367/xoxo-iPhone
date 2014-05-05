@@ -189,6 +189,8 @@
 
     RKRoute *inviteeRoute = [RKRoute routeWithName:@"report_inviter" pathPattern:@"invitations/inviter" method:RKRequestMethodPOST];
     
+    RKRoute *sendDeviceTokenRoute = [RKRoute routeWithName:@"set_device_token" pathPattern:@"users/set_device_token" method:RKRequestMethodPOST];
+    
     RKRoute *setBadgeRoute = [RKRoute routeWithName:@"set_badge" pathPattern:@"users/set_badge" method:RKRequestMethodPOST];
     
     [objectManager.router.routeSet addRoutes:@[// class routes
@@ -197,7 +199,7 @@
                                                postCommentRelationshipRoute, entityPostRelationshipRoute,
                                                // named routes
                                                followPostRoute, unfollowPostRoute, reportPostRoute, sharePostRoute,
-                                               activatePostRoute, inviteeRoute, setBadgeRoute]];
+                                               activatePostRoute, inviteeRoute, setBadgeRoute, sendDeviceTokenRoute]];
     
     /* Set up request descriptor
      *

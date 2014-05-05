@@ -204,7 +204,41 @@ static TVMClient *tvm = nil;
     //s3.endpoint = [AmazonEndpoints s3Endpoint:US_WEST_2];
 }
 
-+ (void)setBadgeNumber:(NSInteger)number
++(void)sendDeviceToken
+{
+    NSData *deviceToken = [KeyChainWrapper deviceToken];
+    MSDebug(@"device token: %@", deviceToken);
+    
+    // we wait for both device token and session token are ready
+    if (deviceToken) {
+        return;
+    } else if (![KeyChainWrapper isSessionTokenValid]) {
+        return;
+    }
+    
+    NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjects:@[deviceToken, [KeyChainWrapper getSessionTokenForUser]]
+                                                                     forKeys:@[@"device_token", @"auth_token"]];
+
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"set_device_token"
+                                                                                          object:self
+                                                                                      parameters:params];
+    
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:^(AFHTTPRequestOperation *operation, id responseObject) {
+        MSDebug(@"Device Token posted");
+    }
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         dispatch_async(dispatch_get_main_queue(), ^{
+                                             [Utility generateAlertWithMessage:@"Network problem" error:nil];
+                                         });
+                                         MSError(@"Cannot set device token!");
+                                     }];
+    
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
+}
+
++ (void)sendBadgeNumber:(NSInteger)number
 {
     if (![KeyChainWrapper isSessionTokenValid]) {
         MSError(@"User session token is not valid.");
