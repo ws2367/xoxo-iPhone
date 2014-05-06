@@ -21,11 +21,11 @@
 
 #define VIEW_OFFSET_KEYBOARD 100
 #define ANIMATION_CUTDOWN 0.05
-#define OFFSET_X_FOR_DISPLAY_ENTITIES 20
+#define OFFSET_X_FOR_DISPLAY_ENTITIES 10
 #define OFFSET_Y_FOR_DISPLAY_ENTITIES 5
 #define HEIGHT_FOR_EACH_ENTITY_ROW 38
 #define START_DISPLAYING_ENTITIES 308
-#define DELETE_BUTTON_OFFSET_X 100
+#define DELETE_BUTTON_OFFSET_X 116
 
 @interface CreatePostViewController ()
 {
@@ -1097,14 +1097,20 @@
 
 -(UIButton *) getEntityNameAndInstitutionForEntity:(Entity *)entity AtX:(CGFloat)originX andY:(CGFloat)originY returnInstiLabel:(UILabel **)instiLabel{
     UIButton *nameButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, originY, WIDTH/2, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
-    NSAttributedString *nameWithFont = [[NSAttributedString alloc] initWithString:[entity name] attributes:[Utility getCreatePostDisplayEntityFontDictionary]];
+    NSAttributedString *nameWithFont;
+    if([[entity name] length] > 20){
+        NSString *stringName = [[[entity name] substringWithRange:NSMakeRange(0, 19)] stringByAppendingString:@"..."];
+        nameWithFont = [[NSAttributedString alloc] initWithString:stringName attributes:[Utility getCreatePostDisplayEntityFontDictionary]];
+    }else{
+        nameWithFont = [[NSAttributedString alloc] initWithString:[entity name] attributes:[Utility getCreatePostDisplayEntityFontDictionary]];
+    }
     [nameButton setAttributedTitle:nameWithFont forState:UIControlStateNormal];
     nameButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     if(entity.institution){
         *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(originX, originY+13, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
         NSAttributedString *instiWithFont;
-        if([entity.institution length] > 33){
-            NSString *stringInstitution = [[entity.institution substringWithRange:NSMakeRange(0, 32)] stringByAppendingString:@"..."];
+        if([entity.institution length] > 25){
+            NSString *stringInstitution = [[entity.institution substringWithRange:NSMakeRange(0, 24)] stringByAppendingString:@"..."];
             instiWithFont = [[NSAttributedString alloc] initWithString:stringInstitution attributes:[Utility getCreatePostDisplayInstitutionFontDictionary]];
         }else{
             instiWithFont = [[NSAttributedString alloc] initWithString:entity.institution attributes:[Utility getCreatePostDisplayInstitutionFontDictionary]];
