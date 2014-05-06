@@ -187,7 +187,7 @@
     RKRoute *sharePostRoute = [RKRoute routeWithName:@"share_post" pathPattern:@"posts/:remoteID/share" method:RKRequestMethodPOST];
     RKRoute *activatePostRoute = [RKRoute routeWithName:@"activate_post" pathPattern:@"posts/:remoteID/activate" method:RKRequestMethodPOST];
 
-    RKRoute *inviteeRoute = [RKRoute routeWithName:@"report_inviter" pathPattern:@"invitations/inviter" method:RKRequestMethodPOST];
+//    RKRoute *inviteeRoute = [RKRoute routeWithName:@"report_inviter" pathPattern:@"invitations/inviter" method:RKRequestMethodPOST];
     
     RKRoute *sendDeviceTokenRoute = [RKRoute routeWithName:@"set_device_token" pathPattern:@"users/set_device_token" method:RKRequestMethodPOST];
     
@@ -199,7 +199,7 @@
                                                postCommentRelationshipRoute, entityPostRelationshipRoute,
                                                // named routes
                                                followPostRoute, unfollowPostRoute, reportPostRoute, sharePostRoute,
-                                               activatePostRoute, inviteeRoute, setBadgeRoute, sendDeviceTokenRoute]];
+                                               activatePostRoute, setBadgeRoute, sendDeviceTokenRoute]];
     
     /* Set up request descriptor
      *
