@@ -91,6 +91,17 @@
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [ClientManager setBadgeNumber:0];
     });
+    
+
+}
+
+
+-(void) viewDidAppear:(BOOL)animated{
+    if(REMOTE_NOTIF_POST_ID){
+        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+        [self performSegueWithIdentifier:@"viewPostSegue" sender:btn];
+        REMOTE_NOTIF_POST_ID = NULL;
+    }
 }
 
 - (void)didReceiveMemoryWarning

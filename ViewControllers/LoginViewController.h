@@ -14,5 +14,4 @@
                     UINavigationControllerDelegate, TVMClientDelegate>
 
 - (void) logoutUser;
-
 @end

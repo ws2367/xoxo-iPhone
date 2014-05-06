@@ -15,6 +15,14 @@
 #import "ClientManager.h"
 #import "RestKitInitializer.h"
 #import "KeyChainWrapper.h"
+#import "NavigationController.h"
+#import "MultiPostsTabBarController.h"
+#import "LoginViewController.h"
+#import <AudioToolbox/AudioToolbox.h>
+
+@interface AppDelegate()
+@property (strong, nonatomic) UIButton *notifButton;
+@end
 
 @implementation AppDelegate
 
@@ -87,6 +95,27 @@
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:(UIRemoteNotificationTypeAlert |
                                                                            UIRemoteNotificationTypeBadge |
                                                                            UIRemoteNotificationTypeSound)];
+ 
+    
+    NSDictionary *userInfo = [launchOptions objectForKey:UIApplicationLaunchOptionsRemoteNotificationKey];
+    if (userInfo) {
+        NSDictionary *apsInfo = [userInfo objectForKey:@"aps"];
+        NSString *alertMsg = @"";
+        if( [apsInfo objectForKey:@"alert"] != NULL)
+        {
+            alertMsg = [apsInfo objectForKey:@"alert"];
+        }
+
+//       NSDictionary *userInfo = [localNotif userInfo];
+//         NSString *postID = [localNotif objectForKey:@"post_id"];
+        NSString * postID = [userInfo objectForKey:@"post_id"];
+
+//        NSString * postID = [userInfo objectForKey:@"post_id"];
+        MSDebug(@"Recevied remote notification: %@", userInfo);
+        MSDebug(@"post_id: %@", postID);
+//        NSString *msg = [postID stringByAppendingString:@"what??"];        
+        REMOTE_NOTIF_POST_ID = postID;
+    }
     
     return YES;
 }
@@ -165,26 +194,108 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
+    MSDebug(@"%@",userInfo);
     NSString * postID = [userInfo objectForKey:@"post_id"];
-    MSDebug(@"Recevied remote notification");
     MSDebug(@"post_id: %@", postID);
     
-    //TODO: Show the post only if the user just enters the app
-    NSLog(@"Top most VC: %@", [self topMostController]);
+
+    UIApplicationState state = [application applicationState];
+    if (state == UIApplicationStateActive) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+//        AudioServicesPlaySystemSound (1350);
+//        AudioServicesPlaySystemSound (1351);
+        AudioServicesPlaySystemSound (1003);
+        NSDictionary *apsInfo = [userInfo objectForKey:@"aps"];
+        NSString *alertMsg = @"";
+        if( [apsInfo objectForKey:@"alert"] != NULL)
+        {
+            alertMsg = [apsInfo objectForKey:@"alert"];
+        }
+        _notifButton = [[UIButton alloc] initWithFrame:CGRectMake(0, -50, WIDTH, 50)];
+        [_notifButton setBackgroundColor:[UIColor colorForYoursWhite]];
+        [_notifButton setTitle:alertMsg forState:UIControlStateNormal];
+        [_notifButton setTitleColor:[UIColor colorForYoursOrange] forState:UIControlStateNormal];
+        _notifButton.titleLabel.font = [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:16.0];
+
+        [_notifButton addTarget:self action:@selector(notifButtonPressed) forControlEvents:UIControlEventTouchUpInside];
+        [self.window addSubview:_notifButton];
+        [[UIApplication sharedApplication] setStatusBarHidden:YES];
+        [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
+                              delay:ANIMATION_DELAY
+                            options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
+                         animations:^{
+                             _notifButton.frame =
+                             CGRectMake(0,
+                                        0,
+                                        WIDTH,
+                                        _notifButton.frame.size.height);
+                         }
+                         completion:^(BOOL finished){
+                             [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(dismissNotifButton) userInfo:nil   repeats:NO];
+                         }];
+
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertMsg message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"GoToPost", nil];
+//        [alert show];
+    }else{
+        [self displayRemoteNotifPost];
+    }
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [ClientManager setBadgeNumber:0];
     });
 }
 
-- (UIViewController*) topMostController
-{
-    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    
-    while (topController.presentedViewController) {
-        topController = topController.presentedViewController;
+-(void) notifButtonPressed{
+    [self displayRemoteNotifPost];
+    [self dismissNotifButton];
+}
+
+-(void) dismissNotifButton{
+    [UIView animateWithDuration:ANIMATION_KEYBOARD_DURATION
+                          delay:ANIMATION_DELAY
+                        options: (UIViewAnimationOptions)UIViewAnimationOptionCurveEaseInOut
+                     animations:^{
+                         _notifButton.frame =
+                         CGRectMake(0,
+                                    -_notifButton.frame.size.height,
+                                    WIDTH,
+                                    _notifButton.frame.size.height);
+                     }
+                     completion:^(BOOL finished){
+                         [_notifButton removeFromSuperview];
+                         [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                     }];
+}
+
+#pragma mark -
+#pragma mark AlertView delegate method
+- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    if(buttonIndex == 1){
+        [self displayRemoteNotifPost];
     }
+}
+
+- (void)displayRemoteNotifPost {
+    MSDebug(@"why is it not executed?");
+    UIViewController *topController = self.window.rootViewController;
+//    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
+    MSDebug(@"what?? %@", topController);
+    UIViewController *tabBarController;
+    topController = [topController presentedViewController];
+    if([topController isKindOfClass:[NavigationController class]]){
+        tabBarController = ((NavigationController *)topController).topViewController;
+    }
+    UIViewController *multiPostsController;
+    if([tabBarController isKindOfClass:[MultiPostsTabBarController class]]){
+        multiPostsController = ((MultiPostsTabBarController *)tabBarController).selectedViewController;
+        if([multiPostsController presentedViewController]){
+            [multiPostsController dismissViewControllerAnimated:NO completion:nil];
+        }
+    }
+    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
+    [multiPostsController performSegueWithIdentifier:@"viewPostSegue" sender:btn];
+    MSDebug(@"why?? %@", multiPostsController);
     
-    return topController;
 }
 
 #pragma mark - Core Data stack
