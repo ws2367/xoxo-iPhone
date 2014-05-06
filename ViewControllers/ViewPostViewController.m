@@ -356,9 +356,11 @@
                          _viewThatContainsTableAndTextField.frame =  CGRectMake(_viewThatContainsTableAndTextField.frame.origin.x, -keyboardRect.size.height, WIDTH, HEIGHT);
                      }
                      completion:^(BOOL finished){
+                         /* add it if we think this is better
                          _maskToEndEditing = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, WIDTH, keyboardRect.origin.y - TEXT_FIELD_HEIGHT)];
                          [_maskToEndEditing addTarget:self action:@selector(maskToEndEditingPressed) forControlEvents:UIControlEventTouchUpInside];
                          [self.view addSubview:_maskToEndEditing];
+                          */
                          
                      }];
 }
@@ -388,11 +390,13 @@
 
 -(void)maskToEndEditingPressed{
     [_commentTextField endEditing:YES];
+    [Flurry endTimedEvent:@"Comment_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
 }
 
 - (IBAction)postComment:(id)sender {
 
     if([_commentTextField text] == nil || [[_commentTextField text] isEqualToString:@""] ||[[_commentTextField text] isEqualToString:@"Leave a comment..."]){
+        [Flurry logEvent:@"Fail_To_Comment"];
         [Utility generateAlertWithMessage:@"Please type in a comment..." error:nil];
         return;
     }
@@ -400,6 +404,8 @@
 
     // hide the keyboard
     [_commentTextField resignFirstResponder];
+    [Flurry endTimedEvent:@"Comment_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
+
     
     Comment *comment = [NSEntityDescription insertNewObjectForEntityForName:@"Comment"
                                                      inManagedObjectContext:[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext];
@@ -508,12 +514,14 @@
 
 -(BOOL) textFieldShouldReturn:(UITextField*) textField {
     [textField resignFirstResponder];
+    [Flurry endTimedEvent:@"Comment_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     return YES;
 }
 
 
 - (void) textFieldDidBeginEditing:(UITextField *)textField
 {
+    [Flurry logEvent:@"Comment_Post" withParameters:@{@"View":@"ViewPostTextField"} timed:YES];
     if ([[textField text] isEqualToString:@"Leave a comment..."]) {
         [textField setTextColor:[UIColor blackColor]];
         [textField setText:@""];
@@ -729,6 +737,8 @@
 #pragma mark Prepare Segue
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"viewEntitySegue"]){
+        [Flurry endTimedEvent:@"Comment_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
+        [Flurry logEvent:@"View_Entity" withParameters:@{@"View":@"ViewPost"}];
         ViewEntityViewController *nextController = segue.destinationViewController;
         
 //        Entity *entity = [_entities objectAtIndex:[(UIButton *)sender tag]];
@@ -737,6 +747,7 @@
         [nextController setEntity:entity];
     }
     else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
+        [Flurry endTimedEvent:@"Comment_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
         [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"ViewPost"}];
         ViewPostViewController *nextController = segue.destinationViewController;
         
@@ -773,6 +784,7 @@
 
 
 -(void)commentPost:(id)sender{
+    [Flurry logEvent:@"Comment_Post" withParameters:@{@"View":@"ViewPostCommentButton"} timed:YES];
     //indicate we want to comment
     [_commentTextField becomeFirstResponder];
 }
