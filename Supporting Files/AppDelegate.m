@@ -20,6 +20,8 @@
 #import "LoginViewController.h"
 #import <AudioToolbox/AudioToolbox.h>
 
+#define NOTIF_BUTTON_TAG 5000
+
 @interface AppDelegate()
 @property (strong, nonatomic) UIButton *notifButton;
 @end
@@ -217,6 +219,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
             alertMsg = [apsInfo objectForKey:@"alert"];
         }
         _notifButton = [[UIButton alloc] initWithFrame:CGRectMake(0, -50, WIDTH, 50)];
+        [_notifButton setTag:NOTIF_BUTTON_TAG];
         [_notifButton setBackgroundColor:[UIColor colorForYoursWhite]];
         [_notifButton setTitle:alertMsg forState:UIControlStateNormal];
         [_notifButton setTitleColor:[UIColor colorForYoursOrange] forState:UIControlStateNormal];
@@ -268,8 +271,12 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
                                     _notifButton.frame.size.height);
                      }
                      completion:^(BOOL finished){
-                         [_notifButton removeFromSuperview];
                          [[UIApplication sharedApplication] setStatusBarHidden:NO];
+                         for(UIView *view in self.window.subviews){
+                             if(view.tag == NOTIF_BUTTON_TAG){
+                                 [view removeFromSuperview];
+                             }
+                         }
                      }];
 }
 
