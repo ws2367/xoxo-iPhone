@@ -144,7 +144,7 @@ static TVMClient *tvm = nil;
 +(TVMClient *)tvm
 {
     if (tvm == nil) {
-        tvm = [[TVMClient alloc] initWithEndpoint:TOKEN_VENDING_MACHINE_URL];
+        tvm = [[TVMClient alloc] initWithEndpoint:BASE_URL];
     }
     
     return tvm;

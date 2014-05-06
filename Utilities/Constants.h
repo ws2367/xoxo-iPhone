@@ -43,7 +43,6 @@ extern NSString *const BUILD_MODE;
 
 extern NSString * S3BUCKET_NAME;
 
-extern NSString *const TOKEN_VENDING_MACHINE_URL;
 extern NSString *const BASE_URL;
 
 

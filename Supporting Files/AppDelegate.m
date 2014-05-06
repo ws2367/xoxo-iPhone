@@ -44,7 +44,7 @@
     // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
     // Remeber, evaluation of path patterns against base URL could be surprising.
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:BASE_URL]];
-    
+    MSDebug(@"BASE URL: %@", BASE_URL);
     
     // DON'T EVER ADD FOLLOWING LINE because last time when I added it, ghost entities pop out everywhere...
     // THIS is kept here for the warning purpose
