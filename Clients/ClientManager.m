@@ -210,12 +210,12 @@ static TVMClient *tvm = nil;
     MSDebug(@"device token: %@", deviceToken);
     
     // we wait for both device token and session token are ready
-    if (deviceToken) {
+    if (deviceToken == NULL) {
         return;
     } else if (![KeyChainWrapper isSessionTokenValid]) {
         return;
     }
-    
+    MSDebug(@"Ready to send device token: %@", deviceToken);
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObjects:@[deviceToken, [KeyChainWrapper getSessionTokenForUser]]
                                                                      forKeys:@[@"device_token", @"auth_token"]];
 
