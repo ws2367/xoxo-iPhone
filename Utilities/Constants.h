@@ -55,6 +55,8 @@ extern NSString *const viewPostDisplayCommentCellIdentifier;
 extern NSString *const viewPostDisplayButtonBarCellIdentifier;
 extern NSString *const viewPostDisplayContentCellIdentifier;
 
+extern NSString *REMOTE_NOTIF_POST_ID;
+
 @interface Constants : NSObject
 
 + (void)setS3BucketName:(NSString *)name;

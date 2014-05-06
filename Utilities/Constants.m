@@ -29,6 +29,7 @@ const int MY_POST_TABBAR_HEIGHT = 45;
 
 
 
+
 // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
 // Remeber, evaluation of path patterns against base URL could be surprising.
 //
@@ -68,6 +69,9 @@ NSString *const viewPostDisplayContentCellIdentifier = @"viewPostDisplayContentC
 NSString *const FL_IS_FINISHED = @"Is_Finished";
 NSString *const FL_YES = @"YES";
 NSString *const FL_NO = @"NO";
+
+NSString *REMOTE_NOTIF_POST_ID = NULL;
+
 
 @implementation Constants
 

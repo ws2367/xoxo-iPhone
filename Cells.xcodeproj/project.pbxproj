@@ -68,6 +68,7 @@
 		75CCCF6317FC04DF000BF0F4 /* BigPostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 75CCCF6217FC04DF000BF0F4 /* BigPostTableViewCell.m */; };
 		75D1DA281804837400B431FF /* CreateEntityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA261804837400B431FF /* CreateEntityViewController.m */; };
 		75D1DAA11804CDF600B431FF /* CreatePostViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */; };
+		7A2928AC19197C7700CEC5CB /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7A2928AB19197C7700CEC5CB /* AudioToolbox.framework */; };
 		7A33F90C18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F90B18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m */; };
 		7A33F90F18DFE3C300CEE1A7 /* FriendsPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F90E18DFE3C300CEE1A7 /* FriendsPostsViewController.m */; };
 		7A33F91218DFE3E600CEE1A7 /* PopularPostsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7A33F91118DFE3E600CEE1A7 /* PopularPostsViewController.m */; };
@@ -262,6 +263,7 @@
 		75D1DA261804837400B431FF /* CreateEntityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CreateEntityViewController.m; sourceTree = "<group>"; };
 		75D1DA9E1804CDF600B431FF /* CreatePostViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CreatePostViewController.h; sourceTree = "<group>"; };
 		75D1DA9F1804CDF600B431FF /* CreatePostViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = CreatePostViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		7A2928AB19197C7700CEC5CB /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		7A33F90A18DFE3AF00CEE1A7 /* FavoritesPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FavoritesPostsViewController.h; sourceTree = "<group>"; };
 		7A33F90B18DFE3AF00CEE1A7 /* FavoritesPostsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FavoritesPostsViewController.m; sourceTree = "<group>"; };
 		7A33F90D18DFE3C300CEE1A7 /* FriendsPostsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FriendsPostsViewController.h; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7A2928AC19197C7700CEC5CB /* AudioToolbox.framework in Frameworks */,
 				7AB428911901D49600DFC1D1 /* MessageUI.framework in Frameworks */,
 				51732B9F18C174B40013D891 /* Security.framework in Frameworks */,
 				51732BA318C174CA0013D891 /* SystemConfiguration.framework in Frameworks */,
@@ -622,6 +625,7 @@
 		75CCCF3D17FC03DF000BF0F4 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				7A2928AB19197C7700CEC5CB /* AudioToolbox.framework */,
 				7AB428901901D49600DFC1D1 /* MessageUI.framework */,
 				511233F718DE2FFA00EFBF85 /* FacebookSDK.framework */,
 				51E9FED818DCF93A00E60232 /* AWSRuntime.framework */,
