@@ -509,6 +509,7 @@
 -(void)commentPost:(id)sender{
     //indicate we want to comment
     [sender setTag:1];
+    [Flurry logEvent:@"Comment_Post" withParameters:@{@"View":@"MultiPosts"} timed:YES];
     [self performSegueWithIdentifier:@"viewPostSegue" sender:sender];
 }
 

@@ -201,14 +201,15 @@
         [self addLaunchingImage];
         [_followLabel removeFromSuperview];
         [_commentLabel removeFromSuperview];
-        return;
+        [_commentButton setEnabled:NO];
+    } else{
+        _imageWidth = photo.size.width*POST_IMAGE_HEIGHT/photo.size.height;
+        [_postImageView setFrame:CGRectMake(WIDTH - _imageWidth, 0, _imageWidth, POST_IMAGE_HEIGHT)];
+        
+        [_postImageView setImage:photo];
+        [self.contentView addSubview:_postImageView];
+        [_commentButton setEnabled:YES];
     }
-
-    _imageWidth = photo.size.width*POST_IMAGE_HEIGHT/photo.size.height;
-    [_postImageView setFrame:CGRectMake(WIDTH - _imageWidth, 0, _imageWidth, POST_IMAGE_HEIGHT)];
-    
-    [_postImageView setImage:photo];
-    [self.contentView addSubview:_postImageView];
     [self createGradient];
     //then process entities
     [self generateNameLabels:entities];
@@ -219,8 +220,10 @@
     //then display date
     [self displayDate:date];
     
-    //add mask to let user to click into post
-    [self addClickAreaToViewPost];
+    if(photo){
+        //add mask to let user to click into post
+        [self addClickAreaToViewPost];
+    }
     
     [self addCommentAndFollowNumbersWithCommentsCount:[commentsCount integerValue] FollowersCount:[followersCount integerValue]];
     
