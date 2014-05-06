@@ -673,15 +673,15 @@
         }
         Comment *comment =[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )];
         NSString *commentIconFileString;
-        NSInteger num = 1;
         MSDebug(@"anonymized %@", [comment anonymizedUserID]);
-        commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%d",num]] stringByAppendingString:@".png"];
+        commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]] stringByAppendingString:@".png"];
         
         if([[comment anonymizedUserID] isEqualToNumber:[NSNumber numberWithInt:0]]){
             [cell setComment:comment withIcon:nil];
             return cell;
         }
         
+        /*
         if(_commentIconDictionary[[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]] == nil){
             NSInteger getNum;
             if([_usedIconNumber count]<COMMENT_ICON_MAX){
@@ -700,7 +700,7 @@
         } else{
             NSNumber *num = [_commentIconDictionary valueForKey:[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]];
             commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%d",[num integerValue]]] stringByAppendingString:@".png"];
-        }
+        }*/
         
         [cell setComment:comment withIcon:commentIconFileString];
         return cell;
