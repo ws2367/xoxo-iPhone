@@ -37,17 +37,18 @@
 + (void)CancelAllS3Requests;
 + (void)loadPhotosForPost:(Post *)post;
 
-//+(TVMClient *)tvm;
-
 +(bool)isLoggedIn;
 +(void)login:(NSString *)FBAccessToken delegate:(id<TVMClientDelegate>)delegate;
 +(BOOL)logout;
 +(BOOL)validateCredentials;
 
-+ (void)setBadgeNumber:(NSInteger)number;
++ (void)sendBadgeNumber:(NSInteger)number;
 
-//+(void)wipeAllCredentials;
-//+ (BOOL)wipeCredentialsOnAuthError:(NSError *)error;
+// Note that ClientManager is called to send device token twice. One is called here. Another one is called when
+// TVMClient receives session token from moose server. The reason is because we don't konw which is received first -
+// device token or session token. Therefore, we call ClientManager to send device token when the app receives either of them
+// and let ClientManager to check if both are ready. If yes, ClientManager sends to device token to moose server.
++ (void)sendDeviceToken;
 
 @end
 

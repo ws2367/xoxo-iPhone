@@ -153,6 +153,12 @@
 
 - (void) TVMSignedUp
 {
+    [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
+}
+
+/*
+- (void) TVMSignedUp
+{
     //if we want user to login directly, uncomment this line of code. [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
 
     // if the session is open, then load the data for our view controller
@@ -262,6 +268,7 @@
     }];
 }
 
+*/
 
 #pragma mark - Navigation Controller delegate method
 - (void)navigationController:(UINavigationController *)navController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated

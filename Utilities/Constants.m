@@ -32,23 +32,23 @@ const int MY_POST_TABBAR_HEIGHT = 45;
 // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
 // Remeber, evaluation of path patterns against base URL could be surprising.
 //
-//NSString *const LocalHost = @"http://107.170.232.66";
-//NSString *const StagingServer = @"http://107.170.210.8";
-//NSString *const ProductionServer = @"http://107.170.232.66";
-//NSString *const Port = @":3000/";
-//NSString *const APIVersion = @"v1/";
+
+#define PRODUCTION_SERVER @"107.170.232.66"
+#define LOCAL_HOST        @"localhost"
+#define STAGING_SERVER    @"107.170.210.8"
+#define TESTING_SERVER    @"107.170.193.248"
+
+#define URLMake(IP) (@"http://" IP @":3000/v1/")
 
 #ifdef DEBUG
     NSString *const FL_APP_KEY = @"MQ724NMDYQJMTQKFB4DD";
     NSString *const BUILD_MODE = @"DEBUG mode";
-    NSString *const BASE_URL = @"http://107.170.210.8:3000/v1/";
-    NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.210.8:3000/v1/";
+    NSString *const BASE_URL = URLMake(TESTING_SERVER);
 
 #else
     NSString *const FL_APP_KEY = @"YF2MB9Y24R2M664N6JT8";
     NSString *const BUILD_MODE = @"RELEASE mode";
-    NSString *const BASE_URL = @"http://107.170.232.66:3000/v1/";
-    NSString *const TOKEN_VENDING_MACHINE_URL = @"http://107.170.232.66:3000/v1/";
+    NSString *const BASE_URL = URLMake(PRODUCTION_SERVER);
 
 #endif
 

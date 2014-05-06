@@ -8,6 +8,7 @@
 
 #import "TVMClient.h"
 #import "KeyChainWrapper.h"
+#import "ClientManager.h"
 
 @interface TVMClient (){
     NSInteger tryAgainButtonIndex;
@@ -92,10 +93,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:FBAccessToken
                                                                      forKey:@"fb_access_token"];
     
-    NSData *deviceToken = [KeyChainWrapper deviceToken];
-    if (deviceToken) {
-        [params setObject:deviceToken forKey:@"device_token"];
-    }
     
     NSLog(@"Before login: %@", params);
     NSDictionary* jsonFromData = nil;
@@ -121,6 +118,8 @@
             [Constants setS3BucketName:jsonFromData[@"bucket_name"]];
             MSDebug(@"Auth token: %@", jsonFromData[@"token"]);
             MSDebug(@"Bucket name: %@", S3BUCKET_NAME);
+            
+            [ClientManager sendDeviceToken];
             if ([jsonFromData[@"signup"] isEqualToString:@"true"]) {
                 if (self.delegate && [self.delegate respondsToSelector:@selector(TVMSignedUp)]) {
                     [self.delegate TVMSignedUp];

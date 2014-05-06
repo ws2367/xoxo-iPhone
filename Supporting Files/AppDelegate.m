@@ -44,7 +44,7 @@
     // Let's let the URL end with '/' so later in response descriptors or routes we don't need to prefix path patterns with '/'
     // Remeber, evaluation of path patterns against base URL could be surprising.
     RKObjectManager *objectManager = [RKObjectManager managerWithBaseURL:[NSURL URLWithString:BASE_URL]];
-    
+    MSDebug(@"BASE URL: %@", BASE_URL);
     
     // DON'T EVER ADD FOLLOWING LINE because last time when I added it, ghost entities pop out everywhere...
     // THIS is kept here for the warning purpose
@@ -108,7 +108,7 @@
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     //Set Badge number to 0
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [ClientManager setBadgeNumber:0];
+        [ClientManager sendBadgeNumber:0];
     });
 }
 
@@ -145,8 +145,6 @@
     }
 }*/
 
-
-
 #pragma mark -
 #pragma mark Push Notification Delegate Methods
 - (void)application:(UIApplication *)application
@@ -155,6 +153,12 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     MSDebug(@"application:didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceToken);
     
     [KeyChainWrapper storeDeviceToken:deviceToken];
+    
+    // Note that ClientManager is called to send device token twice. One is called here. Another one is called when
+    // TVMClient receives session token from moose server. The reason is because we don't konw which is received first -
+    // device token or session token. Therefore, we call ClientManager to send device token when the app receives either of them
+    // and let ClientManager to check if both are ready. If yes, ClientManager sends to device token to moose server.
+    [ClientManager sendDeviceToken];
 }
 
 - (void)application:(UIApplication *)application
@@ -163,12 +167,6 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
     MSError(@"Error in registering remote notification: %@", error);
 }
 
-- (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
-{
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [ClientManager setBadgeNumber:0];
-    });
-}
 
 #pragma mark - Core Data stack
 
