@@ -247,7 +247,7 @@
     MSDebug(@"view post clicked!");
     if(_delegate && [_delegate respondsToSelector:@selector(CellPerformViewPost:)]){
         [_delegate CellPerformViewPost: sender];
-        MSDebug(@"called delegate");
+//        MSDebug(@"called delegate");
     }
 }
 

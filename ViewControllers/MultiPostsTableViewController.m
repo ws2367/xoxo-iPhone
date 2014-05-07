@@ -597,7 +597,7 @@
         
         if ([sender isKindOfClass:[Post class]]) {
             [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"Notification"}];
-            MSDebug(@"Post: %@", sender);
+//            MSDebug(@"Post: %@", sender);
             [nextController setPost:(Post *)sender];
             
         } else {
@@ -605,7 +605,7 @@
             CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
             NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
             Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
-            MSDebug(@"Post: %@", post);
+//            MSDebug(@"Post: %@", post);
             [nextController setPost:post];
             if ([sender tag] == 0) {
                 [nextController setStartEditingComment:NO];

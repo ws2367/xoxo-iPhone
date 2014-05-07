@@ -187,7 +187,7 @@
     //Add observer to respond to the change of image content
     [self addObserver:self forKeyPath:@"_post.image" options:NSKeyValueObservingOptionNew context:nil];
 
-    MSDebug(@"Post has comments: %@", _post.comments);
+//    MSDebug(@"Post has comments: %@", _post.comments);
     
     self.postImage.image = [[UIImage alloc] initWithData:_post.image];
     
@@ -212,6 +212,11 @@
             [_viewPostTableView reloadData];
         [self removeObserver:self forKeyPath:@"_post.image"];//we only observe one change
     }
+}
+
+- (void)dealloc
+{
+    [self removeObserver:self forKeyPath:@"_post.image"];
 }
 
 -(void) resizeTextFieldAndSendButton{
@@ -647,7 +652,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MSDebug(@"why isn't showing multiple entities? %d entities count %d",indexPath.row, [_entities count]);
+//    MSDebug(@"Row at %d. entities count %d",indexPath.row, [_entities count]);
     if(indexPath.row == 0){
         ViewPostDisplayImageTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayImageCellIdentifier];
         if (!cell){
