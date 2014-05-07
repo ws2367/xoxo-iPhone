@@ -115,6 +115,21 @@
                        animated:YES completion:nil];
 }
 
+-(void)reportPost:(id)sender{
+    [Flurry logEvent:@"Report_Post" withParameters:@{@"View":@"PostAboutMe"} timed:YES];
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    UIActionSheet *sheet = [[UIActionSheet alloc] initWithTitle:@"Are you sure to report this post?"
+                                                       delegate:self
+                                              cancelButtonTitle:@"Cancel"
+                                         destructiveButtonTitle:@"Report It"
+                                              otherButtonTitles:nil];
+    
+    [sheet setTag:indexPath.row];
+    [sheet showInView:_myPostsViewController.view];
+}
+
+
 #pragma mark -
 #pragma mark Multile People Picker Delegate Methods
 - (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath

@@ -575,7 +575,7 @@
 #pragma mark Image Helper Methods
 - (UIImage *)scaleAndRotateImage:(UIImage *)image
 {
-    int kMaxResolution = 640;
+    int kMaxResolution = 500;
     
     CGImageRef imgRef = image.CGImage;
     

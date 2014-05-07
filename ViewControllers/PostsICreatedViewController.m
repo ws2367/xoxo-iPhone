@@ -49,7 +49,10 @@
 }
 
 -(void) viewDidAppear:(BOOL)animated{
-    [self scrollToPost:_postToScrollTo];
+    if(_postToScrollTo){
+        [self scrollToPost:_postToScrollTo];
+        _postToScrollTo = NULL;
+    }
 }
 
 - (void)didReceiveMemoryWarning
@@ -102,7 +105,8 @@
                                               otherButtonTitles:nil];
     
     [sheet setTag:indexPath.row];
-    [sheet showInView:self.view];
+    [sheet showInView:_myPostsViewController.view];
+//    [sheet show];
 }
 
 
