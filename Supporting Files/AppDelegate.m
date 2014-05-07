@@ -24,6 +24,7 @@
 
 @interface AppDelegate()
 @property (strong, nonatomic) UIButton *notifButton;
+@property (strong, nonatomic) NSString *notifPostID;
 @end
 
 @implementation AppDelegate
@@ -112,10 +113,8 @@
 //         NSString *postID = [localNotif objectForKey:@"post_id"];
         NSString * postID = [userInfo objectForKey:@"post_id"];
 
-//        NSString * postID = [userInfo objectForKey:@"post_id"];
         MSDebug(@"Recevied remote notification: %@", userInfo);
         MSDebug(@"post_id: %@", postID);
-//        NSString *msg = [postID stringByAppendingString:@"what??"];        
         REMOTE_NOTIF_POST_ID = postID;
     }
     
@@ -201,16 +200,13 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 
 - (void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo
 {
-    MSDebug(@"%@",userInfo);
     NSString * postID = [userInfo objectForKey:@"post_id"];
     MSDebug(@"post_id: %@", postID);
-    
+    _notifPostID = postID;
 
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-//        AudioServicesPlaySystemSound (1350);
-//        AudioServicesPlaySystemSound (1351);
         AudioServicesPlaySystemSound (1003);
         NSDictionary *apsInfo = [userInfo objectForKey:@"aps"];
         NSString *alertMsg = @"";
@@ -241,10 +237,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
                          completion:^(BOOL finished){
                              [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(dismissNotifButton) userInfo:nil   repeats:NO];
                          }];
-
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:alertMsg message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"GoToPost", nil];
-//        [alert show];
-    }else{
+    } else {
         [self displayRemoteNotifPost];
     }
     
@@ -280,19 +273,9 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
                      }];
 }
 
-#pragma mark -
-#pragma mark AlertView delegate method
-- (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
-    if(buttonIndex == 1){
-        [self displayRemoteNotifPost];
-    }
-}
-
-- (void)displayRemoteNotifPost {
-    MSDebug(@"why is it not executed?");
+- (void)displayRemoteNotifPost{
+    MSDebug(@"Gonna display remote nitification post");
     UIViewController *topController = self.window.rootViewController;
-//    UIViewController *topController = [UIApplication sharedApplication].keyWindow.rootViewController;
-    MSDebug(@"what?? %@", topController);
     UIViewController *tabBarController;
     topController = [topController presentedViewController];
     if([topController isKindOfClass:[NavigationController class]]){
@@ -305,10 +288,41 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
             [multiPostsController dismissViewControllerAnimated:NO completion:nil];
         }
     }
-    UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-    [multiPostsController performSegueWithIdentifier:@"viewPostSegue" sender:btn];
-    MSDebug(@"why?? %@", multiPostsController);
+
+    [self loadPostAndPerformSegueBy:multiPostsController];
+}
+
+- (void)loadPostAndPerformSegueBy:(UIViewController *)presenterViewController
+{
+    //TODO: find local DB if the app already has it
     
+    //If user has not logged in, we are done
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        return;
+    } else if (_notifPostID == nil) {
+        return;
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[[KeyChainWrapper getSessionTokenForUser], _notifPostID]
+                                                       forKeys:@[@"auth_token", @"post_id"]];
+    
+    [[RKObjectManager sharedManager] getObject:[Post alloc]
+                                          path:nil
+                                    parameters:params
+                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           MSDebug(@"Successfully loadded the post %@ from server", _notifPostID);
+                                           _notifPostID = nil;
+                                           MSDebug(@"# of posts loaded for notification: %lu", [[mappingResult array] count]);
+                                           Post *post = [[mappingResult array] firstObject]; //There should be only one object loaded
+                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                               [ClientManager loadPhotosForPost:post];
+                                           });
+                                           // tell presenter to perform segue
+                                           [presenterViewController performSegueWithIdentifier:@"viewPostSegue" sender:post];
+                                       }
+                                       failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server"
+                                                                               block:^{MSError(@"Cannot get the single post!");}]
+     ];
 }
 
 #pragma mark - Core Data stack

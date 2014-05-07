@@ -91,7 +91,7 @@ static TVMClient *tvm = nil;
         
         // let's validate AWS credentials before going further
         if (![ClientManager validateCredentials]){
-            NSLog(@"Abort loading photos for post %@", post.remoteID);
+            MSError(@"Abort loading photos for post %@", post.remoteID);
             return;
         }
         

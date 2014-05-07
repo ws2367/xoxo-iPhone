@@ -30,8 +30,6 @@
 // TODO: comment out depreciated codes!
 @interface MultiPostsTableViewController ()
 
-
-
 @property (strong, nonatomic) NSMutableArray *S3RequestResponders;
 
 @end
@@ -98,9 +96,7 @@
 
 -(void) viewDidAppear:(BOOL)animated{
     if(REMOTE_NOTIF_POST_ID){
-        UIButton *btn = [[UIButton alloc] initWithFrame:CGRectMake(100, 100, 100, 100)];
-        [self performSegueWithIdentifier:@"viewPostSegue" sender:btn];
-        REMOTE_NOTIF_POST_ID = NULL;
+        [self loadPostAndPerformSegue];
     }
 }
 
@@ -109,6 +105,37 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     MSDebug(@"Memory warning!");
+}
+
+- (void)loadPostAndPerformSegue
+{
+    //TODO: find local DB if the app already has it
+    
+    //If user has not logged in, we are done
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        return;
+    }
+    
+    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[[KeyChainWrapper getSessionTokenForUser], REMOTE_NOTIF_POST_ID]
+                                                       forKeys:@[@"auth_token", @"post_id"]];
+    
+    [[RKObjectManager sharedManager] getObject:[Post alloc]
+                                          path:nil
+                                    parameters:params
+                                       success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
+                                           MSDebug(@"Successfully loadded the post %@ from server", REMOTE_NOTIF_POST_ID);
+                                           REMOTE_NOTIF_POST_ID = NULL;
+                                           MSDebug(@"# of posts loaded for notification: %u", [[mappingResult array] count]);
+                                           Post *post = [[mappingResult array] firstObject]; //There should be only one object loaded
+                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                               [ClientManager loadPhotosForPost:post];
+                                           });
+                                           // tell presenter to perform segue
+                                           [self performSegueWithIdentifier:@"viewPostSegue" sender:post];
+                                       }
+                                       failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server"
+                                                                               block:^{MSError(@"Cannot get the single post!");}]
+     ];
 }
 
 #pragma mark -
@@ -560,7 +587,6 @@
         NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
         Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
         
-        // TODO: get it right! not just send the first entity of that post...
         //we don't know which one is clicked... send the first one for now
         Entity *entity = [[post.entities allObjects] firstObject];
 
@@ -568,18 +594,25 @@
 
     } else if ([segue.identifier isEqualToString:@"viewPostSegue"]){
         ViewPostViewController *nextController = segue.destinationViewController;
-        [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"MultiPosts"}];
-        CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
-        NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
-        Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
-        MSDebug(@"Post: %@", post);
-        [nextController setPost:post];
-        if ([sender tag] == 0) {
-            [nextController setStartEditingComment:NO];
-        }else{
-            [nextController setStartEditingComment:YES];
+        
+        if ([sender isKindOfClass:[Post class]]) {
+            [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"Notification"}];
+            MSDebug(@"Post: %@", sender);
+            [nextController setPost:(Post *)sender];
+            
+        } else {
+            [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"MultiPosts"}];
+            CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+            NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+            Post *post = [fetchedResultsController objectAtIndexPath:indexPath];
+            MSDebug(@"Post: %@", post);
+            [nextController setPost:post];
+            if ([sender tag] == 0) {
+                [nextController setStartEditingComment:NO];
+            }else{
+                [nextController setStartEditingComment:YES];
+            }
         }
-
     }
 }
 
