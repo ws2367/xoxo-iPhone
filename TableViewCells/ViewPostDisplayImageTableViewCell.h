@@ -11,4 +11,5 @@
 @interface ViewPostDisplayImageTableViewCell : UITableViewCell
 
 - (void) setPostImage:(UIImage *) image;
+
 @end

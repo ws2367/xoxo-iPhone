@@ -178,16 +178,17 @@
     // Let's perform one fetch here
     NSError *fetchingErr = nil;
     if ([self.fetchedResultsController performFetch:&fetchingErr]){
-        NSLog(@"Number of fetched comments %ld", [[self.fetchedResultsController fetchedObjects] count]);
+        NSLog(@"Number of fetched comments %lu", (unsigned long)[[self.fetchedResultsController fetchedObjects] count]);
         NSLog(@"Successfully fetched.");
     } else {
         NSLog(@"Failed to fetch");
     }
     
+    //Add observer to respond to the change of image content
+    [self addObserver:self forKeyPath:@"_post.image" options:NSKeyValueObservingOptionNew context:nil];
 
     MSDebug(@"Post has comments: %@", _post.comments);
     
-
     self.postImage.image = [[UIImage alloc] initWithData:_post.image];
     
     // remove separators of the table view
@@ -203,6 +204,14 @@
     
     //for 3.5 inch screen
     [self resizeTextFieldAndSendButton];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if([keyPath isEqualToString:@"_post.image"]) {
+            [_viewPostTableView reloadData];
+        [self removeObserver:self forKeyPath:@"_post.image"];//we only observe one change
+    }
 }
 
 -(void) resizeTextFieldAndSendButton{
@@ -592,7 +601,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     if(indexPath.row == 0){
-        UIImage *thisImage = [[UIImage alloc] initWithData:_post.image];
+        UIImage *thisImage = nil;
+        if (_post.image == nil) {
+            thisImage = [UIImage imageNamed:@"background.png"];
+        } else {
+            thisImage = [[UIImage alloc] initWithData:_post.image];
+        }
         if(thisImage.size.height > VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT){
             return VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT;
         } else{
@@ -639,7 +653,11 @@
         if (!cell){
             cell = [[ViewPostDisplayImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayImageCellIdentifier];
         }
-        [cell setPostImage:[[UIImage alloc] initWithData:_post.image]];
+        if (_post.image == nil) {
+            [cell setPostImage:[UIImage imageNamed:@"background.png"]];
+        } else {
+            [cell setPostImage:[[UIImage alloc] initWithData:_post.image]];
+        }
         return cell;
     } else if(indexPath.row <= [_entities count]){
         MSDebug(@"in here!");

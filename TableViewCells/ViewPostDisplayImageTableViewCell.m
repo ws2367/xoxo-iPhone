@@ -30,7 +30,9 @@
 
     // Configure the view for the selected state
 }
+
 - (void) setPostImage:(UIImage *) image{
+    [_postImageView removeFromSuperview];
     [self.contentView setBackgroundColor:[UIColor colorForYoursWhite]];
     if(image.size.height > VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT){
         _postImageView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, image.size.width*VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT/image.size.height, VIEW_POST_DISPLAY_IMAGE_CELL_HEIGHT)];
@@ -43,5 +45,6 @@
     [_postImageView setImage:image];
     [self.contentView addSubview:_postImageView];
 }
+
 
 @end
