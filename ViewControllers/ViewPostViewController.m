@@ -426,9 +426,10 @@
         [_comments addObject:comment];
     }
     [_viewPostTableView reloadData];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([_entities count]+1) inSection:0];
-    ViewPostDisplayButtonBarTableViewCell *cell = (ViewPostDisplayButtonBarTableViewCell *)[self.viewPostTableView cellForRowAtIndexPath:indexPath];
-    [cell addCommentNumber];
+//    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([_entities count]+1) inSection:0];
+//    ViewPostDisplayButtonBarTableViewCell *cell = (ViewPostDisplayButtonBarTableViewCell *)[self.viewPostTableView cellForRowAtIndexPath:indexPath];
+//    [cell addCommentNumber];
+//    [_viewPostTableView reloadData];
     [self scrollTableViewToBottom];
     // Note that here, even if we connect the relationship to Post for the comment,
     // we still need to set postUUID in order to let the server know the relationship.
@@ -465,7 +466,13 @@
      path:nil
      parameters:params
      success:[Utility successBlockWithDebugMessage:@"Succcessfully posted the comment"
-                                             block:^{ [_post incrementCommentsCount]; }]
+                                             block:^{
+                                                 [_post incrementCommentsCount];
+                                                 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:([_entities count]+1) inSection:0];
+                                                 ViewPostDisplayButtonBarTableViewCell *cell = (ViewPostDisplayButtonBarTableViewCell *)[self.viewPostTableView cellForRowAtIndexPath:indexPath];
+                                                 [cell addCommentNumber];
+                                                 [_viewPostTableView reloadData];
+                                             }]
      failure:^(RKObjectRequestOperation *operation, NSError *error) {
          [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext deleteObject:comment];
          [_comments removeLastObject];
@@ -635,7 +642,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView
          cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    MSDebug(@"why isn't showing multiple entities? %d entities count %d",indexPath.row, [_entities count]);
+//    MSDebug(@"why isn't showing multiple entities? %d entities count %d",indexPath.row, [_entities count]);
     if(indexPath.row == 0){
         ViewPostDisplayImageTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayImageCellIdentifier];
         if (!cell){
@@ -675,7 +682,7 @@
         }
         Comment *comment =[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )];
         NSString *commentIconFileString;
-        MSDebug(@"anonymized %@", [comment anonymizedUserID]);
+//        MSDebug(@"anonymized %@", [comment anonymizedUserID]);
         commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]] stringByAppendingString:@".png"];
         
         if([[comment anonymizedUserID] isEqualToNumber:[NSNumber numberWithInt:0]]){
