@@ -13,6 +13,8 @@
 #import "Post+MSClient.h"
 #import "Comment.h"
 #import "Flurry.h"
+#import <FacebookSDK/FacebookSDK.h>
+
 
 #import "KeyChainWrapper.h"
 #import "UIColor+MSColor.h"
@@ -777,9 +779,11 @@
 
 -(void)sharePost:(id)sender{
     [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"ViewPost"} timed:YES];
-    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
-    picker.delegate = self;
-    [self presentViewController:picker animated:YES completion:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share this post on your Facebook wall?" message:@"" delegate:self cancelButtonTitle:@"Nevermind" otherButtonTitles:@"Yes", nil];
+    [alert show];
+//    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
+//    picker.delegate = self;
+//    [self presentViewController:picker animated:YES completion:nil];
 }
 
 
@@ -856,18 +860,79 @@
 
 #pragma mark -
 #pragma mark alertView delegate method
+
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    //assume only share post use this method
+    if(buttonIndex == 1){
+        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, self.view.opaque, 0.0);
+        [self.view.layer renderInContext:UIGraphicsGetCurrentContext()];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+        [self postImageOnFB:image];
+    }
+}
+
+
+-(void) postImageOnFB:(UIImage *)image{
+    BOOL canPresent = [FBDialogs canPresentShareDialogWithPhotos];
+    NSLog(@"canPresent: %d", canPresent);
     
-    switch (buttonIndex) {
-        case 0:
-            break;
-        case 1:
-            break;
-        default:
-            break;
+    FBShareDialogPhotoParams *params = [[FBShareDialogPhotoParams alloc] init];
+    params.photos = @[image];
+    
+    FBAppCall *appCall = [FBDialogs presentShareDialogWithPhotoParams:params
+                                                          clientState:nil
+                                                              handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                                                                  if (error) {
+                                                                      NSLog(@"Error: %@", error.description);
+                                                                  } else {
+                                                                      NSLog(@"Success!");
+                                                                  }
+                                                              }];
+    if (!appCall) {
+        [self performPublishAction:^{
+            FBRequestConnection *connection = [[FBRequestConnection alloc] init];
+            connection.errorBehavior = FBRequestConnectionErrorBehaviorReconnectSession
+            | FBRequestConnectionErrorBehaviorAlertUser
+            | FBRequestConnectionErrorBehaviorRetry;
+            
+            [connection addRequest:[FBRequest requestForUploadPhoto:image]
+                 completionHandler:^(FBRequestConnection *innerConnection, id result, NSError *error) {
+                     [Utility generateAlertWithMessage:@"posted" error:nil];
+                     if (FBSession.activeSession.isOpen) {
+                     }
+                 }];
+            [connection start];
+            
+        }];
+    }
+}
+
+- (void)performPublishAction:(void(^)(void))action {
+    // we defer request for permission to post to the moment of post, then we check for the permission
+    if ([FBSession.activeSession.permissions indexOfObject:@"publish_actions"] == NSNotFound) {
+        // if we don't already have the permission, then we request it now
+        [FBSession.activeSession requestNewPublishPermissions:@[@"publish_actions"]
+                                              defaultAudience:FBSessionDefaultAudienceFriends
+                                            completionHandler:^(FBSession *session, NSError *error) {
+                                                if (!error) {
+                                                    action();
+                                                } else if (error.fberrorCategory != FBErrorCategoryUserCancelled) {
+                                                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Permission denied"
+                                                                                                        message:@"Unable to get permission to post"
+                                                                                                       delegate:nil
+                                                                                              cancelButtonTitle:@"OK"
+                                                                                              otherButtonTitles:nil];
+                                                    [alertView show];
+                                                }
+                                            }];
+    } else {
+        action();
     }
     
 }
+
+
 
 #pragma mark UIActionSheet delegate method
 - (void)actionSheet:(UIActionSheet *)actionSheet didDismissWithButtonIndex:(NSInteger)buttonIndex{
