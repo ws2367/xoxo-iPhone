@@ -143,6 +143,10 @@
 #pragma mark TVMClient Delegate methods
 - (void) TVMLoggedIn
 {
+    //Set Badge number to 0
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [ClientManager sendBadgeNumber:0];
+    });
     [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
 }
 
@@ -153,6 +157,10 @@
 
 - (void) TVMSignedUp
 {
+    //Set Badge number to 0
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        [ClientManager sendBadgeNumber:0];
+    });
     [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
 }
 

@@ -20,6 +20,7 @@
     NSFetchedResultsController *fetchedResultsController;
 }
 
+@property (strong, nonatomic) NSPredicate *basePredicate;
 @property (strong, nonatomic) NSPredicate *predicate;
 @property (strong, nonatomic) NSString *type;
 
@@ -29,9 +30,9 @@
 - (void)handleNumbers:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath;
 
 //ViewEntityPostsViewController needs them
-//- (void) loadPhotosForPost:(Post *)post;
 - (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate;
 
+- (NSPredicate *)generateCompoundPredicate;
 
 - (void)startRefreshing;
 

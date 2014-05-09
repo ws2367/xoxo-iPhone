@@ -40,10 +40,10 @@
     
     // set up fetched results controller
     self.type = @"popular";
-    self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.remoteID = %@ AND index != 0", _entity.remoteID];
+    self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.remoteID = %@", _entity.remoteID];
     
     [super setFetchedResultsControllerWithEntityName:@"Post"
-                                           predicate:self.predicate
+                                           predicate:[self generateCompoundPredicate]
                                       sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
     
     [self startRefreshing];

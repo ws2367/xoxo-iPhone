@@ -33,8 +33,8 @@
 	// Do any additional setup after loading the view.
  
     self.type = @"popular";
-    self.predicate = [NSPredicate predicateWithFormat:@"index != 0"];
-    [super setFetchedResultsControllerWithEntityName:@"Post" predicate:self.predicate
+    [super setFetchedResultsControllerWithEntityName:@"Post"
+                                           predicate:[self generateCompoundPredicate]
                                       sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
 
     

@@ -51,9 +51,9 @@
                 MSDebug(@"current thread = %@", [NSThread currentThread]);
                 MSDebug(@"main thread = %@", [NSThread mainThread]);
                 
-                self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.fbUserID = %@ AND index != 0", [me objectForKey:@"id"]];
+                self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.fbUserID = %@", [me objectForKey:@"id"]];
                 [super setFetchedResultsControllerWithEntityName:@"Post"
-                                                       predicate:self.predicate
+                                                       predicate:[self generateCompoundPredicate]
                                                   sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
                 [self.tableView reloadData];
                 
@@ -65,9 +65,9 @@
             }
         }];
     } else {
-        self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.fbUserID = %@ AND index != 0", [KeyChainWrapper FBUserID]];
+        self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.fbUserID = %@", [KeyChainWrapper FBUserID]];
         [super setFetchedResultsControllerWithEntityName:@"Post"
-                                               predicate:nil //self.predicate
+                                               predicate:[self generateCompoundPredicate]
                                           sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
         
         [self startRefreshing];

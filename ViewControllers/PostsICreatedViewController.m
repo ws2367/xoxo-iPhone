@@ -37,9 +37,9 @@
 	// Do any additional setup after loading the view.
     
     self.type = @"my_posts";
-    self.predicate = [NSPredicate predicateWithFormat:@"isYours = 1 AND index != 0"];
+    self.predicate = [NSPredicate predicateWithFormat:@"isYours = 1"];
     [super setFetchedResultsControllerWithEntityName:@"Post"
-                                           predicate:self.predicate
+                                           predicate:[self generateCompoundPredicate]
                                       sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
     
     // these two have to be called together or it only shows refreshing

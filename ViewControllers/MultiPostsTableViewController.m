@@ -84,13 +84,9 @@
     //hide scrollbar & clear separator
     [self.tableView setShowsVerticalScrollIndicator:NO];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    
-    //Set Badge number to 0
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        [ClientManager sendBadgeNumber:0];
-    });
-    
 
+    //set base predicate that applies to all subclasses of MultiPostsVC
+    self.basePredicate = [NSPredicate predicateWithFormat:@"index != 0"];
 }
 
 
@@ -105,6 +101,15 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
     MSDebug(@"Memory warning!");
+}
+
+- (NSPredicate *)generateCompoundPredicate
+{
+    if (self.predicate == nil) {
+        return self.basePredicate;
+    } else {
+        return [NSCompoundPredicate andPredicateWithSubpredicates:@[self.predicate, self.basePredicate]];
+    }
 }
 
 - (void)loadPostAndPerformSegue
