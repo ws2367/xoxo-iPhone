@@ -244,17 +244,23 @@
 #pragma mark Segue methods
 - (void) prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"viewPostSegue"]){
-        [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"MyPosts"}];
         ViewPostViewController *nextController = segue.destinationViewController;
-        
-        if (!_post) {
-            MSError(@"No post is set when performing viewPostSegue");
-        }
-        [nextController setPost:_post];
-        if ([sender tag] == 0) {
-            [nextController setStartEditingComment:NO];
-        }else{
-            [nextController setStartEditingComment:YES];
+        if ([sender isKindOfClass:[Post class]]) {
+            [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"Notification"}];
+            [nextController setPost:(Post *)sender];
+            
+        } else {
+            [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"MyPosts"}];
+
+            if (!_post) {
+                MSError(@"No post is set when performing viewPostSegue");
+            }
+            [nextController setPost:_post];
+            if ([sender tag] == 0) {
+                [nextController setStartEditingComment:NO];
+            }else{
+                [nextController setStartEditingComment:YES];
+            }
         }
     } else if([segue.identifier isEqualToString:@"viewSettingSegue"]){
         SettingViewController *nextController = segue.destinationViewController;

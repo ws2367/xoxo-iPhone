@@ -38,8 +38,6 @@
 @property (strong, nonatomic) NSFetchedResultsController *fetchedResultsController;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 
-@property (weak, nonatomic)IBOutlet UIImageView *postImage;
-
 @property (weak, nonatomic) ViewMultiPostsViewController *viewMultiPostsViewController;
 
 @property (strong, nonatomic) NSMutableArray *comments; //store comment pointers
@@ -55,6 +53,8 @@
 @property (strong, nonatomic) NSMutableDictionary *commentIconDictionary;
 @property (strong, nonatomic) NSMutableArray *usedIconNumber;
 @property (weak, nonatomic) IBOutlet UIButton *SendButton;
+
+@property (strong, nonatomic) NSNumber *hasRemovedObserver;
 @end
 
 #define ROW_HEIGHT 46
@@ -128,19 +128,9 @@
     [super viewDidLoad];
     [self.view setBackgroundColor:[UIColor colorForYoursOrange]];
     [_viewThatContainsTableAndTextField setBackgroundColor:[UIColor colorForYoursOrange]];
-    // set up table view
-    /*
-    _tableView.rowHeight = ROW_HEIGHT;
-    UINib *nib = [UINib nibWithNibName:@"CommentTableViewCell"
-                                bundle:nil];
-    [_tableView registerNib:nib
-       forCellReuseIdentifier:CellTableIdentifier];
-    */
-
     
     //use tableview to display all content
     //[self setAllContentForPost:_post];
-    
     
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
     NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken]
@@ -156,7 +146,7 @@
      failure:[Utility failureBlockWithAlertMessage:@"Can't connect to the server!"]];
     
     // Set debug logging level. Set to 'RKLogLevelTrace' to see JSON payload
-    RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
+//    RKLogConfigureByName("RestKit/Network", RKLogLevelDebug);
     
     // set up fetched results controller
     NSFetchRequest *request = [[NSFetchRequest alloc] initWithEntityName:@"Comment"];
@@ -184,13 +174,8 @@
         NSLog(@"Failed to fetch");
     }
     
-    //Add observer to respond to the change of image content
-    [self addObserver:self forKeyPath:@"_post.image" options:NSKeyValueObservingOptionNew context:nil];
-
     MSDebug(@"Post's index is %@", _post.index);
     MSDebug(@"Post's popularity is %@", _post.popularity);
-    
-    self.postImage.image = [[UIImage alloc] initWithData:_post.image];
     
     // remove separators of the table view
     _tableView.separatorColor = [UIColor clearColor];
@@ -215,10 +200,10 @@
     }
 }
 
-- (void)dealloc
-{
-    [self removeObserver:self forKeyPath:@"_post.image"];
-}
+//- (void)dealloc
+//{
+//    [self removeObserver:self forKeyPath:@"_post.image"];
+//}
 
 -(void) resizeTextFieldAndSendButton{
     if(self.view.bounds.size.height < HEIGHT_TO_DISCRIMINATE){
@@ -660,6 +645,8 @@
             cell = [[ViewPostDisplayImageTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayImageCellIdentifier];
         }
         if (_post.image == nil) {
+            //Add observer to respond to the change of image content
+            [self addObserver:self forKeyPath:@"_post.image" options:NSKeyValueObservingOptionNew context:nil];
             [cell setPostImage:[UIImage imageNamed:@"background.png"]];
         } else {
             [cell setPostImage:[[UIImage alloc] initWithData:_post.image]];

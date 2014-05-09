@@ -508,7 +508,6 @@
         
         if ([sender isKindOfClass:[Post class]]) {
             [Flurry logEvent:@"View_Post" withParameters:@{@"View":@"Notification"}];
-//            MSDebug(@"Post: %@", sender);
             [nextController setPost:(Post *)sender];
             
         } else {
