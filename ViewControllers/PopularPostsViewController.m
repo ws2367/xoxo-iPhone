@@ -33,8 +33,9 @@
 	// Do any additional setup after loading the view.
  
     self.type = @"popular";
-    [super setFetchedResultsControllerWithEntityName:@"Post" predicate:nil
-                                      sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
+    self.predicate = [NSPredicate predicateWithFormat:@"index != 0"];
+    [super setFetchedResultsControllerWithEntityName:@"Post" predicate:self.predicate
+                                      sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
 
     
     // these two have to be called together or it only shows refreshing but not actually pulling any data

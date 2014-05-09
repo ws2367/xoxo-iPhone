@@ -16,5 +16,7 @@
 - (void)sendReportRequestWithFailureBlock:(void (^)(void))failureBlock;
 
 - (void)incrementCommentsCount;
++ (void)setIndicesAsRefreshing:(NSArray *)posts;
++ (void)setIndicesAsLoadingMore:(NSArray *)posts;
 
 @end

@@ -187,7 +187,8 @@
     //Add observer to respond to the change of image content
     [self addObserver:self forKeyPath:@"_post.image" options:NSKeyValueObservingOptionNew context:nil];
 
-//    MSDebug(@"Post has comments: %@", _post.comments);
+    MSDebug(@"Post's index is %@", _post.index);
+    MSDebug(@"Post's popularity is %@", _post.popularity);
     
     self.postImage.image = [[UIImage alloc] initWithData:_post.image];
     
@@ -470,7 +471,7 @@
     NSDictionary *params = [NSDictionary dictionaryWithObjects:@[sessionToken]
                                                        forKeys:@[@"auth_token"]];
 
-    MSDebug(@"The comment to be posted: %@", comment);
+    MSDebug(@"The comment to be posted: %@", comment.content);
     // Let's push this to the server now!
     [[RKObjectManager sharedManager]
      postObject:comment
@@ -665,7 +666,6 @@
         }
         return cell;
     } else if(indexPath.row <= [_entities count]){
-        MSDebug(@"in here!");
         ViewPostDisplayEntityTableViewCell *cell = [_viewPostTableView dequeueReusableCellWithIdentifier:viewPostDisplayEntityCellIdentifier];
         if (!cell){
             cell = [[ViewPostDisplayEntityTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:viewPostDisplayEntityCellIdentifier];

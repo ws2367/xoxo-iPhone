@@ -467,10 +467,8 @@
         [post setIsYours:@YES];
         [post setFollowing:@NO];
         [post setUuid:[Utility getUUID]];
-                
-        //add photos to post
-        // In _photos are UIImage objects
-        
+        [post setIndex:[NSNumber numberWithInt:0]];
+
         //add profile pic if there exist one
         if( (!_photos || [_photos count] == 0)&& [_profileImageView image]){
             _photos = [[NSMutableArray alloc] init];
@@ -541,6 +539,7 @@
 //                [entity updateUUIDinManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
 //            }
             dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                [Post setIndicesAsRefreshing:@[post]];
                 [post uploadImageToS3];
             });
             

@@ -30,10 +30,10 @@
 	// Do any additional setup after loading the view.
     
     self.type = @"following";
-    self.predicate = [NSPredicate predicateWithFormat:@"following = 1"];
+    self.predicate = [NSPredicate predicateWithFormat:@"following = 1 AND index != 0"];
     [super setFetchedResultsControllerWithEntityName:@"Post"
                                            predicate:self.predicate
-                                      sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
+                                      sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
     
     // these two have to be called together or it only shows refreshing but not actually pulling any data
     [self startRefreshing];

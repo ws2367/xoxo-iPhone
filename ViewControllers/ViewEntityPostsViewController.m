@@ -7,7 +7,7 @@
 //
 
 #import "ViewEntityPostsViewController.h"
-
+#import "Post+MSClient.h"
 #import "ClientManager.h"
 
 @interface ViewEntityPostsViewController ()
@@ -40,11 +40,11 @@
     
     // set up fetched results controller
     self.type = @"popular";
-    self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.remoteID = %@", _entity.remoteID];
+    self.predicate = [NSPredicate predicateWithFormat:@"ANY entities.remoteID = %@ AND index != 0", _entity.remoteID];
     
     [super setFetchedResultsControllerWithEntityName:@"Post"
                                            predicate:self.predicate
-                                      sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO]];
+                                      sortDescriptor:[NSSortDescriptor sortDescriptorWithKey:@"index" ascending:YES]];
     
     [self startRefreshing];
     [self.refreshControl beginRefreshing];
@@ -64,6 +64,7 @@
          
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              NSArray *posts = [mappingResult array];
+             [Post setIndicesAsRefreshing:posts];
              for (Post *post in posts) {
                  [ClientManager loadPhotosForPost:post];
              }
@@ -97,6 +98,7 @@
          
          dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
              NSArray *posts = [mappingResult array];
+             [Post setIndicesAsLoadingMore:posts];
              for (Post *post in posts) {
                  [ClientManager loadPhotosForPost:post];
              }

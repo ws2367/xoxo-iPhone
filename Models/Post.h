@@ -2,7 +2,7 @@
 //  Post.h
 //  Cells
 //
-//  Created by Wen-Hsiang Shaw on 4/9/14.
+//  Created by Wen-Hsiang Shaw on 5/7/14.
 //  Copyright (c) 2014 WYY. All rights reserved.
 //
 
@@ -13,8 +13,10 @@
 
 @interface Post : NSManagedObject
 
+@property (nonatomic, retain) NSNumber * commentsCount;
 @property (nonatomic, retain) NSString * content;
 @property (nonatomic, retain) NSNumber * dirty;
+@property (nonatomic, retain) NSNumber * followersCount;
 @property (nonatomic, retain) NSNumber * following;
 @property (nonatomic, retain) NSData * image;
 @property (nonatomic, retain) NSNumber * isYours;
@@ -22,8 +24,7 @@
 @property (nonatomic, retain) NSNumber * remoteID;
 @property (nonatomic, retain) NSDate * updateDate;
 @property (nonatomic, retain) NSString * uuid;
-@property (nonatomic, retain) NSNumber * commentsCount;
-@property (nonatomic, retain) NSNumber * followersCount;
+@property (nonatomic, retain) NSNumber * index;
 @property (nonatomic, retain) NSSet *comments;
 @property (nonatomic, retain) NSSet *entities;
 @end

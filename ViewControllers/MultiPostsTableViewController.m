@@ -172,17 +172,6 @@
 }
 
 - (NSMutableDictionary *)generateBasicParams{
-    // fetch ten most popular posts ids
-    //    NSArray *localPostIDs = [super fetchMostPopularPostIDsOfNumber:10 predicate:nil];
-    //    NSArray *localEntityIDs = [super fetchEntityIDsOfNumber:40];
-    
-    
-    //    MSDebug(@"post IDs to be pushed to server: %@", localPostIDs);
-    //    MSDebug(@"entity IDs to be pushed to server: %@", localEntityIDs);
-    
-    //    NSDictionary *params = [NSDictionary dictionaryWithObjects:@[localPostIDs, localEntityIDs, sessionToken, @"popular"]
-    //                                                       forKeys:@[@"Post", @"Entity", @"auth_token", @"type"]];
-    
     // check if seesion token is valid
     if (![KeyChainWrapper isSessionTokenValid]) {
         NSLog(@"User session token is not valid. Stop refreshing up");
@@ -197,7 +186,6 @@
 
 - (void) startRefreshing:(NSDictionary *)params
 {
-    MSDebug(@"parent startRefreshing");
     [[RKObjectManager sharedManager] getObject:[Post alloc]
                                           path:nil
                                     parameters:params
@@ -206,6 +194,7 @@
                                            
                                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                NSArray *posts = [mappingResult array];
+                                               [Post setIndicesAsRefreshing:posts];
                                                for (Post *post in posts) {
                                                    [ClientManager loadPhotosForPost:post];
                                                }
@@ -239,6 +228,7 @@
                                            isLoadingMore = false;
                                            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                                                NSArray *posts = [mappingResult array];
+                                               [Post setIndicesAsLoadingMore:posts];
                                                for (Post *post in posts) {
                                                    [ClientManager loadPhotosForPost:post];
                                                }
@@ -250,88 +240,6 @@
     
 
 }
-
-#pragma mark -
-#pragma mark Client Methods
-
-
-//TODO: here we can make it much more efficient by asking photos of all posts at once
-//- (NSArray *) generatePhotoKeysForPost:(Post *)post withBucketName:(NSString *)bucketName{
-//    
-//    if ([post.remoteID isEqualToNumber:[NSNumber numberWithInt:0]]) {
-//        NSLog(@"Error in loading photos: the post is not sync'd yet.");
-//        return nil;
-//    }
-//        
-//    S3ListObjectsRequest *request = [[S3ListObjectsRequest alloc] initWithName:bucketName];
-//    [request setPrefix:[NSString stringWithFormat:@"%@/", post.remoteID]];
-//    [request setDelimiter:@"/"];
-//    
-//    S3ListObjectsResponse *response = [[ClientManager s3] listObjects:request];
-//    if(response.error != nil){
-//        NSLog(@"Error while listing photos: %@", response.error);
-//        return nil;
-//    }
-//    
-//    NSMutableArray *photoKeys = [[NSMutableArray alloc] init];
-//    S3ListObjectsResult *result = response.listObjectsResult;
-//    
-//    for (S3ObjectSummary *objectSummary in result.objectSummaries) {
-//        // object summaries might include the folder itself so we need to filter it out
-//        if (![[objectSummary key] hasSuffix:@"/"]) {
-//            [photoKeys addObject:[objectSummary key]];
-//        }
-//    }
-//    
-//    return photoKeys;
-//}
-
-// let's validate AWS credentials before going further
-//- (void) loadPhotosForPost:(Post *)post {
-//    if (post.image == nil) {
-//        MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
-//        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
-//        MSDebug(@"main thread = %@", [NSThread mainThread]);
-//
-//        if (![ClientManager validateCredentials]){
-//            NSLog(@"Abort loading photos for post %@", post.remoteID);
-//            return;
-//        }
-//        
-////        NSArray *photoKeys = [self generatePhotoKeysForPost:post withBucketName:S3BUCKET_NAME];
-//        
-////        NSString *photoKey = [photoKeys firstObject];
-//        NSString *photoKey = [NSString stringWithFormat:@"%@/original.png", post.remoteID];
-//        
-//        S3GetObjectRequest *request = [[S3GetObjectRequest alloc] initWithKey:photoKey withBucket:S3BUCKET_NAME];
-//        [request setContentType:@"image/png"];
-//        
-//        S3RequestResponder *delegate = [S3RequestResponder S3RequestResponderForPost:post];
-//        
-//        delegate.delegate = self;
-//        request.delegate = delegate;
-//        [self.S3RequestResponders addObject:delegate];
-//        //TODO: Why does Amazon S3 Client getobject method have to run on main thead?
-//        // if it is not called on main thread, the delegate will not be notified. 
-//        dispatch_async(dispatch_get_main_queue(), ^{
-//            [[ClientManager s3] getObject:request];
-//        });
-//    }
-//}
-
-//#pragma mark -
-//#pragma mark S3 Delegate Delegate Methods
-//// this will remove the S3 delegate that completed its task
-////TODO: make sure NSMutableArray removeObject is thread-safe.
-//- (void) removeS3RequestResponder:(id)delegatee{
-//    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
-//}
-//
-//- (void) restartS3Request:(id)delegatee{
-//    Post *post = [(S3RequestResponder *)delegatee post];
-//    [self.S3RequestResponders removeObject:(S3RequestResponder *)delegatee];
-//    [self loadPhotosForPost:post];
-//}
 
 #pragma mark -
 #pragma mark Fetched Results Controller Delegate Methods
@@ -361,9 +269,9 @@
          withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeInsert) {
-        [self.tableView
-         insertRowsAtIndexPaths:@[newIndexPath]
-         withRowAnimation:UITableViewRowAnimationAutomatic];
+            [self.tableView
+             insertRowsAtIndexPaths:@[newIndexPath]
+             withRowAnimation:UITableViewRowAnimationAutomatic];
     }
     else if (type == NSFetchedResultsChangeUpdate) {
         
@@ -376,8 +284,6 @@
             [entitiesArray addObject:[NSDictionary dictionaryWithObject:[(Entity *)obj name] forKey:@"name"]];
         }];
         [cell setCellWithImage:imagephoto Entities:entitiesArray Content:post.content CommentsCount:post.commentsCount FollowersCount:post.followersCount atDate:post.updateDate hasFollowed:[post.following boolValue]];
-        
-        //TODO: check if the model is empty then this will raise exception
         
 //        MSDebug(@"Changed!");
 //        MSDebug(@"Post content: %@", post.content);
@@ -436,6 +342,7 @@
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
+    MSDebug(@"In cellforRowAtIndexPath, index of post is %@", post.index);
     /*
      CAGradientLayer *gradient = [CAGradientLayer layer];
      gradient.frame = cell.bounds;
@@ -713,28 +620,28 @@
 
 #pragma mark -
 #pragma mark Miscellaneous Methods
-- (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
-    // make a better guess...
-    // remeber sorting booleans is possible. After all, FALSE (aka 0) comes before TRUE (aka 1)
-    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
-    [request setSortDescriptors:[NSArray arrayWithObject:sort]];
-    [request setFetchLimit:number];
-    
-    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
-    NSMutableArray *ids = [[NSMutableArray alloc] init];
-    if ([match count] > number) {
-        NSLog(@"Fetched more than fetch limit!");
-    } else if ([match count] == 0){
-        // an empty array
-        // do nothing
-    } else {
-        [match enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [ids addObject:[(Entity *)obj remoteID]];
-        }];
-    }
-    return ids;
-}
+//- (NSArray *)fetchEntityIDsOfNumber:(NSInteger)number{
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Entity"];
+//    // make a better guess...
+//    // remeber sorting booleans is possible. After all, FALSE (aka 0) comes before TRUE (aka 1)
+//    NSSortDescriptor *sort = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
+//    [request setSortDescriptors:[NSArray arrayWithObject:sort]];
+//    [request setFetchLimit:number];
+//    
+//    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+//    NSMutableArray *ids = [[NSMutableArray alloc] init];
+//    if ([match count] > number) {
+//        NSLog(@"Fetched more than fetch limit!");
+//    } else if ([match count] == 0){
+//        // an empty array
+//        // do nothing
+//    } else {
+//        [match enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//            [ids addObject:[(Entity *)obj remoteID]];
+//        }];
+//    }
+//    return ids;
+//}
 
 - (void) setFetchedResultsControllerWithEntityName:(NSString *)entityName
                                          predicate:(NSPredicate *)predicate
@@ -766,28 +673,28 @@
 }
 
 
-- (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number predicate:(NSPredicate *)predicate{
-    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
-    NSSortDescriptor *sortByPopularity = [NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO];
-    NSSortDescriptor *sortByUpdateDate = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
-    NSSortDescriptor *sortByRemoteID = [NSSortDescriptor sortDescriptorWithKey:@"remoteID" ascending:YES];
-    [request setSortDescriptors:[NSArray arrayWithObjects:sortByPopularity, sortByUpdateDate, sortByRemoteID,nil]];
-    [request setFetchLimit:number];
-    if (predicate) [request setPredicate:predicate];
-    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
-    NSMutableArray *ids = [[NSMutableArray alloc] init];
-    if ([match count] > number) {
-        NSLog(@"Fetched more than fetch limit!");
-    } else if ([match count] == 0){
-        // an empty array
-        // do nothing
-    } else {
-        [match enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-            [ids addObject:[(Post *)obj remoteID]];
-        }];
-    }
-    return ids;
-}
+//- (NSArray *)fetchMostPopularPostIDsOfNumber:(NSInteger)number predicate:(NSPredicate *)predicate{
+//    NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
+//    NSSortDescriptor *sortByPopularity = [NSSortDescriptor sortDescriptorWithKey:@"popularity" ascending:NO];
+//    NSSortDescriptor *sortByUpdateDate = [NSSortDescriptor sortDescriptorWithKey:@"updateDate" ascending:NO];
+//    NSSortDescriptor *sortByRemoteID = [NSSortDescriptor sortDescriptorWithKey:@"remoteID" ascending:YES];
+//    [request setSortDescriptors:[NSArray arrayWithObjects:sortByPopularity, sortByUpdateDate, sortByRemoteID,nil]];
+//    [request setFetchLimit:number];
+//    if (predicate) [request setPredicate:predicate];
+//    NSArray *match = [[RKManagedObjectStore defaultStore].mainQueueManagedObjectContext executeFetchRequest:request error:nil];
+//    NSMutableArray *ids = [[NSMutableArray alloc] init];
+//    if ([match count] > number) {
+//        NSLog(@"Fetched more than fetch limit!");
+//    } else if ([match count] == 0){
+//        // an empty array
+//        // do nothing
+//    } else {
+//        [match enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+//            [ids addObject:[(Post *)obj remoteID]];
+//        }];
+//    }
+//    return ids;
+//}
 
 - (NSNumber *)fetchLastOfPreviousPostsIDsWithPredicate:(NSPredicate *)predicate{
     NSFetchRequest *request = [NSFetchRequest fetchRequestWithEntityName:@"Post"];
