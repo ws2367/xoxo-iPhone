@@ -10,18 +10,7 @@
 #import <MessageUI/MessageUI.h>
 #import "MultiplePeoplePickerViewController.h"
 
-@protocol SettingViewControllerDelegate;
-
 
 @interface SettingViewController : UIViewController <UIAlertViewDelegate, MFMailComposeViewControllerDelegate, MFMessageComposeViewControllerDelegate, MultiplePeoplePickerViewControllerDelegate>
-@property (nonatomic, weak) id<SettingViewControllerDelegate> delegate;
-
-
-@end
-
-
-@protocol SettingViewControllerDelegate <NSObject>
-
--(void)userLogOut;
 
 @end

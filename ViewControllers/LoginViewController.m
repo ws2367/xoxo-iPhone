@@ -289,6 +289,7 @@
 #pragma mark - log out user method
 -(void) logoutUser{
     [ClientManager logout];
+    [KeyChainWrapper cleanUpCredentials];
     [ClientManager cancelAllS3Requests];
     [self logoutFBUser];
 }

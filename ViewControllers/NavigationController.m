@@ -53,6 +53,8 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self selector:@selector(userLogOut) name:MSSignOutNotification object:nil];
 }
 
 - (void)didReceiveMemoryWarning
@@ -61,10 +63,12 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark -
+#pragma mark Notification Methods
 -(void) userLogOut{
-    [(LoginViewController *)self.delegate logoutUser];
-    [KeyChainWrapper cleanUpCredentials];
+    MSDebug(@"Received SignOutNotification");
     [self dismissViewControllerAnimated:YES completion:nil];
+    [(LoginViewController *)self.delegate logoutUser];
 }
 
 -(void) setUserName:(NSString *)userName{

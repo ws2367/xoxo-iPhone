@@ -263,20 +263,9 @@
             }
         }
     } else if([segue.identifier isEqualToString:@"viewSettingSegue"]){
-        SettingViewController *nextController = segue.destinationViewController;
-        nextController.delegate = self;
+        //do nothing
     }
 }
-
-#pragma mark -
-#pragma mark Setting View Controller Delegate methods
--(void) userLogOut{
-    if([self.navigationController isKindOfClass:[NavigationController class]]){
-        [(NavigationController *)self.navigationController userLogOut];
-    }
-    MSDebug(@"logout");
-}
-
 
 #pragma mark -
 #pragma mark UI methods

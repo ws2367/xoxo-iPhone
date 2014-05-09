@@ -10,7 +10,7 @@
 #import "Entity.h"
 #import "SettingViewController.h"
 
-@interface MyPostsViewController : UIViewController<SettingViewControllerDelegate>
+@interface MyPostsViewController : UIViewController
 
 @property (nonatomic, strong) Post *post;
 @property (nonatomic, strong) Entity *entity;

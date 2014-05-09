@@ -159,10 +159,8 @@
             break;
         case 1:
             [self dismissViewControllerAnimated:YES completion:^{
-                if(_delegate && [_delegate respondsToSelector:@selector(userLogOut)])
-                {
-                    [_delegate userLogOut];
-                }
+                //send out notification
+                [[NSNotificationCenter defaultCenter] postNotificationName:MSSignOutNotification object:nil];
             }];
             break;
     }

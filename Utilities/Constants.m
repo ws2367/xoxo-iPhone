@@ -53,6 +53,8 @@ const int MY_POST_TABBAR_HEIGHT = 45;
 
 #endif
 
+//Notification
+NSString *const MSSignOutNotification = @"MSSignOutNotification";
 
 NSString * S3BUCKET_NAME = @"undefined";
 

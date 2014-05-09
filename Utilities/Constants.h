@@ -31,8 +31,6 @@ extern const int BIG_POSTS_CELL_HEIGHT;
 extern const int HEIGHT_TO_DISCRIMINATE;
 extern const int MY_POST_TABBAR_HEIGHT;
 
-
-
 //Flurry contants
 extern NSString *const FL_IS_FINISHED;
 extern NSString *const FL_YES;
@@ -45,6 +43,8 @@ extern NSString * S3BUCKET_NAME;
 
 extern NSString *const BASE_URL;
 
+//Notification
+extern NSString *const MSSignOutNotification;
 
 extern NSString *const bigPostCellIdentifier;
 extern NSString *const commentCellIdentifier;
