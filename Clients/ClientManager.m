@@ -78,16 +78,16 @@ static TVMClient *tvm = nil;
 }
 
 + (void)loadPhotosForPost:(Post *)post {
-    NSString *fileName = [NSString stringWithFormat:@"%@.png", post.remoteID];
+    NSString *fileName = [NSString stringWithFormat:@"%@.png", post.uuid];
     NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
     NSData *imageData = [[NSData alloc] initWithContentsOfFile:filePath];
     if(imageData){
         post.image = imageData;
-        MSDebug(@"found photo!!!!!!");
+        MSDebug(@"found photo!!!! %@", fileName);
     } else{
         MSDebug(@"Photo of post %@ does not exist. Let's download it!", post.remoteID);
-        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
-        MSDebug(@"main thread = %@", [NSThread mainThread]);
+//        MSDebug(@"loadPhotosForPost current thread = %@", [NSThread currentThread]);
+//        MSDebug(@"main thread = %@", [NSThread mainThread]);
         
         // let's validate AWS credentials before going further
         if (![ClientManager validateCredentials]){
@@ -143,7 +143,7 @@ static TVMClient *tvm = nil;
 {
     BOOL success = [ClientManager validateCredentials];
     if (!success)
-        NSLog(@"Failed to validate credentials! S3 client is invalid.");
+        MSError(@"Failed to validate credentials! S3 client is invalid.");
     return s3;
 }
 

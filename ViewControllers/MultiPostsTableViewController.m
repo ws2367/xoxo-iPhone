@@ -347,7 +347,6 @@
     
     [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
     
-    MSDebug(@"In cellforRowAtIndexPath, index of post is %@", post.index);
     /*
      CAGradientLayer *gradient = [CAGradientLayer layer];
      gradient.frame = cell.bounds;

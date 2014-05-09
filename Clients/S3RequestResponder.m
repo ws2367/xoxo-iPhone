@@ -35,7 +35,7 @@ inManagedObjectContext:(NSManagedObjectContext *)context{
     // this has to be done on main thread so fetched result controller will know the update
 
     post.image = imageData;
-    NSString *fileName = [NSString stringWithFormat:@"%@.png", post.remoteID];
+    NSString *fileName = [NSString stringWithFormat:@"%@.png", post.uuid];
     NSString *filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
     BOOL succeed = [imageData writeToFile:filePath atomically:YES];
     if(succeed){

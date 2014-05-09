@@ -103,7 +103,7 @@
     self.navigationItem.rightBarButtonItem = exitButton;
 
     //deselect anything
-    MSDebug(@"view will appear!");
+//    MSDebug(@"view will appear!");
     [_viewPostTableView deselectRowAtIndexPath:[_viewPostTableView indexPathForSelectedRow] animated:YES];
 
 }
@@ -696,7 +696,7 @@
         }
         Comment *comment =[_comments objectAtIndex:(indexPath.row - [_entities count] - 3 )];
         NSString *commentIconFileString;
-        MSDebug(@"anonymized %@", [comment anonymizedUserID]);
+        MSDebug(@"anonymized user id: %@", [comment anonymizedUserID]);
         commentIconFileString = [[[NSString stringWithFormat:@"comment-icon-"] stringByAppendingString:[NSString stringWithFormat:@"%@",[comment anonymizedUserID]]] stringByAppendingString:@".png"];
         
         if([[comment anonymizedUserID] isEqualToNumber:[NSNumber numberWithInt:0]]){

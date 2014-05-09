@@ -79,7 +79,7 @@
     [Flurry startSession:FL_APP_KEY];
 
     // debug/release mode
-    NSLog(@"%@", BUILD_MODE);
+    MSDebug(@"%@", BUILD_MODE);
 
     CGRect screenRect = [[UIScreen mainScreen] bounds];
     CGFloat screenHeight = screenRect.size.height;
