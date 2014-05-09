@@ -92,51 +92,56 @@
     
     NSMutableDictionary *params = [NSMutableDictionary dictionaryWithObject:FBAccessToken
                                                                      forKey:@"fb_access_token"];
-    
-    
     NSLog(@"Before login: %@", params);
-    NSDictionary* jsonFromData = nil;
     
-    bool success = [self sendSynchronousRequestWithClient:_httpClient
-                                                   method:@"POST"
-                                                     path:@"users/sign_in"
-                                               parameters:params
-                                                 response:&jsonFromData
-                                                 errorLog:@"Can't log in!"];
+    [self sendAsynchronousRequestWithClient:_httpClient
+                                     method:@"POST"
+                                       path:@"users/sign_in"
+                                 parameters:params];
+}
+
+- (void)handleLoggedIn:(NSDictionary *)response
+{
+    NSString *token = [response objectForKey:@"token"];
+    NSString *bucketName = [response objectForKey:@"bucket_name"];
+    NSString *signup = [response objectForKey:@"signup"];
     
-    if (!success) {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No network connection"
-                                                        message:nil
-                                                       delegate:self
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        tryAgainButtonIndex = [alert addButtonWithTitle:@"Try again!"];
-        [alert show];
-    } else {
-        if (jsonFromData[@"token"] != nil && jsonFromData[@"bucket_name"] != nil & jsonFromData[@"signup"] != nil) {
-            [KeyChainWrapper storeSessionToken:jsonFromData[@"token"]];
-            [Constants setS3BucketName:jsonFromData[@"bucket_name"]];
-            MSDebug(@"Auth token: %@", jsonFromData[@"token"]);
-            MSDebug(@"Bucket name: %@", S3BUCKET_NAME);
-            
-            [ClientManager sendDeviceToken];
-            if ([jsonFromData[@"signup"] isEqualToString:@"true"]) {
-                if (self.delegate && [self.delegate respondsToSelector:@selector(TVMSignedUp)]) {
-                    [self.delegate TVMSignedUp];
-                } else {
-                    MSError(@"TVMClient's delegate method TVMSignedUp is not set!");
-                }
+    if (token != nil && bucketName != nil && signup != nil) {
+        [KeyChainWrapper storeSessionToken:token];
+        [Constants setS3BucketName:bucketName];
+        MSDebug(@"Auth token: %@", token);
+        MSDebug(@"Bucket name: %@", S3BUCKET_NAME);
+        MSDebug(@"Signup: %@", signup);
+        
+        [ClientManager sendDeviceToken];
+        if ([signup isEqualToString:@"true"]) {
+            if (self.delegate && [self.delegate respondsToSelector:@selector(TVMSignedUp)]) {
+                [self.delegate TVMSignedUp];
             } else {
-                if (self.delegate && [self.delegate respondsToSelector:@selector(TVMLoggedIn)]) {
-                    [self.delegate TVMLoggedIn];
-                } else {
-                    MSError(@"TVMClient's delegate method TVMLoggedIn is not set!");
-                }
+                MSError(@"TVMClient's delegate method TVMSignedUp is not set!");
             }
         } else {
-            MSError(@"Login request sent successfully, but no token or bucket_name is returned");
+            if (self.delegate && [self.delegate respondsToSelector:@selector(TVMLoggedIn)]) {
+                [self.delegate TVMLoggedIn];
+            } else {
+                MSError(@"TVMClient's delegate method TVMLoggedIn is not set!");
+            }
         }
+    } else {
+        MSError(@"Login request sent successfully, but either token, bucket_name or signup is not returned");
     }
+
+}
+
+- (void)handleFailedToLogIn:(NSError *)error
+{
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No network connection"
+                                                    message:nil
+                                                   delegate:self
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];
+    tryAgainButtonIndex = [alert addButtonWithTitle:@"Try again!"];
+    [alert show];
 }
 
 - (BOOL)logout
@@ -156,6 +161,23 @@
     return YES;
 
 }
+
+
+- (void) sendAsynchronousRequestWithClient:(AFHTTPClient *)client
+                                    method:(NSString *)method
+                                      path:(NSString *)path
+                                parameters:(NSDictionary *)params
+{
+    [_httpClient postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+
+        [self handleLoggedIn:(NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseObject
+                                                                             options:NSJSONReadingMutableContainers
+                                                                               error:nil]];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleFailedToLogIn:error];
+    }];
+}
+
 
 - (BOOL) sendSynchronousRequestWithClient:(AFHTTPClient *)client
                                    method:(NSString *)method
