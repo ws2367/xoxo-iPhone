@@ -34,7 +34,7 @@
 
 // S3 Clients
 +(AmazonS3Client *)s3;
-+ (void)CancelAllS3Requests;
++ (void)cancelAllS3Requests;
 + (void)loadPhotosForPost:(Post *)post;
 
 +(bool)isLoggedIn;

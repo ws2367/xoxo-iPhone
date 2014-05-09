@@ -68,7 +68,7 @@ static TVMClient *tvm = nil;
     [[[ClientManager sharedClientManager] S3RequestResponders] addObject:responder];
 }
 
-+ (void)CancelAllS3Requests
++ (void)cancelAllS3Requests
 {
     [[[ClientManager sharedClientManager] S3RequestResponders]
      enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
