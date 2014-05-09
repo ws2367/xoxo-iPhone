@@ -158,6 +158,7 @@
         case 0:
             break;
         case 1:
+            [Flurry logEvent:@"Sign_Out"];
             [self dismissViewControllerAnimated:YES completion:^{
                 //send out notification
                 [[NSNotificationCenter defaultCenter] postNotificationName:MSSignOutNotification object:nil];

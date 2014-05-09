@@ -157,6 +157,7 @@
 
 - (void) TVMSignedUp
 {
+    [Flurry logEvent:@"Signed_Up"];
     //Set Badge number to 0
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [ClientManager sendBadgeNumber:0];
@@ -305,6 +306,7 @@
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
     if([segue.identifier isEqualToString:@"viewMultiPostsSegue"]){
+        [Flurry logEvent:@"Logged_In"];
         NavigationController *nav = segue.destinationViewController;
         nav.delegate = self;
         [nav setUserName:_userName];
