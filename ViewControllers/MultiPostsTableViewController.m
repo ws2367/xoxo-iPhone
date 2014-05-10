@@ -15,6 +15,7 @@
 #import "KeyChainWrapper.h"
 #import "ClientManager.h"
 #import "S3RequestResponder.h"
+#import <FacebookSDK/FacebookSDK.h>
 
 #import "Post.h"
 #import "Post+MSClient.h"
@@ -26,6 +27,7 @@
 // TODO: change the hard-coded number here to the height of the xib of BigPostTableViewCell
 #define ROW_HEIGHT 218
 #define POSTS_INCREMENT_NUM 5
+#define SHARE_POST_ACTION_TAG 1500
 
 // TODO: comment out depreciated codes!
 @interface MultiPostsTableViewController ()
@@ -451,8 +453,12 @@
 
 -(void)sharePost:(id)sender{
     [Flurry logEvent:@"Share_Post" withParameters:@{@"View":@"MultiPosts"} timed:YES];
-    [self presentViewController:[self createMultiplePeoplePickerViewControllerFrom:sender]
-                       animated:YES completion:nil];
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Share this post on your Facebook wall?" message:@"" delegate:self cancelButtonTitle:@"Nevermind" otherButtonTitles:@"Yes", nil];
+    CGPoint buttonPosition = [sender convertPoint:CGPointZero toView:self.tableView];
+    NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:buttonPosition];
+    alert.tag = indexPath.row;
+    [alert show];
+//    [self presentViewController:[self createMultiplePeoplePickerViewControllerFrom:sender] animated:YES completion:nil];
 }
 
 -(void)commentPost:(id)sender{
@@ -566,21 +572,98 @@
     } else {
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
-    
+    /*
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Please type in message you would like to send" message:@"" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"Done", nil];
     [alert setAlertViewStyle:UIAlertViewStylePlainTextInput];
     [alert setTag:1111];
     [alert show];
+     */
 }
 
 #pragma mark -
 #pragma mark AlertView delegate method
 - (void) alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex{
+    //assume only share post use this method
     if(buttonIndex == 1){
-        NSString *text = [alertView textFieldAtIndex:0].text;
-        MSDebug(@"%@", text);
+        CGSize postSize = CGSizeMake(WIDTH, BIG_POSTS_CELL_HEIGHT);
+        UIGraphicsBeginImageContext(postSize);
+        CGContextRef resizedContext = UIGraphicsGetCurrentContext();
+        CGContextTranslateCTM(resizedContext, 0, BIG_POSTS_CELL_HEIGHT*-(alertView.tag));
+        [self.tableView.layer renderInContext:resizedContext];
+        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+        UIGraphicsEndImageContext();
+//        CGSize size = CGSizeMake(WIDTH, BIG_POSTS_CELL_HEIGHT);
+////        UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, self.view.opaque, 0.0);
+//        UIGraphicsBeginImageContext(size);
+//        [self.tableView.layer renderInContext:UIGraphicsGetCurrentContext()];
+//        UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
+//        UIGraphicsEndImageContext();
+        MSDebug(@"shared!");
+//        UIImage *image = [UIImage imageNamed:@"moose.png"];
+        [self postImageOnFB:image];
     }
 }
+
+-(void) postImageOnFB:(UIImage *)image{
+    BOOL canPresent = [FBDialogs canPresentShareDialogWithPhotos];
+    NSLog(@"canPresent: %d", canPresent);
+    
+    FBShareDialogPhotoParams *params = [[FBShareDialogPhotoParams alloc] init];
+    params.photos = @[image];
+    
+    FBAppCall *appCall = [FBDialogs presentShareDialogWithPhotoParams:params
+                                                          clientState:nil
+                                                              handler:^(FBAppCall *call, NSDictionary *results, NSError *error) {
+                                                                  if (error) {
+                                                                      NSLog(@"Error: %@", error.description);
+                                                                  } else {
+                                                                      NSLog(@"Success!");
+                                                                  }
+                                                              }];
+    if (!appCall) {
+        [self performPublishAction:^{
+            FBRequestConnection *connection = [[FBRequestConnection alloc] init];
+            connection.errorBehavior = FBRequestConnectionErrorBehaviorReconnectSession
+            | FBRequestConnectionErrorBehaviorAlertUser
+            | FBRequestConnectionErrorBehaviorRetry;
+            
+            [connection addRequest:[FBRequest requestForUploadPhoto:image]
+                 completionHandler:^(FBRequestConnection *innerConnection, id result, NSError *error) {
+                     [Utility generateAlertWithMessage:@"posted" error:nil];
+                     if (FBSession.activeSession.isOpen) {
+                     }
+                 }];
+            [connection start];
+            
+        }];
+    }
+}
+
+- (void)performPublishAction:(void(^)(void))action {
+    // we defer request for permission to post to the moment of post, then we check for the permission
+    if ([FBSession.activeSession.permissions indexOfObject:@"publish_actions"] == NSNotFound) {
+        // if we don't already have the permission, then we request it now
+        [FBSession.activeSession requestNewPublishPermissions:@[@"publish_actions"]
+                                              defaultAudience:FBSessionDefaultAudienceFriends
+                                            completionHandler:^(FBSession *session, NSError *error) {
+                                                if (!error) {
+                                                    action();
+                                                } else if (error.fberrorCategory != FBErrorCategoryUserCancelled) {
+                                                    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Permission denied"
+                                                                                                        message:@"Unable to get permission to post"
+                                                                                                       delegate:nil
+                                                                                              cancelButtonTitle:@"OK"
+                                                                                              otherButtonTitles:nil];
+                                                    [alertView show];
+                                                }
+                                            }];
+    } else {
+        action();
+    }
+    
+}
+
+
 
 //#pragma mark -
 //#pragma mark People Picker delegate method
