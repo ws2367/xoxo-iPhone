@@ -886,6 +886,9 @@
         UIImage *image = UIGraphicsGetImageFromCurrentImageContext();
         UIGraphicsEndImageContext();
         [self postImageOnFB:image];
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
+    } else{
+        [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }
 }
 
@@ -915,7 +918,7 @@
             
             [connection addRequest:[FBRequest requestForUploadPhoto:image]
                  completionHandler:^(FBRequestConnection *innerConnection, id result, NSError *error) {
-                     [Utility generateAlertWithMessage:@"posted" error:nil];
+                     [Utility generateAlertWithMessage:@"It is posted!" error:nil];
                      if (FBSession.activeSession.isOpen) {
                      }
                  }];
