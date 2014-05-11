@@ -9,6 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "FacebookSDK/FacebookSDK.h"
 #import "MultiPostsTabBarController.h"
+#import "ViewEntityViewController.h"
 
 @class ViewMultiPostsViewController;
 @class Entity;
@@ -17,6 +18,8 @@
 
 @property (strong, nonatomic) NSMutableArray *entities;
 @property (weak,nonatomic) MultiPostsTabBarController *multiPostsTabBarController;
+@property (weak,nonatomic) ViewEntityViewController *viewEntityViewController;
+
 
 -(void) addEntity:(Entity *)en;
 
