@@ -116,6 +116,7 @@
         MSDebug(@"Recevied remote notification: %@", userInfo);
         MSDebug(@"post_id: %@", postID);
         REMOTE_NOTIF_POST_ID = postID;
+        [Flurry logEvent:@"Open_Notification" withParameters:@{@"Status": @"App not running"}];
     }
     
     return YES;
@@ -206,6 +207,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
+        [Flurry logEvent:@"Open_Notification" withParameters:@{@"Status": @"App running in foreground"}];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         AudioServicesPlaySystemSound (1003);
         NSDictionary *apsInfo = [userInfo objectForKey:@"aps"];
@@ -238,6 +240,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
                              [NSTimer scheduledTimerWithTimeInterval:4 target:self selector:@selector(dismissNotifButton) userInfo:nil   repeats:NO];
                          }];
     } else {
+        [Flurry logEvent:@"Open_Notification" withParameters:@{@"Status": @"App running in background"}];
         [self displayRemoteNotifPost];
     }
     
