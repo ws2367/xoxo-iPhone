@@ -105,7 +105,7 @@
 }
 
 -(void) inviteButtonPressed:(id)sender{
-    
+    [Flurry logEvent:@"Invite_Friend" timed:YES];
     if([MFMessageComposeViewController canSendText])
     {
         MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
@@ -253,6 +253,11 @@
 #pragma mark MFMessageCompose Delegate method
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller
                  didFinishWithResult:(MessageComposeResult)result {
+    if(result == MessageComposeResultCancelled || result == MessageComposeResultFailed){
+        [Flurry endTimedEvent:@"Invite_Friend" withParameters:@{FL_IS_FINISHED:FL_NO}];
+    }else{
+        [Flurry endTimedEvent:@"Invite_Friend" withParameters:@{FL_IS_FINISHED:FL_YES}];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
