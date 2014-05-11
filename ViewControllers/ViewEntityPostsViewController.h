@@ -14,7 +14,8 @@
 
 @property (strong, nonatomic) Entity *entity;
 @property (weak, nonatomic) ViewEntityViewController *viewEntityViewController;
+@property(weak, nonatomic) Post *postToScrollTo;
+
 
 - (void)fireOff;
-
 @end

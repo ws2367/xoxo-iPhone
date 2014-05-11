@@ -105,9 +105,17 @@
 }
 
 -(void) inviteButtonPressed:(id)sender{
-    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
-    picker.delegate = self;
-    [self presentViewController:picker animated:YES completion:nil];
+    [Flurry logEvent:@"Invite_Friend" timed:YES];
+    if([MFMessageComposeViewController canSendText])
+    {
+        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+        controller.body = @"Hey! Come use this app called Yours!";
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:NULL];
+    }
+//    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
+//    picker.delegate = self;
+//    [self presentViewController:picker animated:YES completion:nil];
 
 }
 
@@ -245,6 +253,11 @@
 #pragma mark MFMessageCompose Delegate method
 - (void)messageComposeViewController:(MFMessageComposeViewController *)controller
                  didFinishWithResult:(MessageComposeResult)result {
+    if(result == MessageComposeResultCancelled || result == MessageComposeResultFailed){
+        [Flurry endTimedEvent:@"Invite_Friend" withParameters:@{FL_IS_FINISHED:FL_NO}];
+    }else{
+        [Flurry endTimedEvent:@"Invite_Friend" withParameters:@{FL_IS_FINISHED:FL_YES}];
+    }
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 

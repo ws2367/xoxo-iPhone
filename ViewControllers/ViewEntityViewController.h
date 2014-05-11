@@ -18,4 +18,6 @@
 @property (strong, nonatomic) Entity *entity;
 @property (nonatomic, strong) Post *post;
 
+-(void) scrollToPost:(Post *)post;
+
 @end

@@ -32,6 +32,13 @@
     // Do any additional setup after loading the view.
 }
 
+-(void) viewDidAppear:(BOOL)animated{
+    if(_postToScrollTo){
+        [self scrollToPost:_postToScrollTo];
+        _postToScrollTo = NULL;
+    }
+}
+
 // we put stuff in fireOff method because viewDidLoad is called before the entity is set.
 // Stuff in fireOff should run after the entity is set.
 - (void)fireOff
@@ -176,6 +183,13 @@
     } else{
         return BIG_POSTS_CELL_HEIGHT;
     }
+}
+
+-(void) scrollToPost:(Post *)post{
+    NSIndexPath *indexPath = [fetchedResultsController indexPathForObject:post];
+    MSDebug(@"my index %@", indexPath);
+    CGFloat offset = indexPath.row*BIG_POSTS_CELL_HEIGHT;
+    [self.tableView setContentOffset:CGPointMake(0, offset) animated:NO];
 }
 
 @end

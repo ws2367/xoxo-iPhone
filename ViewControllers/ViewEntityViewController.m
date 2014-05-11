@@ -163,6 +163,7 @@
     } else if ([segue.identifier isEqualToString:@"createPostSegue"]){
         CreatePostViewController *nextController = segue.destinationViewController;
         [nextController addEntity:_entity];
+        nextController.viewEntityViewController = self;
     }
 }
 
@@ -186,5 +187,11 @@
         }
     }
 }
+
+-(void) scrollToPost:(Post *)post{
+    ViewEntityPostsViewController *childViewController = [self.childViewControllers firstObject];
+    childViewController.postToScrollTo = post;
+}
+
 
 @end
