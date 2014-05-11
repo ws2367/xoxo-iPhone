@@ -105,9 +105,17 @@
 }
 
 -(void) inviteButtonPressed:(id)sender{
-    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
-    picker.delegate = self;
-    [self presentViewController:picker animated:YES completion:nil];
+    
+    if([MFMessageComposeViewController canSendText])
+    {
+        MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+        controller.body = @"Hey! Come use this app called Yours!";
+        controller.messageComposeDelegate = self;
+        [self presentViewController:controller animated:YES completion:NULL];
+    }
+//    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
+//    picker.delegate = self;
+//    [self presentViewController:picker animated:YES completion:nil];
 
 }
 
