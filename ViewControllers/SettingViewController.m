@@ -94,6 +94,13 @@
     [button setAttributedTitle:titleString forState:UIControlStateNormal];
     button.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
     [self.view addSubview:button];
+    
+    //add arrow image
+    UIImage *arrowImage = [UIImage imageNamed:@"icon-arrow"];
+    UIImageView *arrowImageView = [[UIImageView alloc] initWithImage:arrowImage];
+    [arrowImageView setFrame:CGRectMake(WIDTH-40, Y + 20, arrowImage.size.width, arrowImage.size.height)];
+    [self.view addSubview:arrowImageView];
+
     return button;
 
 }
