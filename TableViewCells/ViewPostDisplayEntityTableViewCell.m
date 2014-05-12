@@ -9,6 +9,8 @@
 #import "ViewPostDisplayEntityTableViewCell.h"
 #import "UIColor+MSColor.h"
 
+#define NAME_INSTI_TAG 4321
+
 @interface ViewPostDisplayEntityTableViewCell()
 @property(strong,nonatomic) Entity *entity;
 @end
@@ -36,22 +38,36 @@
 }
 
 -(void) setEntity:(Entity *)en{
+    for(UIView *view in self.contentView.subviews){
+        if(view.tag == NAME_INSTI_TAG){
+            [view removeFromSuperview];
+        }
+    }
     _entity = en;
     
     UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 3, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
     NSAttributedString *nameWithFont = [[NSAttributedString alloc] initWithString:[_entity name] attributes:[Utility getViewPostDisplayEntityFontDictionary]];
     [nameLabel setAttributedText:nameWithFont];
+    [nameLabel setTag:NAME_INSTI_TAG];
     [self.contentView addSubview:nameLabel];
     
     if(_entity.institution){
         UILabel *instiLabel = [[UILabel alloc] initWithFrame:CGRectMake(12, 18, WIDTH, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
         NSAttributedString *instiWithFont = [[NSAttributedString alloc] initWithString:_entity.institution attributes:[Utility getViewPostDisplayInstitutionFontDictionary]];
         [instiLabel setAttributedText:instiWithFont];
+        [instiLabel setTag:NAME_INSTI_TAG];
         [self.contentView addSubview:instiLabel];
     }
     
-    
+    [self addArrow];
     [self addDashLine];
+}
+
+-(void) addArrow{
+    UIImage *arrowImage = [UIImage imageNamed:@"icon-arrow"];
+    UIImageView *arrowImageView = [[UIImageView alloc] initWithImage:arrowImage];
+    [arrowImageView setFrame:CGRectMake(WIDTH-40, 10, arrowImage.size.width, arrowImage.size.height)];
+    [self.contentView addSubview:arrowImageView];
 }
 
 -(void) addDashLine{
