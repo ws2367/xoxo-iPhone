@@ -184,7 +184,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
     MSDebug(@"application:didRegisterForRemoteNotificationsWithDeviceToken: %@", deviceToken);
     
     [KeyChainWrapper storeDeviceToken:deviceToken];
-    
+    [Flurry logEvent:@"Register_Notification" withParameters:@{@"Status": @"Success"}];
     // Note that ClientManager is called to send device token twice. One is called here. Another one is called when
     // TVMClient receives session token from moose server. The reason is because we don't konw which is received first -
     // device token or session token. Therefore, we call ClientManager to send device token when the app receives either of them
@@ -195,6 +195,7 @@ didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken
 - (void)application:(UIApplication *)application
 didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 {
+    [Flurry logEvent:@"Register_Notification" withParameters:@{@"Status": @"Failure"}];
     MSError(@"Error in registering remote notification: %@", error);
 }
 
@@ -207,7 +208,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 
     UIApplicationState state = [application applicationState];
     if (state == UIApplicationStateActive) {
-        [Flurry logEvent:@"Open_Notification" withParameters:@{@"Status": @"App running in foreground"}];
+        [Flurry logEvent:@"Receive_Notification_In_Foreground"];
         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
         AudioServicesPlaySystemSound (1003);
         NSDictionary *apsInfo = [userInfo objectForKey:@"aps"];
@@ -251,6 +252,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
 
 
 -(void) notifButtonPressed{
+    [Flurry logEvent:@"Open_Notification" withParameters:@{@"Status": @"App running in foreground"}];
     [self displayRemoteNotifPost];
     [self dismissNotifButton];
 }

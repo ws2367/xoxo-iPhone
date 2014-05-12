@@ -120,17 +120,18 @@
 }
 
 -(void) termOfUseButtonPressed:(id)sender{
-    MSDebug(@"what's wrong?");
+    [Flurry logEvent:@"Term_of_use"];
     [self performSegueWithIdentifier:@"viewTOUSegue" sender:sender];
 }
 
 -(void) contactButtonPressed:(id)sender{
+    [Flurry logEvent:@"Contact_us"];
     // Email Subject
     NSString *emailTitle = @"Gotta tell you.";
     // Email Content
     NSString *messageBody = @"Hey, wussup! I think ...";
     // To address
-    NSArray *toRecipents = [NSArray arrayWithObject:@"orrzs.inc@gmail.com"];
+    NSArray *toRecipents = [NSArray arrayWithObject:@"hello@yoursapp.cc"];
     
     MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
     mc.mailComposeDelegate = self;
@@ -230,24 +231,24 @@
     [self dismissViewControllerAnimated:YES completion:NULL];
 }
 
-#pragma mark -
-#pragma mark Multiple People Picker Delegate method
-
-- (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        if([MFMessageComposeViewController canSendText])
-        {
-            MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
-            controller.body = @"Hey! Come use this app called Yours!";
-            controller.recipients = [selectedNumbers allObjects];
-            controller.messageComposeDelegate = self;
-            [self presentViewController:controller animated:YES completion:NULL];
-        }
-    }];
-
-
-}
+//#pragma mark -
+//#pragma mark Multiple People Picker Delegate method
+//
+//- (void) donePickingMutiplePeople:(NSSet *)selectedNumbers senderIndexPath:(NSIndexPath *)indexPath
+//{
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        if([MFMessageComposeViewController canSendText])
+//        {
+//            MFMessageComposeViewController *controller = [[MFMessageComposeViewController alloc] init];
+//            controller.body = @"Hey! Come use this app called Yours!";
+//            controller.recipients = [selectedNumbers allObjects];
+//            controller.messageComposeDelegate = self;
+//            [self presentViewController:controller animated:YES completion:NULL];
+//        }
+//    }];
+//
+//
+//}
 
 #pragma mark -
 #pragma mark MFMessageCompose Delegate method
