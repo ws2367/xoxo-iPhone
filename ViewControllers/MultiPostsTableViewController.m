@@ -134,7 +134,7 @@
                                            REMOTE_NOTIF_POST_ID = NULL;
                                            MSDebug(@"# of posts loaded for notification: %u", [[mappingResult array] count]);
                                            Post *post = [[mappingResult array] firstObject]; //There should be only one object loaded
-                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                           ASYNC({
                                                [ClientManager loadPhotosForPost:post];
                                            });
                                            // tell presenter to perform segue
@@ -199,7 +199,7 @@
                                        success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                            MSDebug(@"Successfully loadded posts from server");
                                            
-                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                           ASYNC({
                                                NSArray *posts = [mappingResult array];
                                                [Post setIndicesAsRefreshing:posts];
                                                for (Post *post in posts) {
@@ -233,7 +233,7 @@
                                        success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
                                            MSDebug(@"Successfully loadded more posts from server");
                                            isLoadingMore = false;
-                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                           ASYNC({
                                                NSArray *posts = [mappingResult array];
                                                [Post setIndicesAsLoadingMore:posts];
                                                for (Post *post in posts) {
@@ -602,6 +602,12 @@
 //        UIImage *image = [UIImage imageNamed:@"moose.png"];
         [self postImageOnFB:image];
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
+
+        Post *post = [fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:alertView.tag inSection:0]];
+        // report this share to server
+        ASYNC({
+            [post reportShareToServerWithFailureBlock:^{[Utility generateAlertWithMessage:@"Network problem" error:nil];}];
+        });
     } else{
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }

@@ -887,6 +887,12 @@
         UIGraphicsEndImageContext();
         [self postImageOnFB:image];
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
+
+        // report this share to server
+        ASYNC({
+            [_post reportShareToServerWithFailureBlock:^{[Utility generateAlertWithMessage:@"Network problem" error:nil];}];
+        });
+
     } else{
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }

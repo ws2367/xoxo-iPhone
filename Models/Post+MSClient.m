@@ -65,8 +65,7 @@
         return;
     }
     NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
-    NSMutableURLRequest *request = nil;
-    request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"report_post"
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"report_post"
                                                                      object:self
                                                                  parameters:@{@"auth_token": sessionToken}];
     
@@ -80,6 +79,29 @@
     [operationQueue addOperation:operation];
 
 }
+
+
+- (void)reportShareToServerWithFailureBlock:(void (^)(void))failureBlock{
+    if (![KeyChainWrapper isSessionTokenValid]) {
+        [Utility generateAlertWithMessage:@"You're not logged in!" error:nil];
+        return;
+    }
+    NSString *sessionToken = [KeyChainWrapper getSessionTokenForUser];
+    
+    NSMutableURLRequest *request = [[RKObjectManager sharedManager] requestWithPathForRouteNamed:@"share_post"
+                                                                                          object:self
+                                                                                      parameters:@{@"auth_token": sessionToken}];
+    
+    RKHTTPRequestOperation *operation = [[RKHTTPRequestOperation alloc] initWithRequest:request];
+    [operation setCompletionBlockWithSuccess:nil
+                                     failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+                                         if (failureBlock) {failureBlock();}
+                                     }];
+    
+    NSOperationQueue *operationQueue = [NSOperationQueue new];
+    [operationQueue addOperation:operation];
+}
+
 
 - (void)sendFollowRequestWithFailureBlock:(void (^)(void))failureBlock
 {

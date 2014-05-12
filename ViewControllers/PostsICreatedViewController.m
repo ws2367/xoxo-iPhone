@@ -10,6 +10,7 @@
 #import "ViewPostViewController.h"
 
 #import "KeyChainWrapper.h"
+#import "Post+MSClient.h"
 
 #import <FacebookSDK/FacebookSDK.h>
 
@@ -169,6 +170,12 @@
         //        UIImage *image = [UIImage imageNamed:@"moose.png"];
         [self postImageOnFB:image];
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_YES}];
+        
+        Post *post = [fetchedResultsController objectAtIndexPath:[NSIndexPath indexPathForRow:alertView.tag inSection:0]];
+        // report this share to server
+        ASYNC({
+            [post reportShareToServerWithFailureBlock:^{[Utility generateAlertWithMessage:@"Network problem" error:nil];}];
+        });
     } else{
         [Flurry endTimedEvent:@"Share_Post" withParameters:@{FL_IS_FINISHED:FL_NO}];
     }

@@ -138,7 +138,7 @@
 {
     // Called as part of the transition from the background to the inactive state; here you can undo many of the changes made on entering the background.
     //Set Badge number to 0
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    ASYNC({
         [ClientManager sendBadgeNumber:0];
     });
 }
@@ -245,7 +245,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
         [self displayRemoteNotifPost];
     }
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    ASYNC({
         [ClientManager sendBadgeNumber:0];
     });
 }
@@ -319,7 +319,7 @@ didFailToRegisterForRemoteNotificationsWithError:(NSError *)error
                                            _notifPostID = nil;
                                            MSDebug(@"# of posts loaded for notification: %lu", [[mappingResult array] count]);
                                            Post *post = [[mappingResult array] firstObject]; //There should be only one object loaded
-                                           dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+                                           ASYNC({
                                                [ClientManager loadPhotosForPost:post];
                                            });
                                            // tell presenter to perform segue

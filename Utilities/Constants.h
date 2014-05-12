@@ -11,6 +11,8 @@
 #define MSDebug NSLog
 #define MSError NSLog
 
+#define ASYNC(...) dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{ __VA_ARGS__ })
+
 // initialized in .m file
 // extern can be put inside interface as well
 extern const float ANIMATION_KEYBOARD_DURATION;

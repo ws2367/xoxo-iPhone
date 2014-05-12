@@ -69,7 +69,7 @@
      success:^(RKObjectRequestOperation *operation, RKMappingResult *mappingResult) {
          MSDebug(@"Successfully loadded posts from server");
          
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+         ASYNC({
              NSArray *posts = [mappingResult array];
              [Post setIndicesAsRefreshing:posts];
              for (Post *post in posts) {
@@ -103,7 +103,7 @@
          MSDebug(@"Successfully loadded posts from server");
          isLoadingMore = false;
          
-         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+         ASYNC({
              NSArray *posts = [mappingResult array];
              [Post setIndicesAsLoadingMore:posts];
              for (Post *post in posts) {

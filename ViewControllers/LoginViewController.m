@@ -151,7 +151,7 @@
 - (void) TVMLoggedIn
 {
     //Set Badge number to 0
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    ASYNC({
         [ClientManager sendBadgeNumber:0];
     });
     [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
@@ -166,7 +166,7 @@
 {
     [Flurry logEvent:@"Signed_Up"];
     //Set Badge number to 0
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    ASYNC({
         [ClientManager sendBadgeNumber:0];
     });
     [self performSegueWithIdentifier:@"viewMultiPostsSegue" sender:nil];
@@ -239,7 +239,7 @@
     FBRequest *request = [[FBRequest alloc] initWithSession:FBSession.activeSession
                                                   graphPath:frd.id];
     [request startWithCompletionHandler:^(FBRequestConnection *connection, id result, NSError *error) {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        ASYNC({
             NSString *name = [result objectForKey:@"name"];
             NSString *birthday = [result objectForKey:@"birthday"];
             NSString *fbID = frd.id;

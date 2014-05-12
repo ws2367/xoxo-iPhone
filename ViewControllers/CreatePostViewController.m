@@ -426,7 +426,7 @@
         [_viewEntityViewController scrollToPost:post];
     }
 
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    ASYNC({
         [self uploadPostAndRelatedObjects:post withObjectStore:managedObjectStore];
     });
 //    [self.navigationController popViewControllerAnimated:true];
@@ -541,7 +541,7 @@
 //                MSDebug(@"Entity to merge has remoteID: %@", entity.remoteID);
 //                [entity updateUUIDinManagedObjectContext:managedObjectStore.mainQueueManagedObjectContext];
 //            }
-            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+            ASYNC({
                 [Post setIndicesAsRefreshing:@[post]];
                 [post uploadImageToS3];
             });

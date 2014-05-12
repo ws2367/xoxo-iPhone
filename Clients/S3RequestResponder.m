@@ -50,7 +50,7 @@ inManagedObjectContext:(NSManagedObjectContext *)context{
 
 - (void)request:(AmazonServiceRequest *)request didCompleteWithResponse:(AmazonServiceResponse *)response
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    ASYNC({
         if (response.error) {
             //[Utility generateAlertWithMessage:@"failed to upload photos." error:nil];
             if (self.delegate && [self.delegate respondsToSelector:@selector(restartS3Request:)]) {

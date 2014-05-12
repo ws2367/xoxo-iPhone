@@ -14,7 +14,8 @@
 
 - (void)sendFollowRequestWithFailureBlock:(void (^)(void))failureBlock;
 - (void)sendReportRequestWithFailureBlock:(void (^)(void))failureBlock;
-
+- (void)reportShareToServerWithFailureBlock:(void (^)(void))failureBlock;
+    
 - (void)incrementCommentsCount;
 + (void)setIndicesAsRefreshing:(NSArray *)posts;
 + (void)setIndicesAsLoadingMore:(NSArray *)posts;
