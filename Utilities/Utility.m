@@ -231,6 +231,8 @@
 
 + (NSDictionary *)getMultiPostsNameFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-UltLtCn" size:35],NSFontAttributeName, [UIColor colorForYoursCyan] ,NSForegroundColorAttributeName,nil];
+    
+
 
 }
 + (NSDictionary *)getMultiPostsContentFontDictionary{
@@ -262,7 +264,8 @@
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:16],NSFontAttributeName, [UIColor whiteColor] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getCreatePostDisplayEntityFontDictionary{
-    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor blackColor] ,NSForegroundColorAttributeName,nil];
+//    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Cn" size:15],NSFontAttributeName, [UIColor blackColor] ,NSForegroundColorAttributeName,nil];
+    return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeue" size:14],NSFontAttributeName, [UIColor blackColor] ,NSForegroundColorAttributeName,nil];
 }
 + (NSDictionary *)getCreatePostDisplayInstitutionFontDictionary{
     return [NSDictionary dictionaryWithObjectsAndKeys: [UIFont fontWithName:@"HelveticaNeueLTStd-Lt" size:10],NSFontAttributeName, [UIColor colorForYoursGray] ,NSForegroundColorAttributeName,nil];

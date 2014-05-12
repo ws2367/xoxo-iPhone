@@ -21,7 +21,7 @@
 
 #define VIEW_OFFSET_KEYBOARD 100
 #define ANIMATION_CUTDOWN 0.05
-#define OFFSET_X_FOR_DISPLAY_ENTITIES 10
+#define OFFSET_X_FOR_DISPLAY_ENTITIES 6
 #define OFFSET_Y_FOR_DISPLAY_ENTITIES 5
 #define HEIGHT_FOR_EACH_ENTITY_ROW 38
 #define START_DISPLAYING_ENTITIES 308
@@ -1098,10 +1098,10 @@
 }
 
 -(UIButton *) getEntityNameAndInstitutionForEntity:(Entity *)entity AtX:(CGFloat)originX andY:(CGFloat)originY returnInstiLabel:(UILabel **)instiLabel{
-    UIButton *nameButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, originY, WIDTH/2, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT*2/3)];
+    UIButton *nameButton = [[UIButton alloc] initWithFrame:CGRectMake(originX, originY-10, WIDTH/2, VIEW_POST_DISPLAY_ENTITY_CELL_HEIGHT)];
     NSAttributedString *nameWithFont;
-    if([[entity name] length] > 20){
-        NSString *stringName = [[[entity name] substringWithRange:NSMakeRange(0, 19)] stringByAppendingString:@"..."];
+    if([[entity name] length] > 16){
+        NSString *stringName = [[[entity name] substringWithRange:NSMakeRange(0, 15)] stringByAppendingString:@"..."];
         nameWithFont = [[NSAttributedString alloc] initWithString:stringName attributes:[Utility getCreatePostDisplayEntityFontDictionary]];
     }else{
         nameWithFont = [[NSAttributedString alloc] initWithString:[entity name] attributes:[Utility getCreatePostDisplayEntityFontDictionary]];
