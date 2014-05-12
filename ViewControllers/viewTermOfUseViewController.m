@@ -52,7 +52,7 @@
     UINavigationItem *topNavigationItem = [[UINavigationItem alloc] initWithTitle:@"Yours"];
     
     UIImageView *yoursView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 80, 33)];
-    [yoursView setImage:[UIImage imageNamed:@"logo_white.png"] ];
+    [yoursView setImage:[UIImage imageNamed:@"logo_light.png"] ];
     yoursView.contentMode = UIViewContentModeScaleAspectFit;
     topNavigationItem.titleView = yoursView;
     

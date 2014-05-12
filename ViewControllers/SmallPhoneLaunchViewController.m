@@ -41,7 +41,7 @@
 #pragma mark --
 #pragma mark - UI Method
 -(void) addLogo{
-    UIImage *logoImage = [UIImage imageNamed:@"logo_white.png"];
+    UIImage *logoImage = [UIImage imageNamed:@"logo_light.png"];
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:logoImage];
     [logoImageView setFrame:CGRectMake(24, 113, logoImage.size.width, logoImage.size.height)];
     [self.view addSubview:logoImageView];

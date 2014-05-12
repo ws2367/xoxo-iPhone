@@ -255,7 +255,7 @@
     UIView *logoArea = [[UIView alloc] initWithFrame:CGRectMake(0, 0, WIDTH, POST_IMAGE_HEIGHT)];
     [logoArea setBackgroundColor:[UIColor colorForYoursOrange]];
     [self.contentView addSubview:logoArea];
-    UIImage *logoImage = [UIImage imageNamed:@"logo_white.png"];
+    UIImage *logoImage = [UIImage imageNamed:@"logo_light.png"];
     UIImageView *logoView = [[UIImageView alloc] initWithImage:logoImage];
     [logoView setFrame:CGRectMake(80, 60, logoImage.size.width/2, logoImage.size.height/2)];
     [self.contentView addSubview:logoView];

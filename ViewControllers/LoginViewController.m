@@ -15,6 +15,8 @@
 
 #import "UIColor+MSColor.h"
 
+#define NAME_LOGINOUT_TAG 4321
+
 @interface LoginViewController ()
 @property (strong, nonatomic) FBLoginView *loginView;
 @property (weak, nonatomic) IBOutlet UILabel *nameLabel;
@@ -75,11 +77,13 @@
 - (void) loginViewFetchedUserInfo:(FBLoginView *)loginView user:(id<FBGraphUser>)user{
     _userName = [user.name copy];
     _displayNameLabel = [self addDescriptionsWithString:user.name andY:405 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    [_displayNameLabel setTag:NAME_LOGINOUT_TAG];
 }
 
 - (void) loginViewShowingLoggedInUser:(FBLoginView *)loginView {
     [_youAreLoggedOutLabel removeFromSuperview];
     _youAreLoggedInLabel = [self addDescriptionsWithString:@"You'are logged in as" andY:385 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
+    [_youAreLoggedInLabel setTag:NAME_LOGINOUT_TAG];
     FBAccessTokenData *accessTokenData = FBSession.activeSession.accessTokenData;
     NSString *FBAccessToken = accessTokenData.accessToken;
 
@@ -89,10 +93,13 @@
 }
 
 - (void) loginViewShowingLoggedOutUser:(FBLoginView *)loginView{
-    [_youAreLoggedInLabel removeFromSuperview];
-    [_displayNameLabel removeFromSuperview];
+    for(UIView *view in self.view.subviews){
+        if(view.tag == NAME_LOGINOUT_TAG){
+            [view removeFromSuperview];
+        }
+    }
     _youAreLoggedOutLabel = [self addDescriptionsWithString:@"You're logged out!" andY:390 withDictionary:[Utility getLoginViewContentDescriptionFontDictionary]];
-    
+    [_youAreLoggedOutLabel setTag:NAME_LOGINOUT_TAG];
     [ClientManager logout];
 }
 
@@ -296,7 +303,11 @@
 }
 
 -(void) logoutFBUser{
-    [_displayNameLabel removeFromSuperview];
+    for(UIView *view in self.view.subviews){
+        if(view.tag == NAME_LOGINOUT_TAG){
+            [view removeFromSuperview];
+        }
+    }
     [FBSession.activeSession closeAndClearTokenInformation];
 }
 
@@ -318,12 +329,12 @@
 #pragma mark --
 #pragma mark - UI Method
 -(void) addLogo{
-    UIImage *logoImage = [UIImage imageNamed:@"logo_white.png"];
+    UIImage *logoImage = [UIImage imageNamed:@"logo_light.png"];
     UIImageView *logoImageView = [[UIImageView alloc] initWithImage:logoImage];
     if(self.view.bounds.size.height > HEIGHT_TO_DISCRIMINATE){
-        [logoImageView setFrame:CGRectMake(24, 113, logoImage.size.width, logoImage.size.height)];
+        [logoImageView setFrame:CGRectMake(29, 122, logoImage.size.width, logoImage.size.height)];
     }else{
-        [logoImageView setFrame:CGRectMake(24, 113 - 50, logoImage.size.width, logoImage.size.height)];
+        [logoImageView setFrame:CGRectMake(29, 122 - 50, logoImage.size.width, logoImage.size.height)];
     }
     [self.view addSubview:logoImageView];
 }

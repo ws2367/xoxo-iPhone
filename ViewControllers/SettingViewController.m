@@ -71,7 +71,7 @@
 
 -(void) addLogo{
     UIImageView *logoView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 85, WIDTH, 130)];
-    [logoView setImage:[UIImage imageNamed:@"logo_org.png"]];
+    [logoView setImage:[UIImage imageNamed:@"logo_orange.png"]];
     logoView.contentMode = UIViewContentModeScaleAspectFit;
     [self.view addSubview:logoView];
 }

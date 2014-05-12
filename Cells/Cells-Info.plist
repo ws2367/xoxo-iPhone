@@ -14,9 +14,9 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>YoursIcon2nd57x57</string>
-				<string>YoursIcon2nd40x40</string>
-				<string>YoursIcon2nd60x60</string>
+				<string>YoursIcon3rd57x57</string>
+				<string>YoursIcon3rd40x40</string>
+				<string>YoursIcon3rd60x60</string>
 			</array>
 		</dict>
 	</dict>
@@ -42,7 +42,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>306</string>
+	<string>311</string>
 	<key>FacebookAppID</key>
 	<string>610309559054620</string>
 	<key>FacebookDisplayName</key>
@@ -65,7 +65,7 @@
 			<key>UILaunchImageMinimumOSVersion</key>
 			<string>7.0</string>
 			<key>UILaunchImageName</key>
-			<string>YoursLaunchPage</string>
+			<string>YoursLaunchPage3rd</string>
 			<key>UILaunchImageOrientation</key>
 			<string>Portrait</string>
 			<key>UILaunchImageSize</key>
@@ -75,7 +75,7 @@
 			<key>UILaunchImageMinimumOSVersion</key>
 			<string>7.0</string>
 			<key>UILaunchImageName</key>
-			<string>YoursLaunchPage</string>
+			<string>YoursLaunchPage3rd</string>
 			<key>UILaunchImageOrientation</key>
 			<string>Portrait</string>
 			<key>UILaunchImageSize</key>
