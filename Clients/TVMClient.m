@@ -70,6 +70,27 @@
     
 }
 
+-(void)checkLetterPrompt
+{
+    [_httpClient getPath:@"letters/check" parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSDictionary *response = (NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseObject
+                                                                             options:NSJSONReadingMutableContainers
+                                                                               error:nil];
+        NSString *letter = [response objectForKey:@"letter"];
+        if (letter) {
+            UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Letter from Yours"
+                                                                message:letter
+                                                               delegate:nil
+                                                      cancelButtonTitle:@"OK"
+                                                      otherButtonTitles:nil];
+            [alertView show];
+        }
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        MSError(@"Failed to check letter prompt");
+    }];
+}
+
 #pragma mark -
 #pragma mark UIAlertView Delegate Methods
 
@@ -94,10 +115,14 @@
                                                                      forKey:@"fb_access_token"];
     NSLog(@"Before login: %@", params);
     
-    [self sendAsynchronousRequestWithClient:_httpClient
-                                     method:@"POST"
-                                       path:@"users/sign_in"
-                                 parameters:params];
+    [_httpClient postPath:@"users/sign_in" parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        [self handleLoggedIn:(NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseObject
+                                                                             options:NSJSONReadingMutableContainers
+                                                                               error:nil]];
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        [self handleFailedToLogIn:error];
+    }];
 }
 
 - (void)handleLoggedIn:(NSDictionary *)response
@@ -160,22 +185,6 @@
     
     return YES;
 
-}
-
-
-- (void) sendAsynchronousRequestWithClient:(AFHTTPClient *)client
-                                    method:(NSString *)method
-                                      path:(NSString *)path
-                                parameters:(NSDictionary *)params
-{
-    [_httpClient postPath:path parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-
-        [self handleLoggedIn:(NSDictionary *)[NSJSONSerialization JSONObjectWithData:responseObject
-                                                                             options:NSJSONReadingMutableContainers
-                                                                               error:nil]];
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        [self handleFailedToLogIn:error];
-    }];
 }
 
 

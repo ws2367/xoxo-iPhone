@@ -42,6 +42,8 @@
 +(BOOL)logout;
 +(BOOL)validateCredentials;
 
++(void)checkLetterPrompt;
+
 + (void)sendBadgeNumber:(NSInteger)number;
 
 // Note that ClientManager is called to send device token twice. One is called here. Another one is called when

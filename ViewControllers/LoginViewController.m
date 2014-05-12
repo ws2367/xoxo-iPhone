@@ -45,6 +45,12 @@
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+   
+    // check if the server has anything to say regarding to this user agent ex: "Yours/100 (iPhone; iOS 7.1.1; Scale/2.00)"
+    // 100 is the build number which can be used to verify the client version and send out appropriate warning if any.
+    // For example, "This version is no longer in support. Update Yours in App Store!"
+    
+    [ClientManager checkLetterPrompt];
     
     _loginView = [[FBLoginView alloc] initWithReadPermissions:@[@"basic_info", @"email", @"user_birthday", @"friends_education_history",@"friends_work_history"]];
     _loginView.delegate = self;

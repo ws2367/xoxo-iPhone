@@ -279,4 +279,9 @@ static TVMClient *tvm = nil;
     [operationQueue addOperation:operation];
 }
 
++(void)checkLetterPrompt
+{
+    [[ClientManager tvm] checkLetterPrompt];
+}
+
 @end

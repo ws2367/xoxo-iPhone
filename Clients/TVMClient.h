@@ -15,12 +15,12 @@
 @property (nonatomic, weak) id<TVMClientDelegate> delegate;
 
 @property (nonatomic, retain) NSString *endpoint;
-//@property (nonatomic) bool             useSSL;
 
 -(id)initWithEndpoint:(NSString *)endpoint;
 -(BOOL)getToken;
 -(void)login:(NSString *)FBAccessToken;
 -(BOOL)logout;
+-(void)checkLetterPrompt;
 
 @end
 
