@@ -56,7 +56,7 @@
 
 -(void) addDate:(NSDate *)date atY:(CGFloat) offsetY{
     NSAttributedString *dateStr = [[NSAttributedString alloc] initWithString:[Utility getDateToShow:date inWhole:YES] attributes:[Utility getViewPostDisplayContentDateFontDictionary]];
-    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, offsetY - 14, 70, 30)];
+    UILabel *dateLabel = [[UILabel alloc] initWithFrame:CGRectMake(5, offsetY - 14, 100, 30)];
     [dateLabel setAttributedText:dateStr];
     [self.contentView addSubview:dateLabel];
 }
@@ -64,7 +64,7 @@
 -(void) addOrangeLineStartAtY:(CGFloat)offsetY{
     UIGraphicsBeginImageContextWithOptions(self.contentView.bounds.size, NO, 0.0f);
     CAShapeLayer *dashLineLayer=[[CAShapeLayer alloc] init];
-    CGPoint startPoint = CGPointMake(80, offsetY);
+    CGPoint startPoint = CGPointMake(90, offsetY);
     CGPoint endPoint = CGPointMake(WIDTH, offsetY);
     UIBezierPath *path = [UIBezierPath bezierPath];
     //draw a line
