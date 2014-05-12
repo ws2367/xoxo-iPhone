@@ -40,6 +40,8 @@ const int MY_POST_TABBAR_HEIGHT = 45;
 #define TESTING_SERVER    @"107.170.193.248"
 
 #define URLMake(IP) (@"https://" IP @":8081/v1/")
+//#define URLMake(IP) (@"http://" IP @":3000/v1/")
+
 
 #ifdef DEBUG
     NSString *const FL_APP_KEY = @"MQ724NMDYQJMTQKFB4DD";
