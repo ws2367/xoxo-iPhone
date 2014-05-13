@@ -119,7 +119,10 @@
         controller.body = @"Hey! Come use this app called Yours!";
         controller.messageComposeDelegate = self;
         [self presentViewController:controller animated:YES completion:NULL];
+    }else{
+        [Utility generateAlertWithMessage:@"Please initiate your text messenger" error:nil];
     }
+
 //    MultiplePeoplePickerViewController *picker = [[MultiplePeoplePickerViewController alloc] init];
 //    picker.delegate = self;
 //    [self presentViewController:picker animated:YES completion:nil];
@@ -140,14 +143,18 @@
     // To address
     NSArray *toRecipents = [NSArray arrayWithObject:@"hello@yoursapp.cc"];
     
-    MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
-    mc.mailComposeDelegate = self;
-    [mc setSubject:emailTitle];
-    [mc setMessageBody:messageBody isHTML:NO];
-    [mc setToRecipients:toRecipents];
-    
-    // Present mail view controller on screen
-    [self presentViewController:mc animated:YES completion:NULL];
+    if([MFMailComposeViewController canSendMail]){
+        MFMailComposeViewController *mc = [[MFMailComposeViewController alloc] init];
+        mc.mailComposeDelegate = self;
+        [mc setSubject:emailTitle];
+        [mc setMessageBody:messageBody isHTML:NO];
+        [mc setToRecipients:toRecipents];
+        // Present mail view controller on screen
+        [self presentViewController:mc animated:YES completion:NULL];
+    }else{
+        [Utility generateAlertWithMessage:@"Please initiate your mailbox, or email us at hello@yoursapp.cc" error:nil];
+    }
+
 }
 #pragma mark -
 #pragma mark Navigation Bar Button Methods
