@@ -37,7 +37,7 @@ const int MY_POST_TABBAR_HEIGHT = 45;
 #define PRODUCTION_SERVER @"107.170.232.66"
 #define LOCAL_HOST        @"localhost"
 #define STAGING_SERVER    @"107.170.210.8"
-#define TESTING_SERVER    @"107.170.193.248"
+#define APPSTORE_PRODUCTION_SERVER    @"107.170.193.248"
 
 #define URLMake(IP) (@"https://" IP @":8081/v1/")
 //#define URLMake(IP) (@"http://" IP @":3000/v1/")
@@ -46,12 +46,12 @@ const int MY_POST_TABBAR_HEIGHT = 45;
 #ifdef DEBUG
     NSString *const FL_APP_KEY = @"MQ724NMDYQJMTQKFB4DD";
     NSString *const BUILD_MODE = @"DEBUG mode";
-    NSString *const BASE_URL = URLMake(TESTING_SERVER);
+    NSString *const BASE_URL = URLMake(STAGING_SERVER);
 
 #else
-    NSString *const FL_APP_KEY = @"YF2MB9Y24R2M664N6JT8";
+    NSString *const FL_APP_KEY = @"DF3T8BR95WPY9CXC9Z3Y";
     NSString *const BUILD_MODE = @"RELEASE mode";
-    NSString *const BASE_URL = URLMake(PRODUCTION_SERVER);
+    NSString *const BASE_URL = URLMake(APPSTORE_PRODUCTION_SERVER);
 
 #endif
 
